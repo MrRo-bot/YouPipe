@@ -1,149 +1,147 @@
 import {
-  AiOutlineBulb,
-  AiOutlineDown,
-  AiOutlineHistory,
-  AiOutlineHome,
-  AiOutlineLike,
-  AiOutlineProfile,
-  AiOutlineSetting,
-  AiOutlineShopping,
-  AiOutlineTrophy,
-} from "react-icons/ai";
-
-import {
+  MdKeyboardArrowDown,
   MdOutlineFeaturedPlayList,
+  MdOutlineHistory,
+  MdOutlineHome,
+  MdOutlineLightbulb,
+  MdOutlineLiveTv,
   MdOutlineMovie,
+  MdOutlineMusicNote,
+  MdOutlineNewspaper,
   MdOutlinePodcasts,
-  MdOutlineUnsubscribe,
+  MdOutlineSettings,
+  MdOutlineShoppingBag,
+  MdOutlineSports,
+  MdOutlineSportsEsports,
+  MdOutlineSubscriptions,
+  MdOutlineSwitchAccount,
+  MdOutlineThumbUp,
+  MdOutlineTrendingUp,
+  MdOutlineVideoSettings,
   MdOutlineWatchLater,
 } from "react-icons/md";
 
-import { LiaVideoSolid } from "react-icons/lia";
-import { HiOutlineArrowTrendingUp } from "react-icons/hi2";
-import { IoMusicalNoteOutline, IoNewspaperOutline } from "react-icons/io5";
 import { TbHanger } from "react-icons/tb";
-import { CiStreamOn } from "react-icons/ci";
-import { SiYoutubegaming } from "react-icons/si";
 
 const Sidebar = () => {
   return (
-    <aside className="flex flex-col">
-      <div className="flex flex-col">
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineHome className="w-6 h-6" />
-          <div>Home</div>
+    <aside className="flex flex-col pr-2">
+      <div className="flex flex-col p-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineHome className="w-7 h-7" />
+          <div className="w-full font-medium">Home</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <MdOutlineUnsubscribe className="w-6 h-6" />
-          <div>Subscriptions</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineSubscriptions className="w-7 h-7" />
+          <div className="w-full font-medium">Subscriptions</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineProfile className="w-6 h-6" />
-          <div>Your channel</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineSwitchAccount className="w-7 h-7" />
+          <div className="w-full font-medium">Your channel</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineHistory className="w-6 h-6" />
-          <div>History</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineHistory className="w-7 h-7" />
+          <div className="w-full font-medium">History</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <MdOutlineFeaturedPlayList className="w-6 h-6" />
-          <div>Playlist</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineFeaturedPlayList className="w-7 h-7" />
+          <div className="w-full font-medium">Playlist</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <LiaVideoSolid className="w-6 h-6" />
-          <div>Your videos</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineVideoSettings className="w-7 h-7" />
+          <div className="w-full font-medium">Your videos</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <MdOutlineWatchLater className="w-6 h-6" />
-          <div>Watch later</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineWatchLater className="w-7 h-7" />
+          <div className="w-full font-medium">Watch later</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineLike className="w-6 h-6" />
-          <div>Liked videos</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineThumbUp className="w-7 h-7" />
+          <div className="w-full font-medium">Liked videos</div>
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <h2 className="px-2 py-4 text-xl font-extrabold font-kode text-slate-950">
+      <div className="flex flex-col p-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+        <h2 className="px-3 py-2 text-xl font-extrabold font-kode text-slate-950">
           Subscriptions
         </h2>
-        <div className="flex items-center gap-6 p-3">
-          <div className="grid w-6 h-6 overflow-hidden rounded-full place-items-center">
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <div className="grid overflow-hidden rounded-full w-7 h-7 place-items-center">
             <img className="p-1" src="icon.svg" alt="profile" />
           </div>
-          <div>sub 1</div>
+          <div className="w-full font-medium">sub 1</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <div className="grid w-6 h-6 overflow-hidden rounded-full place-items-center">
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <div className="grid overflow-hidden rounded-full w-7 h-7 place-items-center">
             <img className="p-1" src="icon.svg" alt="profile" />
           </div>
-          <div>sub 2</div>
+          <div className="w-full font-medium">sub 2</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <div className="grid w-6 h-6 overflow-hidden rounded-full place-items-center">
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <div className="grid overflow-hidden rounded-full w-7 h-7 place-items-center">
             <img className="p-1" src="icon.svg" alt="profile" />
           </div>
-          <div>sub 3</div>
+          <div className="w-full font-medium">sub 3</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineDown className="w-5 h-5" />
-          <div>Show mode</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdKeyboardArrowDown className="w-7 h-7" />
+          <div className="w-full font-medium">Show mode</div>
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <h2 className="px-2 py-4 text-xl font-extrabold font-kode text-slate-950">
+      <div className="flex flex-col p-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+        <h2 className="px-3 py-2 text-xl font-extrabold font-kode text-slate-950">
           Explore
         </h2>
-        <div className="flex items-center gap-6 p-3">
-          <HiOutlineArrowTrendingUp className="w-6 h-6" />
-          <div>Trending</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineTrendingUp className="w-7 h-7" />
+          <div className="w-full font-medium">Trending</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineShopping className="w-6 h-6" />
-          <div>Shopping</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineShoppingBag className="w-7 h-7" />
+          <div className="w-full font-medium">Shopping</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <IoMusicalNoteOutline className="w-6 h-6" />
-          <div>Music</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineMusicNote className="w-7 h-7" />
+          <div className="w-full font-medium">Music</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <MdOutlineMovie className="w-6 h-6" />
-          <div>Movies</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineMovie className="w-7 h-7" />
+          <div className="w-full font-medium">Movies</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <CiStreamOn className="w-6 h-6" />
-          <div>Live</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineLiveTv className="w-7 h-7" />
+          <div className="w-full font-medium">Live</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <SiYoutubegaming className="w-6 h-6" />
-          <div>Gaming</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineSportsEsports className="w-7 h-7" />
+          <div className="w-full font-medium">Gaming</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <IoNewspaperOutline className="w-6 h-6" />
-          <div>News</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineNewspaper className="w-7 h-7" />
+          <div className="w-full font-medium">News</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineTrophy className="w-6 h-6" />
-          <div>Sports</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineSports className="w-7 h-7" />
+          <div className="w-full font-medium">Sports</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineBulb className="w-6 h-6" />
-          <div>Courses</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineLightbulb className="w-7 h-7" />
+          <div className="w-full font-medium">Courses</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <TbHanger className="w-6 h-6" />
-          <div>Fashion & beauty</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <TbHanger className="w-7 h-7" />
+          <div className="w-full font-medium">Fashion & beauty</div>
         </div>
-        <div className="flex items-center gap-6 p-3">
-          <MdOutlinePodcasts className="w-6 h-6" />
-          <div>Podcasts</div>
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlinePodcasts className="w-7 h-7" />
+          <div className="w-full font-medium">Podcasts</div>
         </div>
       </div>
-      <div className="flex flex-col">
-        <div className="flex items-center gap-6 p-3">
-          <AiOutlineSetting className="w-6 h-6" />
-          <div>Settings</div>
+      <div className="flex flex-col p-2 pb-3 pr-0">
+        <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
+          <MdOutlineSettings className="w-7 h-7" />
+          <div className="w-full font-medium">Settings</div>
         </div>
       </div>
     </aside>
