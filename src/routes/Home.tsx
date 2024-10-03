@@ -1,7 +1,13 @@
 import Filters from "../components/Filters";
+import VideoCard from "../components/VideoCard";
 
 const Home = () => {
-  return <Filters />;
+  return (
+    <div>
+      <Filters />
+      <VideoCard />
+    </div>
+  );
 };
 
 export default Home;

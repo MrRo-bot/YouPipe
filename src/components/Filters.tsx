@@ -1,6 +1,6 @@
 const Filters = () => {
   return (
-    <div className="flex items-center justify-between gap-2 px-1 py-2 overflow-x-auto hideScrollbar">
+    <div className="flex items-center justify-between gap-4 px-1 py-4 overflow-x-auto hideScrollbar">
       <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
         All
       </div>

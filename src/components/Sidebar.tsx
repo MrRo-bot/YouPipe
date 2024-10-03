@@ -26,7 +26,7 @@ import { TbHanger } from "react-icons/tb";
 const Sidebar = () => {
   return (
     <aside className="flex flex-col pr-2">
-      <div className="flex flex-col p-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+      <div className="flex flex-col pt-3 pl-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
         <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
           <MdOutlineHome className="w-7 h-7" />
           <div className="w-full font-medium">Home</div>
@@ -61,7 +61,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex flex-col p-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+      <div className="flex flex-col pt-3 pl-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
         <h2 className="px-3 py-2 text-xl font-extrabold font-kode text-slate-950">
           Subscriptions
         </h2>
@@ -89,7 +89,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex flex-col p-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+      <div className="flex flex-col pt-3 pl-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
         <h2 className="px-3 py-2 text-xl font-extrabold font-kode text-slate-950">
           Explore
         </h2>
@@ -138,7 +138,7 @@ const Sidebar = () => {
           <div className="w-full font-medium">Podcasts</div>
         </div>
       </div>
-      <div className="flex flex-col p-2 pb-3 pr-0">
+      <div className="flex flex-col pt-3 pb-3 pl-2 pr-0">
         <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
           <MdOutlineSettings className="w-7 h-7" />
           <div className="w-full font-medium">Settings</div>
