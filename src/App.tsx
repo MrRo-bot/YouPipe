@@ -6,16 +6,16 @@ import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="w-screen h-screen overflow-x-hidden tracking-tighter font-sometype">
-      <Header />
-      <div className="flex">
-        <div className="min-w-60">
-          <Sidebar />
-        </div>
-        <main className="w-full">
-          <Outlet />
-        </main>
+    <div className="grid grid-flow-row grid-cols-8 tracking-tighter font-sometype">
+      <div className="fixed h-[6vh] col-start-1 col-end-9 row-start-1 row-end-2 w-full bg-white">
+        <Header />
       </div>
+      <div className="fixed top-[6vh] col-start-1 col-end-2 row-start-2 row-end-3 bg-white">
+        <Sidebar />
+      </div>
+      <main className="mt-[14vh] col-start-2 col-end-9 row-start-2 row-end-3 overflow-x-hidden">
+        <Outlet />
+      </main>
     </div>
   );
 }

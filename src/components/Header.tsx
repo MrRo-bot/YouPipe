@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="flex justify-between h-[6vh] items-center">
+    <header className="flex items-center justify-between py-2 mx-2 ">
       <div className="flex items-center justify-between gap-6">
         <div className="grid w-12 h-12 transition-all rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200">
           <RxHamburgerMenu className="w-full h-full p-3" />

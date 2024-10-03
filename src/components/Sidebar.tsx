@@ -25,7 +25,7 @@ import { TbHanger } from "react-icons/tb";
 
 const Sidebar = () => {
   return (
-    <aside className="flex flex-col pr-2">
+    <aside className="flex flex-col pr-2 ">
       <div className="flex flex-col pt-3 pl-2 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
         <div className="flex items-center gap-6 px-3 py-1.5 rounded-xl">
           <MdOutlineHome className="w-7 h-7" />

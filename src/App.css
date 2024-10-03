@@ -5,6 +5,8 @@
 /* * {
   outline: 0.1px solid gray;
 } */
+
+/* Manually set class to html in firefox */
 /* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
   display: none;
