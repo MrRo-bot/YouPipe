@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between py-2 mx-2 ">
+    <header className="flex items-center justify-between py-2 mx-4">
       <div className="flex items-center justify-between gap-6">
         <div className="grid w-12 h-12 transition-all rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200">
           <RxHamburgerMenu className="w-full h-full p-3" />
@@ -36,10 +36,14 @@ const Header = () => {
         </div>
       </div>
       <div>
-        <div className="flex items-center gap-8 min-h-12">
-          <AiOutlineVideoCameraAdd className="w-7 h-7" />
-          <FaRegBell className="w-6 h-6" />
-          <div className="grid w-12 h-12 overflow-hidden rounded-full place-items-center">
+        <div className="flex items-center gap-4 min-h-12">
+          <div className="grid transition-all rounded-full cursor-pointer w-11 h-11 place-items-center hover:bg-zinc-200 focus:bg-zinc-200">
+            <AiOutlineVideoCameraAdd className="w-full h-full p-3" />
+          </div>
+          <div className="grid transition-all rounded-full cursor-pointer w-11 h-11 place-items-center hover:bg-zinc-200 focus:bg-zinc-200">
+            <FaRegBell className="w-full h-full p-3" />
+          </div>
+          <div className="grid w-12 h-12 overflow-hidden rounded-full cursor-pointer place-items-center">
             <img className="p-2" src="icon.svg" alt="profile" />
           </div>
         </div>

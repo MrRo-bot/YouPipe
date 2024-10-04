@@ -1,103 +1,91 @@
 const Filters = () => {
   return (
-    <div className="fixed top-[6vh] flex items-center justify-between gap-4 px-1 py-4 overflow-x-auto hideScrollbar bg-white">
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+    <div className="sticky top-[6vh] h-[6vh] flex items-center justify-between gap-4 px-1 overflow-y-scroll bg-white hideScrollbar">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         All
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
-        All
-      </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Gaming
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Music
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Podcasts
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Dr. Gregory house
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Satire
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         UEFA Champions League
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Top Gear
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Wickets
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Reaction Videos
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Thrillers
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Live
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Trailers
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         Desktop Computers
       </div>
-      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg bg-stone-100 text-nowrap max-h-10">
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        API's
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Gaming
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Music
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Podcasts
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Dr. Gregory house
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Satire
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        UEFA Champions League
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Top Gear
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Wickets
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Reaction Videos
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Thrillers
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Live
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Trailers
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
+        Desktop Computers
+      </div>
+      <div className="px-3 py-2 text-sm font-semibold text-center rounded-lg cursor-pointer bg-zinc-100 hover:bg-zinc-300 focus:bg-zinc-300 text-nowrap max-h-10">
         API's
       </div>
     </div>

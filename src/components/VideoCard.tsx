@@ -5,7 +5,7 @@ const VideoCard = () => {
   return (
     <div className="p-0.5 max-w-96">
       <div className="flex flex-col gap-3">
-        <div className="object-cover overflow-hidden aspect-[16/10] bg-zinc-200 rounded-2xl">
+        <div className="object-cover overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
           <img
             src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1"
             alt=""
@@ -21,14 +21,14 @@ const VideoCard = () => {
             </div>
           </div>
           <div className="flex flex-col">
-            <div className="mt-0.5 mb-2 font-semibold font-kode text-ellipsis line-clamp-2">
+            <div className="text-lg mt-0.5 mb-1.5 font-semibold font-kode text-ellipsis line-clamp-2">
               Columbus Crew vs. Inter Miami CF | 2024 Supporters' Shield
               Clinched! | Full Match Highlights
             </div>
             <div className="text-sm font-medium text-zinc-600">
               Major League Soccer <MdCheckCircle className="inline mb-1" />
             </div>
-            <div className="text-sm mt-0.5 font-medium text-zinc-600">
+            <div className="text-sm font-medium text-zinc-600">
               162k views • 12 hours ago
             </div>
             {/* <div className="mt-3">

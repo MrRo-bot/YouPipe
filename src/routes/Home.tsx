@@ -3,9 +3,72 @@ import VideoCard from "../components/VideoCard";
 
 const Home = () => {
   return (
-    <div>
+    <div className="relative mt-[7vh]">
       <Filters />
-      <div className="grid grid-flow-row mx-2 gap-x-8 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-flow-row pt-5 mx-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
+        <VideoCard />
         <VideoCard />
         <VideoCard />
         <VideoCard />
