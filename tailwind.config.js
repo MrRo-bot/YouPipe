@@ -4,8 +4,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        kode: ["kode mono", "monospace"],
-        sometype: ["sometype mono", "monospace"],
+        text: ["Chivo", "sans-serif"],
+        heading: ["Victor mono", "monospace"],
+      },
+      boxShadow: {
+        // cardShadow: "5px 5px 10px #bebebe, -5px -5px 10px #ffffff",
+        cardShadow:
+          "2.5px 2.5px 5px hsla(239, 78%, 16%, 0.55), -2.5px -2.5px 5px hsla(239, 78%, 16%, 0.55)",
       },
     },
   },

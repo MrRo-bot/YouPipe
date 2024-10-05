@@ -5,15 +5,290 @@
 /* * {
   outline: 0.1px solid gray;
 } */
+@layer base {
+  /* Manually set class to html in firefox */
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
-/* Manually set class to html in firefox */
-/* Hide scrollbar for Chrome, Safari and Opera */
-::-webkit-scrollbar {
-  display: none;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hideScrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  @keyframes hero-gradient-animation {
+    0% {
+      --x-0: 59%;
+      --y-0: 16%;
+      --c-0: hsla(289, 100%, 52%, 1);
+      --s-start-0: 3%;
+      --s-end-0: 22%;
+      --x-1: 94%;
+      --s-start-1: 10.306152829440899%;
+      --s-end-1: 23%;
+      --c-1: hsla(236.94117647058823, 100%, 50%, 1);
+      --y-1: 5%;
+      --x-2: 96%;
+      --s-start-2: 0%;
+      --s-end-2: 14%;
+      --y-2: 92%;
+      --c-2: hsla(181.84615384615384, 97%, 61%, 0.75);
+      --x-3: 7%;
+      --s-start-3: 4.667330066468419%;
+      --s-end-3: 36%;
+      --y-3: 86%;
+      --c-3: hsla(313.4010152284264, 91%, 42%, 1);
+      --y-4: 59%;
+      --c-4: hsla(243.6144578313253, 83%, 19%, 1);
+      --s-start-4: 13%;
+      --s-end-4: 68%;
+      --x-4: 59%;
+    }
+
+    100% {
+      --x-0: 94%;
+      --y-0: 13%;
+      --c-0: hsla(287.21311475409834, 87%, 40%, 1);
+      --s-start-0: 3.315649867374005%;
+      --s-end-0: 33%;
+      --x-1: 65%;
+      --s-start-1: 3.315649867374005%;
+      --s-end-1: 33%;
+      --c-1: hsla(236.66666666666669, 96%, 40%, 1);
+      --y-1: 8%;
+      --x-2: 21%;
+      --s-start-2: 0%;
+      --s-end-2: 27.599468484165186%;
+      --y-2: 90%;
+      --c-2: hsla(183.50364963503654, 62%, 42%, 0.5);
+      --x-3: 13%;
+      --s-start-3: 12.198718286003295%;
+      --s-end-3: 40%;
+      --y-3: 19%;
+      --c-3: hsla(311.6666666666667, 90%, 31%, 1);
+      --y-4: 9%;
+      --c-4: hsla(246.82926829268294, 83%, 28%, 1);
+      --s-start-4: 13%;
+      --s-end-4: 68%;
+      --x-4: 2%;
+    }
+  }
+
+  @property --x-0 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 59%;
+  }
+
+  @property --y-0 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 16%;
+  }
+
+  @property --c-0 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: hsla(289, 100%, 52%, 1);
+  }
+
+  @property --s-start-0 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 3%;
+  }
+
+  @property --s-end-0 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 22%;
+  }
+
+  @property --x-1 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 94%;
+  }
+
+  @property --s-start-1 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 10.306152829440899%;
+  }
+
+  @property --s-end-1 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 23%;
+  }
+
+  @property --c-1 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: hsla(236.94117647058823, 100%, 50%, 1);
+  }
+
+  @property --y-1 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 5%;
+  }
+
+  @property --x-2 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 96%;
+  }
+
+  @property --s-start-2 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 0%;
+  }
+
+  @property --s-end-2 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 14%;
+  }
+
+  @property --y-2 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 92%;
+  }
+
+  @property --c-2 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: hsla(181.84615384615384, 97%, 61%, 0.75);
+  }
+
+  @property --x-3 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 7%;
+  }
+
+  @property --s-start-3 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 4.667330066468419%;
+  }
+
+  @property --s-end-3 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 36%;
+  }
+
+  @property --y-3 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 86%;
+  }
+
+  @property --c-3 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: hsla(313.4010152284264, 91%, 42%, 1);
+  }
+
+  @property --y-4 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 59%;
+  }
+
+  @property --c-4 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: hsla(243.6144578313253, 83%, 19%, 1);
+  }
+
+  @property --s-start-4 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 13%;
+  }
+
+  @property --s-end-4 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 68%;
+  }
+
+  @property --x-4 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 59%;
+  }
+
+  .heroGradient {
+    --x-0: 59%;
+    --y-0: 16%;
+    --c-0: hsla(289, 100%, 52%, 1);
+    --x-1: 94%;
+    --c-1: hsla(236.94117647058823, 100%, 50%, 1);
+    --y-1: 5%;
+    --x-2: 96%;
+    --y-2: 92%;
+    --c-2: hsla(181.84615384615384, 97%, 61%, 0.75);
+    --x-3: 7%;
+    --y-3: 86%;
+    --c-3: hsla(313.4010152284264, 91%, 42%, 1);
+    --y-4: 59%;
+    --c-4: hsla(243.6144578313253, 83%, 19%, 1);
+    --x-4: 59%;
+    background-color: hsla(228, 71%, 4%, 1);
+    background-image: radial-gradient(
+        circle at var(--x-0) var(--y-0),
+        var(--c-0) var(--s-start-0),
+        transparent var(--s-end-0)
+      ),
+      radial-gradient(
+        circle at var(--x-1) var(--y-1),
+        var(--c-1) var(--s-start-1),
+        transparent var(--s-end-1)
+      ),
+      radial-gradient(
+        circle at var(--x-2) var(--y-2),
+        var(--c-2) var(--s-start-2),
+        transparent var(--s-end-2)
+      ),
+      radial-gradient(
+        circle at var(--x-3) var(--y-3),
+        var(--c-3) var(--s-start-3),
+        transparent var(--s-end-3)
+      ),
+      radial-gradient(
+        circle at var(--x-4) var(--y-4),
+        var(--c-4) var(--s-start-4),
+        transparent var(--s-end-4)
+      );
+    animation: hero-gradient-animation 55s linear infinite alternate;
+    /* background-blend-mode: normal, normal, normal, normal, normal; */
+    background-blend-mode: hard-light, hard-light, hard-light, hard-light,
+      hard-light;
+  }
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.hideScrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+@layer components {
+  .glass {
+    backdrop-filter: blur(15px) saturate(200%);
+    -webkit-backdrop-filter: blur(15px) saturate(200%);
+    background-color: hsla(219, 40%, 11%, 0.55);
+    border-radius: 12px;
+    border: 1px solid hsla(0, 0%, 100%, 0.125);
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    background-color: hsla(219, 40%, 11%, 0.95);
+    border-radius: 12px;
+    border: 1px solid hsla(0, 0%, 100%, 0.125);
+  }
 }

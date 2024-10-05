@@ -3,24 +3,25 @@ import VideoCard from "../components/VideoCard";
 
 const Subscription = () => {
   return (
-    <div className="mt-[7vh]">
-      <div className="flex items-center justify-between px-3 py-4">
-        <h1 className="text-xl font-extrabold text-center font-kode text-slate-950">
+    <div className="relative mx-4 mb-2 mt-3 max-h-[90vh] overflow-y-auto hideScrollbar rounded-xl">
+      <div className="flex items-center justify-between px-1 py-3">
+        <h1 className="text-xl font-bold text-center font-heading text-slate-200">
           Latest
         </h1>
         <div className="flex items-center justify-between gap-3">
-          <div className="px-5 py-1 text-blue-600 transition-all rounded-full cursor-pointer font-sometype place-items-center hover:bg-blue-600/15 focus:bg-blue-600/15">
-            <span className="">Manage</span>
+          <div className="px-5 py-1 text-blue-300 rounded-full cursor-pointer font-text place-items-center hover:font-bold focus:font-bold hover:bg-blue-100 focus:bg-blue-100 hover:text-black focus:text-black">
+            <span>Manage</span>
           </div>
-          <div className="grid p-2 transition-all rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200">
+          <div className="grid w-12 h-12 transition-all rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200 hover:text-black focus:text-black">
             <MdOutlineGridView className="w-6 h-6" />
           </div>
-          <div className="grid p-2 transition-all rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200">
+
+          <div className="grid w-12 h-12 transition-all rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200 hover:text-black focus:text-black">
             <MdOutlineViewList className="w-6 h-6" />
           </div>
         </div>
       </div>
-      <div className="grid grid-flow-row mx-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-flow-row gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <VideoCard />
         <VideoCard />
         <VideoCard />
