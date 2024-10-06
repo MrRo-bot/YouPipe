@@ -10,7 +10,7 @@ function App() {
       <div className="w-full">
         <Header />
       </div>
-      <main className="relative flex ">
+      <main className="relative flex">
         <Sidebar />
         <Outlet />
       </main>

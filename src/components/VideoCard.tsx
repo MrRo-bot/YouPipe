@@ -1,16 +1,16 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdCheckCircle } from "react-icons/md";
-
 import { FcStart } from "react-icons/fc";
 
 const VideoCard = () => {
   return (
-    <div className="z-0 p-1 cursor-pointer max-w-96 glass rounded-2xl shadow-cardShadow">
+    <div className="z-0 p-2 transition-opacity cursor-pointer group max-w-96 glass rounded-2xl shadow-cardShadow">
       <div className="flex flex-col gap-4">
         <div className="object-cover overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
           <img
             src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1"
             alt=""
+            className="transition group-hover:scale-110 group-focus:scale-110"
           />
         </div>
         <div className="flex flex-col gap-3 px-2">
@@ -41,12 +41,12 @@ const VideoCard = () => {
             <div className="text-xs font-medium text-zinc-400 text-ellipsis">
               Major League Soccer <MdCheckCircle className="inline mb-0.5" />
             </div>
-            <div className="ml-auto">
+            <div className="grid ml-auto transition hover:scale-105 focus:scale-105 place-items-center">
               <BsThreeDotsVertical size={1.1 + "em"} className="mb-0.5" />
             </div>
           </div>
 
-          {/* <div className="px-2 py-1 text-sm transition-all rounded-full cursor-pointer hover:font-bold focus:font-bold glass hover:bg-zinc-200 focus:bg-zinc-200 hover:text-black focus:text-black hover:scale-105 focus:scale-105 w-max">
+          {/* <div className="px-2 py-1 text-sm transition rounded-full cursor-pointer hover:font-bold focus:font-bold glass hover:bg-zinc-200 focus:bg-zinc-200 hover:text-black focus:text-black hover:scale-105 focus:scale-105 w-max">
             Notify Me
           </div> */}
         </div>
