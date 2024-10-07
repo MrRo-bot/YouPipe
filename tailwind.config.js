@@ -4,8 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        text: ["Chivo", "sans-serif"],
-        heading: ["Victor mono", "monospace"],
+        text: ["Chivo", "monospace"],
       },
       boxShadow: {
         // cardShadow: "5px 5px 10px #bebebe, -5px -5px 10px #ffffff",

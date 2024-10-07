@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="tracking-tighter text-white font-text">
+    <div className="text-slate-200 font-text">
       <div className="w-full">
         <Header />
       </div>

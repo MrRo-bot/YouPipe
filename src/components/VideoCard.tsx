@@ -1,6 +1,6 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdCheckCircle } from "react-icons/md";
-import { FcStart } from "react-icons/fc";
+import { FcClock, FcStart } from "react-icons/fc";
 
 const VideoCard = () => {
   return (
@@ -8,26 +8,27 @@ const VideoCard = () => {
       <div className="flex flex-col gap-4">
         <div className="object-cover overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
           <img
-            src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1"
+            src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
             alt=""
             className="transition group-hover:scale-110 group-focus:scale-110"
           />
         </div>
         <div className="flex flex-col gap-3 px-2">
           <div className="flex justify-between">
-            <div className="flex">
-              <FcStart />
-              <div className="text-xs font-medium tracking-wide text-zinc-400">
+            <div className="flex items-center gap-1">
+              <FcStart className="w-5 h-5" />
+              <div className="text-xs tracking-wide text-zinc-400">
                 162k views
               </div>
             </div>
-            <div>
-              <div className="text-xs font-medium tracking-wide text-zinc-400">
+            <div className="flex items-center gap-1">
+              <FcClock color="black" className="w-5 h-5" />
+              <div className="text-xs tracking-wide text-zinc-400">
                 12 hours ago
               </div>
             </div>
           </div>
-          <div className="text-sm font-bold tracking-wide font-heading text-ellipsis line-clamp-2">
+          <div className="text-ellipsis line-clamp-2">
             Columbus Crew vs. Inter Miami CF | 2024 Supporters' Shield Clinched!
             | Full Match Highlights
           </div>
@@ -38,7 +39,7 @@ const VideoCard = () => {
                 alt=""
               />
             </div>
-            <div className="text-xs font-medium text-zinc-400 text-ellipsis">
+            <div className="text-xs tracking-wide text-zinc-400 text-ellipsis">
               Major League Soccer <MdCheckCircle className="inline mb-0.5" />
             </div>
             <div className="grid ml-auto transition hover:scale-105 focus:scale-105 place-items-center">

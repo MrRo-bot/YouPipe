@@ -19,7 +19,7 @@ const Header = () => {
               alt="youpipe"
             />
           </div>
-          <div className="ml-1.5 text-2xl font-black font-heading tracking-wide">
+          <div className="ml-1.5 text-2xl font-bold  tracking-tighter">
             YouPipe
           </div>
           <div className="self-start text-xs text-slate-400">IN</div>
@@ -31,7 +31,7 @@ const Header = () => {
           name="search"
           id="search"
           placeholder="Search"
-          className="w-full h-full px-3 py-2 bg-transparent"
+          className="w-full h-full px-4 py-2 font-semibold bg-transparent"
         />
         <div className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
           <MdOutlineSearch className="w-7 h-7" />
@@ -46,7 +46,7 @@ const Header = () => {
             <FaRegBell className="w-full h-full p-3" />
           </div>
 
-          <div className="transition grid w-12 h-12  rounded-full cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="transition grid w-12 h-12 rounded-full cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             <img className="p-2" src="icon.svg" alt="profile" />
           </div>
         </div>

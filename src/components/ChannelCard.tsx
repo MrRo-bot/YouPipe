@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import {
   MdCheckCircle,
   MdKeyboardArrowDown,
@@ -6,7 +7,12 @@ import {
 
 const ChannelCard = () => {
   return (
-    <div className="flex items-center gap-1">
+    <motion.div
+      initial={{ opacity: 0.5 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ amount: "all" }}
+      className="flex items-center gap-1 p-3 transition-transform glass scale hover:scale-[1.01] focus:scale-[1.01]"
+    >
       <div>
         <img
           className="rounded-full min-w-32 min-h-32"
@@ -35,7 +41,7 @@ const ChannelCard = () => {
           <MdKeyboardArrowDown className="w-5 h-5" />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
