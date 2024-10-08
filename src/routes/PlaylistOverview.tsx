@@ -1,5 +1,5 @@
 const PlaylistOverview = () => {
-  return <div>PlaylistOverview</div>;
+  return <div className=""></div>;
 };
 
 export default PlaylistOverview;

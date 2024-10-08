@@ -43,9 +43,9 @@ const History = () => {
           <HistoryCard />
           <HistoryCard />
         </div>
-        <div className="sticky top-0 right-0">
+        <div className="fixed right-28">
           <div className="flex items-center overflow-hidden transition">
-            <div className="grid w-10 h-10 transition bg-opacity-0 cursor-pointer hover:text-white focus:text-white place-items-center ">
+            <div className="grid w-12 h-12 transition bg-opacity-0 cursor-pointer hover:text-white focus:text-white place-items-center ">
               <MdOutlineSearch className="w-full h-full p-1" />
             </div>
             <input
