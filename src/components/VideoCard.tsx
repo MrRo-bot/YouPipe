@@ -45,8 +45,8 @@ const VideoCard = () => {
             <div className="text-xs tracking-wide text-zinc-400 text-ellipsis">
               Major League Soccer <MdCheckCircle className="inline mb-0.5" />
             </div>
-            <div className="grid ml-auto transition hover:scale-105 focus:scale-105 place-items-center">
-              <BsThreeDotsVertical size={1.1 + "em"} className="mb-0.5" />
+            <div className="ml-auto transition hover:scale-105 focus:scale-105">
+              <BsThreeDotsVertical />
             </div>
           </div>
 
