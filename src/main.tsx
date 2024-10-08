@@ -12,6 +12,7 @@ import ErrorPage from "./routes/ErrorPage.tsx";
 import Home from "./routes/Home.tsx";
 import Subscription from "./routes/Subscription.tsx";
 import Channels from "./routes/Channels.tsx";
+import Playlist from "./routes/Playlist.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="channels" element={<Channels />} />
+      <Route path="playlists" element={<Playlist />} />
     </Route>
   )
 );

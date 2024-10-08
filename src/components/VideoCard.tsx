@@ -6,12 +6,15 @@ const VideoCard = () => {
   return (
     <div className="z-0 p-2 transition-opacity cursor-pointer group max-w-96 glass rounded-2xl shadow-cardShadow">
       <div className="flex flex-col gap-4">
-        <div className="object-cover overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
+        <div className="relative overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
           <img
             src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
             alt=""
-            className="transition group-hover:scale-110 group-focus:scale-110"
+            className="object-fill transition group-hover:scale-110 group-focus:scale-110"
           />
+          <div className="absolute z-50 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
+            2:30
+          </div>
         </div>
         <div className="flex flex-col gap-3 px-2">
           <div className="flex justify-between">

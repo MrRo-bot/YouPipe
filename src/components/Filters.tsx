@@ -1,6 +1,6 @@
 const Filters = () => {
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-between gap-4 p-2 my-2 overflow-y-scroll shadow-cardShadow glass-dark hideScrollbar">
+    <div className="sticky top-0 z-10 flex items-center justify-between gap-4 px-4 py-2 my-2 overflow-y-scroll glass-dark hideScrollbar">
       <div className="px-3 py-2 text-sm font-medium text-center transition bg-opacity-0 rounded-lg outline outline-1 outline-zinc-200/25 hover:bg-opacity-100 focus:bg-opacity-100 bg-zinc-300 text-nowrap max-h-10 hover:text-black focus:text-black glass">
         All
       </div>

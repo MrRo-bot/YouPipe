@@ -1,4 +1,4 @@
-export interface ErrorProps {
+export interface ErrorTypes {
   data: string;
   error: {
     columnNumber: number;

@@ -1,8 +1,8 @@
 import { useRouteError } from "react-router-dom";
-import { ErrorProps } from "../Types/types";
+import { ErrorTypes } from "../Types/types";
 
 export default function ErrorPage() {
-  const error = useRouteError() as ErrorProps;
+  const error = useRouteError() as ErrorTypes;
   console.error(error);
 
   return (

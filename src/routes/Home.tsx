@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className="relative ml-4 mb-2 mt-3 max-h-[90vh] overflow-y-auto hideScrollbar rounded-xl">
       <Filters />
-      <div className="grid grid-flow-row gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-flow-row p-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <VideoCard />
         <VideoCard />
         <VideoCard />
