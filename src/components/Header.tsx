@@ -12,9 +12,9 @@ const Header = () => {
           <RxHamburgerMenu className="w-full h-full p-3" />
         </div>
         <Link className="flex items-center min-h-10" to="/">
-          <div>
+          <div className="w-8 h-8">
             <img
-              className="w-8 h-8 text-nowrap indent-[100%] overflow-hidden"
+              className="text-nowrap indent-[100%] overflow-hidden"
               src="icon.svg"
               alt="youpipe"
             />

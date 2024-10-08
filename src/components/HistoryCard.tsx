@@ -1,15 +1,9 @@
-import { motion } from "framer-motion";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdCheckCircle, MdOutlineClose } from "react-icons/md";
 
 const HistoryCard = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0.5 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ amount: "all" }}
-      className="flex items-start gap-1 glass p-2 rounded-2xl transition-transform scale-[0.99] glass hover:scale-100 focus:scale-100"
-    >
+    <div className="flex items-start gap-1 glass p-2 rounded-2xl transition-transform scale-[0.99] glass hover:scale-100 focus:scale-100">
       <div className="relative w-5/6 overflow-hidden min-w-4/6 aspect-video rounded-2xl">
         <img
           className="object-cover"
@@ -40,7 +34,7 @@ const HistoryCard = () => {
           explicabo corporis mollitia.
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -1,15 +1,8 @@
-import { motion } from "framer-motion";
-
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 const WatchLaterCard = ({ count }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0.5 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ amount: "all" }}
-      className="flex items-center justify-between gap-1 p-2 transition-transform glass rounded-2xl"
-    >
+    <div className="flex items-center justify-between gap-1 p-2 transition-transform glass rounded-2xl">
       <div className="flex">
         <div className="self-center mr-2">{count}</div>
         <div className="relative overflow-hidden max-w-52 aspect-video rounded-2xl">
@@ -18,7 +11,7 @@ const WatchLaterCard = ({ count }) => {
             src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
             alt=""
           />
-          <div className="absolute z-50 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
+          <div className="absolute z-40 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
             2:30
           </div>
         </div>
@@ -37,7 +30,7 @@ const WatchLaterCard = ({ count }) => {
       </div>
 
       <BsThreeDotsVertical className="cursor-pointer w-7 h-7 text-zinc-200" />
-    </motion.div>
+    </div>
   );
 };
 

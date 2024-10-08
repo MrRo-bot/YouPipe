@@ -3,7 +3,7 @@ import HistoryCard from "../components/HistoryCard";
 
 const History = () => {
   return (
-    <div className="relative mb-2 mt-3 max-h-[90vh] rounded-xl mx-auto w-2/3 overflow-y-auto hideScrollbar">
+    <div className="relative mb-2 mt-3 max-h-[90vh] mx-auto w-2/3 overflow-y-auto hideScrollbar">
       <h1 className="text-4xl font-bold">Watch history</h1>
       <div className="mt-10 mb-5 text-xl font-semibold max-w-max">Today</div>
       <div className="relative flex justify-between w-full">
@@ -43,7 +43,7 @@ const History = () => {
           <HistoryCard />
           <HistoryCard />
         </div>
-        <div className="fixed right-28">
+        <div className="fixed right-[14%]">
           <div className="flex items-center overflow-hidden transition">
             <div className="grid w-12 h-12 transition bg-opacity-0 cursor-pointer hover:text-white focus:text-white place-items-center ">
               <MdOutlineSearch className="w-full h-full p-1" />

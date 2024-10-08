@@ -54,14 +54,14 @@ const LikedVideos = () => {
         </div>
       </div>
       <div className="w-9/12 max-h-[90vh] overflow-y-auto hideScrollbar flex flex-col gap-4 rounded-2xl mx-2 my-1">
-        <div className="flex items-center gap-2">
-          <div className="px-3.5 py-2 my-2 text-sm text-black transition bg-white rounded-lg cursor-pointer max-w-max">
+        <div className="sticky top-0 z-50 flex items-center gap-2 px-2 py-1 my-1 glass-dark rounded-2xl">
+          <div className="px-3.5 py-2 text-sm text-black transition bg-white rounded-2xl cursor-pointer max-w-max">
             All
           </div>
-          <div className="flex items-center gap-2 px-3.5 py-2 my-2 text-sm transition bg-gray-800 rounded-lg cursor-pointer hover:bg-zinc-500/50 focus:bg-zinc-500/50 max-w-max">
+          <div className="flex items-center gap-2 px-3.5 py-2 text-sm transition bg-gray-800 rounded-2xl cursor-pointer hover:bg-zinc-500/50 focus:bg-zinc-500/50 max-w-max">
             Videos
           </div>
-          <div className="flex items-center gap-2 px-3.5 py-2 my-2 text-sm transition bg-gray-800 rounded-lg cursor-pointer hover:bg-zinc-500/50 focus:bg-zinc-500/50 max-w-max">
+          <div className="flex items-center gap-2 px-3.5 py-2 text-sm transition bg-gray-800 rounded-2xl cursor-pointer hover:bg-zinc-500/50 focus:bg-zinc-500/50 max-w-max">
             Shorts
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   MdCheckCircle,
   MdKeyboardArrowDown,
@@ -7,15 +6,10 @@ import {
 
 const ChannelCard = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0.5 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ amount: "all" }}
-      className="flex items-center gap-1 p-3 transition-transform glass scale hover:scale-[1.01] focus:scale-[1.01]"
-    >
-      <div>
+    <div className="flex items-center gap-1 p-3 transition-transform glass scale hover:scale-[1.01] focus:scale-[1.01]">
+      <div className="grid place-items-center min-w-32 min-h-32">
         <img
-          className="rounded-full min-w-32 min-h-32"
+          className="w-full h-full rounded-full"
           src="https://yt3.ggpht.com/ytc/AIdro_lmaYOjcRw0-wAZKvvECrErNkHPIFrM7Lc-ntx5nxRGaLo=s68-c-k-c0x00ffffff-no-rj"
           alt=""
         />
@@ -36,12 +30,12 @@ const ChannelCard = () => {
         </p>
       </div>
       <div>
-        <div className="flex items-center gap-2 px-3 py-2 font-medium bg-zinc-800 rounded-full cursor-pointer max-w-max">
+        <div className="flex items-center gap-2 px-3 py-2 font-medium rounded-full cursor-pointer bg-zinc-800 max-w-max">
           <MdNotificationsActive className="w-5 h-5" /> Subscribed
           <MdKeyboardArrowDown className="w-5 h-5" />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

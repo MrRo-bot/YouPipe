@@ -1,15 +1,9 @@
-import { motion } from "framer-motion";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDragHandle } from "react-icons/md";
 
 const WatchLaterCard = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0.5 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ amount: "all" }}
-      className="flex items-center justify-between gap-1 p-2 transition-transform glass rounded-2xl"
-    >
+    <div className="flex items-center justify-between gap-1 p-2 transition-transform glass rounded-2xl">
       <div className="flex">
         <div className="self-center">
           <MdDragHandle className="cursor-grab w-7 h-7" />
@@ -39,7 +33,7 @@ const WatchLaterCard = () => {
       </div>
 
       <BsThreeDotsVertical className="cursor-pointer w-7 h-7 text-zinc-200" />
-    </motion.div>
+    </div>
   );
 };
 
