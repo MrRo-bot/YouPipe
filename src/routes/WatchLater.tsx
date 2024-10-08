@@ -59,7 +59,7 @@ const WatchLater = () => {
         </div>
       </div>
       <div className="w-9/12 max-h-[90vh] overflow-y-auto hideScrollbar flex flex-col gap-4 rounded-2xl mx-2 my-1">
-        <div className="flex items-center gap-2 px-2 py-1 my-2 font-semibold transition rounded-md cursor-pointer hover:bg-gray-800 focus:bg-gray-800 max-w-max">
+        <div className="flex items-center gap-2 px-2 py-1 my-2 font-semibold transition rounded-md cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 max-w-max">
           <MdOutlineSort className="w-6 h-6" /> Sort
         </div>
         <WatchLaterCard />

@@ -15,6 +15,7 @@ import Channels from "./routes/Channels.tsx";
 import Playlist from "./routes/Playlist.tsx";
 import History from "./routes/History.tsx";
 import WatchLater from "./routes/WatchLater.tsx";
+import LikedVideos from "./routes/LikedVideos.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +25,8 @@ const router = createBrowserRouter(
       <Route path="channels" element={<Channels />} />
       <Route path="playlists" element={<Playlist />} />
       <Route path="history" element={<History />} />
-      <Route path="wl" element={<WatchLater />} />
+      <Route path="watchlater" element={<WatchLater />} />
+      <Route path="likedvideos" element={<LikedVideos />} />
     </Route>
   )
 );

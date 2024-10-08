@@ -36,7 +36,7 @@ const ChannelCard = () => {
         </p>
       </div>
       <div>
-        <div className="flex items-center gap-2 px-3 py-2 font-medium bg-gray-800 rounded-full cursor-pointer max-w-max">
+        <div className="flex items-center gap-2 px-3 py-2 font-medium bg-zinc-800 rounded-full cursor-pointer max-w-max">
           <MdNotificationsActive className="w-5 h-5" /> Subscribed
           <MdKeyboardArrowDown className="w-5 h-5" />
         </div>
