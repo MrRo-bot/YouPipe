@@ -1,6 +1,6 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-const WatchLaterCard = ({ count }) => {
+const WatchLaterCard = ({ count }: { count: number }) => {
   return (
     <div className="flex items-center justify-between gap-1 p-2 transition-transform glass rounded-2xl">
       <div className="flex">

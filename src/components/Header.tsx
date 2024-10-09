@@ -2,7 +2,7 @@ import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -11,7 +11,7 @@ const Header = () => {
         <div className="grid w-12 h-12 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
           <RxHamburgerMenu className="w-full h-full p-3" />
         </div>
-        <Link className="flex items-center min-h-10" to="/">
+        <NavLink className="flex items-center min-h-10" to="/">
           <div className="w-8 h-8">
             <img
               className="text-nowrap indent-[100%] overflow-hidden"
@@ -23,7 +23,7 @@ const Header = () => {
             YouPipe
           </div>
           <div className="self-start text-xs text-slate-400">IN</div>
-        </Link>
+        </NavLink>
       </div>
       <div className="flex w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input

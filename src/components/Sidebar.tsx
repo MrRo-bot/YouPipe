@@ -22,43 +22,128 @@ import {
 } from "react-icons/md";
 
 import { TbHanger } from "react-icons/tb";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <aside className="flex flex-col pr-3 mt-3 max-h-[90vh] min-w-[12vw] overflow-y-scroll hideScrollbar glass">
       <div className="flex flex-col pt-3 pl-3 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineHome className="w-7 h-7" />
-          <div className="w-full">Home</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineSubscriptions className="w-7 h-7" />
-          <div className="w-full">Subscriptions</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineSwitchAccount className="w-7 h-7" />
-          <div className="w-full">Your channel</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineHistory className="w-7 h-7" />
-          <div className="w-full">History</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineFeaturedPlayList className="w-7 h-7" />
-          <div className="w-full">Playlist</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineVideoSettings className="w-7 h-7" />
-          <div className="w-full">Your videos</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineWatchLater className="w-7 h-7" />
-          <div className="w-full">Watch later</div>
-        </div>
-        <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-          <MdOutlineThumbUp className="w-7 h-7" />
-          <div className="w-full">Liked videos</div>
-        </div>
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineHome className="w-7 h-7" />
+            <div className="w-full">Home</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+          to="subscriptions"
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineSubscriptions className="w-7 h-7" />
+            <div className="w-full">Subscriptions</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+          to="channeloverview"
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineSwitchAccount className="w-7 h-7" />
+            <div className="w-full">Your channel</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+          to="history"
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineHistory className="w-7 h-7" />
+            <div className="w-full">History</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+          to="playlists"
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineFeaturedPlayList className="w-7 h-7" />
+            <div className="w-full">Playlist</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "" : isActive ? "" : ""
+          }
+          to=""
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineVideoSettings className="w-7 h-7" />
+            <div className="w-full">Your videos</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+          to="watchlater"
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineWatchLater className="w-7 h-7" />
+            <div className="w-full">Watch later</div>
+          </div>
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "bg-white rounded-xl text-black font-bold"
+              : ""
+          }
+          to="likedvideos"
+        >
+          <div className="flex items-center gap-6 px-3 py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight font-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+            <MdOutlineThumbUp className="w-7 h-7" />
+            <div className="w-full">Liked videos</div>
+          </div>
+        </NavLink>
       </div>
 
       <div className="flex flex-col pt-3 pl-3 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">

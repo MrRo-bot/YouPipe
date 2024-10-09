@@ -11,22 +11,28 @@ import App from "./App.tsx";
 import ErrorPage from "./routes/ErrorPage.tsx";
 import Home from "./routes/Home.tsx";
 import Subscription from "./routes/Subscription.tsx";
+import SubscriptionLayout from "./SubscriptionLayout.tsx";
 import Channels from "./routes/Channels.tsx";
 import Playlist from "./routes/Playlist.tsx";
 import History from "./routes/History.tsx";
 import WatchLater from "./routes/WatchLater.tsx";
 import LikedVideos from "./routes/LikedVideos.tsx";
+import ChannelOverview from "./routes/ChannelOverview.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} errorElement={<ErrorPage />}>
       <Route index element={<Home />} />
-      <Route path="subscriptions" element={<Subscription />} />
+      <Route path="subscriptions" element={<SubscriptionLayout />}>
+        <Route index element={<Subscription />} />
+        <Route path="channels" element={<Channels />} />
+      </Route>
       <Route path="channels" element={<Channels />} />
       <Route path="playlists" element={<Playlist />} />
       <Route path="history" element={<History />} />
       <Route path="watchlater" element={<WatchLater />} />
       <Route path="likedvideos" element={<LikedVideos />} />
+      <Route path="channeloverview" element={<ChannelOverview />} />
     </Route>
   )
 );
