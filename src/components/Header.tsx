@@ -12,10 +12,10 @@ const Header = () => {
   );
   const dispatch = useDispatch();
   return (
-    <header className="flex items-center justify-between px-2 py-2 glass">
+    <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
-        <div className="grid w-12 h-12 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-          <RxHamburgerMenu className="w-full h-full p-3" />
+        <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+          <RxHamburgerMenu className="w-full h-full p-2.5" />
         </div>
         <NavLink
           onClick={() => dispatch(increment())}
@@ -45,19 +45,19 @@ const Header = () => {
           className="w-full h-full px-4 py-2 font-semibold bg-transparent"
         />
         <div className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-          <MdOutlineSearch className="w-7 h-7" />
+          <MdOutlineSearch className="w-6 h-6" />
         </div>
       </div>
       <div>
         <div className="flex items-center gap-4 min-h-12">
-          <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-11 h-11 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-            <AiOutlineVideoCameraAdd className="w-full h-full p-3" />
+          <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+            <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
-          <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-11 h-11 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-            <FaRegBell className="w-full h-full p-3" />
+          <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+            <FaRegBell className="w-full h-full p-2.5" />
           </div>
 
-          <div className="transition grid w-12 h-12 rounded-full cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="transition grid w-10 h-10 rounded-full cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             <img className="p-2" src="icon.svg" alt="profile" />
           </div>
         </div>

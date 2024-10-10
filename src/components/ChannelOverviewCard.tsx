@@ -1,15 +1,22 @@
+import { motion } from "framer-motion";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FcStart } from "react-icons/fc";
 
 const ChannelOverviewCard = ({ size }: { size: string }) => {
   return (
-    <div
+    <motion.div
+      variants={{
+        hidden: { scale: 0.95 },
+        visible: { scale: 1 },
+      }}
+      initial={"hidden"}
+      whileInView={"visible"}
       style={{
         minWidth: `${
           size === "big" ? 24 + "rem" : size === "big" ? 16 + "rem" : 14 + "rem"
         }`,
       }}
-      className="z-0 p-2 transition-opacity cursor-pointer group glass rounded-2xl shadow-cardShadow"
+      className="z-0 p-2 transition-all cursor-pointer group glass rounded-2xl "
     >
       <div className="flex flex-col gap-4">
         <div className="relative overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
@@ -47,7 +54,7 @@ const ChannelOverviewCard = ({ size }: { size: string }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

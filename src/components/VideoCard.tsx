@@ -1,10 +1,19 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdCheckCircle } from "react-icons/md";
 import { FcClock, FcStart } from "react-icons/fc";
+import { motion } from "framer-motion";
 
 const VideoCard = () => {
   return (
-    <div className="z-0 p-2 transition-opacity cursor-pointer group max-w-96 glass rounded-2xl shadow-cardShadow">
+    <motion.div
+      variants={{
+        hidden: { scale: 0.95 },
+        visible: { scale: 1 },
+      }}
+      initial={"hidden"}
+      whileInView={"visible"}
+      className="z-0 p-2 transition-all cursor-pointer group max-w-96 glass rounded-2xl"
+    >
       <div className="flex flex-col gap-4">
         <div className="relative overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
           <img
@@ -55,7 +64,7 @@ const VideoCard = () => {
           </div> */}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

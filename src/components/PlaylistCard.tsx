@@ -1,6 +1,7 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdCheckCircle, MdOutlinePlaylistPlay } from "react-icons/md";
 import { useExtractColor } from "react-extract-colors";
+import { motion } from "framer-motion";
 
 const PlaylistCard = () => {
   const { lighterColor } = useExtractColor(
@@ -8,7 +9,15 @@ const PlaylistCard = () => {
   );
 
   return (
-    <div className="z-0 transition-opacity cursor-pointer rounded-xl group max-w-96">
+    <motion.div
+      variants={{
+        hidden: { scale: 0.95 },
+        visible: { scale: 1 },
+      }}
+      initial={"hidden"}
+      whileInView={"visible"}
+      className="z-0 transition-all cursor-pointer rounded-xl group max-w-96"
+    >
       <div className="flex flex-col gap-2">
         <div className="relative">
           <div
@@ -54,7 +63,7 @@ const PlaylistCard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

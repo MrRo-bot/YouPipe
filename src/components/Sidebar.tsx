@@ -26,7 +26,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <aside className="flex flex-col pr-3 mt-3 max-h-[90vh] min-w-[12vw] overflow-y-scroll hideScrollbar glass">
+    <aside className="flex flex-col pr-3 mt-3 mb-2 max-h-[90vh] min-w-[12vw] overflow-y-scroll hideScrollbar glass">
       <div className="flex flex-col pt-3 pl-3 pb-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
         <NavLink
           to="/"
