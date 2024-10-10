@@ -1,5 +1,5 @@
 import { useRouteError } from "react-router-dom";
-import { ErrorTypes } from "../Types/types";
+import { ErrorTypes } from "../types/types";
 
 export default function ErrorPage() {
   const error = useRouteError() as ErrorTypes;
@@ -13,7 +13,7 @@ export default function ErrorPage() {
           Sorry, an unexpected error has occurred.
         </p>
         <p className="text-slate-300">
-          <i>{error.statusText || error.error.message}</i>
+          <i>{error?.statusText || error?.error.message}</i>
         </p>
       </div>
     </div>
