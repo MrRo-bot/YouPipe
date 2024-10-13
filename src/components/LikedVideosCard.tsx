@@ -10,7 +10,7 @@ const WatchLaterCard = ({ count }: { count: number }) => {
       }}
       initial={"hidden"}
       whileInView={"visible"}
-      className="flex items-center justify-between gap-1 p-2 transition-all glass rounded-2xl"
+      className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 glass rounded-2xl"
     >
       <div className="flex">
         <div className="self-center mr-2">{count}</div>
