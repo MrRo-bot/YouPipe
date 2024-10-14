@@ -1,4 +1,4 @@
-export interface ErrorTypes {
+export type ErrorTypes = {
   data: string;
   error: {
     columnNumber: number;
@@ -10,4 +10,4 @@ export interface ErrorTypes {
   internal: boolean;
   status: number;
   statusText: string;
-}
+};

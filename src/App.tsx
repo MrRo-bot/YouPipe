@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -17,6 +17,7 @@ function App() {
         <main className="relative flex">
           <Sidebar />
           <Outlet />
+          <ScrollRestoration />
         </main>
       </div>
       <ReactQueryDevtools initialIsOpen={false} />

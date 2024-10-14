@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../features/counterSlice";
+import hamburgerMenu from "../features/hamburgerMenuSlice";
 
 export default configureStore({
   reducer: {
-    counter: counterReducer,
+    hamburger: hamburgerMenu,
   },
 });

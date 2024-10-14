@@ -3,25 +3,21 @@ import { FaRegBell } from "react-icons/fa";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { increment } from "../features/counterSlice";
+import { useDispatch } from "react-redux";
+import { toggle } from "../features/hamburgerMenuSlice";
 
 const Header = () => {
-  const count = useSelector(
-    (state: { counter: { value: number } }) => state.counter.value
-  );
   const dispatch = useDispatch();
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
-        <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+        <div
+          onClick={() => dispatch(toggle())}
+          className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
+        >
           <RxHamburgerMenu className="w-full h-full p-2.5" />
         </div>
-        <NavLink
-          onClick={() => dispatch(increment())}
-          className="flex items-center min-h-10"
-          to="/"
-        >
+        <NavLink className="flex items-center min-h-10" to="/">
           <div className="w-8 h-8">
             <img
               className="text-nowrap indent-[100%] overflow-hidden"
@@ -33,7 +29,6 @@ const Header = () => {
             YouPipe
           </div>
           <div className="self-start text-xs text-slate-400">IN</div>
-          <div className="self-start text-xs text-slate-400">{count}</div>
         </NavLink>
       </div>
       <div className="flex w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
