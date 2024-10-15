@@ -1,7 +1,10 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdCheckCircle, MdOutlinePlaylistPlay } from "react-icons/md";
 import { useExtractColor } from "react-extract-colors";
 import { motion } from "framer-motion";
+import {
+  PiCheckCircleFill,
+  PiDotsThreeOutlineVerticalFill,
+} from "react-icons/pi";
+import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 const PlaylistCard = () => {
   const { lighterColor } = useExtractColor(
@@ -47,13 +50,16 @@ const PlaylistCard = () => {
           <div className="flex justify-between">
             <div className="text-ellipsis line-clamp-1">Podcast wishlist</div>
             <div className="grid ml-auto transition hover:scale-105 focus:scale-105 place-items-center">
-              <BsThreeDotsVertical size={1.1 + "em"} className="mb-0.5" />
+              <PiDotsThreeOutlineVerticalFill
+                size={1.1 + "em"}
+                className="mb-0.5"
+              />
             </div>
           </div>
 
           <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-400">
             Private
-            <MdCheckCircle /> • Playlist
+            <PiCheckCircleFill /> • Playlist
           </div>
           <div className="text-xs tracking-wide text-zinc-400">
             Updated Today

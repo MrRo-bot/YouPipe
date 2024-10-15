@@ -1,6 +1,7 @@
-import { MdOutlineSearch } from "react-icons/md";
-import ChannelOverviewCard from "../components/ChannelOverviewCard";
 import { AnimatePresence, motion } from "framer-motion";
+import { MdOutlineSearch } from "react-icons/md";
+
+import ChannelOverviewCard from "../components/ChannelOverviewCard";
 
 const ChannelOverview = () => {
   return (

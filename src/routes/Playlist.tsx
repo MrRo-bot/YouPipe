@@ -1,6 +1,7 @@
-import { MdKeyboardArrowDown } from "react-icons/md";
-import PlaylistCard from "../components/PlaylistCard";
 import { AnimatePresence, motion } from "framer-motion";
+import { MdKeyboardArrowDown } from "react-icons/md";
+
+import PlaylistCard from "../components/PlaylistCard";
 
 const Playlist = () => {
   return (

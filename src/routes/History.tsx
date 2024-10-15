@@ -1,6 +1,7 @@
-import { MdOutlineSearch } from "react-icons/md";
-import HistoryCard from "../components/HistoryCard";
 import { AnimatePresence, motion } from "framer-motion";
+import { MdOutlineSearch } from "react-icons/md";
+
+import HistoryCard from "../components/HistoryCard";
 
 const History = () => {
   return (

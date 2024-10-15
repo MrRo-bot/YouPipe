@@ -1,7 +1,9 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdCheckCircle } from "react-icons/md";
-import { FcClock, FcStart } from "react-icons/fc";
 import { motion } from "framer-motion";
+import {
+  PiDotsThreeOutlineVerticalFill,
+  PiCheckCircleFill,
+} from "react-icons/pi";
+import { FcClock, FcStart } from "react-icons/fc";
 
 const VideoCard = () => {
   return (
@@ -49,10 +51,10 @@ const VideoCard = () => {
               />
             </div>
             <div className="text-xs tracking-wide text-zinc-400 text-ellipsis">
-              Channel Name <MdCheckCircle className="inline mb-0.5" />
+              Channel Name <PiCheckCircleFill className="inline mb-0.5" />
             </div>
             <div className="ml-auto transition hover:scale-105 focus:scale-105">
-              <BsThreeDotsVertical />
+              <PiDotsThreeOutlineVerticalFill />
             </div>
           </div>
         </div>

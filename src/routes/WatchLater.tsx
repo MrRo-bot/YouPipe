@@ -1,13 +1,14 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
-import {
-  MdOutlineDownload,
-  MdOutlinePlayArrow,
-  MdOutlineShuffle,
-  MdOutlineSort,
-} from "react-icons/md";
 import { useExtractColor } from "react-extract-colors";
-import WatchLaterCard from "../components/WatchLaterCard";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  PiDotsThreeOutlineVerticalFill,
+  PiDownloadFill,
+  PiArrowFatRightFill,
+  PiShuffleFill,
+  PiSortAscendingFill,
+} from "react-icons/pi";
+
+import WatchLaterCard from "../components/WatchLaterCard";
 
 const WatchLater = () => {
   const { lighterColor } = useExtractColor(
@@ -48,26 +49,26 @@ const WatchLater = () => {
           </div>
           <div className="flex gap-2 mt-4">
             <div className="grid w-10 h-10 p-2 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-400/25 focus:bg-zinc-400/25 bg-zinc-200/25">
-              <MdOutlineDownload className="w-full h-full" />
+              <PiDownloadFill className="w-full h-full" />
             </div>
             <div className="grid w-10 h-10 p-2 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-400/25 focus:bg-zinc-400/25 bg-zinc-200/25">
-              <BsThreeDotsVertical className="w-full h-full" />
+              <PiDotsThreeOutlineVerticalFill className="w-full h-full" />
             </div>
           </div>
           <div className="flex gap-2 mt-4 justify-evenly">
             <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold text-black transition rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-zinc-200/75 focus:bg-zinc-200/75">
-              <MdOutlinePlayArrow className="w-6 h-6" />
+              <PiArrowFatRightFill className="w-6 h-6" />
               Play all
             </div>
             <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold transition rounded-full cursor-pointer place-items-center bg-zinc-200/25 focus:bg-zinc-400/25 hover:bg-zinc-400/25">
-              <MdOutlineShuffle className="w-6 h-6" />
+              <PiShuffleFill className="w-6 h-6" />
               Shuffle
             </div>
           </div>
         </div>
         <div className="w-9/12 max-h-[90vh] overflow-y-auto hideScrollbar flex flex-col gap-4 mx-2 my-1">
           <div className="flex items-center gap-2 px-2 py-1 my-2 font-semibold transition rounded-md cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 max-w-max">
-            <MdOutlineSort className="w-6 h-6" /> Sort
+            <PiSortAscendingFill className="w-6 h-6" /> Sort
           </div>
           <WatchLaterCard />
           <WatchLaterCard />

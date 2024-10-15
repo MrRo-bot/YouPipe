@@ -1,6 +1,7 @@
 import { useRouteError } from "react-router-dom";
-import { ErrorTypes } from "../types/types";
 import { AnimatePresence, motion } from "framer-motion";
+
+import { ErrorTypes } from "../types/types";
 
 export default function ErrorPage() {
   const error = useRouteError() as ErrorTypes;

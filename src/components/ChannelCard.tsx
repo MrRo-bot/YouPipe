@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
-import {
-  MdCheckCircle,
-  MdKeyboardArrowDown,
-  MdNotificationsActive,
-} from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { PiCheckCircleFill, PiBellRingingFill } from "react-icons/pi";
 
 const ChannelCard = () => {
   return (
@@ -26,7 +23,7 @@ const ChannelCard = () => {
       <div className="flex flex-col gap-1 ml-3 flex-start">
         <div className="flex items-baseline gap-1">
           <h3 className="text-2xl font-medium">Samay Raina</h3>
-          <MdCheckCircle className="inline mb-0.5" />
+          <PiCheckCircleFill className="inline mb-0.5" />
         </div>
         <span className="text-sm text-zinc-400">
           @samayraina • 1.7M subscribers
@@ -40,7 +37,7 @@ const ChannelCard = () => {
       </div>
       <div>
         <div className="flex items-center gap-2 px-3 py-2 font-medium rounded-full cursor-pointer bg-zinc-800 max-w-max">
-          <MdNotificationsActive className="w-5 h-5" /> Subscribed
+          <PiBellRingingFill className="w-5 h-5" /> Subscribed
           <MdKeyboardArrowDown className="w-5 h-5" />
         </div>
       </div>

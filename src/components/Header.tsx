@@ -1,9 +1,10 @@
-import { AiOutlineVideoCameraAdd } from "react-icons/ai";
-import { FaRegBell } from "react-icons/fa";
-import { MdOutlineSearch } from "react-icons/md";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { AiOutlineVideoCameraAdd } from "react-icons/ai";
+import { PiBell } from "react-icons/pi";
+import { MdOutlineSearch } from "react-icons/md";
+import { RxHamburgerMenu } from "react-icons/rx";
+
 import { toggle } from "../features/hamburgerMenuSlice";
 
 const Header = () => {
@@ -49,7 +50,7 @@ const Header = () => {
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
           <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-            <FaRegBell className="w-full h-full p-2.5" />
+            <PiBell className="w-full h-full p-2.5" />
           </div>
 
           <div className="transition grid w-10 h-10 rounded-full cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">

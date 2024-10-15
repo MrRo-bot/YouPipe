@@ -1,11 +1,12 @@
-import {
-  MdOutlineDownload,
-  MdOutlinePlayArrow,
-  MdOutlineShuffle,
-} from "react-icons/md";
 import { useExtractColor } from "react-extract-colors";
-import LikedVideosCard from "../components/LikedVideosCard";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  PiDownloadFill,
+  PiArrowFatRightFill,
+  PiShuffleFill,
+} from "react-icons/pi";
+
+import LikedVideosCard from "../components/LikedVideosCard";
 
 const LikedVideos = () => {
   const { lighterColor } = useExtractColor(
@@ -46,16 +47,16 @@ const LikedVideos = () => {
           </div>
 
           <div className="grid w-10 h-10 p-2 mt-4 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-400/25 focus:bg-zinc-400/25 bg-zinc-200/25">
-            <MdOutlineDownload className="w-full h-full" />
+            <PiDownloadFill className="w-full h-full" />
           </div>
 
           <div className="flex gap-2 mt-4 justify-evenly">
             <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold text-black transition rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-zinc-200/75 focus:bg-zinc-200/75">
-              <MdOutlinePlayArrow className="w-6 h-6" />
+              <PiArrowFatRightFill className="w-6 h-6" />
               Play all
             </div>
             <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold transition rounded-full cursor-pointer place-items-center bg-zinc-200/25 focus:bg-zinc-400/25 hover:bg-zinc-400/25">
-              <MdOutlineShuffle className="w-6 h-6" />
+              <PiShuffleFill className="w-6 h-6" />
               Shuffle
             </div>
           </div>

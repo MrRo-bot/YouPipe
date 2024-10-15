@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdCheckCircle, MdOutlineClose } from "react-icons/md";
+import {
+  PiCheckCircleFill,
+  PiX,
+  PiDotsThreeOutlineVerticalFill,
+} from "react-icons/pi";
 
 const HistoryCard = () => {
   return (
@@ -29,12 +32,12 @@ const HistoryCard = () => {
             Samay raina Reacts to Mr Bean in Cyberpunk 2077
           </h3>
           <div className="flex gap-4">
-            <MdOutlineClose className="text-zinc-200 absolute w-10 h-10 cursor-pointer -top-1.5 right-10" />
-            <BsThreeDotsVertical className="absolute w-5 h-5 cursor-pointer text-zinc-200 top-1 right-1" />
+            <PiX className="text-zinc-200 absolute w-10 h-10 cursor-pointer -top-1.5 right-10" />
+            <PiDotsThreeOutlineVerticalFill className="absolute w-5 h-5 cursor-pointer text-zinc-200 top-1 right-1" />
           </div>
         </div>
         <div className="flex items-center gap-2 text-xs text-zinc-400">
-          @samayraina <MdCheckCircle /> • 1.7M subscribers
+          @samayraina <PiCheckCircleFill /> • 1.7M subscribers
         </div>
         <p className="w-5/6 mt-2 mb-1 text-xs whitespace-normal line-clamp-2 text-zinc-400 text-ellipsis">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt

@@ -1,7 +1,8 @@
-import { MdOutlineGridView, MdOutlineViewList } from "react-icons/md";
-import VideoCard from "../components/VideoCard";
 import { NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { PiGridFourFill, PiListFill } from "react-icons/pi";
+
+import VideoCard from "../components/VideoCard";
 
 const Subscription = () => {
   return (
@@ -23,11 +24,11 @@ const Subscription = () => {
               </div>
             </NavLink>
             <div className="grid w-12 h-12 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200 hover:text-black focus:text-black">
-              <MdOutlineGridView className="w-6 h-6" />
+              <PiGridFourFill className="w-6 h-6" />
             </div>
 
             <div className="grid w-12 h-12 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-200 focus:bg-zinc-200 hover:text-black focus:text-black">
-              <MdOutlineViewList className="w-6 h-6" />
+              <PiListFill className="w-6 h-6" />
             </div>
           </div>
         </div>

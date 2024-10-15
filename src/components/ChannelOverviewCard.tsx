@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FcStart } from "react-icons/fc";
 
 const ChannelOverviewCard = ({ size }: { size: string }) => {
@@ -36,7 +36,7 @@ const ChannelOverviewCard = ({ size }: { size: string }) => {
               Clinched! | Full Match Highlights
             </div>
             <div className="ml-auto transition hover:scale-105 focus:scale-105">
-              <BsThreeDotsVertical />
+              <PiDotsThreeOutlineVerticalFill />
             </div>
           </div>
           <div className="flex justify-start gap-1">

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 const WatchLaterCard = ({ count }: { count: number }) => {
   return (
@@ -38,7 +38,7 @@ const WatchLaterCard = ({ count }: { count: number }) => {
         </div>
       </div>
 
-      <BsThreeDotsVertical className="cursor-pointer w-7 h-7 text-zinc-200" />
+      <PiDotsThreeOutlineVerticalFill className="cursor-pointer w-7 h-7 text-zinc-200" />
     </motion.div>
   );
 };

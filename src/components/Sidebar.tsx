@@ -1,29 +1,26 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 import {
-  MdKeyboardArrowDown,
-  MdOutlineFeaturedPlayList,
-  MdOutlineHistory,
-  MdOutlineHome,
-  MdOutlineLightbulb,
-  MdOutlineLiveTv,
-  MdOutlineMovie,
-  MdOutlineMusicNote,
-  MdOutlineNewspaper,
-  MdOutlinePodcasts,
-  MdOutlineSettings,
-  MdOutlineShoppingBag,
-  MdOutlineSports,
-  MdOutlineSportsEsports,
-  MdOutlineSubscriptions,
-  MdOutlineSwitchAccount,
-  MdOutlineThumbUp,
-  MdOutlineTrendingUp,
-  MdOutlineVideoSettings,
-  MdOutlineWatchLater,
-} from "react-icons/md";
-import { TbHanger } from "react-icons/tb";
+  PiListStarFill,
+  PiClockFill,
+  PiHouseFill,
+  PiLightbulbFill,
+  PiTelevisionFill,
+  PiFilmSlateFill,
+  PiMusicNotesFill,
+  PiNewspaperFill,
+  PiGooglePodcastsLogoFill,
+  PiGearSixFill,
+  PiShoppingBagFill,
+  PiTrophyFill,
+  PiGameControllerFill,
+  PiMonitorPlayFill,
+  PiUserSwitchFill,
+  PiThumbsUpFill,
+  PiTrendUpFill,
+  PiShoppingCartFill,
+} from "react-icons/pi";
+import { MdKeyboardArrowDown, MdVideoSettings } from "react-icons/md";
 
 type SidebarType = {
   icon: JSX.Element;
@@ -36,17 +33,23 @@ const Sidebar = () => {
   );
 
   const EXPLORE: SidebarType[] = [
-    { icon: <MdOutlineTrendingUp className="w-7 h-7" />, text: "Trending" },
-    { icon: <MdOutlineShoppingBag className="w-7 h-7" />, text: "Shopping" },
-    { icon: <MdOutlineMusicNote className="w-7 h-7" />, text: "Music" },
-    { icon: <MdOutlineMovie className="w-7 h-7" />, text: "Movies" },
-    { icon: <MdOutlineLiveTv className="w-7 h-7" />, text: "Live" },
-    { icon: <MdOutlineSportsEsports className="w-7 h-7" />, text: "Gaming" },
-    { icon: <MdOutlineNewspaper className="w-7 h-7" />, text: "News" },
-    { icon: <MdOutlineSports className="w-7 h-7" />, text: "Sports" },
-    { icon: <MdOutlineLightbulb className="w-7 h-7" />, text: "Courses" },
-    { icon: <TbHanger className="w-7 h-7" />, text: "Fashion & beauty" },
-    { icon: <MdOutlinePodcasts className="w-7 h-7" />, text: "Podcasts" },
+    { icon: <PiTrendUpFill className="w-7 h-7" />, text: "Trending" },
+    { icon: <PiShoppingBagFill className="w-7 h-7" />, text: "Shopping" },
+    { icon: <PiMusicNotesFill className="w-7 h-7" />, text: "Music" },
+    { icon: <PiFilmSlateFill className="w-7 h-7" />, text: "Movies" },
+    { icon: <PiTelevisionFill className="w-7 h-7" />, text: "Live" },
+    { icon: <PiGameControllerFill className="w-7 h-7" />, text: "Gaming" },
+    { icon: <PiNewspaperFill className="w-7 h-7" />, text: "News" },
+    { icon: <PiTrophyFill className="w-7 h-7" />, text: "Sports" },
+    { icon: <PiLightbulbFill className="w-7 h-7" />, text: "Courses" },
+    {
+      icon: <PiShoppingCartFill className="w-7 h-7" />,
+      text: "Fashion & beauty",
+    },
+    {
+      icon: <PiGooglePodcastsLogoFill className="w-7 h-7" />,
+      text: "Podcasts",
+    },
   ];
 
   return (
@@ -68,7 +71,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
-              <MdOutlineHome className="w-4 h-4" />
+              <PiHouseFill className="w-4 h-4" />
               <div className="w-full">Home</div>
             </div>
           </NavLink>
@@ -83,7 +86,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
-              <MdOutlineSubscriptions className="w-4 h-4" />
+              <PiMonitorPlayFill className="w-4 h-4" />
               <div className="w-full">Subs</div>
             </div>
           </NavLink>
@@ -98,7 +101,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
-              <MdOutlineSwitchAccount className="w-4 h-4" />
+              <PiUserSwitchFill className="w-4 h-4" />
               <div className="w-full">You</div>
             </div>
           </NavLink>
@@ -113,7 +116,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
-              <MdOutlineWatchLater className="w-4 h-4" />
+              <PiClockFill className="w-4 h-4" />
               <div className="w-full">Watch</div>
             </div>
           </NavLink>
@@ -132,7 +135,7 @@ const Sidebar = () => {
               }
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineHome className="w-7 h-7" />
+                <PiHouseFill className="w-7 h-7" />
                 <div className="w-full">Home</div>
               </div>
             </NavLink>
@@ -147,7 +150,7 @@ const Sidebar = () => {
               to="subscriptions"
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineSubscriptions className="w-7 h-7" />
+                <PiMonitorPlayFill className="w-7 h-7" />
                 <div className="w-full">Subscriptions</div>
               </div>
             </NavLink>
@@ -162,7 +165,7 @@ const Sidebar = () => {
               to="channeloverview"
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineSwitchAccount className="w-7 h-7" />
+                <PiUserSwitchFill className="w-7 h-7" />
                 <div className="w-full">Your channel</div>
               </div>
             </NavLink>
@@ -177,7 +180,7 @@ const Sidebar = () => {
               to="history"
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineHistory className="w-7 h-7" />
+                <PiClockFill className="w-7 h-7" />
                 <div className="w-full">History</div>
               </div>
             </NavLink>
@@ -192,7 +195,7 @@ const Sidebar = () => {
               to="playlists"
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineFeaturedPlayList className="w-7 h-7" />
+                <PiListStarFill className="w-7 h-7" />
                 <div className="w-full">Playlist</div>
               </div>
             </NavLink>
@@ -203,7 +206,7 @@ const Sidebar = () => {
               to=""
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineVideoSettings className="w-7 h-7" />
+                <MdVideoSettings className="w-7 h-7" />
                 <div className="w-full">Your videos</div>
               </div>
             </NavLink>
@@ -218,7 +221,7 @@ const Sidebar = () => {
               to="watchlater"
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineWatchLater className="w-7 h-7" />
+                <PiClockFill className="w-7 h-7" />
                 <div className="w-full">Watch later</div>
               </div>
             </NavLink>
@@ -233,7 +236,7 @@ const Sidebar = () => {
               to="likedvideos"
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdOutlineThumbUp className="w-7 h-7" />
+                <PiThumbsUpFill className="w-7 h-7" />
                 <div className="w-full">Liked videos</div>
               </div>
             </NavLink>
@@ -308,7 +311,7 @@ const Sidebar = () => {
           </div>
           <div className="flex flex-col py-3 pr-0">
             <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <MdOutlineSettings className="w-7 h-7" />
+              <PiGearSixFill className="w-7 h-7" />
               <div className="w-full">Settings</div>
             </div>
           </div>
