@@ -38,8 +38,8 @@ const Filters = () => {
     const ref = scrollProgressRef.current;
     console.log(ref?.scrollLeft);
     if (ref !== null) {
-      if (scroll.side === "left") ref.scrollLeft -= 100;
-      if (scroll.side === "right") ref.scrollLeft += 100;
+      if (scroll.side === "left") ref.scrollLeft -= 150;
+      if (scroll.side === "right") ref.scrollLeft += 150;
     }
   }, [scroll]);
 
@@ -65,7 +65,7 @@ const Filters = () => {
           scrollArrow.left ? "block" : "hidden"
         } absolute cursor-pointer transition-all top-0 left-0 z-50 h-full w-16 bg-filterGradient rounded-s-lg`}
       >
-        <div className="absolute left-0 transition -translate-y-1/2 rounded-full top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
+        <div className="absolute left-0 p-1 transition -translate-y-1/2 rounded-full top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
           <MdKeyboardArrowLeft className="w-full h-full" />
         </div>
       </div>
@@ -91,7 +91,7 @@ const Filters = () => {
           scrollArrow.right ? "block" : "hidden"
         } absolute  transition-all top-0 right-0 z-50 h-full w-16 bg-filterGradientRev rounded-e-lg`}
       >
-        <div className="absolute right-0 transition -translate-y-1/2 rounded-full cursor-pointer top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
+        <div className="absolute right-0 p-1 transition -translate-y-1/2 rounded-full cursor-pointer top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
           <MdKeyboardArrowRight className="w-full h-full" />
         </div>
       </div>
