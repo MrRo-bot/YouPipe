@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { MdDragHandle } from "react-icons/md";
 
 const WatchLaterCard = () => {
   return (
@@ -14,9 +13,7 @@ const WatchLaterCard = () => {
       className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 glass rounded-2xl"
     >
       <div className="flex">
-        <div className="self-center">
-          <MdDragHandle className="cursor-grab w-7 h-7" />
-        </div>
+        <div className="self-center mr-2">1</div>
         <div className="relative overflow-hidden max-w-52 aspect-video rounded-2xl">
           <img
             className="object-cover"
