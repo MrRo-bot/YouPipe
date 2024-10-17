@@ -6,6 +6,10 @@
   outline: 0.1px solid gray;
 } */
 @layer base {
+  * {
+    scroll-behavior: smooth;
+  }
+
   ::-webkit-scrollbar {
     display: none;
   }
