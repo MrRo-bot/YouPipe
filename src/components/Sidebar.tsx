@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   PiListStarFill,
-  PiClockFill,
   PiHouseFill,
   PiLightbulbFill,
   PiTelevisionFill,
@@ -16,12 +15,10 @@ import {
   PiGameControllerFill,
   PiMonitorPlayFill,
   PiUserSwitchFill,
-  PiThumbsUpFill,
   PiTrendUpFill,
   PiShoppingCartFill,
-  PiClockCounterClockwiseBold,
 } from "react-icons/pi";
-import { MdKeyboardArrowDown, MdVideoSettings } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 type SidebarType = {
   icon: JSX.Element;
@@ -56,7 +53,7 @@ const Sidebar = () => {
   return (
     <aside
       className={`flex flex-col mt-3 mb-2 max-h-[90vh] ${
-        !isOpen ? "min-w-[3.5rem] gap-1" : "min-w-[11vw] pr-3"
+        !isOpen ? "min-w-[3.5rem] gap-1" : "min-w-[12vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
     >
       {!isOpen ? (
@@ -104,21 +101,6 @@ const Sidebar = () => {
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
               <PiUserSwitchFill className="w-4 h-4" />
               <div className="w-full">You</div>
-            </div>
-          </NavLink>
-          <NavLink
-            to="watchlater"
-            className={({ isActive, isPending }) =>
-              isPending
-                ? ""
-                : isActive
-                ? "bg-white rounded-md text-black font-bold"
-                : ""
-            }
-          >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
-              <PiClockCounterClockwiseBold className="w-4 h-4" />
-              <div className="w-full">History</div>
             </div>
           </NavLink>
         </>
@@ -170,21 +152,7 @@ const Sidebar = () => {
                 <div className="w-full">Your channel</div>
               </div>
             </NavLink>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? ""
-                  : isActive
-                  ? "bg-white rounded-xl text-black font-bold"
-                  : ""
-              }
-              to="history"
-            >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <PiClockCounterClockwiseBold className="w-7 h-7" />
-                <div className="w-full">History</div>
-              </div>
-            </NavLink>
+
             <NavLink
               className={({ isActive, isPending }) =>
                 isPending
@@ -198,47 +166,6 @@ const Sidebar = () => {
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
                 <PiListStarFill className="w-7 h-7" />
                 <div className="w-full">Playlist</div>
-              </div>
-            </NavLink>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending ? "" : isActive ? "" : ""
-              }
-              to=""
-            >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <MdVideoSettings className="w-7 h-7" />
-                <div className="w-full">Your videos</div>
-              </div>
-            </NavLink>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? ""
-                  : isActive
-                  ? "bg-white rounded-xl text-black font-bold"
-                  : ""
-              }
-              to="watchlater"
-            >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <PiClockFill className="w-7 h-7" />
-                <div className="w-full">Watch later</div>
-              </div>
-            </NavLink>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? ""
-                  : isActive
-                  ? "bg-white rounded-xl text-black font-bold"
-                  : ""
-              }
-              to="likedvideos"
-            >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
-                <PiThumbsUpFill className="w-7 h-7" />
-                <div className="w-full">Liked videos</div>
               </div>
             </NavLink>
           </div>

@@ -27,7 +27,7 @@ const VideoCard = () => {
             2:30
           </div>
         </div>
-        <div className="flex flex-col gap-3 px-2">
+        <div className="flex flex-col gap-3 px-1">
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <FcStart className="w-5 h-5" />

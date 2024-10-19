@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
-const WatchLaterCard = () => {
+const PlaylistOverviewCard = () => {
   return (
     <motion.div
       variants={{
@@ -43,4 +43,4 @@ const WatchLaterCard = () => {
   );
 };
 
-export default WatchLaterCard;
+export default PlaylistOverviewCard;
