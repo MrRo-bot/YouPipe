@@ -1,12 +1,15 @@
+import { useState } from "react";
+
 import { NavLink } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
+
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { PiBell, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import { toggle } from "../features/hamburgerMenuSlice";
-import { useState } from "react";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);

@@ -1,0 +1,27 @@
+YOUTUBE API=================
+Accept-Encoding: gzip
+User-Agent: my program (gzip)
+
+videos for home page - get subscription list max 50 then find channel video of each id use that to videos search and add 3 latest video from each channel on redux store
+
+subscriptions list - https://youtube.googleapis.com/youtube/v3/subscriptions?part=contentDetails%2Cid%2Csnippet%2CsubscriberSnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&maxResults=20&order=alphabetical&key=[YOUR_API_KEY]
+
+your channel - https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics%2Cstatus%2Cid%2CtopicDetails%2Clocalizations&id=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
+
+   channel section - https://youtube.googleapis.com/youtube/v3/channelSections?part=contentDetails%2Cid%2Csnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
+
+
+playlist - https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails%2Cid%2Clocalizations%2Cplayer%2Csnippet%2Cstatus&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
+
+playlist items - https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails%2Cid%2Csnippet%2Cstatus&playlistId=PLNyvF12k5396UpSuI0F_7K7gu3j0_6TPy&key=[YOUR_API_KEY]
+
+video categories - https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=IN&key=[YOUR_API_KEY]
+
+liked videos - https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails%2Cid%2Clocalizations%2Cplayer%2CrecordingDetails%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&maxResults=50&myRating=like&key=[YOUR_API_KEY]
+
+watermark optional - 
+
+search - THE MOST IMPORTANT API TO HANDLE SEARCH FEATURE IS DANGEROUS AND DIFFICULT 
+    SIMPLE VERSION - https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=[YOUR_SEARCH_STRING]&key=[YOUR_API_KEY]
+
+notifications - bit complicated

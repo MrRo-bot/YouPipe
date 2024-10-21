@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
+
 import { useSelector } from "react-redux";
+
 import {
   PiListStarFill,
   PiHouseFill,
@@ -20,10 +22,7 @@ import {
 } from "react-icons/pi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-type SidebarType = {
-  icon: JSX.Element;
-  text: string;
-};
+import { SidebarType } from "../types/types";
 
 const Sidebar = () => {
   const isOpen = useSelector(
@@ -106,7 +105,7 @@ const Sidebar = () => {
         </>
       ) : (
         <>
-          <div className="flex flex-col py-3 pl-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
+          <div className="flex flex-col py-3 gap-1 pl-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
             <NavLink
               to="/"
               className={({ isActive, isPending }) =>
@@ -170,7 +169,7 @@ const Sidebar = () => {
             </NavLink>
           </div>
 
-          <div className="flex flex-col py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
+          <div className="flex flex-col py-3 gap-1 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Subscriptions
             </h2>
@@ -223,7 +222,7 @@ const Sidebar = () => {
             </div>
           </div>
 
-          <div className="flex flex-col py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
+          <div className="flex flex-col gap-1 py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Explore
             </h2>
@@ -237,7 +236,7 @@ const Sidebar = () => {
               </div>
             ))}
           </div>
-          <div className="flex flex-col py-3 pl-3 pr-0">
+          <div className="flex flex-col gap-1 py-3 pl-3 pr-0">
             <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
               <PiGearSixFill className="w-7 h-7" />
               <div className="w-full">Settings</div>

@@ -20,7 +20,7 @@ import LikedVideos from "./routes/LikedVideos.tsx";
 import ChannelOverview from "./routes/ChannelOverview.tsx";
 import Subscription from "./routes/Subscription.tsx";
 
-import store from "./store/store.ts";
+import { store } from "./app/store.ts";
 
 const queryClient = new QueryClient();
 
