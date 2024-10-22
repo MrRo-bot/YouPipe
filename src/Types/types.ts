@@ -70,21 +70,33 @@ export type SubscriptionListResponseTypes = {
   items: [SubscriptionTypes];
 };
 
-export type CredentialType = {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
-  authuser: string;
-  prompt: string;
+export type ProfileType = {
+  issuer: string;
+  clientId: string;
+  uniqueId: string;
+  email: string;
+  emailVerified: string;
+  name: string;
+  picture: string;
+  givenName: string;
+  familyName: string;
+  creationTime: string;
+  expiryTime: string;
 };
 
-export type ProfileType = {
-  id: string;
+export type DecodedJwtType = {
+  iss: string;
+  azp: string;
+  aud: string;
+  sub: string;
   email: string;
-  verified_email: string;
+  email_verified: boolean;
+  nbf: number;
   name: string;
+  picture: string;
   given_name: string;
   family_name: string;
-  picture: string;
+  iat: number;
+  exp: number;
+  jti: string;
 };

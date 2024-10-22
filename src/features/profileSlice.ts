@@ -2,13 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ProfileType } from "../types/types";
 
 const initialState = {
-  id: "",
+  issuer: "",
+  clientId: "",
+  uniqueId: "",
   email: "",
-  verified_email: "",
+  emailVerified: "",
   name: "",
-  given_name: "",
-  family_name: "",
   picture: "",
+  givenName: "",
+  familyName: "",
+  creationTime: "",
+  expiryTime: "",
 };
 
 export const profileSlice = createSlice({
@@ -17,34 +21,46 @@ export const profileSlice = createSlice({
   reducers: {
     addProfile: (state, action) => {
       const {
-        id,
+        issuer,
+        clientId,
+        uniqueId,
         email,
-        verified_email,
+        emailVerified,
         name,
-        given_name,
-        family_name,
         picture,
+        givenName,
+        familyName,
+        creationTime,
+        expiryTime,
       } = action.payload;
 
       const profileData: ProfileType = {
-        id: id,
+        issuer: issuer,
+        clientId: clientId,
+        uniqueId: uniqueId,
         email: email,
-        verified_email: verified_email,
+        emailVerified: emailVerified,
         name: name,
-        given_name: given_name,
-        family_name: family_name,
         picture: picture,
+        givenName: givenName,
+        familyName: familyName,
+        creationTime: creationTime,
+        expiryTime: expiryTime,
       };
       localStorage.setItem("profile", JSON.stringify(profileData));
 
       Object.assign(state, {
-        id,
+        issuer,
+        clientId,
+        uniqueId,
         email,
-        verified_email,
+        emailVerified,
         name,
-        given_name,
-        family_name,
         picture,
+        givenName,
+        familyName,
+        creationTime,
+        expiryTime,
       });
     },
   },

@@ -1,66 +1,47 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { PiUserCirclePlusFill } from "react-icons/pi";
 
-import { addCredentials } from "../features/credentialsSlice";
 import { addProfile } from "../features/profileSlice";
-import { CredentialType } from "../types/types"; //ProfileType
+import { DecodedJwtType, ProfileType } from "../types/types";
 import { toggle } from "../features/hamburgerMenuSlice";
+import { jwtDecode } from "jwt-decode";
+import { unixToTimeString } from "../utils/math";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
 
   const dispatch = useDispatch();
 
-  const fetchedCredentials = useSelector(
-    (state: { credentials: CredentialType }) => state.credentials
+  const fetchedProfile = useSelector(
+    (state: { profile: ProfileType }) => state.profile
   );
 
-  // const fetchedProfile = useSelector(
-  //   (state: { profile: ProfileType }) => state.profile
-  // );
-
-  const token = fetchedCredentials?.access_token;
-
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => dispatch(addCredentials(codeResponse)),
-    onError: (error) => console.log("Login Failed:", error),
-  });
-
-  const fetchProfile = async () => {
-    const response = await fetch(
-      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      }
+  const getProfileData = (creds: DecodedJwtType) => {
+    dispatch(
+      addProfile({
+        issuer: creds.iss,
+        clientId: creds.aud,
+        uniqueId: creds.sub,
+        email: creds.email,
+        emailVerified: creds.email_verified,
+        name: creds.name,
+        picture: creds.picture,
+        givenName: creds.given_name,
+        familyName: creds.family_name,
+        creationTime: unixToTimeString(creds.iat),
+        expiryTime: unixToTimeString(creds.exp),
+      })
     );
-    return await response.json();
   };
 
-  const { data, isPending } = useQuery({
-    queryKey: ["profile", token],
-    queryFn: fetchProfile,
-    enabled: !!token,
-  });
-
-  (async () => {
-    if (!isPending) {
-      dispatch(addProfile(data));
-    }
-  })();
-
   const localData =
-    !isPending && JSON.parse(localStorage.getItem("profile") || "");
+    fetchedProfile.picture && JSON.parse(localStorage.getItem("profile") || "");
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
@@ -116,14 +97,22 @@ const Header = () => {
           <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
-          <div
-            onClick={() => login()}
-            className="grid w-10 h-10 overflow-hidden rounded-full cursor-pointer place-items-center"
-          >
-            {localData ? (
+          <div className="grid w-10 h-10 overflow-hidden rounded-full cursor-pointer place-items-center">
+            {localData.picture ? (
               <img src={localData.picture} alt={localData.name[0]} />
             ) : (
-              <PiUserCirclePlusFill className="w-full h-full" />
+              <GoogleLogin
+                onSuccess={(creds) => {
+                  getProfileData(jwtDecode(creds.credential || ""));
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+                auto_select
+                theme="filled_blue"
+                type="icon"
+                shape="circle"
+              />
             )}
           </div>
         </div>
