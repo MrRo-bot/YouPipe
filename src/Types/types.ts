@@ -69,3 +69,22 @@ export type SubscriptionListResponseTypes = {
   };
   items: [SubscriptionTypes];
 };
+
+export type CredentialType = {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+  authuser: string;
+  prompt: string;
+};
+
+export type ProfileType = {
+  id: string;
+  email: string;
+  verified_email: string;
+  name: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+};

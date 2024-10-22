@@ -1,13 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import hamburgerMenu from "../features/hamburgerMenuSlice";
-import subscriptionSlice from "../features/subscriptionSlice";
+import subscriptions from "../features/subscriptionSlice";
+import credentialsSlice from "../features/credentialsSlice";
+import profileSlice from "../features/profileSlice";
 
 export const store = configureStore({
   reducer: {
     hamburger: hamburgerMenu,
-    subscription: subscriptionSlice,
+    credentials: credentialsSlice,
+    profile: profileSlice,
+    subscription: subscriptions,
   },
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

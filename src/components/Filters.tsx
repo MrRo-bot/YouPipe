@@ -36,7 +36,6 @@ const Filters = () => {
 
   useEffect(() => {
     const ref = scrollProgressRef.current;
-    console.log(ref?.scrollLeft);
     if (ref !== null) {
       if (scroll.side === "left") ref.scrollLeft -= 150;
       if (scroll.side === "right") ref.scrollLeft += 150;

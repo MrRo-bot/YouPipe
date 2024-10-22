@@ -19,9 +19,6 @@ video categories - https://youtube.googleapis.com/youtube/v3/videoCategories?par
 
 liked videos - https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails%2Cid%2Clocalizations%2Cplayer%2CrecordingDetails%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&maxResults=50&myRating=like&key=[YOUR_API_KEY]
 
-watermark optional - 
 
 search - THE MOST IMPORTANT API TO HANDLE SEARCH FEATURE IS DANGEROUS AND DIFFICULT 
     SIMPLE VERSION - https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=[YOUR_SEARCH_STRING]&key=[YOUR_API_KEY]
-
-notifications - bit complicated

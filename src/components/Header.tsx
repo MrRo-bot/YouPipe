@@ -1,20 +1,66 @@
 import { useState } from "react";
-
 import { NavLink } from "react-router-dom";
-
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import { useGoogleLogin } from "@react-oauth/google";
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
-import { PiBell, PiX } from "react-icons/pi";
+import { PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { PiUserCirclePlusFill } from "react-icons/pi";
 
+import { addCredentials } from "../features/credentialsSlice";
+import { addProfile } from "../features/profileSlice";
+import { CredentialType } from "../types/types"; //ProfileType
 import { toggle } from "../features/hamburgerMenuSlice";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
 
   const dispatch = useDispatch();
+
+  const fetchedCredentials = useSelector(
+    (state: { credentials: CredentialType }) => state.credentials
+  );
+
+  // const fetchedProfile = useSelector(
+  //   (state: { profile: ProfileType }) => state.profile
+  // );
+
+  const token = fetchedCredentials?.access_token;
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => dispatch(addCredentials(codeResponse)),
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  const fetchProfile = async () => {
+    const response = await fetch(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    return await response.json();
+  };
+
+  const { data, isPending } = useQuery({
+    queryKey: ["profile", token],
+    queryFn: fetchProfile,
+    enabled: !!token,
+  });
+
+  (async () => {
+    if (!isPending) {
+      dispatch(addProfile(data));
+    }
+  })();
+
+  const localData =
+    !isPending && JSON.parse(localStorage.getItem("profile") || "");
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
@@ -66,16 +112,19 @@ const Header = () => {
         </div>
       </div>
       <div>
-        <div className="flex items-center gap-4 min-h-12">
+        <div className="flex items-center gap-4 mx-2 min-h-12">
           <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
-          <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-            <PiBell className="w-full h-full p-2.5" />
-          </div>
-
-          <div className="transition grid w-10 h-10 rounded-full cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-            <img className="p-2" src="icon.svg" alt="profile" />
+          <div
+            onClick={() => login()}
+            className="grid w-10 h-10 overflow-hidden rounded-full cursor-pointer place-items-center"
+          >
+            {localData ? (
+              <img src={localData.picture} alt={localData.name[0]} />
+            ) : (
+              <PiUserCirclePlusFill className="w-full h-full" />
+            )}
           </div>
         </div>
       </div>
