@@ -1,47 +1,17 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { GoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
-import { PiX } from "react-icons/pi";
+import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-import { addProfile } from "../features/profileSlice";
-import { DecodedJwtType, ProfileType } from "../types/types";
 import { toggle } from "../features/hamburgerMenuSlice";
-import { jwtDecode } from "jwt-decode";
-import { unixToTimeString } from "../utils/math";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
 
   const dispatch = useDispatch();
-
-  const fetchedProfile = useSelector(
-    (state: { profile: ProfileType }) => state.profile
-  );
-
-  const getProfileData = (creds: DecodedJwtType) => {
-    dispatch(
-      addProfile({
-        issuer: creds.iss,
-        clientId: creds.aud,
-        uniqueId: creds.sub,
-        email: creds.email,
-        emailVerified: creds.email_verified,
-        name: creds.name,
-        picture: creds.picture,
-        givenName: creds.given_name,
-        familyName: creds.family_name,
-        creationTime: unixToTimeString(creds.iat),
-        expiryTime: unixToTimeString(creds.exp),
-      })
-    );
-  };
-
-  const localData =
-    fetchedProfile.picture && JSON.parse(localStorage.getItem("profile") || "");
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
@@ -94,26 +64,11 @@ const Header = () => {
       </div>
       <div>
         <div className="flex items-center gap-4 mx-2 min-h-12">
-          <div className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+          <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-9 h-9 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
-          <div className="grid w-10 h-10 overflow-hidden rounded-full cursor-pointer place-items-center">
-            {localData.picture ? (
-              <img src={localData.picture} alt={localData.name[0]} />
-            ) : (
-              <GoogleLogin
-                onSuccess={(creds) => {
-                  getProfileData(jwtDecode(creds.credential || ""));
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-                auto_select
-                theme="filled_blue"
-                type="icon"
-                shape="circle"
-              />
-            )}
+          <div className="grid p-1 transition bg-opacity-0 rounded-full cursor-pointer w-11 h-11 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+            <PiUserCirclePlusFill className="w-full h-full" />
           </div>
         </div>
       </div>

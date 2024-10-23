@@ -69,34 +69,3 @@ export type SubscriptionListResponseTypes = {
   };
   items: [SubscriptionTypes];
 };
-
-export type ProfileType = {
-  issuer: string;
-  clientId: string;
-  uniqueId: string;
-  email: string;
-  emailVerified: string;
-  name: string;
-  picture: string;
-  givenName: string;
-  familyName: string;
-  creationTime: string;
-  expiryTime: string;
-};
-
-export type DecodedJwtType = {
-  iss: string;
-  azp: string;
-  aud: string;
-  sub: string;
-  email: string;
-  email_verified: boolean;
-  nbf: number;
-  name: string;
-  picture: string;
-  given_name: string;
-  family_name: string;
-  iat: number;
-  exp: number;
-  jti: string;
-};
