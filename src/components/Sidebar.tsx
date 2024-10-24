@@ -1,7 +1,5 @@
 import { NavLink } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
 import {
   PiListStarFill,
   PiHouseFill,
@@ -23,11 +21,10 @@ import {
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { SidebarType } from "../types/types";
+import { useAppSelector } from "../app/store";
 
 const Sidebar = () => {
-  const isOpen = useSelector(
-    (state: { hamburger: { isOpen: boolean } }) => state.hamburger.isOpen
-  );
+  const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
   const EXPLORE: SidebarType[] = [
     { icon: <PiTrendUpFill className="w-7 h-7" />, text: "Trending" },

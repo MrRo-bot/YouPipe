@@ -69,3 +69,22 @@ export type SubscriptionListResponseTypes = {
   };
   items: [SubscriptionTypes];
 };
+
+export type TokensType = {
+  access_token: string;
+  refresh_token: string;
+  scope: string;
+  token_type: string;
+  id_token: string;
+  expiry_date: number;
+};
+
+export type ProfileType = {
+  sub: string;
+  name: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+  email: string;
+  email_verified: boolean;
+};

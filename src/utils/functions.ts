@@ -74,6 +74,8 @@ export const unixToTimeString = (unix_timestamp: number) => {
   // multiplied by 1000 so that the argument is in milliseconds, not seconds
   const date = new Date(unix_timestamp * 1000);
 
+  date.toLocaleString("en-IN", { timeZone: "Asia/kolkata" });
+
   // Hours part from the timestamp
   const hours = date.getHours();
 

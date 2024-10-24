@@ -19,8 +19,8 @@ import Playlist from "./routes/Playlist.tsx";
 import LikedVideos from "./routes/LikedVideos.tsx";
 import ChannelOverview from "./routes/ChannelOverview.tsx";
 import Subscription from "./routes/Subscription.tsx";
-
 import { store } from "./app/store.ts";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient();
 
@@ -38,10 +38,12 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_YOUPIPE_CLIENT_ID}>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   </StrictMode>
 );

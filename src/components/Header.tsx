@@ -1,17 +1,62 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useQuery } from "@tanstack/react-query";
+
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
+import { useAppDispatch, useAppSelector } from "../app/store";
 import { toggle } from "../features/hamburgerMenuSlice";
+import { addProfile } from "../features/profileSlice";
+import { addToken } from "../features/tokenSlice";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
 
-  const dispatch = useDispatch();
+  const profileData = useAppSelector((state) => state.profile);
+  const tokenData = useAppSelector((state) => state.token);
+
+  const dispatch = useAppDispatch();
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      const token = await fetch("http://localhost:8089/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ code }),
+      });
+      const data = await token.json();
+      dispatch(addToken(data));
+    },
+    flow: "auth-code",
+  });
+
+  const { fetchStatus } = useQuery({
+    queryKey: ["profile", tokenData?.access_token],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
+      );
+      const data = await response.json();
+      dispatch(addProfile(data));
+      return data;
+    },
+    enabled: !!tokenData?.access_token,
+  });
+
+  if (fetchStatus === "idle")
+    localStorage.setItem(
+      "profile",
+      `{ "picture": "${profileData?.picture}", "name": "${profileData?.name}" }`
+    );
+
+  const localProfile = JSON.parse(localStorage.getItem("profile") || "");
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
@@ -67,8 +112,19 @@ const Header = () => {
           <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-9 h-9 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
-          <div className="grid p-1 transition bg-opacity-0 rounded-full cursor-pointer w-11 h-11 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
-            <PiUserCirclePlusFill className="w-full h-full" />
+          <div
+            onClick={googleLogin}
+            className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
+          >
+            {fetchStatus === "idle" ? (
+              <img
+                loading="lazy"
+                src={localProfile?.picture}
+                alt={localProfile?.name[0]}
+              />
+            ) : (
+              <PiUserCirclePlusFill className="w-full h-full p-1" />
+            )}
           </div>
         </div>
       </div>

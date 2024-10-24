@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../app/store";
+
+const initialState: { isOpen: boolean } = {
+  isOpen: true,
+};
 
 export const hamburgerMenuSlice = createSlice({
   name: "hamburgerMenu",
-  initialState: {
-    isOpen: true,
-  },
+  initialState,
   reducers: {
     toggle: (state) => {
       state.isOpen = state.isOpen ? false : true;
@@ -13,5 +16,7 @@ export const hamburgerMenuSlice = createSlice({
 });
 
 export const { toggle } = hamburgerMenuSlice.actions;
+
+export const isOpen = (state: RootState) => state.hamburger.isOpen;
 
 export default hamburgerMenuSlice.reducer;
