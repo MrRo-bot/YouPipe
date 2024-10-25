@@ -23,7 +23,7 @@ const Header = () => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
-      const token = await fetch("http://localhost:8089/auth/google", {
+      const token = await fetch("https://localhost:8089/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const Header = () => {
     flow: "auth-code",
   });
 
-  const { fetchStatus } = useQuery({
+  const { isPending } = useQuery({
     queryKey: ["profile", tokenData?.access_token],
     queryFn: async () => {
       const response = await fetch(
@@ -50,11 +50,12 @@ const Header = () => {
     enabled: !!tokenData?.access_token,
   });
 
-  if (fetchStatus === "idle")
+  if (!localStorage.getItem("profile")) {
     localStorage.setItem(
       "profile",
-      `{ "picture": "${profileData?.picture}", "name": "${profileData?.name}" }`
+      JSON.stringify({ picture: profileData?.picture, name: profileData?.name })
     );
+  }
 
   const localProfile = JSON.parse(localStorage.getItem("profile") || "");
 
@@ -116,14 +117,10 @@ const Header = () => {
             onClick={googleLogin}
             className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
           >
-            {fetchStatus === "idle" ? (
-              <img
-                loading="lazy"
-                src={localProfile?.picture}
-                alt={localProfile?.name[0]}
-              />
-            ) : (
+            {!localProfile.picture ? (
               <PiUserCirclePlusFill className="w-full h-full p-1" />
+            ) : (
+              <img src={localProfile?.picture} alt={localProfile?.name[0]} />
             )}
           </div>
         </div>
