@@ -24,6 +24,7 @@ import { SidebarType } from "../types/types";
 import { useAppSelector } from "../app/store";
 
 const Sidebar = () => {
+  //for toggling side menu to expand or collapse
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
   const EXPLORE: SidebarType[] = [

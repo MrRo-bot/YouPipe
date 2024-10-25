@@ -1,7 +1,7 @@
 import express, { json } from "express";
 import fs from "fs"; //reading files
 import https from "https"; //creating https server
-import { OAuth2Client } from "google-auth-library"; //google auth library for easy authentication
+import { OAuth2Client, UserRefreshClient } from "google-auth-library"; //google auth library for easy authentication
 import cors from "cors"; //removing cors errors
 
 const app = express();
@@ -47,8 +47,8 @@ app.post("/auth/google", async (req, res) => {
 //for refreshing the the access token after it expires
 app.post("/auth/google/refresh-token", async (req, res) => {
   const user = new UserRefreshClient(
-    clientId,
-    clientSecret,
+    process.env.VITE_YOUPIPE_CLIENT_ID,
+    process.env.VITE_YOUPIPE_CLIENT_SECRET,
     req.body.refreshToken
   );
   const { credentials } = await user.refreshAccessToken(); // obtain new tokens

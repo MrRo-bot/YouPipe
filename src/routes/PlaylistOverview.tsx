@@ -11,6 +11,7 @@ import {
 import PlaylistOverviewCard from "../components/PlaylistOverviewCard";
 
 const PlaylistOverview = () => {
+  //for extracting colors from given image for getting background themes
   const { lighterColor } = useExtractColor(
     "https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
   );

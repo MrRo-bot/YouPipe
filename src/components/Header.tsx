@@ -1,7 +1,7 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useQuery } from "@tanstack/react-query";
 
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
@@ -16,11 +16,14 @@ import { addToken } from "../features/tokenSlice";
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
 
+  //getting store data
   const profileData = useAppSelector((state) => state.profile);
   const tokenData = useAppSelector((state) => state.token);
 
+  //modifying store
   const dispatch = useAppDispatch();
 
+  //click function for initiating google login, post method to backend
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
       const token = await fetch("https://localhost:8089/auth/google", {
@@ -31,33 +34,56 @@ const Header = () => {
         },
         body: JSON.stringify({ code }),
       });
-      const data = await token.json();
-      dispatch(addToken(data));
+      const tokens = await token.json();
+      dispatch(addToken(tokens));
     },
     flow: "auth-code",
   });
 
-  const { isPending } = useQuery({
-    queryKey: ["profile", tokenData?.access_token],
-    queryFn: async () => {
-      const response = await fetch(
-        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
-      );
-      const data = await response.json();
-      dispatch(addProfile(data));
-      return data;
-    },
-    enabled: !!tokenData?.access_token,
-  });
+  //getting google profile data using token data provided by google login function
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(
+          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          dispatch(addProfile(data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [tokenData?.access_token]);
 
-  if (!localStorage.getItem("profile")) {
-    localStorage.setItem(
-      "profile",
-      JSON.stringify({ picture: profileData?.picture, name: profileData?.name })
-    );
-  }
+  //refreshing token every hour to refresh expired access tokens through backend server
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:8089/auth/google/refresh-token`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+            method: "POST",
+            body: JSON.stringify({ refreshToken: tokenData.refresh_token }),
+          }
+        );
 
-  const localProfile = JSON.parse(localStorage.getItem("profile") || "");
+        const tokens = await response.json();
+        dispatch(addToken(tokens));
+      } catch (error) {
+        console.log(error);
+      }
+    }, 3600 * 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
@@ -117,10 +143,10 @@ const Header = () => {
             onClick={googleLogin}
             className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
           >
-            {!localProfile.picture ? (
-              <PiUserCirclePlusFill className="w-full h-full p-1" />
+            {profileData?.picture ? (
+              <img src={profileData?.picture} alt={profileData?.name[0]} />
             ) : (
-              <img src={localProfile?.picture} alt={localProfile?.name[0]} />
+              <PiUserCirclePlusFill className="w-full h-full p-1" />
             )}
           </div>
         </div>

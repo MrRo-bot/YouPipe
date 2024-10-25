@@ -7,6 +7,7 @@ import {
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 const PlaylistCard = () => {
+  //for extracting colors from given image for getting background themes
   const { lighterColor } = useExtractColor(
     "https://images.pexels.com/photos/17485847/pexels-photo-17485847/free-photo-of-an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-the-ways-in-which-ai-can-help-compress-videos-and-increase-efficiency-for-users-it-was-created-by-vincent-s.png?auto=compress&cs=tinysrgb&w=480&dpr=1"
   );

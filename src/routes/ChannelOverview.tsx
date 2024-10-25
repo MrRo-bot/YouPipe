@@ -9,6 +9,7 @@ import {
 import ChannelOverviewCard from "../components/ChannelOverviewCard";
 
 const ChannelOverview = () => {
+  //toggling arrow scrolls either one side should be active or both sides depends upon scroll progress
   const [scrollArrow, setScrollArrow] = useState<{
     youSide: { left: boolean; right: boolean };
     videoSide: { left: boolean; right: boolean };
@@ -19,6 +20,7 @@ const ChannelOverview = () => {
 
   const [scroll, setScroll] = useState({ youSide: "", videoSide: "" });
 
+  //every section requires separate scroll progress ref
   const forYouRef = useRef<HTMLDivElement>(null);
   const videosRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +43,7 @@ const ChannelOverview = () => {
     }
   }, [scroll]);
 
+  //this function and below function can be combined do check in future
   const handleYouScroll = (e: UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;

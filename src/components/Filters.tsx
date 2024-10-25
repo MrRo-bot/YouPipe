@@ -30,10 +30,12 @@ const Filters = () => {
     "New to you",
   ];
 
+  //setting filter arrow scroll left or right
   const handleFilterArrow = (data: { side: string }) => {
     setScroll((prev) => ({ ...prev, side: data.side }));
   };
 
+  //scrolling 150px left or right
   useEffect(() => {
     const ref = scrollProgressRef.current;
     if (ref !== null) {
@@ -42,6 +44,7 @@ const Filters = () => {
     }
   }, [scroll]);
 
+  //calculating how much is required to filter to side scroll
   const handleScroll = (e: UIEvent<HTMLUListElement>) => {
     const target = e.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;
