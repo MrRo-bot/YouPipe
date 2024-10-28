@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
 
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
@@ -14,6 +14,7 @@ import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
 
 const Header = () => {
+  //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
 
   //getting store data
@@ -23,38 +24,49 @@ const Header = () => {
   //modifying store
   const dispatch = useAppDispatch();
 
+  //space separated list of scopes required for project itself
+  const scope =
+    "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.channel-memberships.creator https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner https://www.googleapis.com/auth/youtubepartner-channel-audit";
+
+  // sending code to backend to fetch and decrypt tokens
+  const validateCode = async (res: CodeResponse) => {
+    const response = await fetch("https://localhost:8089/auth/google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(res),
+    });
+    const tokens = await response.json();
+    dispatch(addToken(tokens));
+  };
+
   //click function for initiating google login, post method to backend
   const googleLogin = useGoogleLogin({
-    onSuccess: async ({ code }) => {
-      const token = await fetch("https://localhost:8089/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({ code }),
-      });
-      const tokens = await token.json();
-      dispatch(addToken(tokens));
+    scope,
+    onSuccess: (res: CodeResponse) => {
+      validateCode(res);
     },
     flow: "auth-code",
   });
 
   //getting google profile data using token data provided by google login function
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(
-          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          dispatch(addProfile(data));
+    if (tokenData?.access_token) {
+      (async () => {
+        try {
+          const response = await fetch(
+            `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
+          );
+          if (response.ok) {
+            const profile = await response.json();
+            dispatch(addProfile(profile));
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+      })();
+    }
   }, [tokenData?.access_token]);
 
   //refreshing token every hour to refresh expired access tokens through backend server
@@ -66,7 +78,6 @@ const Header = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
             },
             method: "POST",
             body: JSON.stringify({ refreshToken: tokenData.refresh_token }),
@@ -78,7 +89,7 @@ const Header = () => {
       } catch (error) {
         console.log(error);
       }
-    }, 3600 * 1000);
+    }, 3500000);
 
     return () => {
       clearInterval(interval);

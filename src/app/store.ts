@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import hamburgerMenuSlice from "../features/hamburgerMenuSlice";
 import profileSlice from "../features/profileSlice";
 import tokenSlice from "../features/tokenSlice";
+import subscriptionSlice from "../features/subscriptionSlice";
 
 export const store = configureStore({
   reducer: {
     hamburger: hamburgerMenuSlice,
     profile: profileSlice,
     token: tokenSlice,
+    subscription: subscriptionSlice,
   },
 });
 

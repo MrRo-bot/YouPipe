@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -21,6 +20,7 @@ import ChannelOverview from "./routes/ChannelOverview.tsx";
 import Subscription from "./routes/Subscription.tsx";
 import { store } from "./app/store.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import PlaylistOverview from "./routes/PlaylistOverview.tsx";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +30,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="playlists" element={<Playlist />} />
+      <Route path="playlistoverview" element={<PlaylistOverview />} />
       <Route path="likedvideos" element={<LikedVideos />} />
       <Route path="channeloverview" element={<ChannelOverview />} />
     </Route>
@@ -37,13 +38,11 @@ const router = createBrowserRouter(
 );
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_YOUPIPE_CLIENT_ID}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <RouterProvider router={router} />
-        </Provider>
-      </QueryClientProvider>
-    </GoogleOAuthProvider>
-  </StrictMode>
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_YOUPIPE_CLIENT_ID}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </QueryClientProvider>
+  </GoogleOAuthProvider>
 );

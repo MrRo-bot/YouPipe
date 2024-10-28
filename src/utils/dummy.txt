@@ -1,8 +1,11 @@
 videos for home page - get subscription list max 50 then find channel video of each id use that to videos search and add 3 latest video from each channel on redux store
 
-subscriptions list - https://youtube.googleapis.com/youtube/v3/subscriptions?part=contentDetails%2Cid%2Csnippet%2CsubscriberSnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&maxResults=20&order=alphabetical&key=[YOUR_API_KEY]
+Host: www.googleapis.com
+Authorization: Bearer <access_token>
 
-your channel - https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics%2Cstatus%2Cid%2CtopicDetails%2Clocalizations&id=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
+subscriptions list - https://youtube.googleapis.com/youtube/v3/subscriptions?key=[YOUR_API_KEY]&access_token=[YOUR_ACCESS_TOKEN]part=contentDetails%2Cid%2Csnippet%2CsubscriberSnippet&mine=true&maxResults=50&order=alphabetical
+
+your channel - https://youtube.googleapis.com/youtube/v3/channels?part=auditDetails%2CbrandingSettings%2CcontentDetails%2CcontentOwnerDetails%2Cid%2Clocalizations%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&mine=true
 
    channel section - https://youtube.googleapis.com/youtube/v3/channelSections?part=contentDetails%2Cid%2Csnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
 
@@ -17,32 +20,29 @@ liked videos - https://youtube.googleapis.com/youtube/v3/videos?part=contentDeta
 search - THE MOST IMPORTANT API TO HANDLE SEARCH FEATURE IS DANGEROUS AND DIFFICULT
     SIMPLE VERSION - https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=[YOUR_SEARCH_STRING]&key=[YOUR_API_KEY]
 
-https://www.googleapis.com/auth/youtube&https://www.googleapis.com/auth/youtube.channel-memberships.creator&https://www.googleapis.com/auth/youtube.force-ssl&https://www.googleapis.com/auth/youtube.readonly&https://www.googleapis.com/auth/youtube.upload&https://www.googleapis.com/auth/youtubepartner&https://www.googleapis.com/auth/youtubepartner-channel-audit
+
+internationalization language and region - getting Google Account settings, browser language, or IP location or manual selection from given list itself
+
 
 RESPONSE TYPE FROM GOOGLELOGIN
 let req = {
-  code: "4/0AVG7fiTELbBa2DSPUoLUrGd7osnd8eVYIgT3Runaw0Rd1YdgvATGgvB_gITibc3o4PpGaA",
+  code: "",
   scope:
-    "email profile openid https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+    "",
   authuser: "0",
-  prompt: "consent",
+  prompt: "",
 };
 
 RESPONSE FROM USEGOOGLE LOGIN WITH BACKEND EXPRESS SERVER AND REFRESH TOKEN OPTION
 let res = {
   access_token:
-    "ya29.a0AcM612wVim1ZfhE_E2GcFcQUagIq5EfG0uIOx0WLb09e6cuwSAE7Z1TPY1mPiBW_Mgg1H3yxxYY4OSRp-VU2ZP3NJC3DN13Tsm01B_QkosGA2eFvPIutek39cC336_cEoz5bX1KVvwnq333ZEJt0aWLJWJCu1gWtOzL-TbBjaCgYKAUUSARMSFQHGX2MiI3TdabRmvorFoyC6roZ5vQ0175",
+    "",
   refresh_token:
-    "1//0gZlpj2HaNN29CgYIARAAGBASNwF-L9IrJu9FgoLroEsZJW7mTRQKOsLTSrpkalg4s6doU85GbMGfHaa68sik2l0vO6ZiinysSyI",
+    "",
   scope:
-    "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.metadata.readonly openid",
-  token_type: "Bearer",
+    "",
+  token_type: "",
   id_token:
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IjczZTI1Zjk3ODkxMTljNzg3NWQ1ODA4N2E3OGFjMjNmNWVmMmVkYTMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyNDIyNDE0NzU0ODktNW9uMGt0dDFkaGwyaHVjbXQ0ZGZ0M2IyN2lpcGVxcTAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyNDIyNDE0NzU0ODktNW9uMGt0dDFkaGwyaHVjbXQ0ZGZ0M2IyN2lpcGVxcTAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTgxODgyNzE2ODY0NzgyODY1NjYiLCJlbWFpbCI6ImNoaGF2aW1hbmljaG91YmV5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoieFVyb3gzbUlzZ1haSHlDYWhIQzFOUSIsIm5hbWUiOiJDaGhhdmltYW5pIENob3ViZXkiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jS3ZaTzRhMVF0alpfUzJPTVZzZUk5WUJnQjRZOVBqc1NVcjNZaHNGb21tN0ZlYVE1aHE9czk2LWMiLCJnaXZlbl9uYW1lIjoiQ2hoYXZpbWFuaSIsImZhbWlseV9uYW1lIjoiQ2hvdWJleSIsImlhdCI6MTcyOTc2OTkzNCwiZXhwIjoxNzI5NzczNTM0fQ.KlZz1wUpPiX4XF7GZrOMowFNTk8fSKTx59F0cUn-r-UqZOjv3Y4Zeut0tYZBEidlqJYFKMGLibOJhaM4ivZVWIs5XnSMWmnj49mdbZulf952GMz99ySvgf7ZM2vbqc7SL8zMRC2DszOfprcc4usw0ShXoOAFGq3x_6vl9EC2r1i_xSIq3OV40GdfmILJ-ftzy8cfAx8GcUJMmxjpT8xQSniKTPsMhcA8Uy0mRr7Dk5-2gsBOJ_XvULJ3IUSz5SHsaWmbSv_CdNHgcJqY_k5EKOLfEOZNj9TFk_HX-VvCcGuVkm4FFlQaucKsBGhH8EWuKQyIKPH-Jd9BxzHQD5MbWQ",
-  expiry_date: 1729773530180,
+    "",
+  expiry_date: 0,
 };
-
-
-REFRESH TOKEN KAISE USE KARUNGA CHECK IN GITHUB WHERE I GOT THE CODE,
-
-PROFILE PICTURE NOT FETCHING BCUZ HTTPS REQUEST IN HTTP SITE
