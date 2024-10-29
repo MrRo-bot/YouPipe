@@ -40,7 +40,7 @@ export type ChannelType = {
   kind: string;
   etag: string;
   id: string;
-  snippet: {
+  snippet?: {
     title: string;
     description: string;
     customUrl: string;
@@ -143,7 +143,7 @@ export type SubscriptionType = {
   kind: string;
   etag: string;
   id: string;
-  snippet: {
+  snippet?: {
     publishedAt: string;
     channelTitle: string;
     title: string;
@@ -171,12 +171,12 @@ export type SubscriptionType = {
       };
     };
   };
-  contentDetails: {
+  contentDetails?: {
     totalItemCount: number;
     newItemCount: number;
     activityType: string;
   };
-  subscriberSnippet: {
+  subscriberSnippet?: {
     title: string;
     description: string;
     channelId: string;

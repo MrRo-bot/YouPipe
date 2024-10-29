@@ -58,43 +58,17 @@ const Header = () => {
           const response = await fetch(
             `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
           );
-          if (response.ok) {
-            const profile = await response.json();
-            dispatch(addProfile(profile));
+          if (!response.ok) {
+            throw new Error("Oh no!");
           }
+          const profile = await response.json();
+          dispatch(addProfile(profile));
         } catch (error) {
           console.log(error);
         }
       })();
     }
   }, [tokenData?.access_token]);
-
-  //refreshing token every hour to refresh expired access tokens through backend server
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(
-          `https://localhost:8089/auth/google/refresh-token`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify({ refreshToken: tokenData.refresh_token }),
-          }
-        );
-
-        const tokens = await response.json();
-        dispatch(addToken(tokens));
-      } catch (error) {
-        console.log(error);
-      }
-    }, 3500000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">

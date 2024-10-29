@@ -1,25 +1,29 @@
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { useAppDispatch, useAppSelector } from "../app/store";
-import { useState } from "react";
 
-import SubscriptionCard from "../components/SubscriptionCard";
+import { useAppDispatch, useAppSelector } from "../app/store";
+
+import InfiniteLoader from "../components/InfiniteLoader";
 import { addSubscription } from "../features/subscriptionSlice";
+import SubscriptionList from "../hooks/SubscriptionList";
 
 const Subscription = () => {
   const [sortBy, setSortBy] = useState("relevance");
+
   const tokenData = useAppSelector((state) => state.token);
   const subData = useAppSelector((state) => state.subscription);
+
   const dispatch = useAppDispatch();
 
-  const part = ["contentDetails", "id", "snippet", "subscriberSnippet"];
+  const part = ["contentDetails", "id", "snippet"];
   const sort = [
     { value: "relevance", option: "Most relevant" },
     { value: "unread", option: "New activity" },
     { value: "alphabetical", option: "A-Z" },
   ];
 
-  const { isError } = useQuery({
+  useQuery({
     queryKey: ["subscription", sortBy],
     queryFn: async () => {
       const res = await fetch(
@@ -40,8 +44,6 @@ const Subscription = () => {
     },
     enabled: !!sortBy,
   });
-
-  console.log(isError);
 
   return (
     <AnimatePresence>
@@ -75,8 +77,9 @@ const Subscription = () => {
           </div>
           <div className="flex flex-col gap-3 p-2">
             {subData.items.map((sub) => (
-              <SubscriptionCard key={sub.id} data={sub} />
+              <SubscriptionList key={sub.id} data={sub} />
             ))}
+            <InfiniteLoader />
           </div>
         </motion.div>
       </div>
