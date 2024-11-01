@@ -18,7 +18,6 @@ import {
   PiTrendUpFill,
   PiShoppingCartFill,
 } from "react-icons/pi";
-import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { SidebarType } from "../types/types";
 import { useAppSelector } from "../app/store";
@@ -26,6 +25,7 @@ import { useAppSelector } from "../app/store";
 const Sidebar = () => {
   //for toggling side menu to expand or collapse
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
+  const subData = useAppSelector((state) => state.subscription);
 
   const EXPLORE: SidebarType[] = [
     { icon: <PiTrendUpFill className="w-7 h-7" />, text: "Trending" },
@@ -50,7 +50,7 @@ const Sidebar = () => {
   return (
     <aside
       className={`flex flex-col mt-3 mb-2 max-h-[90vh] ${
-        !isOpen ? "min-w-[3.5rem] gap-1" : "min-w-[12vw] pr-3"
+        !isOpen ? "!w-[3.5rem] gap-1" : "w-[15vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
     >
       {!isOpen ? (
@@ -162,7 +162,7 @@ const Sidebar = () => {
             >
               <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
                 <PiListStarFill className="w-7 h-7" />
-                <div className="w-full">Playlist</div>
+                <div className="w-full">Playlists</div>
               </div>
             </NavLink>
           </div>
@@ -171,53 +171,32 @@ const Sidebar = () => {
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Subscriptions
             </h2>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <div className="transition grid w-7 h-7 rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                <img className="p-1" src="icon.svg" alt="profile" />
-              </div>
-              <div className="w-full">sub 1</div>
-            </div>
 
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <MdKeyboardArrowDown className="w-7 h-7" />
-              <div className="w-full">Show more</div>
-            </div>
+            {subData?.items &&
+              subData?.items?.map((sub) => (
+                <div
+                  key={sub.id}
+                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
+                >
+                  <div className="transition grid min-w-7 min-h-7 w-7 h-7 overflow-hidden rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+                    <img
+                      className="w-full h-full"
+                      src={sub?.snippet?.thumbnails?.default?.url}
+                      alt={sub?.snippet?.title[0]}
+                    />
+                  </div>
+                  <div className="w-full line-clamp-1 text-ellipsis">
+                    {sub?.snippet?.title}
+                  </div>
+                </div>
+              ))}
+
+            <NavLink to="subscriptions">
+              <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
+                <PiListStarFill className="w-7 h-7" />
+                <div className="w-full">Show all</div>
+              </div>
+            </NavLink>
           </div>
 
           <div className="flex flex-col gap-1 py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">

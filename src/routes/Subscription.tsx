@@ -4,15 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 
-import InfiniteLoader from "../components/InfiniteLoader";
 import { addSubscription } from "../features/subscriptionSlice";
-import SubscriptionList from "../hooks/SubscriptionList";
+import SubscriptionList from "../components/SubscriptionList";
 
 const Subscription = () => {
   const [sortBy, setSortBy] = useState("relevance");
 
   const tokenData = useAppSelector((state) => state.token);
   const subData = useAppSelector((state) => state.subscription);
+  const isOpen = useAppSelector((state) => state.hamburger);
 
   const dispatch = useAppDispatch();
 
@@ -23,7 +23,7 @@ const Subscription = () => {
     { value: "alphabetical", option: "A-Z" },
   ];
 
-  useQuery({
+  const { status } = useQuery({
     queryKey: ["subscription", sortBy],
     queryFn: async () => {
       const res = await fetch(
@@ -47,7 +47,11 @@ const Subscription = () => {
 
   return (
     <AnimatePresence>
-      <div className="w-full hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh]">
+      <div
+        className={` hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] ${
+          !isOpen ? "w-[85vw]" : "w-full"
+        }`}
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -76,10 +80,15 @@ const Subscription = () => {
             </select>
           </div>
           <div className="flex flex-col gap-3 p-2">
-            {subData.items.map((sub) => (
-              <SubscriptionList key={sub.id} data={sub} />
-            ))}
-            <InfiniteLoader />
+            {status === "success" &&
+              subData?.items?.map((sub) => (
+                <SubscriptionList key={sub.id} sub={sub} />
+              ))}
+            {subData?.items?.length > 0 ? (
+              <div className="w-4 h-4 mx-auto loading" />
+            ) : (
+              <div className="mx-auto loader" />
+            )}
           </div>
         </motion.div>
       </div>

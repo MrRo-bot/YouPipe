@@ -211,3 +211,76 @@ export type SubscriptionListType = {
   };
   items: [SubscriptionType];
 };
+
+export type PlaylistType = {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet?: {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      medium: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      high: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      standard: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      maxres: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    channelTitle: string;
+    defaultLanguage: string;
+    localized: {
+      title: string;
+      description: string;
+    };
+  };
+  status?: {
+    privacyStatus: string;
+    podcastStatus: number;
+  };
+  contentDetails?: {
+    itemCount: number;
+  };
+  player?: {
+    embedHtml: string;
+  };
+  localizations?: {
+    localized: {
+      title: string;
+      description: string;
+    };
+  };
+};
+
+export type PlaylistListType = {
+  kind: string;
+  etag: string;
+  nextPageToken: string;
+  prevPageToken: string;
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
+  };
+  items: [PlaylistType];
+};

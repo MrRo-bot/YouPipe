@@ -7,8 +7,11 @@ import {
 } from "react-icons/md";
 
 import ChannelOverviewCard from "../components/ChannelOverviewCard";
+import { useAppSelector } from "../app/store";
 
 const ChannelOverview = () => {
+  const isOpen = useAppSelector((state) => state.hamburger);
+
   //toggling arrow scrolls either one side should be active or both sides depends upon scroll progress
   const [scrollArrow, setScrollArrow] = useState<{
     youSide: { left: boolean; right: boolean };
@@ -100,7 +103,9 @@ const ChannelOverview = () => {
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
-        className="relative mx-4 mb-2 mt-3 max-h-[90vh] overflow-y-auto hideScrollbar w-full"
+        className={`relative mx-4 mb-2 mt-3 max-h-[90vh] overflow-y-auto hideScrollbar ${
+          !isOpen ? "w-[85vw]" : "w-full"
+        } `}
       >
         <div className="w-9/12 mx-auto">
           <div className="h-[20vh] overflow-hidden rounded-2xl">

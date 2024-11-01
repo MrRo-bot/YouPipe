@@ -44,18 +44,7 @@ app.post("/auth/google", async (req, res) => {
   res.json(tokens);
 });
 
-//for refreshing the the access token after it expires
-app.post("/auth/google/refresh-token", async (req, res) => {
-  const user = new UserRefreshClient(
-    process.env.VITE_YOUPIPE_CLIENT_ID,
-    process.env.VITE_YOUPIPE_CLIENT_SECRET,
-    req.body.refreshToken
-  );
-  const { credentials } = await user.refreshAccessToken(); // obtain new tokens
-  res.json(credentials);
-});
-
 // app.listen(PORT, () => console.log(`server is running`));
 httpsServer.listen(PORT, () => {
-  console.log("HTTPS server running on port" + PORT);
+  console.log("HTTPS server running on port: " + PORT);
 });

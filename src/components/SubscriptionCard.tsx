@@ -1,67 +1,79 @@
 import { motion } from "framer-motion";
 
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { PiBellRingingFill, PiCheckCircleFill } from "react-icons/pi";
+import { PiBellRingingFill } from "react-icons/pi";
 
 import { ChannelInfoType } from "../types/types";
 import { rawViewsToString } from "../utils/functions";
 
-const SubscriptionCard = (data: { data: ChannelInfoType }) => {
+const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
+  const snippet = stat?.items[0]?.snippet;
+  const statistics = stat?.items[0]?.statistics;
   return (
-    <motion.div
-      variants={{
-        hidden: { scale: 0.95 },
-        visible: { scale: 1 },
-      }}
-      initial={"hidden"}
-      whileInView={"visible"}
-      className="z-0 p-2 transition-all cursor-pointer group glass rounded-2xl"
+    <SkeletonTheme
+      baseColor="rgba(255,255,255,0.1)"
+      customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
-      <div className="flex items-center justify-start gap-4">
-        <div className="transition min-w-28 w-28 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-          <img
-            loading="lazy"
-            className="w-full h-full"
-            src={data?.data?.items[0]?.snippet?.thumbnails?.default?.url}
-            alt={data?.data?.items[0]?.snippet?.title[0]}
-          />
-        </div>
-        <div className="flex flex-col items-start px-1">
-          <div className="flex items-center gap-1">
-            <div className="text-xl text-ellipsis line-clamp-2">
-              {data?.data?.items[0]?.snippet?.title}
-            </div>
-            <div className="pt-1 transition hover:scale-105 focus:scale-105">
-              <PiCheckCircleFill />
-            </div>
+      <motion.div
+        variants={{
+          hidden: { scale: 0.95 },
+          visible: { scale: 1 },
+        }}
+        initial={"hidden"}
+        whileInView={"visible"}
+        className="z-0 p-2 transition-all cursor-pointer group glass rounded-2xl"
+      >
+        <div className="flex items-center justify-start gap-4">
+          <div className="transition min-w-28 w-28 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+            {snippet?.thumbnails?.default?.url ? (
+              <img
+                loading="lazy"
+                className="w-full h-full rounded-full"
+                src={snippet?.thumbnails?.default?.url}
+                alt={snippet?.title[0]}
+              />
+            ) : (
+              <Skeleton
+                circle
+                width={120}
+                height={120}
+                className="-top-2 -left-1"
+              />
+            )}
           </div>
+          <div className="flex flex-col items-start px-1">
+            <div className="flex items-center gap-1">
+              <div className="text-xl text-ellipsis line-clamp-2">
+                {snippet?.title}
+              </div>
+            </div>
 
-          <div className="flex items-center justify-start gap-1 mt-4">
-            <div className="text-xs tracking-wide text-zinc-200 text-ellipsis">
-              {`${
-                data?.data?.items[0]?.snippet?.customUrl
-              } • ${rawViewsToString(
-                data?.data?.items[0]?.statistics?.subscriberCount || "0"
-              )} Subs • ${rawViewsToString(
-                data?.data?.items[0]?.statistics?.viewCount || "0"
-              )} views • ${rawViewsToString(
-                data?.data?.items[0]?.statistics?.videoCount || "0"
-              )} videos`}
+            <div className="flex items-center justify-start gap-1 mt-4">
+              <div className="text-xs tracking-wide text-zinc-200 text-ellipsis">
+                {`${snippet?.customUrl} • ${rawViewsToString(
+                  (statistics && statistics?.subscriberCount) || "0"
+                )} Subs • ${rawViewsToString(
+                  (statistics && statistics?.viewCount) || "0"
+                )} views • ${rawViewsToString(
+                  (statistics && statistics?.videoCount) || "0"
+                )} videos`}
+              </div>
+            </div>
+
+            <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
+              <p className="text-xs text-zinc-400">{snippet?.description}</p>
             </div>
           </div>
-
-          <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
-            <p className="text-xs text-zinc-400">
-              {data?.data?.items[0]?.snippet?.description}
-            </p>
+          <div className="flex items-center gap-2 px-3 py-2 mt-1 ml-auto font-medium rounded-full cursor-pointer bg-zinc-800 max-w-max">
+            <PiBellRingingFill className="w-5 h-5" /> Subscribed
+            <MdKeyboardArrowDown />
           </div>
         </div>
-        <div className="flex items-center gap-2 px-3 py-2 mt-1 ml-auto font-medium rounded-full cursor-pointer bg-zinc-800 max-w-max">
-          <PiBellRingingFill className="w-5 h-5" /> Subscribed
-          <MdKeyboardArrowDown />
-        </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </SkeletonTheme>
   );
 };
 

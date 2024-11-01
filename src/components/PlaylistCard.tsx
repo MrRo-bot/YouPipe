@@ -1,16 +1,15 @@
 import { useExtractColor } from "react-extract-colors";
 import { motion } from "framer-motion";
-import {
-  PiCheckCircleFill,
-  PiDotsThreeOutlineVerticalFill,
-} from "react-icons/pi";
+
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
-const PlaylistCard = () => {
+import { PlaylistType } from "../types/types";
+
+const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   //for extracting colors from given image for getting background themes
-  const { lighterColor } = useExtractColor(
-    "https://images.pexels.com/photos/17485847/pexels-photo-17485847/free-photo-of-an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-the-ways-in-which-ai-can-help-compress-videos-and-increase-efficiency-for-users-it-was-created-by-vincent-s.png?auto=compress&cs=tinysrgb&w=480&dpr=1"
-  );
+  const image = playlist?.snippet?.thumbnails?.maxres?.url;
+  const { lighterColor, loading } = useExtractColor(image);
 
   return (
     <motion.div
@@ -26,30 +25,33 @@ const PlaylistCard = () => {
         <div className="relative">
           <div
             style={{
-              backgroundColor: `${lighterColor}`,
+              backgroundColor: `${!loading && lighterColor}`,
               filter: "brightness(70%)",
             }}
-            className="absolute rounded-xl aspect-[5/3] w-[90%] h-[90%] -top-[10px] left-1/2 -translate-x-1/2  outline outline-1 outline-zinc-700"
+            className="absolute rounded-xl aspect-video w-[90%] h-[90%] -top-[10px] left-1/2 -translate-x-1/2  outline outline-1 outline-zinc-700"
           ></div>
           <div
-            style={{ backgroundColor: `${lighterColor}` }}
-            className="absolute rounded-xl aspect-[5/3] w-[95%] h-[95%] -top-[5px] left-1/2 -translate-x-1/2 outline outline-1 outline-zinc-700"
+            style={{ backgroundColor: `${!loading && lighterColor}` }}
+            className="absolute rounded-xl aspect-video w-[95%] h-[95%] -top-[5px] left-1/2 -translate-x-1/2 outline outline-1 outline-zinc-700"
           ></div>
-          <div className="relative object-cover overflow-hidden aspect-[5/3] bg-zinc-200 rounded-xl">
+          <div className="relative object-fill overflow-hidden aspect-video bg-zinc-200 rounded-xl">
             <img
-              src="https://images.pexels.com/photos/17485847/pexels-photo-17485847/free-photo-of-an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-the-ways-in-which-ai-can-help-compress-videos-and-increase-efficiency-for-users-it-was-created-by-vincent-s.png?auto=compress&cs=tinysrgb&w=480&dpr=1"
-              alt=""
-              className="transition bg-cover group-hover:scale-110 group-focus:scale-110"
+              src={image}
+              alt={playlist?.snippet?.title}
+              className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
             />
 
             <div className="absolute z-50 p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
-              <MdOutlinePlaylistPlay className="w-4 h-4" /> 1000 videos
+              <MdOutlinePlaylistPlay className="w-4 h-4" />{" "}
+              {playlist?.contentDetails?.itemCount} videos
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-1 px-2">
           <div className="flex justify-between">
-            <div className="text-ellipsis line-clamp-1">Podcast wishlist</div>
+            <div className="text-ellipsis line-clamp-1">
+              {playlist?.snippet?.title}
+            </div>
             <div className="grid ml-auto transition hover:scale-105 focus:scale-105 place-items-center">
               <PiDotsThreeOutlineVerticalFill
                 size={1.1 + "em"}
@@ -59,8 +61,7 @@ const PlaylistCard = () => {
           </div>
 
           <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-400">
-            Private
-            <PiCheckCircleFill /> • Playlist
+            {playlist?.status?.privacyStatus} • Playlist
           </div>
           <div className="text-xs tracking-wide text-zinc-400">
             Updated Today

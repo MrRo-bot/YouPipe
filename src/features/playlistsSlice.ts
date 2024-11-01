@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import { SubscriptionListType } from "../types/types";
+import { PlaylistListType } from "../types/types";
 
-const initialState: SubscriptionListType = {
+const initialState: PlaylistListType = {
   kind: "",
   etag: "",
   nextPageToken: "",
@@ -18,14 +18,9 @@ const initialState: SubscriptionListType = {
       id: "",
       snippet: {
         publishedAt: "",
-        channelTitle: "",
+        channelId: "",
         title: "",
         description: "",
-        resourceId: {
-          kind: "",
-          channelId: "",
-        },
-        channelId: "",
         thumbnails: {
           default: {
             url: "",
@@ -42,44 +37,49 @@ const initialState: SubscriptionListType = {
             width: 0,
             height: 0,
           },
+          standard: {
+            url: "",
+            width: 0,
+            height: 0,
+          },
+          maxres: {
+            url: "",
+            width: 0,
+            height: 0,
+          },
         },
+        channelTitle: "",
+        defaultLanguage: "",
+        localized: {
+          title: "",
+          description: "",
+        },
+      },
+      status: {
+        privacyStatus: "",
+        podcastStatus: 0,
       },
       contentDetails: {
-        totalItemCount: 0,
-        newItemCount: 0,
-        activityType: "",
+        itemCount: 0,
       },
-      subscriberSnippet: {
-        title: "",
-        description: "",
-        channelId: "",
-        thumbnails: {
-          default: {
-            url: "",
-            width: 0,
-            height: 0,
-          },
-          medium: {
-            url: "",
-            width: 0,
-            height: 0,
-          },
-          high: {
-            url: "",
-            width: 0,
-            height: 0,
-          },
+      player: {
+        embedHtml: "",
+      },
+      localizations: {
+        localized: {
+          title: "",
+          description: "",
         },
       },
     },
   ],
 };
 
-export const subscriptionSlice = createSlice({
+export const PlaylistsSlice = createSlice({
   name: "subscription",
   initialState,
   reducers: {
-    addSubscription: (state, action: PayloadAction<SubscriptionListType>) => {
+    addPlaylists: (state, action: PayloadAction<PlaylistListType>) => {
       const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
         action.payload;
       Object.assign(state, {
@@ -94,8 +94,8 @@ export const subscriptionSlice = createSlice({
   },
 });
 
-export const { addSubscription } = subscriptionSlice.actions;
+export const { addPlaylists } = PlaylistsSlice.actions;
 
 export const subscription = (state: RootState) => state.subscription;
 
-export default subscriptionSlice.reducer;
+export default PlaylistsSlice.reducer;

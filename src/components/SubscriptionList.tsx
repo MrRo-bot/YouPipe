@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../app/store";
-import SubscriptionCard from "../components/SubscriptionCard";
+import SubscriptionCard from "./SubscriptionCard";
 import { SubscriptionType } from "../types/types";
 
-const SubscriptionList = ({ data }: { data: SubscriptionType }) => {
+const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
   const [channelStats, setChannelStats] = useState();
   const tokenData = useAppSelector((state) => state.token);
 
   const part = ["statistics", "snippet"];
 
-  const id = data?.snippet?.resourceId?.channelId;
+  const id = sub?.snippet?.resourceId?.channelId;
 
   useEffect(() => {
     (async () => {
@@ -28,14 +28,14 @@ const SubscriptionList = ({ data }: { data: SubscriptionType }) => {
         );
         if (!res.ok) throw new Error("Oh no!");
         const channel = await res.json();
-        setChannelStats(channel);
+        if (channel) setChannelStats(channel);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
 
-  return <SubscriptionCard data={channelStats} />;
+  return <SubscriptionCard stat={channelStats!} />;
 };
 
 export default SubscriptionList;

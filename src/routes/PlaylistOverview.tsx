@@ -9,8 +9,11 @@ import {
 } from "react-icons/pi";
 
 import PlaylistOverviewCard from "../components/PlaylistOverviewCard";
+import { useAppSelector } from "../app/store";
 
 const PlaylistOverview = () => {
+  const isOpen = useAppSelector((state) => state.hamburger);
+
   //for extracting colors from given image for getting background themes
   const { lighterColor } = useExtractColor(
     "https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
@@ -22,7 +25,9 @@ const PlaylistOverview = () => {
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
-        className="mb-2 mt-3 max-h-[90vh] rounded-2xl mx-4 w-full flex"
+        className={`mb-2 mt-3 max-h-[90vh] rounded-2xl mx-4 ${
+          !isOpen ? "w-[85vw]" : "w-full"
+        }  flex`}
       >
         <div
           style={{

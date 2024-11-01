@@ -4,6 +4,7 @@ import hamburgerMenuSlice from "../features/hamburgerMenuSlice";
 import profileSlice from "../features/profileSlice";
 import tokenSlice from "../features/tokenSlice";
 import subscriptionSlice from "../features/subscriptionSlice";
+import playlistsSlice from "../features/playlistsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     profile: profileSlice,
     token: tokenSlice,
     subscription: subscriptionSlice,
+    playlist: playlistsSlice,
   },
 });
 
