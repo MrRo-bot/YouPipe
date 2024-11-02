@@ -8,18 +8,35 @@ import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-import { useAppDispatch, useAppSelector } from "../app/store";
+import { useAppDispatch } from "../app/store";
 import { toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { ProfileType, TokensType } from "../types/types";
 
 const Header = () => {
   //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
 
-  //getting store data
-  const profileData = useAppSelector((state) => state.profile);
-  const tokenData = useAppSelector((state) => state.token);
+  //custom hook for reading and storing in localStorage
+  const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
+    sub: "",
+    name: "",
+    given_name: "",
+    family_name: "",
+    picture: "",
+    email: "",
+    email_verified: false,
+  });
+  const [token, setToken] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
 
   //modifying store
   const dispatch = useAppDispatch();
@@ -40,6 +57,7 @@ const Header = () => {
     });
     const tokens = await response.json();
     dispatch(addToken(tokens));
+    setToken(tokens); //setting it on localStorage
   };
 
   //click function for initiating google login, post method to backend
@@ -53,23 +71,24 @@ const Header = () => {
 
   //getting google profile data using token data provided by google login function
   useEffect(() => {
-    if (tokenData?.access_token) {
+    if (token?.access_token) {
       (async () => {
         try {
           const response = await fetch(
-            `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenData?.access_token}`
+            `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token?.access_token}`
           );
           if (!response.ok) {
             throw new Error("Oh no!");
           }
           const profile = await response.json();
           dispatch(addProfile(profile));
+          setProfile(profile); //setting it on localStorage
         } catch (error) {
           console.log(error);
         }
       })();
     }
-  }, [tokenData?.access_token]);
+  }, [token?.access_token]);
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
@@ -129,8 +148,8 @@ const Header = () => {
             onClick={googleLogin}
             className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
           >
-            {profileData?.picture ? (
-              <img src={profileData?.picture} alt={profileData?.name[0]} />
+            {profile?.picture ? (
+              <img src={profile?.picture} alt={profile?.name[0]} />
             ) : (
               <PiUserCirclePlusFill className="w-full h-full p-1" />
             )}
