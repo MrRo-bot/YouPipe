@@ -1,4 +1,3 @@
-import { useExtractColor } from "react-extract-colors";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   PiDotsThreeOutlineVerticalFill,
@@ -14,11 +13,6 @@ import { useAppSelector } from "../app/store";
 const PlaylistOverview = () => {
   const isOpen = useAppSelector((state) => state.hamburger);
 
-  //for extracting colors from given image for getting background themes
-  const { lighterColor } = useExtractColor(
-    "https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
-  );
-
   return (
     <AnimatePresence>
       <motion.div
@@ -30,12 +24,12 @@ const PlaylistOverview = () => {
         }  flex`}
       >
         <div
-          style={{
-            background: `linear-gradient(to bottom, ${lighterColor?.replace(
-              ")",
-              ",0.3)"
-            )} 33%, rgba(15,15,15,0.100) 100%)`,
-          }}
+          // style={{
+          //   background: `linear-gradient(to bottom, ${lighterColor?.replace(
+          //     ")",
+          //     ",0.3)"
+          //   )} 33%, rgba(15,15,15,0.100) 100%)`,
+          // }}
           className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
         >
           <div className="my-6 overflow-hidden rounded-2xl aspect-video">

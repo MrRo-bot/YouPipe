@@ -82,6 +82,7 @@ export const subscriptionSlice = createSlice({
     addSubscription: (state, action: PayloadAction<SubscriptionListType>) => {
       const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
         action.payload;
+
       Object.assign(state, {
         kind,
         etag,

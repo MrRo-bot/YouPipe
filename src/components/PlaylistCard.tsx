@@ -1,4 +1,3 @@
-import { useExtractColor } from "react-extract-colors";
 import { motion } from "framer-motion";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -7,10 +6,6 @@ import { MdOutlinePlaylistPlay } from "react-icons/md";
 import { PlaylistType } from "../types/types";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
-  //for extracting colors from given image for getting background themes
-  const image = playlist?.snippet?.thumbnails?.maxres?.url;
-  const { lighterColor, loading } = useExtractColor(image);
-
   return (
     <motion.div
       variants={{
@@ -25,18 +20,21 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         <div className="relative">
           <div
             style={{
-              backgroundColor: `${!loading && lighterColor}`,
-              filter: "brightness(70%)",
+              backgroundColor: "white",
+              filter: "brightness(80%)",
             }}
             className="absolute rounded-xl aspect-video w-[90%] h-[90%] -top-[10px] left-1/2 -translate-x-1/2  outline outline-1 outline-zinc-700"
           ></div>
           <div
-            style={{ backgroundColor: `${!loading && lighterColor}` }}
+            style={{
+              backgroundColor: "white",
+              filter: "brightness(70%)",
+            }}
             className="absolute rounded-xl aspect-video w-[95%] h-[95%] -top-[5px] left-1/2 -translate-x-1/2 outline outline-1 outline-zinc-700"
           ></div>
           <div className="relative object-fill overflow-hidden aspect-video bg-zinc-200 rounded-xl">
             <img
-              src={image}
+              src={playlist?.snippet?.thumbnails?.maxres?.url}
               alt={playlist?.snippet?.title}
               className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
             />

@@ -44,7 +44,7 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
               />
             )}
           </div>
-          <div className="flex flex-col items-start px-1">
+          <div className="flex flex-col items-start w-7/12 px-1">
             <div className="flex items-center gap-1">
               <div className="text-xl text-ellipsis line-clamp-2">
                 {snippet?.title}
@@ -52,8 +52,8 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
             </div>
 
             <div className="flex items-center justify-start gap-1 mt-4">
-              <div className="text-xs tracking-wide text-zinc-200 text-ellipsis">
-                {`${snippet?.customUrl} • ${rawViewsToString(
+              <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
+                {`${snippet?.customUrl || "@"} • ${rawViewsToString(
                   (statistics && statistics?.subscriberCount) || "0"
                 )} Subs • ${rawViewsToString(
                   (statistics && statistics?.viewCount) || "0"
@@ -67,7 +67,7 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
               <p className="text-xs text-zinc-400">{snippet?.description}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-3 py-2 mt-1 ml-auto font-medium rounded-full cursor-pointer bg-zinc-800 max-w-max">
+          <div className="flex items-center gap-2 px-3 py-2 mt-1 ml-auto font-medium rounded-full cursor-pointer bg-zinc-800">
             <PiBellRingingFill className="w-5 h-5" /> Subscribed
             <MdKeyboardArrowDown />
           </div>

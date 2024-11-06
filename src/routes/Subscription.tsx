@@ -1,22 +1,37 @@
 import { useState } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 
 import { addSubscription } from "../features/subscriptionSlice";
+
 import SubscriptionList from "../components/SubscriptionList";
+
+import { usePersistedState } from "../hooks/usePersistentStorage";
+
+import { TokensType } from "../types/types";
 
 const Subscription = () => {
   const [sortBy, setSortBy] = useState("relevance");
 
-  const tokenData = useAppSelector((state) => state.token);
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+  // const tokenData = useAppSelector((state) => state.token);
   const subData = useAppSelector((state) => state.subscription);
   const isOpen = useAppSelector((state) => state.hamburger);
 
   const dispatch = useAppDispatch();
 
-  const part = ["contentDetails", "id", "snippet"];
+  const parts = ["contentDetails", "id", "snippet"];
   const sort = [
     { value: "relevance", option: "Most relevant" },
     { value: "unread", option: "New activity" },
@@ -27,14 +42,14 @@ const Subscription = () => {
     queryKey: ["subscription", sortBy],
     queryFn: async () => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${part.join(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
           ","
         )}&order=${sortBy}&maxResults=50`,
         {
           headers: {
             "Content-Type": "application/json",
             Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
+            Authorization: `Bearer ${token?.access_token}`,
           },
         }
       );

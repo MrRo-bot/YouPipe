@@ -96,6 +96,6 @@ export const PlaylistsSlice = createSlice({
 
 export const { addPlaylists } = PlaylistsSlice.actions;
 
-export const subscription = (state: RootState) => state.subscription;
+export const playlist = (state: RootState) => state.playlist;
 
 export default PlaylistsSlice.reducer;

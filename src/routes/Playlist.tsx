@@ -5,15 +5,25 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 
 import PlaylistCard from "../components/PlaylistCard";
 import { addPlaylists } from "../features/playlistsSlice";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { TokensType } from "../types/types";
 
 const Playlist = () => {
-  const tokenData = useAppSelector((state) => state.token);
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+  // const tokenData = useAppSelector((state) => state.token);
   const playlistData = useAppSelector((state) => state.playlist);
   const isOpen = useAppSelector((state) => state.hamburger);
 
   const dispatch = useAppDispatch();
 
-  const part = [
+  const parts = [
     "contentDetails",
     "id",
     "localizations",
@@ -26,14 +36,14 @@ const Playlist = () => {
     queryKey: ["playlists"],
     queryFn: async () => {
       const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/playlists?mine=true&part=${part.join(
+        `https://www.googleapis.com/youtube/v3/playlists?mine=true&part=${parts.join(
           ","
         )}&maxResults=50`,
         {
           headers: {
             "Content-Type": "application/json",
             Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
+            Authorization: `Bearer ${token?.access_token}`,
           },
         }
       );

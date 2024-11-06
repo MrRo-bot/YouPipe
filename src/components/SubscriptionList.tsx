@@ -7,7 +7,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
   const [channelStats, setChannelStats] = useState();
   const tokenData = useAppSelector((state) => state.token);
 
-  const part = ["statistics", "snippet"];
+  const parts = ["statistics", "snippet"];
 
   const id = sub?.snippet?.resourceId?.channelId;
 
@@ -15,7 +15,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
     (async () => {
       try {
         const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/channels?id=${id}&part=${part.join(
+          `https://youtube.googleapis.com/youtube/v3/channels?id=${id}&part=${parts.join(
             ","
           )}&key=${import.meta.env.VITE_API_KEY}`,
           {

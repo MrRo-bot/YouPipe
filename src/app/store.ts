@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+
 import hamburgerMenuSlice from "../features/hamburgerMenuSlice";
 import profileSlice from "../features/profileSlice";
 import tokenSlice from "../features/tokenSlice";
 import subscriptionSlice from "../features/subscriptionSlice";
 import playlistsSlice from "../features/playlistsSlice";
+import likedVideosSlice from "../features/likedVideosSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +15,7 @@ export const store = configureStore({
     token: tokenSlice,
     subscription: subscriptionSlice,
     playlist: playlistsSlice,
+    likedvideos: likedVideosSlice,
   },
 });
 

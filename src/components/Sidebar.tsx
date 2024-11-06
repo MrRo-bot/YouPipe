@@ -17,6 +17,7 @@ import {
   PiUserSwitchFill,
   PiTrendUpFill,
   PiShoppingCartFill,
+  PiThumbsUpFill,
 } from "react-icons/pi";
 
 import { SidebarType } from "../types/types";
@@ -25,7 +26,6 @@ import { useAppSelector } from "../app/store";
 const Sidebar = () => {
   //for toggling side menu to expand or collapse
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
-  const subData = useAppSelector((state) => state.subscription);
 
   const EXPLORE: SidebarType[] = [
     { icon: <PiTrendUpFill className="w-7 h-7" />, text: "Trending" },
@@ -165,8 +165,24 @@ const Sidebar = () => {
                 <div className="w-full">Playlists</div>
               </div>
             </NavLink>
-          </div>
 
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? ""
+                  : isActive
+                  ? "bg-white rounded-xl text-black font-bold"
+                  : ""
+              }
+              to="likedvideos"
+            >
+              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
+                <PiThumbsUpFill className="w-7 h-7" />
+                <div className="w-full">Liked Videos</div>
+              </div>
+            </NavLink>
+          </div>
+          {/* 
           <div className="flex flex-col py-3 gap-1 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Subscriptions
@@ -197,7 +213,7 @@ const Sidebar = () => {
                 <div className="w-full">Show all</div>
               </div>
             </NavLink>
-          </div>
+          </div> */}
 
           <div className="flex flex-col gap-1 py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
