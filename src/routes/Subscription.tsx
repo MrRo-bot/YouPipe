@@ -71,7 +71,7 @@ const Subscription = () => {
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.7 }}
-          className="relative w-1/2 mx-auto hideScrollbar rounded-xl"
+          className="relative w-1/2 min-h-full mx-auto hideScrollbar rounded-xl"
         >
           <div className="flex flex-col items-start justify-between px-2 py-3">
             <h1 className="text-4xl font-bold tracking-tight text-center text-slate-200">
@@ -94,15 +94,15 @@ const Subscription = () => {
               ))}
             </select>
           </div>
-          <div className="flex flex-col gap-3 p-2">
+          <div className="flex flex-col gap-3 p-2 min-h-[75vh]">
             {status === "success" &&
               subData?.items?.map((sub) => (
                 <SubscriptionList key={sub.id} sub={sub} />
               ))}
             {subData?.items?.length > 0 ? (
-              <div className="w-4 h-4 mx-auto loading" />
+              <div className="loading" />
             ) : (
-              <div className="mx-auto loader" />
+              <div className="mx-auto pageLoader" />
             )}
           </div>
         </motion.div>

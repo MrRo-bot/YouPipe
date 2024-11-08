@@ -26,7 +26,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
             },
           }
         );
-        if (!res.ok) throw new Error("Oh no!");
+        if (!res.ok) throw new Error("Oh no! didn't get subscribers data");
         const channel = await res.json();
         if (channel) setChannelStats(channel);
       } catch (error) {

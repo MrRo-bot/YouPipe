@@ -21,7 +21,11 @@ export default function ErrorPage() {
             Sorry, an unexpected error has occurred.
           </p>
           <p className="text-slate-300">
-            <i>{error?.statusText || error?.error.message}</i>
+            <i>
+              {(!error && "unexpected error in program") ||
+                (error && error?.statusText) ||
+                error?.error.message}
+            </i>
           </p>
         </div>
       </motion.div>

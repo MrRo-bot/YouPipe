@@ -11,6 +11,7 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../utils/functions";
+import { useState } from "react";
 
 const WatchLaterCard = ({
   likedvideo,
@@ -21,6 +22,8 @@ const WatchLaterCard = ({
 }) => {
   const myDate = new Date(likedvideo?.snippet?.publishedAt || "");
   const result = myDate.getTime();
+
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   return (
     <SkeletonTheme
@@ -39,29 +42,53 @@ const WatchLaterCard = ({
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
           <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
-            {likedvideo?.snippet?.thumbnails?.high?.url ? (
-              <img
-                className="object-cover w-full h-full"
-                src={likedvideo?.snippet?.thumbnails?.high?.url}
-                alt={likedvideo?.snippet?.title[0]}
-              />
+            {!likedvideo?.snippet?.thumbnails?.high?.url ? (
+              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             ) : (
-              <Skeleton className="h-full -top-1 rounded-2xl" />
+              <>
+                <img
+                  loading="lazy"
+                  onLoad={() => setIsImgLoaded(!isImgLoaded)}
+                  className="object-cover w-full h-full"
+                  src={likedvideo?.snippet?.thumbnails?.high?.url}
+                  alt=""
+                />
+                <div className="absolute z-40 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
+                  {videoDuration(
+                    likedvideo?.contentDetails?.duration || "0:00"
+                  )}
+                </div>
+              </>
             )}
-            <div className="absolute z-40 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
-              {videoDuration(likedvideo?.contentDetails?.duration || "")}
-            </div>
           </div>
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
-              <h3 className="w-full text-lg text-ellipsis line-clamp-1">
-                {likedvideo?.snippet?.title}
-              </h3>
+              {isImgLoaded ? (
+                <h3 className="w-full text-lg text-ellipsis line-clamp-1">
+                  {likedvideo?.snippet?.title || ""}
+                </h3>
+              ) : (
+                <Skeleton
+                  width={300}
+                  height={27}
+                  className="top-2 rounded-2xl"
+                />
+              )}
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
-              {`${likedvideo?.snippet?.channelTitle} • ${rawViewsToString(
-                likedvideo?.statistics?.viewCount || ""
-              )} views • ${elapsedTime(result)} ago`}
+              {isImgLoaded ? (
+                `${
+                  likedvideo?.snippet?.channelTitle || ""
+                } • ${rawViewsToString(
+                  likedvideo?.statistics?.viewCount || ""
+                )} views • ${elapsedTime(result) || ""} ago`
+              ) : (
+                <Skeleton
+                  width={150}
+                  height={20}
+                  className="top-5 rounded-2xl"
+                />
+              )}
             </div>
           </div>
         </div>

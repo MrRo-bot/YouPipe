@@ -8,10 +8,14 @@ import { PiBellRingingFill } from "react-icons/pi";
 
 import { ChannelInfoType } from "../types/types";
 import { rawViewsToString } from "../utils/functions";
+import { useState } from "react";
 
 const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
+
   const snippet = stat?.items[0]?.snippet;
   const statistics = stat?.items[0]?.statistics;
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -28,45 +32,62 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
       >
         <div className="flex items-center justify-start gap-4">
           <div className="transition min-w-28 w-28 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-            {snippet?.thumbnails?.default?.url ? (
+            {snippet?.thumbnails?.default?.url && (
               <img
                 loading="lazy"
+                onLoad={() => setIsImgLoaded(!isImgLoaded)}
                 className="w-full h-full rounded-full"
                 src={snippet?.thumbnails?.default?.url}
-                alt={snippet?.title[0]}
+                alt=""
               />
-            ) : (
+            )}
+
+            {!isImgLoaded && (
               <Skeleton
-                circle
                 width={120}
                 height={120}
+                circle
                 className="-top-2 -left-1"
               />
             )}
           </div>
+
           <div className="flex flex-col items-start w-7/12 px-1">
             <div className="flex items-center gap-1">
-              <div className="text-xl text-ellipsis line-clamp-2">
-                {snippet?.title}
-              </div>
+              {!snippet?.title ? (
+                <Skeleton width={100} height={20} className="rounded-2xl" />
+              ) : (
+                <div className="text-xl text-ellipsis line-clamp-2">
+                  {snippet?.title}
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-start gap-1 mt-4">
               <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
-                {`${snippet?.customUrl || "@"} • ${rawViewsToString(
-                  (statistics && statistics?.subscriberCount) || "0"
-                )} Subs • ${rawViewsToString(
-                  (statistics && statistics?.viewCount) || "0"
-                )} views • ${rawViewsToString(
-                  (statistics && statistics?.videoCount) || "0"
-                )} videos`}
+                {!statistics ? (
+                  <Skeleton width={300} height={10} className="rounded-2xl" />
+                ) : (
+                  `${snippet?.customUrl} • ${rawViewsToString(
+                    statistics && statistics?.subscriberCount
+                  )} Subs • ${rawViewsToString(
+                    statistics && statistics?.viewCount
+                  )} views • ${rawViewsToString(
+                    statistics && statistics?.videoCount
+                  )} videos`
+                )}
               </div>
             </div>
 
             <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
-              <p className="text-xs text-zinc-400">{snippet?.description}</p>
+              {!snippet?.description ? (
+                <Skeleton width={200} height={10} className="rounded-2xl" />
+              ) : (
+                <p className="text-xs text-zinc-400">{snippet?.description}</p>
+              )}
             </div>
           </div>
+
           <div className="flex items-center gap-2 px-3 py-2 mt-1 ml-auto font-medium rounded-full cursor-pointer bg-zinc-800">
             <PiBellRingingFill className="w-5 h-5" /> Subscribed
             <MdKeyboardArrowDown />

@@ -62,13 +62,13 @@ const Playlist = () => {
       >
         <h1 className="px-2 text-4xl font-bold">Playlists</h1>
 
-        <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-flow-row p-2 mt-5 h-5/6 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {status === "success" &&
             playlistData?.items?.map((playlist) => (
               <PlaylistCard key={playlist.id} playlist={playlist} />
             ))}
           {playlistData?.items?.length > 0 || (
-            <div className="col-start-1 mx-auto loader -col-end-1" />
+            <div className="col-start-1 mx-auto pageLoader -col-end-1" />
           )}
         </div>
       </motion.div>

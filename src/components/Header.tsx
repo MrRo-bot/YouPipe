@@ -8,16 +8,18 @@ import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-import { useAppDispatch } from "../app/store";
+import { useAppDispatch, useAppSelector } from "../app/store";
 import { toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { ProfileType, TokensType } from "../types/types";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = () => {
   //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
+  const [fetchTokens, setFetchTokens] = useState(false);
 
   //custom hook for reading and storing in localStorage
   const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
@@ -40,6 +42,7 @@ const Header = () => {
 
   //modifying store
   const dispatch = useAppDispatch();
+  const profileData = useAppSelector((state) => state.profile);
 
   //space separated list of scopes required for project itself
   const scope =
@@ -69,7 +72,15 @@ const Header = () => {
     flow: "auth-code",
   });
 
+  useQuery({
+    queryKey: ["googleLogin", fetchTokens],
+    queryFn: googleLogin,
+    enabled: !!fetchTokens,
+    refetchInterval: 3500000, //refetched every hour to get new access token
+  });
+
   //getting google profile data using token data provided by google login function
+
   useEffect(() => {
     if (token?.access_token) {
       (async () => {
@@ -78,7 +89,7 @@ const Header = () => {
             `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token?.access_token}`
           );
           if (!response.ok) {
-            throw new Error("Oh no!");
+            throw new Error("Oh no! haven't found access token yet");
           }
           const profile = await response.json();
           dispatch(addProfile(profile));
@@ -145,10 +156,10 @@ const Header = () => {
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
           <div
-            onClick={googleLogin}
-            className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
+            onClick={() => setFetchTokens(!fetchTokens)}
+            className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700"
           >
-            {profile?.picture ? (
+            {profileData?.picture ? (
               <img src={profile?.picture} alt={profile?.name[0]} />
             ) : (
               <PiUserCirclePlusFill className="w-full h-full p-1" />

@@ -23,11 +23,13 @@
   .loading {
     border-radius: 50%;
     display: block;
-    margin: 15px auto;
+    width: 0.7rem;
+    height: 0.7rem;
+    margin: 5px auto;
     position: relative;
     background: #fff;
     box-sizing: border-box;
-    animation: shadowExpandX 1s linear infinite alternate;
+    animation: shadowExpandX 500ms linear infinite alternate;
   }
 
   @keyframes shadowExpandX {
@@ -41,13 +43,15 @@
     }
   }
 
-  .loader {
+  .pageLoader {
     width: calc(100px - 14px);
     height: 50px;
     position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     animation: flip 1s infinite linear;
   }
-  .loader:before {
+  .pageLoader:before {
     content: "";
     position: absolute;
     inset: 0;
@@ -55,7 +59,7 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ff3d00;
+    background: #801853;
     transform-origin: -14px 50%;
     animation: spin 0.5s infinite linear;
   }
