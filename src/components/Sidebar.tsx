@@ -49,8 +49,8 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`flex flex-col mt-3 mb-2 h-[90vh] ${
-        !isOpen ? "!w-[3.5rem] gap-1" : "w-[15vw] pr-3"
+      className={`flex flex-col mt-3 mb-2 ${
+        !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "h-[90vh] w-[15vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
     >
       {!isOpen ? (

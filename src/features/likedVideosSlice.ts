@@ -184,19 +184,23 @@ const initialState: LikedVideosListType = {
 };
 
 export const likedVideosSlice = createSlice({
-  name: "likedvideos",
+  name: "likedVideos",
   initialState,
   reducers: {
     addLikedVideos: (state, action: PayloadAction<LikedVideosListType>) => {
       const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
         action.payload;
+
       Object.assign(state, {
         kind,
         etag,
         nextPageToken,
         prevPageToken,
         pageInfo,
-        items,
+        items: [
+          ...(state?.kind === "" ? state.items.slice(1) : state.items),
+          ...items,
+        ],
       });
     },
   },
@@ -204,6 +208,6 @@ export const likedVideosSlice = createSlice({
 
 export const { addLikedVideos } = likedVideosSlice.actions;
 
-export const likedvideos = (state: RootState) => state.likedvideos;
+export const likedVideos = (state: RootState) => state.likedVideos;
 
 export default likedVideosSlice.reducer;

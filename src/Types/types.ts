@@ -1,15 +1,15 @@
 export type ErrorType = {
-  data: string;
-  error: {
+  data?: string;
+  error?: {
     columnNumber: number;
     fileName: string;
     lineNumber: number;
     message: string;
     stack: string;
   };
-  internal: boolean;
-  status: number;
-  statusText: string;
+  internal?: boolean;
+  status?: number;
+  statusText?: string;
 };
 
 export type SidebarType = {

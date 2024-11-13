@@ -58,6 +58,7 @@ const Subscription = () => {
       return subscription;
     },
     enabled: !!sortBy,
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -79,7 +80,7 @@ const Subscription = () => {
             </h1>
 
             <select
-              value={sortBy}
+              defaultValue={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="p-3 mt-5 font-bold transition-all rounded-md cursor-pointer bg-zinc-800"
             >

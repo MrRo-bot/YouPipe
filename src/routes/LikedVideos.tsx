@@ -1,25 +1,27 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { AnimatePresence, motion } from "framer-motion";
-
 import {
   PiDownloadFill,
   PiArrowFatRightFill,
   PiShuffleFill,
 } from "react-icons/pi";
+import { Virtuoso } from "react-virtuoso";
 
-import { useAppDispatch, useAppSelector } from "../app/store";
-
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import LikedVideosCard from "../components/LikedVideosCard";
-import { addLikedVideos } from "../features/likedVideosSlice";
 import { TokensType } from "../types/types";
+import { useAppDispatch, useAppSelector } from "../app/store";
+import { addLikedVideos } from "../features/likedVideosSlice";
+import LikedVideosCard from "../components/LikedVideosCard";
+import { usePersistedState } from "../hooks/usePersistentStorage";
 
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useState } from "react";
+const Footer = () => {
+  return <div className="loading" />;
+};
 
 const LikedVideos = () => {
   const [isImgLoaded, setIsImgLoaded] = useState(false);
+  const [fetchMore, setFetchMore] = useState(true);
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -32,7 +34,7 @@ const LikedVideos = () => {
 
   const dispatch = useAppDispatch();
 
-  const likedVideosData = useAppSelector((state) => state.likedvideos);
+  const likedVideos = useAppSelector((state) => state.likedVideos);
   const isOpen = useAppSelector((state) => state.hamburger);
 
   const parts = [
@@ -46,13 +48,15 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
-  const { status } = useQuery({
-    queryKey: ["playlists"],
+  useQuery({
+    queryKey: ["likedvideos", fetchMore],
     queryFn: async () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?part=${parts.join(
           ","
-        )}&maxResults=50&myRating=like&key=${token?.access_token}`,
+        )}&maxResults=20&myRating=like&key=${token?.access_token}&pageToken=${
+          fetchMore ? likedVideos.nextPageToken : ""
+        }`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -61,10 +65,13 @@ const LikedVideos = () => {
           },
         }
       );
-      const playlist = await res.json();
-      dispatch(addLikedVideos(playlist));
-      return playlist;
+      const likedVideosList = await res.json();
+      dispatch(addLikedVideos(likedVideosList));
+      setFetchMore(false);
+      return likedVideosList;
     },
+    enabled: !!fetchMore,
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -88,15 +95,17 @@ const LikedVideos = () => {
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
-              {likedVideosData?.items?.length > 0 && (
+              {likedVideos && (
                 <img
                   loading="lazy"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={
-                    likedVideosData?.items[0]?.snippet?.thumbnails?.high?.url
+                    likedVideos?.items
+                      ? likedVideos?.items[0]?.snippet?.thumbnails?.high?.url
+                      : ""
                   }
-                  alt={likedVideosData?.items[0]?.snippet?.title[0]}
+                  alt=""
                 />
               )}
               {!isImgLoaded && (
@@ -109,8 +118,8 @@ const LikedVideos = () => {
             </h3>
             <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter text-zinc-400">
               <span>
-                {likedVideosData?.items?.length > 0
-                  ? likedVideosData?.pageInfo?.totalResults?.toLocaleString() +
+                {likedVideos?.items?.length
+                  ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +
                     " videos"
                   : "0 videos"}
               </span>{" "}
@@ -132,21 +141,17 @@ const LikedVideos = () => {
               </div>
             </div>
           </div>
-          <div className="w-9/12 max-h-[90vh] overflow-y-auto hideScrollbar flex flex-col gap-4 rounded-2xl mx-2 my-1">
-            {status === "success" &&
-              likedVideosData?.items?.map((likedvideo, index) => (
-                <LikedVideosCard
-                  key={likedvideo.id}
-                  likedvideo={likedvideo}
-                  index={index}
-                />
-              ))}
-            {likedVideosData?.items?.length > 0 ? (
-              <div className="loading" />
-            ) : (
-              <div className="mx-auto pageLoader" />
+          <Virtuoso
+            className="!w-9/12 !min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl !mx-2 !my-1"
+            data={likedVideos?.items}
+            totalCount={likedVideos?.pageInfo?.totalResults}
+            increaseViewportBy={200}
+            itemContent={(index, data) => (
+              <LikedVideosCard key={data?.id} likedvideo={data} index={index} />
             )}
-          </div>
+            endReached={() => setTimeout(() => setFetchMore(true), 2000)}
+            components={{ Footer }}
+          />
         </motion.div>
       </AnimatePresence>
     </SkeletonTheme>

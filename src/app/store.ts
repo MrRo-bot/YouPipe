@@ -15,7 +15,7 @@ export const store = configureStore({
     token: tokenSlice,
     subscription: subscriptionSlice,
     playlist: playlistsSlice,
-    likedvideos: likedVideosSlice,
+    likedVideos: likedVideosSlice,
   },
 });
 

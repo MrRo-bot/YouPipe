@@ -77,6 +77,8 @@ const Header = () => {
     queryFn: googleLogin,
     enabled: !!fetchTokens,
     refetchInterval: 3500000, //refetched every hour to get new access token
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   //getting google profile data using token data provided by google login function
