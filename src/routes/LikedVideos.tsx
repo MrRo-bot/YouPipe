@@ -15,8 +15,12 @@ import { addLikedVideos } from "../features/likedVideosSlice";
 import LikedVideosCard from "../components/LikedVideosCard";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
-const Footer = () => {
-  return <div className="loading" />;
+const Footer = ({ context: likedVideos }) => {
+  return likedVideos?.items?.length < likedVideos?.pageInfo?.totalResults ? (
+    <div className="my-1 loading" />
+  ) : (
+    <div className="mx-auto text-lg italic font-bold w-max">End</div>
+  );
 };
 
 const LikedVideos = () => {
@@ -55,7 +59,7 @@ const LikedVideos = () => {
         `https://youtube.googleapis.com/youtube/v3/videos?part=${parts.join(
           ","
         )}&maxResults=20&myRating=like&key=${token?.access_token}&pageToken=${
-          fetchMore ? likedVideos.nextPageToken : ""
+          fetchMore ? likedVideos?.nextPageToken : ""
         }`,
         {
           headers: {
@@ -95,7 +99,7 @@ const LikedVideos = () => {
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
-              {likedVideos && (
+              {likedVideos?.items?.length > 1 && (
                 <img
                   loading="lazy"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
@@ -141,17 +145,25 @@ const LikedVideos = () => {
               </div>
             </div>
           </div>
-          <Virtuoso
-            className="!w-9/12 !min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl !mx-2 !my-1"
-            data={likedVideos?.items}
-            totalCount={likedVideos?.pageInfo?.totalResults}
-            increaseViewportBy={200}
-            itemContent={(index, data) => (
-              <LikedVideosCard key={data?.id} likedvideo={data} index={index} />
-            )}
-            endReached={() => setTimeout(() => setFetchMore(true), 2000)}
-            components={{ Footer }}
-          />
+          {likedVideos?.items?.length <= 1 ? (
+            <div className="mx-auto pageLoader" />
+          ) : (
+            <Virtuoso
+              className="!w-9/12 !min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl !mx-2 !my-1"
+              data={likedVideos?.items}
+              totalCount={likedVideos?.pageInfo?.totalResults}
+              itemContent={(index, data) => (
+                <LikedVideosCard
+                  key={data?.id}
+                  likedvideo={data}
+                  index={index}
+                />
+              )}
+              endReached={() => setTimeout(() => setFetchMore(true), 500)}
+              context={likedVideos}
+              components={{ Footer }}
+            />
+          )}
         </motion.div>
       </AnimatePresence>
     </SkeletonTheme>

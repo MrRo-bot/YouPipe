@@ -1,21 +1,29 @@
 import { useState } from "react";
-
-import { AnimatePresence, motion } from "framer-motion";
-
 import { useQuery } from "@tanstack/react-query";
-
-import { useAppDispatch, useAppSelector } from "../app/store";
-
-import { addSubscription } from "../features/subscriptionSlice";
-
-import SubscriptionList from "../components/SubscriptionList";
-
-import { usePersistedState } from "../hooks/usePersistentStorage";
+import { AnimatePresence, motion } from "framer-motion";
+import { Virtuoso } from "react-virtuoso";
 
 import { TokensType } from "../types/types";
+import { useAppDispatch, useAppSelector } from "../app/store";
+import {
+  addSubscription,
+  clearSubscription,
+} from "../features/subscriptionSlice";
+import SubscriptionList from "../components/SubscriptionList";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+
+const Footer = ({ context: subData }) => {
+  console.log(subData?.pageInfo?.totalResults, subData?.items?.length);
+  return subData?.items?.length < subData?.pageInfo?.totalResults ? (
+    <div className="my-1 loading" />
+  ) : (
+    <div className="mx-auto text-lg italic font-bold w-max">End</div>
+  );
+};
 
 const Subscription = () => {
   const [sortBy, setSortBy] = useState("relevance");
+  const [fetchMore, setFetchMore] = useState(true);
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -25,11 +33,11 @@ const Subscription = () => {
     id_token: "",
     expiry_date: 0,
   });
-  // const tokenData = useAppSelector((state) => state.token);
-  const subData = useAppSelector((state) => state.subscription);
-  const isOpen = useAppSelector((state) => state.hamburger);
 
   const dispatch = useAppDispatch();
+
+  const subData = useAppSelector((state) => state.subscription);
+  const isOpen = useAppSelector((state) => state.hamburger);
 
   const parts = ["contentDetails", "id", "snippet"];
   const sort = [
@@ -38,13 +46,15 @@ const Subscription = () => {
     { value: "alphabetical", option: "A-Z" },
   ];
 
-  const { status } = useQuery({
-    queryKey: ["subscription", sortBy],
+  useQuery({
+    queryKey: ["subscription", sortBy, fetchMore],
     queryFn: async () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
           ","
-        )}&order=${sortBy}&maxResults=50`,
+        )}&order=${sortBy}&maxResults=50&pageToken=${
+          fetchMore ? subData?.nextPageToken : ""
+        }`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -55,9 +65,11 @@ const Subscription = () => {
       );
       const subscription = await res.json();
       dispatch(addSubscription(subscription));
+      setFetchMore(false);
+      console.log(res);
       return subscription;
     },
-    enabled: !!sortBy,
+    enabled: !!sortBy && !!fetchMore,
     refetchOnWindowFocus: false,
   });
 
@@ -81,7 +93,11 @@ const Subscription = () => {
 
             <select
               defaultValue={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => {
+                dispatch(clearSubscription());
+                setFetchMore(true);
+                setSortBy(e.target.value);
+              }}
               className="p-3 mt-5 font-bold transition-all rounded-md cursor-pointer bg-zinc-800"
             >
               {sort.map((s) => (
@@ -95,17 +111,21 @@ const Subscription = () => {
               ))}
             </select>
           </div>
-          <div className="flex flex-col gap-3 p-2 min-h-[75vh]">
-            {status === "success" &&
-              subData?.items?.map((sub) => (
-                <SubscriptionList key={sub.id} sub={sub} />
-              ))}
-            {subData?.items?.length > 0 ? (
-              <div className="loading" />
-            ) : (
-              <div className="mx-auto pageLoader" />
-            )}
-          </div>
+          {subData?.items?.length <= 1 ? (
+            <div className="mx-auto -translate-y-1/3 top-1/3 pageLoader" />
+          ) : (
+            <Virtuoso
+              className="!flex !flex-col !overflow-y-auto !min-h-[75vh] hideScrollbar"
+              data={subData?.items}
+              totalCount={subData?.pageInfo?.totalResults}
+              itemContent={(_, data) => (
+                <SubscriptionList key={data.id} sub={data} />
+              )}
+              endReached={() => setTimeout(() => setFetchMore(true), 500)}
+              context={subData}
+              components={{ Footer }}
+            />
+          )}
         </motion.div>
       </div>
     </AnimatePresence>

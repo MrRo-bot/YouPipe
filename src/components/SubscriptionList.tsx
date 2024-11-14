@@ -35,7 +35,11 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
     })();
   }, []);
 
-  return <SubscriptionCard stat={channelStats!} />;
+  return (
+    <div className="p-2">
+      <SubscriptionCard stat={channelStats!} />
+    </div>
+  );
 };
 
 export default SubscriptionList;

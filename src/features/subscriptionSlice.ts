@@ -89,13 +89,19 @@ export const subscriptionSlice = createSlice({
         nextPageToken,
         prevPageToken,
         pageInfo,
-        items,
+        items: [
+          ...(state.kind === "" ? state.items.slice(1) : state.items),
+          ...items,
+        ],
       });
+    },
+    clearSubscription: (state) => {
+      Object.assign(state, initialState);
     },
   },
 });
 
-export const { addSubscription } = subscriptionSlice.actions;
+export const { addSubscription, clearSubscription } = subscriptionSlice.actions;
 
 export const subscription = (state: RootState) => state.subscription;
 
