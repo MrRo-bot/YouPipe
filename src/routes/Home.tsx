@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 // import Filters from "../components/Filters";
 import VideoCard from "../components/VideoCard";
 import { useAppSelector } from "../app/store";
+import Filters from "../components/Filters";
 
 const Home = () => {
   const isOpen = useAppSelector((state) => state.hamburger);
@@ -18,7 +19,7 @@ const Home = () => {
           !isOpen ? "w-[85vw]" : "w-full"
         }  overflow-y-auto hideScrollbar rounded-xl`}
       >
-        {/* <Filters /> */}
+        <Filters />
         <div className="grid grid-flow-row py-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {profileData?.email ? (
             <>

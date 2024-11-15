@@ -15,7 +15,6 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 
 //footer shows loading or end of list
 const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
-  console.log(subData?.pageInfo?.totalResults, subData?.items?.length);
   return subData?.items?.length < subData?.pageInfo?.totalResults ? (
     <ThreeDots
       visible={true}

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "react-router-dom";
 import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
 
@@ -9,17 +10,19 @@ import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
+import { ProfileType, TokensType } from "../types/types";
 import { toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
+import { getLocationData } from "../features/locationSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import { ProfileType, TokensType } from "../types/types";
-import { useQuery } from "@tanstack/react-query";
+import useCurrentLocation from "../hooks/useCurrentLocation";
 
 const Header = () => {
   //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
   const [fetchTokens, setFetchTokens] = useState(false);
+  const locationCoords = useCurrentLocation();
 
   //custom hook for reading and storing in localStorage
   const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
@@ -42,7 +45,10 @@ const Header = () => {
 
   //modifying store
   const dispatch = useAppDispatch();
+
+  //getting various redux state variables
   const profileData = useAppSelector((state) => state.profile);
+  const locationCode = useAppSelector((state) => state.location);
 
   //space separated list of scopes required for project itself
   const scope =
@@ -102,6 +108,23 @@ const Header = () => {
     }
   }, [token?.access_token]);
 
+  //getting country code using location coordinates
+  useEffect(() => {
+    (async () => {
+      try {
+        if (locationCoords.latitude > 0 && locationCoords.longitude > 0) {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${locationCoords.latitude}&lon=${locationCoords.longitude}&format=json`
+          );
+          const coordsDetails = await res.json();
+          dispatch(getLocationData(coordsDetails));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [locationCoords]);
+
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
@@ -123,7 +146,9 @@ const Header = () => {
           <div className="ml-1.5 text-2xl font-bold  tracking-tighter">
             YouPipe
           </div>
-          <div className="self-start text-xs text-slate-400">IN</div>
+          <div className="self-start text-xs text-slate-400">
+            {locationCode.address.country_code.toUpperCase() || ""}
+          </div>
         </NavLink>
       </div>
       {/* various logic used to make search bar */}

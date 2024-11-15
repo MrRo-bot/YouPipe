@@ -7,6 +7,7 @@ import tokenSlice from "../features/tokenSlice";
 import subscriptionSlice from "../features/subscriptionSlice";
 import playlistsSlice from "../features/playlistsSlice";
 import likedVideosSlice from "../features/likedVideosSlice";
+import locationSlice from "../features/locationSlice";
 
 //all reducers for various data stores
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     subscription: subscriptionSlice,
     playlist: playlistsSlice,
     likedVideos: likedVideosSlice,
+    location: locationSlice,
   },
 });
 
