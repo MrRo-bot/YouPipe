@@ -8,6 +8,7 @@ import subscriptionSlice from "../features/subscriptionSlice";
 import playlistsSlice from "../features/playlistsSlice";
 import likedVideosSlice from "../features/likedVideosSlice";
 
+//all reducers for various data stores
 export const store = configureStore({
   reducer: {
     hamburger: hamburgerMenuSlice,

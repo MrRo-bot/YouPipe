@@ -47,7 +47,6 @@ const WatchLaterCard = ({
             ) : (
               <>
                 <img
-                  loading="lazy"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={likedvideo?.snippet?.thumbnails?.high?.url}

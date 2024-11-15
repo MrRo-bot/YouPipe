@@ -3,26 +3,18 @@ videos for home page - get subscription list max 50 then find channel video of e
 Host: www.googleapis.com
 Authorization: Bearer <access_token>
 
-subscriptions list - https://youtube.googleapis.com/youtube/v3/subscriptions?key=[YOUR_API_KEY]&access_token=[YOUR_ACCESS_TOKEN]part=contentDetails%2Cid%2Csnippet%2CsubscriberSnippet&mine=true&maxResults=50&order=alphabetical
-
 your channel - https://youtube.googleapis.com/youtube/v3/channels?part=auditDetails%2CbrandingSettings%2CcontentDetails%2CcontentOwnerDetails%2Cid%2Clocalizations%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&mine=true
 
    channel section - https://youtube.googleapis.com/youtube/v3/channelSections?part=contentDetails%2Cid%2Csnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
-
-playlist - https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails%2Cid%2Clocalizations%2Cplayer%2Csnippet%2Cstatus&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
 
 playlist items - https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails%2Cid%2Csnippet%2Cstatus&playlistId=PLNyvF12k5396UpSuI0F_7K7gu3j0_6TPy&key=[YOUR_API_KEY]
 
 video categories - https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=IN&key=[YOUR_API_KEY]
 
-liked videos - https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails%2Cid%2Clocalizations%2Cplayer%2CrecordingDetails%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&maxResults=50&myRating=like&key=[YOUR_API_KEY]
-
 search - THE MOST IMPORTANT API TO HANDLE SEARCH FEATURE IS DANGEROUS AND DIFFICULT
     SIMPLE VERSION - https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=[YOUR_SEARCH_STRING]&key=[YOUR_API_KEY]
 
-
 internationalization language and region - getting Google Account settings, browser language, or IP location or manual selection from given list itself
-
 
 RESPONSE TYPE FROM GOOGLELOGIN
 let req = {

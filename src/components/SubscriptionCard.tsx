@@ -32,12 +32,15 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
       >
         <div className="flex items-center justify-start gap-4">
           <div className="transition min-w-28 w-28 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-            {snippet?.thumbnails?.default?.url && (
+            {snippet?.thumbnails && (
               <img
-                loading="lazy"
                 onLoad={() => setIsImgLoaded(!isImgLoaded)}
                 className="w-full h-full rounded-full"
-                src={snippet?.thumbnails?.default?.url}
+                src={
+                  snippet?.thumbnails?.high?.url ||
+                  snippet?.thumbnails?.medium?.url ||
+                  snippet?.thumbnails?.default?.url
+                }
                 alt=""
               />
             )}

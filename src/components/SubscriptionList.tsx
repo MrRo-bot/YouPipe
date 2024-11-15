@@ -11,6 +11,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
 
   const id = sub?.snippet?.resourceId?.channelId;
 
+  //effect for uisng subscribers id and getting channel data from it to display in subscription section
   useEffect(() => {
     (async () => {
       try {

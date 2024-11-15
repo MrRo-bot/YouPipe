@@ -26,7 +26,6 @@ const VideoCard = () => {
             {
               <>
                 <img
-                  loading="lazy"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
                   alt=""
@@ -77,7 +76,7 @@ const VideoCard = () => {
               <div className="grid w-5 h-5 overflow-hidden rounded-full place-items-center">
                 {isImgLoaded && (
                   <img
-                    loading="lazy"
+  
                     className="w-full h-full rounded-full"
                     src="https://yt3.ggpht.com/ytc/AIdro_lmaYOjcRw0-wAZKvvECrErNkHPIFrM7Lc-ntx5nxRGaLo=s68-c-k-c0x00ffffff-no-rj"
                     alt=""

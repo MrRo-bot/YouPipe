@@ -65,7 +65,7 @@ const Header = () => {
 
   //click function for initiating google login, post method to backend
   const googleLogin = useGoogleLogin({
-    scope,
+    scope, //main problem i faced is not mentioning scope in this hook
     onSuccess: (res: CodeResponse) => {
       validateCode(res);
     },
@@ -82,7 +82,6 @@ const Header = () => {
   });
 
   //getting google profile data using token data provided by google login function
-
   useEffect(() => {
     if (token?.access_token) {
       (async () => {
@@ -107,6 +106,7 @@ const Header = () => {
     <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
         <div
+          //toggling hamburger menu
           onClick={() => dispatch(toggle())}
           className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
         >
@@ -126,6 +126,7 @@ const Header = () => {
           <div className="self-start text-xs text-slate-400">IN</div>
         </NavLink>
       </div>
+      {/* various logic used to make search bar */}
       <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input
           onChange={(e) => setClearSearch(e.target.value !== "" ? true : false)}
@@ -157,6 +158,7 @@ const Header = () => {
           <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-9 h-9 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
           </div>
+          {/* google login button */}
           <div
             onClick={() => setFetchTokens(!fetchTokens)}
             className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700"

@@ -7,6 +7,7 @@ import PlaylistCard from "../components/PlaylistCard";
 import { addPlaylists } from "../features/playlistsSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
+import { FidgetSpinner } from "react-loader-spinner";
 
 const Playlist = () => {
   const [token] = usePersistedState<TokensType>("token", {
@@ -17,7 +18,7 @@ const Playlist = () => {
     id_token: "",
     expiry_date: 0,
   });
-  // const tokenData = useAppSelector((state) => state.token);
+
   const playlistData = useAppSelector((state) => state.playlist);
   const isOpen = useAppSelector((state) => state.hamburger);
 
@@ -32,6 +33,7 @@ const Playlist = () => {
     "status",
   ];
 
+  //query for getting users playlist (Don't know why I can't get any saved playlist in this as well)
   const { status } = useQuery({
     queryKey: ["playlists"],
     queryFn: async () => {
@@ -70,7 +72,14 @@ const Playlist = () => {
               <PlaylistCard key={playlist.id} playlist={playlist} />
             ))}
           {playlistData?.items?.length > 0 || (
-            <div className="col-start-1 mx-auto pageLoader -col-end-1" />
+            <FidgetSpinner
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="fidget-spinner-loading"
+              wrapperStyle={{}}
+              wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto -col-end-1"
+            />
           )}
         </div>
       </motion.div>

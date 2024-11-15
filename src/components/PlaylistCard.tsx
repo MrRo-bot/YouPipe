@@ -35,7 +35,6 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             ) : (
               <>
                 <img
-                  loading="lazy"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
                   src={playlist?.snippet?.thumbnails?.maxres?.url}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   PiDownloadFill,
@@ -9,15 +10,25 @@ import {
 } from "react-icons/pi";
 import { Virtuoso } from "react-virtuoso";
 
-import { TokensType } from "../types/types";
+import { LikedVideosListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
 import LikedVideosCard from "../components/LikedVideosCard";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
-const Footer = ({ context: likedVideos }) => {
+//footer shows loading or end of list
+const Footer = ({ context: likedVideos }: { context: LikedVideosListType }) => {
   return likedVideos?.items?.length < likedVideos?.pageInfo?.totalResults ? (
-    <div className="my-1 loading" />
+    <ThreeDots
+      visible={true}
+      height="50"
+      width="50"
+      color="#3bf6fcbf"
+      radius="9"
+      ariaLabel="three-dots-loading"
+      wrapperStyle={{}}
+      wrapperClass="justify-center"
+    />
   ) : (
     <div className="mx-auto text-lg italic font-bold w-max">End</div>
   );
@@ -25,7 +36,7 @@ const Footer = ({ context: likedVideos }) => {
 
 const LikedVideos = () => {
   const [isImgLoaded, setIsImgLoaded] = useState(false);
-  const [fetchMore, setFetchMore] = useState(true);
+  const [fetchMore, setFetchMore] = useState(true); //triggers query for fetching more data
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -52,6 +63,7 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
+  //query for getting liked videos list and storing in redux (triggered by fetchMore state as well)
   useQuery({
     queryKey: ["likedvideos", fetchMore],
     queryFn: async () => {
@@ -101,7 +113,6 @@ const LikedVideos = () => {
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
               {likedVideos?.items?.length > 1 && (
                 <img
-                  loading="lazy"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={
@@ -145,11 +156,21 @@ const LikedVideos = () => {
               </div>
             </div>
           </div>
+
+          {/* Virtuoso virtualized rendering of liked videos list for increased rendering performance */}
           {likedVideos?.items?.length <= 1 ? (
-            <div className="mx-auto pageLoader" />
+            <FidgetSpinner
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="fidget-spinner-loading"
+              wrapperStyle={{}}
+              wrapperClass="fidget-spinner-wrapper mx-auto"
+            />
           ) : (
             <Virtuoso
               className="!w-9/12 !min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl !mx-2 !my-1"
+              increaseViewportBy={100}
               data={likedVideos?.items}
               totalCount={likedVideos?.pageInfo?.totalResults}
               itemContent={(index, data) => (

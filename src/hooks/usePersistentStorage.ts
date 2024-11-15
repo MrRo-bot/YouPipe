@@ -1,3 +1,5 @@
+//custom hook for storing fetched information in localStorage
+
 import { useEffect, useState } from "react";
 
 const getItem = (key: string) => {

@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+/* * {
   outline: 0.1px dotted gray;
-}
+} */
 
 @layer base {
+  /* changing scroll behaviour and hiding scrollbar when required */
   * {
     scroll-behavior: smooth;
   }
@@ -20,65 +21,7 @@
     scrollbar-width: none;
   }
 
-  .loading {
-    border-radius: 50%;
-    display: block;
-    width: 0.7rem;
-    height: 0.7rem;
-    margin: 5px auto;
-    position: relative;
-    background: #fff;
-    box-sizing: border-box;
-    animation: shadowExpandX 500ms linear infinite alternate;
-  }
-
-  @keyframes shadowExpandX {
-    0% {
-      box-shadow: 0 0, 0 0;
-      color: rgba(255, 255, 255, 0.2);
-    }
-    100% {
-      box-shadow: -24px 0, 24px 0;
-      color: rgba(255, 255, 255, 0.8);
-    }
-  }
-
-  .pageLoader {
-    width: calc(100px - 14px);
-    height: 50px;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    animation: flip 1s infinite linear;
-  }
-  .pageLoader:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #801853;
-    transform-origin: -14px 50%;
-    animation: spin 0.5s infinite linear;
-  }
-  @keyframes flip {
-    0%,
-    49% {
-      transform: scaleX(1);
-    }
-    50%,
-    100% {
-      transform: scaleX(-1);
-    }
-  }
-  @keyframes spin {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
+  /* main animated gradient in background */
   @keyframes hero-gradient-animation {
     0% {
       --x-0: 59%;
@@ -296,7 +239,7 @@
     --y-1: 5%;
     --x-2: 96%;
     --y-2: 92%;
-    --c-2: hsla(181.84615384615384, 97%, 61%, 0.75);
+    --c-2: hsla(182, 97%, 61%, 0.749);
     --x-3: 7%;
     --y-3: 86%;
     --c-3: hsla(313.4010152284264, 91%, 42%, 1);
@@ -335,6 +278,7 @@
   }
 }
 
+/* glassmorphism design style */
 @layer components {
   .glass {
     backdrop-filter: blur(4px) saturate(180%);

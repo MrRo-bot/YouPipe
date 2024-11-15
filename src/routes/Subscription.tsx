@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { AnimatePresence, motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
 
-import { TokensType } from "../types/types";
+import { SubscriptionListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import {
   addSubscription,
@@ -12,10 +13,20 @@ import {
 import SubscriptionList from "../components/SubscriptionList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
-const Footer = ({ context: subData }) => {
+//footer shows loading or end of list
+const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
   console.log(subData?.pageInfo?.totalResults, subData?.items?.length);
   return subData?.items?.length < subData?.pageInfo?.totalResults ? (
-    <div className="my-1 loading" />
+    <ThreeDots
+      visible={true}
+      height="50"
+      width="50"
+      color="#3bf6fcbf"
+      radius="9"
+      ariaLabel="three-dots-loading"
+      wrapperStyle={{}}
+      wrapperClass="justify-center"
+    />
   ) : (
     <div className="mx-auto text-lg italic font-bold w-max">End</div>
   );
@@ -46,6 +57,7 @@ const Subscription = () => {
     { value: "alphabetical", option: "A-Z" },
   ];
 
+  //query for getting subscription list and storing in redux (triggered by fetchMore state as well)
   useQuery({
     queryKey: ["subscription", sortBy, fetchMore],
     queryFn: async () => {
@@ -110,12 +122,22 @@ const Subscription = () => {
                 </option>
               ))}
             </select>
+
+            {/* Virtuoso component for rendering list of subscriptions */}
           </div>
           {subData?.items?.length <= 1 ? (
-            <div className="mx-auto -translate-y-1/3 top-1/3 pageLoader" />
+            <FidgetSpinner
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="fidget-spinner-loading"
+              wrapperStyle={{}}
+              wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+            />
           ) : (
             <Virtuoso
-              className="!flex !flex-col !overflow-y-auto !min-h-[75vh] hideScrollbar"
+              className="!flex !flex-col !overflow-y-auto !min-h-[75vh] !hideScrollbar"
+              increaseViewportBy={100}
               data={subData?.items}
               totalCount={subData?.pageInfo?.totalResults}
               itemContent={(_, data) => (

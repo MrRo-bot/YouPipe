@@ -182,38 +182,6 @@ const Sidebar = () => {
               </div>
             </NavLink>
           </div>
-          {/* 
-          <div className="flex flex-col py-3 gap-1 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
-            <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
-              Subscriptions
-            </h2>
-
-            {subData?.items &&
-              subData?.items?.map((sub) => (
-                <div
-                  key={sub.id}
-                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
-                >
-                  <div className="transition grid min-w-7 min-h-7 w-7 h-7 overflow-hidden rounded-full aspect-square cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-                    <img
-                      className="w-full h-full"
-                      src={sub?.snippet?.thumbnails?.default?.url}
-                      alt={sub?.snippet?.title[0]}
-                    />
-                  </div>
-                  <div className="w-full line-clamp-1 text-ellipsis">
-                    {sub?.snippet?.title}
-                  </div>
-                </div>
-              ))}
-
-            <NavLink to="subscriptions">
-              <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-                <PiListStarFill className="w-7 h-7" />
-                <div className="w-full">Show all</div>
-              </div>
-            </NavLink>
-          </div> */}
 
           <div className="flex flex-col gap-1 py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">

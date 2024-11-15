@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { ErrorType } from "../types/types";
 
+//Error page for routing errors only
 export default function ErrorPage() {
   const error = useRouteError() as ErrorType;
   console.error(error);
@@ -24,7 +25,7 @@ export default function ErrorPage() {
             <i>
               {(!error && "unexpected error in program") ||
                 (error && error?.statusText) ||
-                error?.error.message}
+                error?.error?.message}
             </i>
           </p>
         </div>
