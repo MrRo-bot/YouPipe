@@ -55,6 +55,7 @@ const Sidebar = () => {
     >
       {!isOpen ? (
         <>
+          {/* Shrinked sidebar section */}
           <NavLink
             to="/"
             className={({ isActive, isPending }) =>
@@ -103,6 +104,7 @@ const Sidebar = () => {
         </>
       ) : (
         <>
+          {/* Expaned siderbar section */}
           <div className="flex flex-col py-3 gap-1 pl-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
             <NavLink
               to="/"
@@ -183,6 +185,7 @@ const Sidebar = () => {
             </NavLink>
           </div>
 
+          {/* Explore section */}
           <div className="flex flex-col gap-1 py-3 pr-0 pl-3 border-zinc-400 border-solid border-b-[1px]">
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Explore

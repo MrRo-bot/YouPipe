@@ -493,3 +493,26 @@ export type LocationType = {
   };
   boundingbox: string[];
 };
+
+export type CategoryType = {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: {
+    channelId: string;
+    title: string;
+    assignable: boolean;
+  };
+};
+
+export type CategoriesType = {
+  kind: string;
+  etag: string;
+  nextPageToken: string;
+  prevPageToken: string;
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
+  };
+  items: [CategoryType];
+};
