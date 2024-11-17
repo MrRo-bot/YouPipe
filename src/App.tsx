@@ -16,10 +16,13 @@ function App() {
         </div>
         <main className="relative flex">
           <Sidebar />
+          {/* rendering ui here */}
           <Outlet />
+          {/* restoring scroll to top after every navigation */}
           <ScrollRestoration />
         </main>
       </div>
+      {/* query dev tools */}
       <ReactQueryDevtools initialIsOpen={false} />
     </>
   );

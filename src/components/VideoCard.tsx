@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+
+import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FcClock, FcStart } from "react-icons/fc";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useState } from "react";
 
 const VideoCard = () => {
+  //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   return (
@@ -76,7 +80,6 @@ const VideoCard = () => {
               <div className="grid w-5 h-5 overflow-hidden rounded-full place-items-center">
                 {isImgLoaded && (
                   <img
-  
                     className="w-full h-full rounded-full"
                     src="https://yt3.ggpht.com/ytc/AIdro_lmaYOjcRw0-wAZKvvECrErNkHPIFrM7Lc-ntx5nxRGaLo=s68-c-k-c0x00ffffff-no-rj"
                     alt=""

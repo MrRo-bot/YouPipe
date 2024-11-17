@@ -27,6 +27,7 @@ const Sidebar = () => {
   //for toggling side menu to expand or collapse
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
+  //sidebar options with icons
   const EXPLORE: SidebarType[] = [
     { icon: <PiTrendUpFill className="w-7 h-7" />, text: "Trending" },
     { icon: <PiShoppingBagFill className="w-7 h-7" />, text: "Shopping" },
@@ -55,7 +56,7 @@ const Sidebar = () => {
     >
       {!isOpen ? (
         <>
-          {/* Shrinked sidebar section */}
+          {/* Shrinked sidebar section =================================================================================================*/}
           <NavLink
             to="/"
             className={({ isActive, isPending }) =>
@@ -104,7 +105,7 @@ const Sidebar = () => {
         </>
       ) : (
         <>
-          {/* Expaned siderbar section */}
+          {/* Expaned siderbar section =================================================================================================*/}
           <div className="flex flex-col py-3 gap-1 pl-3 pr-0 border-zinc-400 border-solid border-b-[1px]">
             <NavLink
               to="/"

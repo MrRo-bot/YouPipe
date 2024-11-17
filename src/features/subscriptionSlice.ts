@@ -79,6 +79,7 @@ export const subscriptionSlice = createSlice({
   name: "subscription",
   initialState,
   reducers: {
+    //adding subscriptions list in redux store
     addSubscription: (state, action: PayloadAction<SubscriptionListType>) => {
       const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
         action.payload;
@@ -95,6 +96,8 @@ export const subscriptionSlice = createSlice({
         ],
       });
     },
+
+    //clear subscription list to get new data with given sort option i.e. a-z, relevance(default), and recently viewed
     clearSubscription: (state) => {
       Object.assign(state, initialState);
     },

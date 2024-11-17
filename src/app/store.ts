@@ -8,6 +8,7 @@ import subscriptionSlice from "../features/subscriptionSlice";
 import playlistsSlice from "../features/playlistsSlice";
 import likedVideosSlice from "../features/likedVideosSlice";
 import locationSlice from "../features/locationSlice";
+import searchSlice from "../features/searchSlice";
 
 //all reducers for various data stores
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     playlist: playlistsSlice,
     likedVideos: likedVideosSlice,
     location: locationSlice,
+    search: searchSlice,
   },
 });
 

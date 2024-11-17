@@ -1,15 +1,16 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { FidgetSpinner } from "react-loader-spinner";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-
-import PlaylistCard from "../components/PlaylistCard";
 import { addPlaylists } from "../features/playlistsSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
-import { FidgetSpinner } from "react-loader-spinner";
+import PlaylistCard from "../components/PlaylistCard";
 
 const Playlist = () => {
+  //token data from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -19,11 +20,16 @@ const Playlist = () => {
     expiry_date: 0,
   });
 
+  //playlist data from redux store
   const playlistData = useAppSelector((state) => state.playlist);
+
+  //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
 
+  //dispatch for redux reducers
   const dispatch = useAppDispatch();
 
+  //parts for API call
   const parts = [
     "contentDetails",
     "id",

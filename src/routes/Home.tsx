@@ -1,11 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 
-import VideoCard from "../components/VideoCard";
 import { useAppSelector } from "../app/store";
+import VideoCard from "../components/VideoCard";
 import Filters from "../components/Filters";
 
 const Home = () => {
+  //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
+
+  //profile data from redux store
   const profileData = useAppSelector((state) => state.profile);
 
   return (

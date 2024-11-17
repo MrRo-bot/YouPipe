@@ -1,3 +1,4 @@
+// getting video duration from given string
 export const videoDuration = (duration: string): string => {
   const durationParts: string[] = duration
     .replace("PT", "")
@@ -31,6 +32,7 @@ export const videoDuration = (duration: string): string => {
   return "";
 };
 
+//getting time passed since the date number given
 export const elapsedTime = (date: number) => {
   const seconds = Math.floor((new Date().valueOf() - date) / 1000);
 
@@ -58,6 +60,7 @@ export const elapsedTime = (date: number) => {
   return Math.floor(seconds) + " seconds";
 };
 
+//converting raw views count to readable form
 export const rawViewsToString = (labelValue: string, isSub = false): string => {
   // Nine Zeroes for Billions
   return Math.abs(Number(labelValue)) >= 1.0e9
@@ -71,6 +74,7 @@ export const rawViewsToString = (labelValue: string, isSub = false): string => {
     : Math.abs(Number(labelValue)).toString();
 };
 
+//unix timestamp to time string
 export const unixToTimeString = (unix_timestamp: number) => {
   // Create a new JavaScript Date object based on the timestamp
   // multiplied by 1000 so that the argument is in milliseconds, not seconds
@@ -94,6 +98,7 @@ export const unixToTimeString = (unix_timestamp: number) => {
   return formattedTime;
 };
 
+//list of all youtube scopes
 export const youtubeScopes = {
   youtube: "https://www.googleapis.com/auth/youtube",
   member: "https://www.googleapis.com/auth/youtube.channel-memberships.creator",

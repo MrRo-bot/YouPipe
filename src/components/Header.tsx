@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
 
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
@@ -14,6 +14,7 @@ import { ProfileType, TokensType } from "../types/types";
 import { toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
+import { addSearchString } from "../features/searchSlice";
 import { getLocationData } from "../features/locationSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import useCurrentLocation from "../hooks/useCurrentLocation";
@@ -21,8 +22,15 @@ import useCurrentLocation from "../hooks/useCurrentLocation";
 const Header = () => {
   //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
+
+  //fetching tokens
   const [fetchTokens, setFetchTokens] = useState(false);
+
+  //location coordinates from custom hook
   const locationCoords = useCurrentLocation();
+
+  //navigate to any route
+  const navigate = useNavigate();
 
   //custom hook for reading and storing in localStorage
   const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
@@ -34,6 +42,7 @@ const Header = () => {
     email: "",
     email_verified: false,
   });
+
   const [token, setToken] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -125,6 +134,16 @@ const Header = () => {
     })();
   }, [locationCoords]);
 
+  //handling search data
+  const handleSearch = (e) => {
+    if (e.target.value.length > 1) {
+      dispatch(addSearchString(e.target.value));
+    }
+    if (e.key === "Enter") {
+      navigate("search");
+    }
+  };
+
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
@@ -154,7 +173,10 @@ const Header = () => {
       {/* various logic used to make search bar */}
       <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input
-          onChange={(e) => setClearSearch(e.target.value !== "" ? true : false)}
+          onChange={(e) => {
+            setClearSearch(e.target.value !== "" ? true : false);
+          }}
+          onKeyDown={handleSearch}
           type="text"
           name="search"
           id="search"

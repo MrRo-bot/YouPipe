@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { AnimatePresence, motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
+
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 import { SubscriptionListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -10,8 +11,8 @@ import {
   addSubscription,
   clearSubscription,
 } from "../features/subscriptionSlice";
-import SubscriptionList from "../components/SubscriptionList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
+import SubscriptionList from "../components/SubscriptionList";
 
 //footer shows loading or end of list
 const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
@@ -32,9 +33,13 @@ const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
 };
 
 const Subscription = () => {
+  //sorting options
   const [sortBy, setSortBy] = useState("relevance");
+
+  //fetch more data when scrolling down
   const [fetchMore, setFetchMore] = useState(true);
 
+  //custom hook for getting token data from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -44,12 +49,17 @@ const Subscription = () => {
     expiry_date: 0,
   });
 
+  //dispatching reducers
   const dispatch = useAppDispatch();
 
+  //getting access to redux store
   const subData = useAppSelector((state) => state.subscription);
   const isOpen = useAppSelector((state) => state.hamburger);
 
+  //parts used for API calls
   const parts = ["contentDetails", "id", "snippet"];
+
+  //list of sorting options
   const sort = [
     { value: "relevance", option: "Most relevant" },
     { value: "unread", option: "New activity" },
@@ -77,7 +87,7 @@ const Subscription = () => {
       const subscription = await res.json();
       dispatch(addSubscription(subscription));
       setFetchMore(false);
-      console.log(res);
+
       return subscription;
     },
     enabled: !!sortBy && !!fetchMore,
@@ -140,7 +150,7 @@ const Subscription = () => {
               data={subData?.items}
               totalCount={subData?.pageInfo?.totalResults}
               itemContent={(_, data) => (
-                <SubscriptionList key={data.id} sub={data} />
+                <SubscriptionList key={data?.id} sub={data} />
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 500)}
               context={subData}

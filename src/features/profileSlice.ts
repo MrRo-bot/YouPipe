@@ -16,6 +16,7 @@ export const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
+    //adding profile data in redux store
     addProfile: (state, action: PayloadAction<ProfileType>) => {
       const {
         sub,

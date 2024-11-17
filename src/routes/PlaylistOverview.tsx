@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+
 import {
   PiDotsThreeOutlineVerticalFill,
   PiDownloadFill,
@@ -7,10 +8,11 @@ import {
   PiSortAscendingFill,
 } from "react-icons/pi";
 
-import PlaylistOverviewCard from "../components/PlaylistOverviewCard";
 import { useAppSelector } from "../app/store";
+import PlaylistOverviewCard from "../components/PlaylistOverviewCard";
 
 const PlaylistOverview = () => {
+  //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
 
   return (

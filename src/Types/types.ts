@@ -516,3 +516,63 @@ export type CategoriesType = {
   };
   items: [CategoryType];
 };
+
+export type SearchType = {
+  kind: string;
+  etag: string;
+  id: {
+    kind: string;
+    videoId: string;
+    channelId: string;
+    playlistId: string;
+  };
+  snippet: {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      medium: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      high: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      standard: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      maxres: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    channelTitle: string;
+    liveBroadcastContent: string;
+  };
+};
+
+export type SearchListType = {
+  searchString: string;
+  kind: string;
+  etag: string;
+  nextPageToken: string;
+  prevPageToken: string;
+  regionCode: string;
+  pageInfo: {
+    totalResults: 0;
+    resultsPerPage: 0;
+  };
+  items: [SearchType];
+};

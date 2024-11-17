@@ -1,5 +1,6 @@
 import { UIEvent, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+
 import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
@@ -10,6 +11,7 @@ import ChannelOverviewCard from "../components/ChannelOverviewCard";
 import { useAppSelector } from "../app/store";
 
 const ChannelOverview = () => {
+  //to get sidebar status if its shrunk or expanded
   const isOpen = useAppSelector((state) => state.hamburger);
 
   //toggling arrow scrolls either one side should be active or both sides depends upon scroll progress
@@ -21,6 +23,7 @@ const ChannelOverview = () => {
     videoSide: { left: false, right: true },
   });
 
+  //
   const [scroll, setScroll] = useState({ youSide: "", videoSide: "" });
 
   //every section requires separate scroll progress ref

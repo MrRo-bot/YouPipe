@@ -34,6 +34,7 @@ export const locationSlice = createSlice({
   name: "location",
   initialState,
   reducers: {
+    //adding location data in redux store
     getLocationData: (state, action: PayloadAction<LocationType>) => {
       const payloadObject = action.payload;
       Object.assign(state, payloadObject);

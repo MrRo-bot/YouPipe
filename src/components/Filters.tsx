@@ -1,16 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState, useRef, useEffect, UIEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+
 import { useAppSelector } from "../app/store";
 import { CategoryType } from "../types/types";
 
 const Filters = () => {
+  //toggle scroll arrow depending on scroll progress
   const [scrollArrow, setScrollArrow] = useState({ left: false, right: true });
+
+  //setting which side to scroll
   const [scroll, setScroll] = useState({ side: "" });
+
+  //ref for checking scroll progress
   const scrollProgressRef = useRef<HTMLUListElement>(null);
 
+  //getting location data from redux store
   const locationData = useAppSelector((state) => state.location);
 
+  //query for getting video categories, to be used as filters
   const { data: filters, status } = useQuery({
     queryKey: ["filters"],
     queryFn: async () => {

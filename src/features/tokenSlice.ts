@@ -15,6 +15,7 @@ export const tokenSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
+    //adding token data in redux store
     addToken: (state, action: PayloadAction<TokensType>) => {
       const {
         access_token,

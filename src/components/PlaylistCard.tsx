@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+
+import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { PlaylistType } from "../types/types";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useState } from "react";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
+  //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   return (

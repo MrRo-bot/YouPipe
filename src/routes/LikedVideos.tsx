@@ -1,20 +1,25 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { AnimatePresence, motion } from "framer-motion";
+
+import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+
 import {
   PiDownloadFill,
   PiArrowFatRightFill,
   PiShuffleFill,
 } from "react-icons/pi";
+
 import { Virtuoso } from "react-virtuoso";
 
 import { LikedVideosListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
-import LikedVideosCard from "../components/LikedVideosCard";
 import { usePersistedState } from "../hooks/usePersistentStorage";
+import LikedVideosCard from "../components/LikedVideosCard";
 
 //footer shows loading or end of list
 const Footer = ({ context: likedVideos }: { context: LikedVideosListType }) => {
@@ -35,9 +40,13 @@ const Footer = ({ context: likedVideos }: { context: LikedVideosListType }) => {
 };
 
 const LikedVideos = () => {
+  //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
-  const [fetchMore, setFetchMore] = useState(true); //triggers query for fetching more data
 
+  //triggers query for fetching more data
+  const [fetchMore, setFetchMore] = useState(true);
+
+  //getting token from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -47,11 +56,14 @@ const LikedVideos = () => {
     expiry_date: 0,
   });
 
+  //dispatching redux reducers
   const dispatch = useAppDispatch();
 
+  //getting data from store
   const likedVideos = useAppSelector((state) => state.likedVideos);
   const isOpen = useAppSelector((state) => state.hamburger);
 
+  //parts used in API calls
   const parts = [
     "contentDetails",
     "id",

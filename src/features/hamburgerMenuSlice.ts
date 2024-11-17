@@ -9,6 +9,7 @@ export const hamburgerMenuSlice = createSlice({
   name: "hamburgerMenu",
   initialState,
   reducers: {
+    //toggling sidebar menu (expanded or shrunk)
     toggle: (state) => {
       state.isOpen = state.isOpen ? false : true;
     },

@@ -187,6 +187,7 @@ export const likedVideosSlice = createSlice({
   name: "likedVideos",
   initialState,
   reducers: {
+    //adding liked videos list in redux store
     addLikedVideos: (state, action: PayloadAction<LikedVideosListType>) => {
       const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
         action.payload;

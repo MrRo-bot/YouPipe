@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
@@ -11,7 +12,6 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../utils/functions";
-import { useState } from "react";
 
 const WatchLaterCard = ({
   likedvideo,
@@ -20,9 +20,13 @@ const WatchLaterCard = ({
   likedvideo: LikedVideosType;
   index: number;
 }) => {
+  //creating date value from ISO 8601 format
   const myDate = new Date(likedvideo?.snippet?.publishedAt || "");
+
+  //getting time from date
   const result = myDate.getTime();
 
+  //for skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   return (

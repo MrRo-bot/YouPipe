@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
+
 import { useAppSelector } from "../app/store";
-import SubscriptionCard from "./SubscriptionCard";
 import { SubscriptionType } from "../types/types";
+import SubscriptionCard from "./SubscriptionCard";
 
 const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
+  //storing channel stats from subscription details
   const [channelStats, setChannelStats] = useState();
+
+  //getting token data from redux store
   const tokenData = useAppSelector((state) => state.token);
 
+  //parts to be called with the API
   const parts = ["statistics", "snippet"];
 
   const id = sub?.snippet?.resourceId?.channelId;
 
-  //effect for uisng subscribers id and getting channel data from it to display in subscription section
+  //effect for using subscribers id and getting channel data from it to display in subscription section
   useEffect(() => {
     (async () => {
       try {

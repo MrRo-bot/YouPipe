@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import { PlaylistListType } from "../types/types";
+import { SearchListType } from "../types/types";
 
-const initialState: PlaylistListType = {
+const initialState: SearchListType = {
+  searchString: "",
   kind: "",
   etag: "",
   nextPageToken: "",
   prevPageToken: "",
+  regionCode: "",
   pageInfo: {
     totalResults: 0,
     resultsPerPage: 0,
@@ -15,7 +17,12 @@ const initialState: PlaylistListType = {
     {
       kind: "",
       etag: "",
-      id: "",
+      id: {
+        kind: "",
+        videoId: "",
+        channelId: "",
+        playlistId: "",
+      },
       snippet: {
         publishedAt: "",
         channelId: "",
@@ -49,54 +56,48 @@ const initialState: PlaylistListType = {
           },
         },
         channelTitle: "",
-        defaultLanguage: "",
-        localized: {
-          title: "",
-          description: "",
-        },
-      },
-      status: {
-        privacyStatus: "",
-        podcastStatus: 0,
-      },
-      contentDetails: {
-        itemCount: 0,
-      },
-      player: {
-        embedHtml: "",
-      },
-      localizations: {
-        localized: {
-          title: "",
-          description: "",
-        },
+        liveBroadcastContent: "",
       },
     },
   ],
 };
 
-export const PlaylistsSlice = createSlice({
-  name: "subscription",
+export const searchSlice = createSlice({
+  name: "search",
   initialState,
   reducers: {
-    //adding playlist data in redux store
-    addPlaylists: (state, action: PayloadAction<PlaylistListType>) => {
-      const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
-        action.payload;
+    //adding search results in redux store
+    addSearch: (state, action: PayloadAction<SearchListType>) => {
+      const {
+        kind,
+        etag,
+        nextPageToken,
+        prevPageToken,
+        regionCode,
+        pageInfo,
+        items,
+      } = action.payload;
       Object.assign(state, {
         kind,
         etag,
         nextPageToken,
         prevPageToken,
+        regionCode,
         pageInfo,
-        items,
+        items: [
+          ...(state?.kind === "" ? state.items.slice(1) : state.items),
+          ...items,
+        ],
       });
+    },
+    addSearchString: (state, action) => {
+      state.searchString = action.payload;
     },
   },
 });
 
-export const { addPlaylists } = PlaylistsSlice.actions;
+export const { addSearch, addSearchString } = searchSlice.actions;
 
-export const playlist = (state: RootState) => state.playlist;
+export const search = (state: RootState) => state.search;
 
-export default PlaylistsSlice.reducer;
+export default searchSlice.reducer;

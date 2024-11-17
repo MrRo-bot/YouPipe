@@ -1,16 +1,17 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { PiBellRingingFill } from "react-icons/pi";
 
 import { ChannelInfoType } from "../types/types";
 import { rawViewsToString } from "../utils/functions";
-import { useState } from "react";
 
 const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
+  //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const snippet = stat?.items[0]?.snippet;
