@@ -29,13 +29,13 @@ const Footer = ({ context: searchData }: { context: SearchListType }) => {
 
 const Search = () => {
   //search string
-  const searchStr = useAppSelector((state) => state.search);
+  const searchStr = useAppSelector((state) => state.search.searchString);
 
   //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
 
   //fetch more data when scrolling down
-  const [fetchMore, setFetchMore] = useState(true);
+  const [fetchMore, setFetchMore] = useState<boolean>(true);
 
   //dispatching redux reducers
   const dispatch = useAppDispatch();
@@ -48,11 +48,9 @@ const Search = () => {
     queryKey: ["search", fetchMore],
     queryFn: async () => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${
-          searchStr?.searchString
-        }&key=${import.meta.env.VITE_API_KEY}&pageToken=${
-          fetchMore ? searchData?.nextPageToken : ""
-        }`
+        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
+          import.meta.env.VITE_API_KEY
+        }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`
       );
       const search = await res.json();
       dispatch(addSearch(search));
@@ -60,7 +58,6 @@ const Search = () => {
       return search;
     },
     enabled: !!fetchMore,
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
@@ -86,8 +83,8 @@ const Search = () => {
             />
           ) : (
             <Virtuoso
-              className="!min-h-[85vh] !hideScrollbar"
-              increaseViewportBy={100}
+              className="!min-h-[90vh] !hideScrollbar"
+              increaseViewportBy={200}
               data={searchData?.items}
               totalCount={searchData?.pageInfo?.totalResults}
               itemContent={(_, data) => (

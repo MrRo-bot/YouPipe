@@ -37,11 +37,7 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
               <img
                 onLoad={() => setIsImgLoaded(!isImgLoaded)}
                 className="w-full h-full rounded-full"
-                src={
-                  snippet?.thumbnails?.high?.url ||
-                  snippet?.thumbnails?.medium?.url ||
-                  snippet?.thumbnails?.default?.url
-                }
+                src={snippet?.thumbnails?.high?.url}
                 alt=""
               />
             )}

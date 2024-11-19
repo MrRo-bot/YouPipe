@@ -93,10 +93,15 @@ export const searchSlice = createSlice({
     addSearchString: (state, action) => {
       state.searchString = action.payload;
     },
+    //clear search list
+    clearSearchList: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { addSearch, addSearchString } = searchSlice.actions;
+export const { addSearch, addSearchString, clearSearchList } =
+  searchSlice.actions;
 
 export const search = (state: RootState) => state.search;
 

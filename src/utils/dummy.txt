@@ -6,10 +6,44 @@ your channel - https://youtube.googleapis.com/youtube/v3/channels?part=auditDeta
 
 playlist items - https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails%2Cid%2Csnippet%2Cstatus&playlistId=PLNyvF12k5396UpSuI0F_7K7gu3j0_6TPy&key=[YOUR_API_KEY]
 
-search - THE MOST IMPORTANT API TO HANDLE SEARCH FEATURE IS DANGEROUS AND DIFFICULT
-    SIMPLE VERSION - https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=[YOUR_SEARCH_STRING]&key=[YOUR_API_KEY]
+
+refine search option even more
+CREATE MINIMAL CODE TO RENDER CHANNEL AND PLAYLIST CARD AS WELL WITH SEARCH CARD LIST VIDEO
+
 
 search data can be used to show suggestions for search
+
+swiper.js if needed or dragger libraries find out
+take a closer look at hover focus active click effects on youtube official
+look watch later for ideas
+
+notification toast for expired token
+
+YOUR CHANNEL SEARCH AND HOME DIFFICULT
+
+SORT ROUTING STUFF WHEN EVERYTHING IS A LINK
+
+- playlist custom playlist someone else's playlist all have some differences only
+- channel overview and your channel can be same (FUTURE WORK AFTER GETTING API DATA)
+- find what features youtube have that i can integrate in my project
+
+EXTENSIONS I MUST USE====================================
+- turbo console log
+- tailwind shades
+- javascript booster
+- quokka
+
+MODULES=================================================
+check package.json
+ 
+choco install mkcert
+mkcert -install
+mkcert localhost (for https express server certificates )
+
+types installed for packages that have @types
+
+
+flutter version of the project
 
 RESPONSE TYPE FROM GOOGLELOGIN
 let req = {

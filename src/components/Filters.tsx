@@ -89,7 +89,7 @@ const Filters = () => {
             </li>
           ))
         ) : (
-          <div className="">filters not found</div>
+          <div className="">Fetching filters.....</div>
         )}
       </ul>
 

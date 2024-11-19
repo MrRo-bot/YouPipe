@@ -14,7 +14,7 @@ import { ProfileType, TokensType } from "../types/types";
 import { toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
-import { addSearchString } from "../features/searchSlice";
+import { addSearchString, clearSearchList } from "../features/searchSlice";
 import { getLocationData } from "../features/locationSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import useCurrentLocation from "../hooks/useCurrentLocation";
@@ -58,6 +58,7 @@ const Header = () => {
   //getting various redux state variables
   const profileData = useAppSelector((state) => state.profile);
   const locationCode = useAppSelector((state) => state.location);
+  const searchState = useAppSelector((state) => state.search.searchString);
 
   //space separated list of scopes required for project itself
   const scope =
@@ -134,16 +135,6 @@ const Header = () => {
     })();
   }, [locationCoords]);
 
-  //handling search data
-  const handleSearch = (e) => {
-    if (e.target.value.length > 1) {
-      dispatch(addSearchString(e.target.value));
-    }
-    if (e.key === "Enter") {
-      navigate("search");
-    }
-  };
-
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
@@ -174,29 +165,41 @@ const Header = () => {
       <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input
           onChange={(e) => {
+            //toggles if search bar is clear or not
             setClearSearch(e.target.value !== "" ? true : false);
+
+            //adds input string to searchString redux store
+            dispatch(addSearchString(e?.target?.value));
+            if (e?.target?.value === "") dispatch(clearSearchList());
           }}
-          onKeyDown={handleSearch}
+          //if user clicks enter we navigate to search route
+          onKeyDown={(e) => {
+            if (e.key === "Enter") navigate("search");
+          }}
           type="text"
           name="search"
           id="search"
-          placeholder="Search"
+          value={searchState}
+          placeholder="Search anything..."
           className="w-full h-full py-2 pl-4 pr-12 font-semibold bg-transparent"
         />
 
         <div
-          onClick={() => (
-            ((document.getElementById("search") as HTMLInputElement).value =
-              ""),
-            setClearSearch(false)
-          )}
+          onClick={() => {
+            dispatch(clearSearchList());
+            setClearSearch(false);
+          }}
           className={`absolute ${
             !clearSearch ? "hidden" : "grid"
           } transition -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
         >
           <PiX className="w-7 h-7" />
         </div>
-        <div className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+        <div
+          id="searchButton"
+          onClick={() => navigate("search")}
+          className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
+        >
           <MdOutlineSearch className="w-6 h-6" />
         </div>
       </div>
