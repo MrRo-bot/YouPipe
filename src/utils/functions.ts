@@ -1,5 +1,6 @@
 // getting video duration from given string
 export const videoDuration = (duration: string): string => {
+  if (duration === "P0D") return "Live";
   const durationParts: string[] = duration
     .replace("PT", "")
     .replace("H", ":")

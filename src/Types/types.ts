@@ -212,6 +212,76 @@ export type SubscriptionListType = {
   items: [SubscriptionType];
 };
 
+export type PlaylistItemType = {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: {
+    publishedAt: number;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      medium: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      high: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      standard: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      maxres: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    channelTitle: string;
+    videoOwnerChannelTitle: string;
+    videoOwnerChannelId: string;
+    playlistId: string;
+    position: number;
+    resourceId: {
+      kind: string;
+      videoId: string;
+    };
+  };
+  contentDetails: {
+    videoId: string;
+    startAt: string;
+    endAt: string;
+    note: string;
+    videoPublishedAt: number;
+  };
+  status: {
+    privacyStatus: string;
+  };
+};
+
+export type PlaylistItemListType = {
+  kind: string;
+  etag: string;
+  nextPageToken: string;
+  prevPageToken: string;
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
+  };
+  items: [PlaylistItemType];
+};
+
 export type PlaylistType = {
   kind: string;
   etag: string;
