@@ -5,9 +5,10 @@ import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { SearchListType } from "../types/types";
+import { SearchListType, TokensType } from "../types/types";
 import { addSearch } from "../features/searchSlice";
 import SearchCard from "../components/SearchCard";
+import { usePersistedState } from "../hooks/usePersistentStorage";
 
 //footer shows loading or end of list
 const Footer = ({ context: searchData }: { context: SearchListType }) => {
@@ -43,6 +44,16 @@ const Search = () => {
   //getting search data from redux store
   const searchData = useAppSelector((state) => state.search);
 
+  //access token from localStorage
+  const [tokenData] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
   //fetching search list using query string
   useQuery({
     queryKey: ["search", fetchMore],
@@ -50,7 +61,14 @@ const Search = () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
           import.meta.env.VITE_API_KEY
-        }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`
+        }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${tokenData?.access_token}`,
+          },
+        }
       );
       const search = await res.json();
       dispatch(addSearch(search));

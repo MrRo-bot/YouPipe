@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 import { useAppSelector } from "../app/store";
-import { CategoryType } from "../types/types";
+import { CategoryType, TokensType } from "../types/types";
+import { usePersistedState } from "../hooks/usePersistentStorage";
 
 const Filters = () => {
   //toggle scroll arrow depending on scroll progress
@@ -19,6 +20,15 @@ const Filters = () => {
   //getting location data from redux store
   const locationData = useAppSelector((state) => state.location);
 
+  const [tokenData] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
   //query for getting video categories, to be used as filters
   const { data: filters, status } = useQuery({
     queryKey: ["filters"],
@@ -26,7 +36,14 @@ const Filters = () => {
       const data = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=${locationData?.address?.country_code.toUpperCase()}&key=${
           import.meta.env.VITE_API_KEY
-        }`
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${tokenData?.access_token}`,
+          },
+        }
       );
       return await data.json();
     },

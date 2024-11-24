@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
 
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
@@ -16,12 +16,16 @@ import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
 import { addSearchString, clearSearchList } from "../features/searchSlice";
 import { getLocationData } from "../features/locationSlice";
+import { clearHomeVideos } from "../features/homeSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 
 const Header = () => {
   //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
+
+  //location hook for detecting route location
+  const location = useLocation();
 
   //fetching tokens
   const [fetchTokens, setFetchTokens] = useState(false);
@@ -92,7 +96,7 @@ const Header = () => {
     queryKey: ["googleLogin", fetchTokens],
     queryFn: googleLogin,
     enabled: !!fetchTokens,
-    refetchInterval: 3500000, //refetched every hour to get new access token
+    refetchInterval: 3500000, //re-fetched every hour to get new access token
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -134,6 +138,11 @@ const Header = () => {
       }
     })();
   }, [locationCoords]);
+
+  //effect for clearing home videos when user leaves home route
+  useEffect(() => {
+    if (location.pathname !== "/home") dispatch(clearHomeVideos());
+  }, [location.pathname]);
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">

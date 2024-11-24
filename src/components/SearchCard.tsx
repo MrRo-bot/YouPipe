@@ -10,7 +10,7 @@ import {
   PlaylistItemListType,
   PlaylistListType,
   SearchType,
-  VideoListType,
+  VideosListType,
 } from "../types/types";
 import {
   elapsedTime,
@@ -20,7 +20,7 @@ import {
 
 const SearchCard = ({ search }: { search: SearchType }) => {
   //storing video stats from search details
-  const [videoStats, setVideoStats] = useState<VideoListType>();
+  const [videoStats, setVideoStats] = useState<VideosListType>();
   //storing channel stats from search details
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
   //storing playlist stats from search details

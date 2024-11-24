@@ -814,61 +814,6 @@ export type VideoType = {
   recordingDetails?: {
     recordingDate: string;
   };
-  fileDetails?: {
-    fileName: string;
-    fileSize: number;
-    fileType: string;
-    container: string;
-    videoStreams: [
-      {
-        widthPixels: number;
-        heightPixels: number;
-        frameRateFps: number;
-        aspectRatio: number;
-        codec: string;
-        bitrateBps: number;
-        rotation: string;
-        vendor: string;
-      }
-    ];
-    audioStreams: [
-      {
-        channelCount: number;
-        codec: string;
-        bitrateBps: number;
-        vendor: string;
-      }
-    ];
-    durationMs: number;
-    bitrateBps: number;
-    creationTime: string;
-  };
-  processingDetails?: {
-    processingStatus: string;
-    processingProgress: {
-      partsTotal: number;
-      partsProcessed: number;
-      timeLeftMs: number;
-    };
-    processingFailureReason: string;
-    fileDetailsAvailability: string;
-    processingIssuesAvailability: string;
-    tagSuggestionsAvailability: string;
-    editorSuggestionsAvailability: string;
-    thumbnailsAvailability: string;
-  };
-  suggestions?: {
-    processingErrors: [string];
-    processingWarnings: [string];
-    processingHints: [string];
-    tagSuggestions: [
-      {
-        tag: string;
-        categoryRestricts: [string];
-      }
-    ];
-    editorSuggestions: [string];
-  };
   liveStreamingDetails?: {
     actualStartTime: string;
     actualEndTime: string;
@@ -885,7 +830,7 @@ export type VideoType = {
   };
 };
 
-export type VideoListType = {
+export type VideosListType = {
   kind: string;
   etag: string;
   nextPageToken: string;

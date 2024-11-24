@@ -13,7 +13,7 @@ import {
   videoDuration,
 } from "../utils/functions";
 
-const WatchLaterCard = ({
+const LikedVideosCard = ({
   likedvideo,
   index,
 }: {
@@ -102,4 +102,4 @@ const WatchLaterCard = ({
   );
 };
 
-export default WatchLaterCard;
+export default LikedVideosCard;

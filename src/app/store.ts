@@ -9,6 +9,7 @@ import playlistsSlice from "../features/playlistsSlice";
 import likedVideosSlice from "../features/likedVideosSlice";
 import locationSlice from "../features/locationSlice";
 import searchSlice from "../features/searchSlice";
+import homeSlice from "../features/homeSlice";
 
 //all reducers for various data stores
 export const store = configureStore({
@@ -21,10 +22,11 @@ export const store = configureStore({
     likedVideos: likedVideosSlice,
     location: locationSlice,
     search: searchSlice,
+    home: homeSlice,
   },
 });
 
-// Infering the `RootState` and `AppDispatch` types from the store itself
+// Inferring the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
