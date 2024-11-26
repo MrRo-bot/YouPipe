@@ -182,7 +182,7 @@ const ChannelOverview = () => {
                 }
                 className={`${
                   scrollArrow.youSide.left ? "block" : "hidden"
-                } absolute transition-all -left-5 hover:shadow-cardShadow rounded-full z-50 top-1/2 -translate-y-1/2`}
+                } absolute transition-all -left-5 hover:shadow-cardShadow rounded-full z-50 top-[55%] -translate-y-[55%]`}
               >
                 <div className="p-1 transition rounded-full cursor-pointer w-9 h-9 bg-zinc-900 hover:bg-zinc-700 focus:bg-zinc-700">
                   <MdKeyboardArrowLeft className="w-full h-full" />
@@ -220,7 +220,7 @@ const ChannelOverview = () => {
                 }
                 className={`${
                   scrollArrow.youSide.right ? "block" : "hidden"
-                } absolute transition-all -right-5 hover:shadow-cardShadow rounded-full z-50 top-1/2 -translate-y-1/2`}
+                } absolute transition-all -right-5 hover:shadow-cardShadow rounded-full z-50 top-[55%] -translate-y-[55%]`}
               >
                 <div className="p-1 transition rounded-full cursor-pointer w-9 h-9 bg-zinc-900 hover:bg-zinc-700 focus:bg-zinc-700">
                   <MdKeyboardArrowRight className="w-full h-full" />
@@ -243,7 +243,7 @@ const ChannelOverview = () => {
                 }
                 className={`${
                   scrollArrow.videoSide.left ? "block" : "hidden"
-                } absolute transition-all -left-5 hover:shadow-cardShadow rounded-full z-50 top-1/2 -translate-y-1/2`}
+                } absolute transition-all -left-5 hover:shadow-cardShadow rounded-full z-50 top-[55%] -translate-y-[55%]`}
               >
                 <div className="p-1 transition rounded-full cursor-pointer w-9 h-9 bg-zinc-900 hover:bg-zinc-700 focus:bg-zinc-700">
                   <MdKeyboardArrowLeft className="w-full h-full" />
@@ -281,7 +281,7 @@ const ChannelOverview = () => {
                 }
                 className={`${
                   scrollArrow.videoSide.right ? "block" : "hidden"
-                } absolute transition-all -right-5 hover:shadow-cardShadow rounded-full z-50 top-1/2 -translate-y-1/2`}
+                } absolute transition-all -right-5 hover:shadow-cardShadow rounded-full z-50 top-[55%] -translate-y-[55%]`}
               >
                 <div className="p-1 transition rounded-full cursor-pointer w-9 h-9 bg-zinc-900 hover:bg-zinc-700 focus:bg-zinc-700">
                   <MdKeyboardArrowRight className="w-full h-full" />

@@ -6,7 +6,7 @@ import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 
-import Filters from "../components/Filters";
+// import Filters from "../components/Filters";
 import { addHomeVideos } from "../features/homeSlice";
 import VideoList from "../components/VideoList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
@@ -15,7 +15,7 @@ import { TokensType } from "../types/types";
 const Home = () => {
   //intersection observer
   const { ref, inView } = useInView({
-    initialInView: true,
+    delay: 2000,
   });
 
   //sidebar
@@ -56,7 +56,6 @@ const Home = () => {
       );
       const home = await res.json();
       dispatch(addHomeVideos(home));
-
       return home;
     },
     enabled: !!inView,
@@ -73,20 +72,22 @@ const Home = () => {
           !isOpen ? "w-[85vw]" : "w-full"
         }  overflow-y-auto hideScrollbar rounded-xl`}
       >
-        {profileData?.email && <Filters />}
+        {/* {profileData?.email && <Filters />} */}
 
         <div className="grid grid-flow-row py-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {profileData?.email && (
             <>
               {homeData?.items?.length <= 1 ? (
-                <FidgetSpinner
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="fidget-spinner-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="col-start-1 -col-end-1 fidget-spinner-wrapper mx-auto"
-                />
+                <div ref={ref} className="col-start-1 mx-auto -col-end-1">
+                  <FidgetSpinner
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="fidget-spinner-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="fidget-spinner-wrapper"
+                  />
+                </div>
               ) : (
                 homeData?.items?.map((video) => (
                   <VideoList key={video?.id?.videoId} video={video} />
@@ -95,7 +96,7 @@ const Home = () => {
             </>
           )}
           {!profileData?.email && (
-            <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass animate-pulse">
+            <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
               <strong className="block text-3xl tracking-wider">
                 Login to get started.
               </strong>

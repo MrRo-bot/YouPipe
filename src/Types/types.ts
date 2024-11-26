@@ -12,11 +12,6 @@ export type ErrorType = {
   statusText?: string;
 };
 
-export type SidebarType = {
-  icon: JSX.Element;
-  text: string;
-};
-
 export type TokensType = {
   access_token: string;
   refresh_token: string;

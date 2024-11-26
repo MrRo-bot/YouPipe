@@ -3,50 +3,61 @@ import { NavLink } from "react-router-dom";
 import {
   PiListStarFill,
   PiHouseFill,
-  PiLightbulbFill,
-  PiTelevisionFill,
-  PiFilmSlateFill,
-  PiMusicNotesFill,
-  PiNewspaperFill,
-  PiGooglePodcastsLogoFill,
   PiGearSixFill,
-  PiShoppingBagFill,
-  PiTrophyFill,
-  PiGameControllerFill,
   PiMonitorPlayFill,
   PiUserSwitchFill,
-  PiTrendUpFill,
-  PiShoppingCartFill,
   PiThumbsUpFill,
 } from "react-icons/pi";
 
-import { SidebarType } from "../types/types";
-import { useAppSelector } from "../app/store";
+import { useAppDispatch, useAppSelector } from "../app/store";
+import { useQuery } from "@tanstack/react-query";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { TokensType } from "../types/types";
+import { ThreeDots } from "react-loader-spinner";
+import { addCategories } from "../features/categoriesSlice";
 
 const Sidebar = () => {
   //for toggling side menu to expand or collapse
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
-  //sidebar options with icons
-  const EXPLORE: SidebarType[] = [
-    { icon: <PiTrendUpFill className="w-7 h-7" />, text: "Trending" },
-    { icon: <PiShoppingBagFill className="w-7 h-7" />, text: "Shopping" },
-    { icon: <PiMusicNotesFill className="w-7 h-7" />, text: "Music" },
-    { icon: <PiFilmSlateFill className="w-7 h-7" />, text: "Movies" },
-    { icon: <PiTelevisionFill className="w-7 h-7" />, text: "Live" },
-    { icon: <PiGameControllerFill className="w-7 h-7" />, text: "Gaming" },
-    { icon: <PiNewspaperFill className="w-7 h-7" />, text: "News" },
-    { icon: <PiTrophyFill className="w-7 h-7" />, text: "Sports" },
-    { icon: <PiLightbulbFill className="w-7 h-7" />, text: "Courses" },
-    {
-      icon: <PiShoppingCartFill className="w-7 h-7" />,
-      text: "Fashion & beauty",
+  //getting token from localStorage
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
+  //location codes
+  const regionCode = useAppSelector((state) => state.location);
+  //categories
+  const categories = useAppSelector((state) => state.categories);
+
+  //dispatch reducers for store
+  const dispatch = useAppDispatch();
+
+  //query for getting youtube categories based on region
+  const { status } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=${regionCode.address.country_code.toUpperCase()}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      dispatch(addCategories(data));
+      return data;
     },
-    {
-      icon: <PiGooglePodcastsLogoFill className="w-7 h-7" />,
-      text: "Podcasts",
-    },
-  ];
+  });
 
   return (
     <aside
@@ -191,15 +202,28 @@ const Sidebar = () => {
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Explore
             </h2>
-            {EXPLORE.map(({ icon, text }) => (
-              <div
-                key={text}
-                className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
-              >
-                {icon}
-                <div className="w-full">{text}</div>
-              </div>
-            ))}
+            {status !== "success" ? (
+              <ThreeDots
+                visible={true}
+                height="50"
+                width="50"
+                color="#3bf6fcbf"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass="justify-center"
+              />
+            ) : (
+              categories?.items?.map((category) => (
+                <div
+                  key={category.id}
+                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
+                >
+                  {/* {icon} */}
+                  <div className="w-full">{category?.snippet?.title}</div>
+                </div>
+              ))
+            )}
           </div>
           <div className="flex flex-col gap-1 py-3 pl-3 pr-0">
             <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">

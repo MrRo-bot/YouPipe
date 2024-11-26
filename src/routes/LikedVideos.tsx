@@ -82,7 +82,7 @@ const LikedVideos = () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?part=${parts.join(
           ","
-        )}&maxResults=20&myRating=like&key=${
+        )}&maxResults=50&myRating=like&key=${
           import.meta.env.VITE_API_KEY
         }&pageToken=${fetchMore ? likedVideos?.nextPageToken : ""}`,
         {
