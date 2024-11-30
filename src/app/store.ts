@@ -11,6 +11,7 @@ import locationSlice from "../features/locationSlice";
 import searchSlice from "../features/searchSlice";
 import homeSlice from "../features/homeSlice";
 import categoriesSlice from "../features/categoriesSlice";
+import commentsThreadSlice from "../features/commentsThreadSlice";
 
 //all reducers for various data stores
 export const store = configureStore({
@@ -25,6 +26,7 @@ export const store = configureStore({
     search: searchSlice,
     home: homeSlice,
     categories: categoriesSlice,
+    commentsThread: commentsThreadSlice,
   },
 });
 

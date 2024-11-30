@@ -13,10 +13,16 @@ export const hamburgerMenuSlice = createSlice({
     toggle: (state) => {
       state.isOpen = state.isOpen ? false : true;
     },
+    collapse: (state) => {
+      state.isOpen = false;
+    },
+    expand: (state) => {
+      state.isOpen = true;
+    },
   },
 });
 
-export const { toggle } = hamburgerMenuSlice.actions;
+export const { toggle, collapse, expand } = hamburgerMenuSlice.actions;
 
 export const isOpen = (state: RootState) => state.hamburger.isOpen;
 

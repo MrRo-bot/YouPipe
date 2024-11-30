@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
+import { useNavigate } from "react-router-dom";
+
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
@@ -29,6 +31,8 @@ const LikedVideosCard = ({
   //for skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
+  const navigate = useNavigate();
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -45,7 +49,11 @@ const LikedVideosCard = ({
       >
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
-          <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
+          <div
+            //navigate to video route
+            onClick={() => navigate(`/video/${likedvideo?.id}`)}
+            className="relative overflow-hidden w-52 aspect-video rounded-2xl"
+          >
             {!likedvideo?.snippet?.thumbnails?.high?.url ? (
               <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             ) : (
@@ -64,6 +72,7 @@ const LikedVideosCard = ({
               </>
             )}
           </div>
+
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
               {isImgLoaded ? (

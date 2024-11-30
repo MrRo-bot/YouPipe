@@ -11,12 +11,11 @@ import { addHomeVideos } from "../features/homeSlice";
 import VideoList from "../components/VideoList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
+import { nanoid } from "@reduxjs/toolkit";
 
 const Home = () => {
   //intersection observer
-  const { ref, inView } = useInView({
-    delay: 2000,
-  });
+  const { ref, inView } = useInView();
 
   //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
@@ -39,28 +38,28 @@ const Home = () => {
   });
 
   //fetching search list using query string
-  useQuery({
-    queryKey: ["home", inView],
-    queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&key=${
-          import.meta.env.VITE_API_KEY
-        }&pageToken=${inView ? homeData?.nextPageToken : ""}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
-          },
-        }
-      );
-      const home = await res.json();
-      dispatch(addHomeVideos(home));
-      return home;
-    },
-    enabled: !!inView,
-    refetchOnWindowFocus: false,
-  });
+  // useQuery({
+  //   queryKey: ["home", inView],
+  //   queryFn: async () => {
+  //     const res = await fetch(
+  //       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&key=${
+  //         import.meta.env.VITE_API_KEY
+  //       }&pageToken=${inView ? homeData?.nextPageToken : ""}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Host: "www.googleapis.com",
+  //           Authorization: `Bearer ${tokenData?.access_token}`,
+  //         },
+  //       }
+  //     );
+  //     const home = await res.json();
+  //     dispatch(addHomeVideos(home));
+  //     return home;
+  //   },
+  //   enabled: !!inView,
+  //   refetchOnWindowFocus: false,
+  // });
 
   return (
     <AnimatePresence>
@@ -90,7 +89,7 @@ const Home = () => {
                 </div>
               ) : (
                 homeData?.items?.map((video) => (
-                  <VideoList key={video?.id?.videoId} video={video} />
+                  <VideoList key={nanoid()} video={video} />
                 ))
               )}
             </>

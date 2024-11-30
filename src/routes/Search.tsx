@@ -55,29 +55,29 @@ const Search = () => {
   });
 
   //fetching search list using query string
-  useQuery({
-    queryKey: ["search", fetchMore],
-    queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
-          import.meta.env.VITE_API_KEY
-        }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
-          },
-        }
-      );
-      const search = await res.json();
-      dispatch(addSearch(search));
-      setFetchMore(false);
-      return search;
-    },
-    enabled: !!fetchMore,
-    refetchOnWindowFocus: false,
-  });
+  // useQuery({
+  //   queryKey: ["search", fetchMore],
+  //   queryFn: async () => {
+  //     const res = await fetch(
+  //       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
+  //         import.meta.env.VITE_API_KEY
+  //       }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Host: "www.googleapis.com",
+  //           Authorization: `Bearer ${tokenData?.access_token}`,
+  //         },
+  //       }
+  //     );
+  //     const search = await res.json();
+  //     dispatch(addSearch(search));
+  //     setFetchMore(false);
+  //     return search;
+  //   },
+  //   enabled: !!fetchMore,
+  //   refetchOnWindowFocus: false,
+  // });
 
   return (
     <AnimatePresence>

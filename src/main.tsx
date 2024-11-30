@@ -24,6 +24,7 @@ import PlaylistOverview from "./routes/PlaylistOverview.tsx";
 import Search from "./routes/Search.tsx";
 
 import { store } from "./app/store.ts";
+import Player from "./routes/Player.tsx";
 
 //creating query client
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
       <Route path="likedvideos" element={<LikedVideos />} />
       <Route path="channeloverview" element={<ChannelOverview />} />
       <Route path="search" element={<Search />} />
+      <Route path="video/:videoId" element={<Player />} />
     </Route>
   )
 );

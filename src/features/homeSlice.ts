@@ -68,14 +68,22 @@ export const homeSlice = createSlice({
   reducers: {
     //adding home search videos list in redux store
     addHomeVideos: (state, action: PayloadAction<SearchListType>) => {
-      const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
-        action.payload;
+      const {
+        kind,
+        etag,
+        nextPageToken,
+        prevPageToken,
+        regionCode,
+        pageInfo,
+        items,
+      } = action.payload;
 
       Object.assign(state, {
         kind,
         etag,
         nextPageToken,
         prevPageToken,
+        regionCode,
         pageInfo,
         items: [
           ...(state?.kind === "" ? state.items.slice(1) : state.items),

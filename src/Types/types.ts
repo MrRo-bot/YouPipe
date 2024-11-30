@@ -836,3 +836,31 @@ export type VideosListType = {
   };
   items: [VideoType];
 };
+
+export type CommentType = {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet?: {
+    channelId: string;
+    videoId: string;
+    topLevelComment: [CommentType];
+    canReply: boolean;
+    totalReplyCount: number;
+    isPublic: boolean;
+  };
+  replies?: {
+    comments: [CommentListType];
+  };
+};
+
+export type CommentListType = {
+  kind: string;
+  etag: string;
+  nextPageToken: string;
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
+  };
+  items: [CommentType];
+};
