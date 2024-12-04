@@ -45,15 +45,13 @@ const LikedVideosCard = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
+        //navigate to video route
+        onClick={() => navigate(`/video/${likedvideo?.id}`)}
         className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 rounded-2xl"
       >
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
-          <div
-            //navigate to video route
-            onClick={() => navigate(`/video/${likedvideo?.id}`)}
-            className="relative overflow-hidden w-52 aspect-video rounded-2xl"
-          >
+          <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
             {!likedvideo?.snippet?.thumbnails?.high?.url ? (
               <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             ) : (

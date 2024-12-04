@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import parse from "html-react-parser";
+import { nanoid } from "nanoid";
 
 import { PiThumbsDownFill, PiThumbsUpFill } from "react-icons/pi";
 
@@ -14,6 +16,7 @@ import { addCommentsThread } from "../features/commentsThreadSlice";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { Virtuoso } from "react-virtuoso";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { addTimestamp } from "../features/timestampSlice";
 
 //footer shows loading or end of list
 const Footer = ({
@@ -39,6 +42,15 @@ const Footer = ({
 };
 
 const Player = () => {
+  //state for storing playing status
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  //react player ref
+  const playerRef = useRef(null);
+
+  //redux store for timestamp
+  const timestamp = useAppSelector((state) => state.timestamp.value);
+
   //params for getting parameters passed in route link
   const { videoId } = useParams();
 
@@ -124,10 +136,47 @@ const Player = () => {
       setFetchMore(false);
       return commentThread;
     },
-    enabled: !!videoId || !!fetchMore,
-    refetchOnWindowFocus: false,
+    enabled: !!videoId && !!fetchMore,
     refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
+
+  //modifying description by detecting links and adding styles to it
+  const findingLinks = video?.items[0]?.snippet?.localized?.description.replace(
+    /(\b(https?|http):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/gi,
+    `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="$&">$&</a>`
+  );
+
+  const handleTimestamp = (e) => {
+    const timestampArr = e.target.innerText.split(":");
+    let seconds = 0;
+
+    //if hours exists in timestamp
+    // h * 3600 + m * 60 + s
+    seconds =
+      timestampArr.length > 2
+        ? Number(timestampArr[0]) * 3600 +
+          Number(timestampArr[1]) * 60 +
+          Number(timestampArr[2])
+        : Number(timestampArr[0]) * 60 + Number(timestampArr[1]);
+
+    dispatch(addTimestamp(seconds));
+  };
+
+  //handling timestamp
+  const modifiedDescription = findingLinks?.replace(
+    /(\d*:?\d{1,2}:\d{1,2})/gm,
+    (match) =>
+      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
+  );
+
+  //seeking to a timestamp
+  useEffect(() => {
+    if (timestamp !== 0) {
+      playerRef.current?.seekTo(timestamp, "seconds");
+      setIsPlaying(true);
+    }
+  }, [timestamp]);
 
   return (
     <div className="w-full h-[90vh] pt-5">
@@ -136,8 +185,10 @@ const Player = () => {
           <div className="relative">
             <div className="w-full h-full overflow-hidden aspect-video rounded-3xl">
               <ReactPlayer
+                ref={playerRef}
                 url={`https://www.youtube.com/watch?v=${videoId}`}
-                playing={false}
+                playing={isPlaying}
+                onPlay={() => setIsPlaying(true)}
                 controls={true}
                 volume={0.1}
                 playbackRate={1}
@@ -174,19 +225,23 @@ const Player = () => {
               </div>
 
               <pre className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark">
-                {video?.items[0]?.snippet?.description}
+                <span onClick={(e) => handleTimestamp(e)}>
+                  {parse(modifiedDescription || "")}
+                </span>
                 <br />
                 <br />
-                {video?.items[0]?.snippet?.tags?.map((tag: string) => (
-                  <>
-                    <span
-                      key={tag}
-                      className="px-2 py-1 font-bold rounded-3xl bg-slate-500 text-slate-950"
-                    >
-                      #{tag.split(" ").join("_")}
-                    </span>{" "}
-                  </>
-                ))}
+                <div className="flex flex-wrap gap-2">
+                  {video?.items[0]?.snippet?.tags?.map((tag: string) => (
+                    <>
+                      <span
+                        key={nanoid()}
+                        className="px-2 py-1 font-bold rounded-3xl bg-slate-500 text-slate-950"
+                      >
+                        #{tag.split(" ").join("_")}
+                      </span>{" "}
+                    </>
+                  ))}
+                </div>
               </pre>
             </div>
           </div>
@@ -200,13 +255,10 @@ const Player = () => {
             </strong>{" "}
             Comments
           </h2>
-          <div>
-            <h3 className="my-2 font-bold">Sort By</h3>
-          </div>
 
-          {/* Virtuoso virtualized rendering of liked videos list for increased rendering performance */}
+          {/* Virtuoso virtualized rendering of comments */}
 
-          {comments?.items?.length <= 1 ? (
+          {comments?.items[0]?.kind === "" ? (
             <FidgetSpinner
               visible={true}
               height="80"
@@ -225,10 +277,14 @@ const Player = () => {
               )}
               itemContent={(_, data) => (
                 <div className="pt-3">
-                  <Comment key={data.id} comment={data} />
+                  <Comment
+                    key={data.id}
+                    comment={data}
+                    channelId={video?.items[0]?.snippet?.channelId || ""}
+                  />
                 </div>
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 500)}
+              endReached={() => setTimeout(() => setFetchMore(true), 2000)}
               context={{ comments: comments, video: video }}
               components={{ Footer }}
             />

@@ -11,7 +11,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { ProfileType, TokensType } from "../types/types";
-import { collapse, expand, toggle } from "../features/hamburgerMenuSlice";
+import { collapse, toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
 import { addSearchString, clearSearchList } from "../features/searchSlice";
@@ -20,6 +20,7 @@ import { clearHomeVideos } from "../features/homeSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { clearCommentsThread } from "../features/commentsThreadSlice";
+import { removeTimestamp } from "../features/timestampSlice";
 
 const Header = () => {
   //clearing search field in various ways
@@ -140,12 +141,14 @@ const Header = () => {
     })();
   }, [locationCoords]);
 
-  //effect for clearing home videos when user leaves home route
+  //effect for clearing home videos when user leaves home route, checks when user in player route(collapse sidebar)
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname.includes("/video")) dispatch(collapse());
-    if (!location.pathname.includes("/video")) dispatch(expand());
-    if (location.pathname !== "/video") dispatch(clearCommentsThread());
+    if (location.pathname !== "/video") {
+      dispatch(clearCommentsThread());
+      dispatch(removeTimestamp());
+    }
   }, [location.pathname]);
 
   return (
