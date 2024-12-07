@@ -13,6 +13,7 @@ import homeSlice from "../features/homeSlice";
 import categoriesSlice from "../features/categoriesSlice";
 import commentsThreadSlice from "../features/commentsThreadSlice";
 import timestampSlice from "../features/timestampSlice";
+import PlaylistOverviewSlice from "../features/playlistOverviewSlice";
 
 //all reducers for various data stores
 export const store = configureStore({
@@ -29,6 +30,7 @@ export const store = configureStore({
     categories: categoriesSlice,
     commentsThread: commentsThreadSlice,
     timestamp: timestampSlice,
+    playlistOverview: PlaylistOverviewSlice,
   },
 });
 

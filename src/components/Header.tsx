@@ -21,6 +21,7 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { clearCommentsThread } from "../features/commentsThreadSlice";
 import { removeTimestamp } from "../features/timestampSlice";
+import { clearPlayItems } from "../features/playlistOverviewSlice";
 
 const Header = () => {
   //clearing search field in various ways
@@ -145,6 +146,7 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname.includes("/video")) dispatch(collapse());
+    if (location.pathname.includes("playlist")) dispatch(clearPlayItems());
     if (location.pathname !== "/video") {
       dispatch(clearCommentsThread());
       dispatch(removeTimestamp());

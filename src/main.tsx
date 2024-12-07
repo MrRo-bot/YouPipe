@@ -36,10 +36,10 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="playlists" element={<Playlist />} />
-      <Route path="playlistoverview" element={<PlaylistOverview />} />
       <Route path="likedvideos" element={<LikedVideos />} />
       <Route path="channeloverview" element={<ChannelOverview />} />
       <Route path="search" element={<Search />} />
+      <Route path="playlist/:playlistId" element={<PlaylistOverview />} />
       <Route path="video/:videoId" element={<Player />} />
     </Route>
   )

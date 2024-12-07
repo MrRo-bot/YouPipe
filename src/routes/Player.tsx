@@ -22,7 +22,7 @@ import { addTimestamp } from "../features/timestampSlice";
 const Footer = ({
   context: { comments: comments, video: video },
 }: {
-  context: { comments: CommentListType; video: VideosListType };
+  context: { comments: CommentListType; video: VideosListType | undefined };
 }) => {
   return comments?.items?.length <
     Number(video?.items[0]?.statistics?.commentCount) ? (

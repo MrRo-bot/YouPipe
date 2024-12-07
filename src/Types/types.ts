@@ -211,8 +211,8 @@ export type PlaylistItemType = {
   kind: string;
   etag: string;
   id: string;
-  snippet: {
-    publishedAt: number;
+  snippet?: {
+    publishedAt: string;
     channelId: string;
     title: string;
     description: string;
@@ -253,14 +253,14 @@ export type PlaylistItemType = {
       videoId: string;
     };
   };
-  contentDetails: {
+  contentDetails?: {
     videoId: string;
     startAt: string;
     endAt: string;
     note: string;
     videoPublishedAt: number;
   };
-  status: {
+  status?: {
     privacyStatus: string;
   };
 };
