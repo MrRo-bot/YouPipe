@@ -4,24 +4,23 @@ import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
 
-import { AiOutlineVideoCameraAdd } from "react-icons/ai";
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { ProfileType, TokensType } from "../types/types";
 import { collapse, toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
 import { addSearchString, clearSearchList } from "../features/searchSlice";
 import { getLocationData } from "../features/locationSlice";
-import { clearHomeVideos } from "../features/homeSlice";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import useCurrentLocation from "../hooks/useCurrentLocation";
 import { clearCommentsThread } from "../features/commentsThreadSlice";
+import { clearHomeVideos } from "../features/homeSlice";
 import { removeTimestamp } from "../features/timestampSlice";
 import { clearPlayItems } from "../features/playlistOverviewSlice";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import useCurrentLocation from "../hooks/useCurrentLocation";
+import { ProfileType, TokensType } from "../types/types";
 
 const Header = () => {
   //clearing search field in various ways
@@ -146,7 +145,7 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname.includes("/video")) dispatch(collapse());
-    if (!location.pathname.includes("playlist")) dispatch(clearPlayItems());
+    if (location.pathname !== "playlist") dispatch(clearPlayItems());
     if (location.pathname !== "/video") {
       dispatch(clearCommentsThread());
       dispatch(removeTimestamp());
@@ -159,7 +158,7 @@ const Header = () => {
         <div
           //toggling hamburger menu
           onClick={() => dispatch(toggle())}
-          className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
+          className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <RxHamburgerMenu className="w-full h-full p-2.5" />
         </div>
@@ -216,16 +215,16 @@ const Header = () => {
         <div
           id="searchButton"
           onClick={() => navigate("search")}
-          className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black"
+          className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <MdOutlineSearch className="w-6 h-6" />
         </div>
       </div>
       <div>
         <div className="flex items-center gap-4 mx-2 min-h-12">
-          <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-9 h-9 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black">
+          {/* <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-9 h-9 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
             <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
-          </div>
+          </div> */}
           {/* google login button */}
           <div
             onClick={() => setFetchTokens(!fetchTokens)}

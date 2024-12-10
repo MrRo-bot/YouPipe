@@ -18,13 +18,12 @@ import ErrorPage from "./routes/ErrorPage.tsx";
 import Home from "./routes/Home.tsx";
 import Playlist from "./routes/Playlist.tsx";
 import LikedVideos from "./routes/LikedVideos.tsx";
-import ChannelOverview from "./routes/ChannelOverview.tsx";
 import Subscription from "./routes/Subscription.tsx";
 import PlaylistOverview from "./routes/PlaylistOverview.tsx";
 import Search from "./routes/Search.tsx";
+import Player from "./routes/Player.tsx";
 
 import { store } from "./app/store.ts";
-import Player from "./routes/Player.tsx";
 
 //creating query client
 const queryClient = new QueryClient();
@@ -37,7 +36,7 @@ const router = createBrowserRouter(
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="playlists" element={<Playlist />} />
       <Route path="likedvideos" element={<LikedVideos />} />
-      <Route path="channeloverview" element={<ChannelOverview />} />
+      {/* <Route path="channeloverview" element={<ChannelOverview />} /> */}
       <Route path="search" element={<Search />} />
       <Route path="playlist/:playlistId" element={<PlaylistOverview />} />
       <Route path="video/:videoId" element={<Player />} />

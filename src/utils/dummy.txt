@@ -1,4 +1,4 @@
-your channel - https://youtube.googleapis.com/youtube/v3/channels?part=auditDetails%2CbrandingSettings%2CcontentDetails%2CcontentOwnerDetails%2Cid%2Clocalizations%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&mine=true
+your channel - https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails%2Cid%2Clocalizations%2Csnippet%2Cstatistics%2Cstatus%2CtopicDetails&mine=true&key=[YOUR_API_KEY]
 
    channel section - https://youtube.googleapis.com/youtube/v3/channelSections?part=contentDetails%2Cid%2Csnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
 

@@ -4,7 +4,6 @@ import {
   PiListStarFill,
   PiHouseFill,
   PiMonitorPlayFill,
-  PiUserSwitchFill,
   PiThumbsUpFill,
 } from "react-icons/pi";
 
@@ -78,7 +77,7 @@ const Sidebar = () => {
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiHouseFill className="w-4 h-4" />
               <div className="w-full">Home</div>
             </div>
@@ -93,13 +92,13 @@ const Sidebar = () => {
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiMonitorPlayFill className="w-4 h-4" />
               <div className="w-full">Subs</div>
             </div>
           </NavLink>
           <NavLink
-            to="channeloverview"
+            to="playlists"
             className={({ isActive, isPending }) =>
               isPending
                 ? ""
@@ -108,10 +107,34 @@ const Sidebar = () => {
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+              <PiListStarFill className="w-4 h-4" />
+              <div className="w-full">PLists</div>
+            </div>
+            {/* <PiUserSwitchFill className="w-4 h-4" /> */}
+            {/* <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiUserSwitchFill className="w-4 h-4" />
               <div className="w-full">You</div>
+            </div> */}
+          </NavLink>
+          <NavLink
+            to="likedvideos"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? ""
+                : isActive
+                ? "bg-white rounded-md text-black font-bold"
+                : ""
+            }
+          >
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+              <PiThumbsUpFill className="w-4 h-4" />
+              <div className="w-full">Liked</div>
             </div>
+            {/* <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+              <PiUserSwitchFill className="w-4 h-4" />
+              <div className="w-full">You</div>
+            </div> */}
           </NavLink>
         </>
       ) : (
@@ -128,7 +151,7 @@ const Sidebar = () => {
                   : ""
               }
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
+              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiHouseFill className="w-7 h-7" />
                 <div className="w-full">Home</div>
               </div>
@@ -143,12 +166,12 @@ const Sidebar = () => {
               }
               to="subscriptions"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
+              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiMonitorPlayFill className="w-7 h-7" />
                 <div className="w-full">Subscriptions</div>
               </div>
             </NavLink>
-            <NavLink
+            {/* <NavLink
               className={({ isActive, isPending }) =>
                 isPending
                   ? ""
@@ -158,11 +181,11 @@ const Sidebar = () => {
               }
               to="channeloverview"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
+              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiUserSwitchFill className="w-7 h-7" />
                 <div className="w-full">Your channel</div>
               </div>
-            </NavLink>
+            </NavLink> */}
 
             <NavLink
               className={({ isActive, isPending }) =>
@@ -174,7 +197,7 @@ const Sidebar = () => {
               }
               to="playlists"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
+              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiListStarFill className="w-7 h-7" />
                 <div className="w-full">Playlists</div>
               </div>
@@ -190,7 +213,7 @@ const Sidebar = () => {
               }
               to="likedvideos"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer">
+              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-[1.3em] py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiThumbsUpFill className="w-7 h-7" />
                 <div className="w-full">Liked Videos</div>
               </div>
@@ -206,7 +229,7 @@ const Sidebar = () => {
               categories?.items?.map((category) => (
                 <div
                   key={category.id}
-                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
+                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer active:text-zinc-900 active:bg-zinc-400"
                 >
                   <div className="w-full">{category?.snippet?.title}</div>
                 </div>
