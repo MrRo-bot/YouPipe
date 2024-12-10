@@ -9,6 +9,7 @@ import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { PlaylistType } from "../../types/types";
 import { useNavigate } from "react-router-dom";
+import { elapsedTime } from "../../utils/functions";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   //skeleton loading before image is loaded
@@ -16,6 +17,12 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
 
   //navigate method for navigating to playlistOverview route
   const navigate = useNavigate();
+
+  //creating date value from ISO 8601 format
+  const myDate = new Date(playlist?.snippet?.publishedAt || "");
+
+  //getting time from date
+  const result = myDate.getTime();
 
   return (
     <SkeletonTheme
@@ -84,7 +91,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             </div>
             {isImgLoaded ? (
               <div className="text-xs tracking-wide text-zinc-400">
-                Updated Today
+                {elapsedTime(result)} ago
               </div>
             ) : (
               <Skeleton
@@ -96,7 +103,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             {isImgLoaded ? (
               <div
                 onClick={() => navigate(`/playlist/${playlist?.id}`)}
-                className="text-xs tracking-wide transition-colors text-zinc-400 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
+                className="text-sm font-medium tracking-wide transition-colors text-zinc-400 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
               >
                 View full playlist
               </div>

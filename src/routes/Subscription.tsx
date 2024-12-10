@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
@@ -35,6 +35,7 @@ const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
 const Subscription = () => {
   //sorting options
   const [sortBy, setSortBy] = useState("relevance");
+  const [expand, setExpand] = useState(false);
 
   //fetch more data when scrolling down
   const [fetchMore, setFetchMore] = useState(true);
@@ -87,6 +88,13 @@ const Subscription = () => {
     refetchOnWindowFocus: false,
   });
 
+  const handleSort = (e: MouseEvent<HTMLDivElement>) => {
+    dispatch(clearSubscription());
+    setSortBy(e.currentTarget.dataset.sort || "");
+    setFetchMore(true);
+    setExpand(false);
+  };
+
   return (
     <AnimatePresence>
       <div
@@ -105,34 +113,47 @@ const Subscription = () => {
               All Subscriptions
             </h1>
 
-            <select
-              defaultValue={sortBy}
-              onChange={(e) => {
-                dispatch(clearSubscription());
-                setFetchMore(true);
-                setSortBy(e.target.value);
-              }}
-              className="p-3 mt-5 font-bold transition-all rounded-md cursor-pointer bg-zinc-800"
-            >
-              <option
-                className="text-sm font-medium transition-all font-text"
-                value="relevance"
+            <div className="block mt-4 rounded-lg cursor-pointer">
+              <div
+                onClick={() => setExpand(!expand)}
+                className="p-2.5 rounded-lg max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600"
               >
-                Most relevant
-              </option>
-              <option
-                className="text-sm font-medium transition-all font-text"
-                value="unread"
+                {sortBy === "relevance"
+                  ? "Most relevant"
+                  : sortBy === "unread"
+                  ? "New activity"
+                  : sortBy === "alphabetical"
+                  ? "A-Z"
+                  : ""}
+              </div>
+              <div
+                className={`${
+                  expand ? "absolute" : "hidden"
+                } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
               >
-                New activity
-              </option>
-              <option
-                className="text-sm font-medium transition-all font-text"
-                value="alphabetical"
-              >
-                A-Z
-              </option>
-            </select>
+                <div
+                  data-sort="relevance"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  Most relevant
+                </div>
+                <div
+                  data-sort="unread"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  New activity
+                </div>
+                <div
+                  data-sort="alphabetical"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  A-Z
+                </div>
+              </div>
+            </div>
 
             {/* Virtuoso component for rendering list of subscriptions */}
           </div>

@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,8 +6,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
-
-import { PiSortAscendingFill } from "react-icons/pi";
 
 import PlaylistOverviewCard from "../components/playlist/PlaylistOverviewCard";
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -42,10 +40,6 @@ const Footer = ({
 const PlaylistOverview = () => {
   //triggers query for fetching more data
   const [fetchMore, setFetchMore] = useState(true);
-
-  //sort playlist items
-  const [sortBy, setSortBy] = useState("");
-  const [expand, setExpand] = useState(false);
 
   //for skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
@@ -82,10 +76,6 @@ const PlaylistOverview = () => {
     id_token: "",
     expiry_date: 0,
   });
-
-  const handleSort = (e: MouseEvent<HTMLDivElement>) => {
-    setSortBy(e.currentTarget.dataset.sort || "");
-  };
 
   useQuery({
     queryKey: ["playlistItems", fetchMore],
@@ -155,56 +145,6 @@ const PlaylistOverview = () => {
             </div>
           </div>
           <div className="z-0 flex flex-col w-9/12 gap-2 mx-2 my-1 overflow-y-auto hideScrollbar">
-            <div className="block rounded-lg cursor-pointer ">
-              <div
-                onClick={() => setExpand(!expand)}
-                className="flex rounded-lg gap-1 font-bold p-2.5 bg-zinc-800 max-w-max transition-colors active:opacity-[0.85]"
-              >
-                <PiSortAscendingFill className="w-5 h-5" /> Sort by
-              </div>
-              <div
-                className={`${
-                  expand ? "absolute" : "hidden"
-                } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
-              >
-                <div
-                  data-sort="addedNew"
-                  onClick={(e) => handleSort(e)}
-                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
-                >
-                  Date added (newest)
-                </div>
-                <div
-                  data-sort="addedOld"
-                  onClick={(e) => handleSort(e)}
-                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
-                >
-                  Date added (oldest)
-                </div>
-                <div
-                  data-sort="popular"
-                  onClick={(e) => handleSort(e)}
-                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
-                >
-                  Most popular
-                </div>
-                <div
-                  data-sort="publishNew"
-                  onClick={(e) => handleSort(e)}
-                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
-                >
-                  Date published (newest)
-                </div>
-                <div
-                  data-sort="publishOld"
-                  onClick={(e) => handleSort(e)}
-                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
-                >
-                  Date published (oldest)
-                </div>
-              </div>
-            </div>
-
             {/* Virtuoso virtualized rendering of playlistItems list for increased rendering performance */}
             {playlistOverview?.items?.length <= 1 ? (
               <FidgetSpinner
