@@ -7,7 +7,7 @@ import {
   MdOutlineSearch,
 } from "react-icons/md";
 
-import ChannelOverviewCard from "../components/ChannelOverviewCard";
+import ChannelOverviewCard from "../components/channel/ChannelOverviewCard";
 import { useAppSelector } from "../app/store";
 
 const ChannelOverview = () => {

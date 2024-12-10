@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 
-import { useAppSelector } from "../app/store";
-import { SubscriptionType } from "../types/types";
+import { useAppSelector } from "../../app/store";
+import { SubscriptionType } from "../../types/types";
 import SubscriptionCard from "./SubscriptionCard";
 
 const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {

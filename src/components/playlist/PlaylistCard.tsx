@@ -7,7 +7,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
-import { PlaylistType } from "../types/types";
+import { PlaylistType } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {

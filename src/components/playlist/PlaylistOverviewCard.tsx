@@ -12,9 +12,13 @@ import {
   elapsedTime,
   rawViewsToString,
   videoDuration,
-} from "../utils/functions";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import { PlaylistItemType, TokensType, VideosListType } from "../types/types";
+} from "../../utils/functions";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import {
+  PlaylistItemType,
+  TokensType,
+  VideosListType,
+} from "../../types/types";
 
 const PlaylistOverviewCard = ({
   playlistItem,

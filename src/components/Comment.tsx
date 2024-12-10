@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { motion } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
 import {
@@ -36,8 +36,8 @@ const Comment = ({
   const publishedAt = myPubDate.getTime();
   const updatedAt = myUpdDate.getTime();
 
-  const handleTimestamp = (e) => {
-    const timestampArr = e.target.innerText.split(":");
+  const handleTimestamp = (e: MouseEvent<HTMLSpanElement>) => {
+    const timestampArr = e.currentTarget.innerText.split(":");
     let seconds = 0;
 
     //if hours exists in timestamp

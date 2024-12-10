@@ -9,7 +9,7 @@ import { Virtuoso } from "react-virtuoso";
 
 import { PiSortAscendingFill } from "react-icons/pi";
 
-import PlaylistOverviewCard from "../components/PlaylistOverviewCard";
+import PlaylistOverviewCard from "../components/playlist/PlaylistOverviewCard";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { addPlayItems } from "../features/playlistOverviewSlice";

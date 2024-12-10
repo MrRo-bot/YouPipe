@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { addPlaylists } from "../features/playlistsSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
-import PlaylistCard from "../components/PlaylistCard";
+import PlaylistCard from "../components/playlist/PlaylistCard";
 
 const Playlist = () => {
   //token data from localStorage

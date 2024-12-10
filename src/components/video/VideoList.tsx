@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 
-import { SearchType, TokensType } from "../types/types";
+import { SearchType, TokensType } from "../../types/types";
 import VideoCard from "./VideoCard";
-import { usePersistedState } from "../hooks/usePersistentStorage";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
 
 const VideoList = ({ video }: { video: SearchType }) => {
   //data for individual components

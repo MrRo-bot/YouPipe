@@ -15,8 +15,8 @@ import {
   elapsedTime,
   rawViewsToString,
   videoDuration,
-} from "../utils/functions";
-import { ChannelInfoType, VideosListType } from "../types/types";
+} from "../../utils/functions";
+import { ChannelInfoType, VideosListType } from "../../types/types";
 
 const VideoCard = ({
   video,

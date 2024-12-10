@@ -12,7 +12,7 @@ import {
   clearSubscription,
 } from "../features/subscriptionSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import SubscriptionList from "../components/SubscriptionList";
+import SubscriptionList from "../components/subscription/SubscriptionList";
 
 //footer shows loading or end of list
 const Footer = ({ context: subData }: { context: SubscriptionListType }) => {

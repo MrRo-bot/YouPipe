@@ -7,8 +7,8 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { PiBellRingingFill } from "react-icons/pi";
 
-import { ChannelInfoType } from "../types/types";
-import { rawViewsToString } from "../utils/functions";
+import { ChannelInfoType } from "../../types/types";
+import { rawViewsToString } from "../../utils/functions";
 
 const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
   //skeleton loading before image is loaded

@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 
 // import Filters from "../components/Filters";
 import { addHomeVideos } from "../features/homeSlice";
-import VideoList from "../components/VideoList";
+import VideoList from "../components/video/VideoList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
 import { nanoid } from "@reduxjs/toolkit";
