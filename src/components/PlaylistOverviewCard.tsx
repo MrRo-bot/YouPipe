@@ -1,17 +1,27 @@
-import { motion } from "framer-motion";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+/* eslint-disable react-hooks/exhaustive-deps */
 import { RiDraggable } from "react-icons/ri";
-import { PlaylistItemType } from "../types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { elapsedTime } from "../utils/functions";
+import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton from "react-loading-skeleton";
+
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+
+import {
+  elapsedTime,
+  rawViewsToString,
+  videoDuration,
+} from "../utils/functions";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { PlaylistItemType, TokensType, VideosListType } from "../types/types";
 
 const PlaylistOverviewCard = ({
   playlistItem,
 }: {
   playlistItem: PlaylistItemType;
 }) => {
+  const [videoStat, setVideoStat] = useState<VideosListType>();
   //creating date value from ISO 8601 format
   const myDate = new Date(playlistItem?.contentDetails?.videoPublishedAt || "");
 
@@ -22,6 +32,37 @@ const PlaylistOverviewCard = ({
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const navigate = useNavigate();
+
+  const [tokenData] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
+  //query for getting video data
+  useEffect(() => {
+    (async () => {
+      const resVideo = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videos?id=${
+          playlistItem?.contentDetails?.videoId
+        }&part=status,statistics,contentDetails&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${tokenData?.access_token}`,
+          },
+        }
+      );
+      const videoStat = await resVideo.json();
+      setVideoStat(videoStat);
+    })();
+  }, [playlistItem?.contentDetails?.videoId]);
 
   return (
     <motion.div
@@ -50,18 +91,38 @@ const PlaylistOverviewCard = ({
                 src={playlistItem?.snippet?.thumbnails?.high?.url}
                 alt=""
               />
+              <div className="absolute z-40 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
+                {videoDuration(
+                  videoStat?.items[0]?.contentDetails?.duration || ""
+                )}
+              </div>
             </>
           )}
         </div>
         <div className="flex flex-col ml-3 flex-start">
           <div className="relative flex items-start justify-between gap-1">
-            <h3 className="text-lg text-ellipsis line-clamp-1">
-              {playlistItem?.snippet?.title}
-            </h3>
+            {isImgLoaded ? (
+              <h3 className="text-lg text-ellipsis line-clamp-1">
+                {playlistItem?.snippet?.title}
+              </h3>
+            ) : (
+              <Skeleton width={300} height={27} className="top-2 rounded-2xl" />
+            )}
           </div>
           <div className="flex items-center gap-2 text-sm text-zinc-400">
-            {playlistItem?.snippet?.videoOwnerChannelTitle} • 1.7M views •{" "}
-            {elapsedTime(result)} ago
+            {isImgLoaded ? (
+              `${
+                playlistItem?.snippet?.videoOwnerChannelTitle || ""
+              } • ${rawViewsToString(
+                videoStat?.items[0]?.statistics?.viewCount || ""
+              )} views • ${rawViewsToString(
+                videoStat?.items[0]?.statistics?.likeCount || ""
+              )} likes • ${rawViewsToString(
+                videoStat?.items[0]?.statistics?.commentCount || ""
+              )} comments • ${elapsedTime(result) || ""} ago`
+            ) : (
+              <Skeleton width={150} height={20} className="top-5 rounded-2xl" />
+            )}
           </div>
         </div>
       </div>

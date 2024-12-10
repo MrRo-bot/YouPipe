@@ -29,7 +29,6 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        onClick={() => navigate(`/playlist/${playlist?.id}`)}
         className="z-0 transition-all cursor-pointer rounded-xl group max-w-96"
       >
         <div className="flex flex-col gap-2">
@@ -77,7 +76,10 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               {!playlist?.status?.privacyStatus ? (
                 <Skeleton width={100} className="rounded-2xl" />
               ) : (
-                `${playlist?.status?.privacyStatus} • Playlist`
+                `${
+                  playlist?.status?.privacyStatus.slice(0, 1).toUpperCase() +
+                  playlist?.status?.privacyStatus.slice(1)
+                } • Playlist`
               )}
             </div>
             {isImgLoaded ? (
@@ -92,7 +94,10 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               />
             )}
             {isImgLoaded ? (
-              <div className="text-xs tracking-wide text-zinc-400">
+              <div
+                onClick={() => navigate(`/playlist/${playlist?.id}`)}
+                className="text-xs tracking-wide transition-colors text-zinc-400 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
+              >
                 View full playlist
               </div>
             ) : (

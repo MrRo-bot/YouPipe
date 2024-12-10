@@ -59,13 +59,6 @@ const Subscription = () => {
   //parts used for API calls
   const parts = ["contentDetails", "id", "snippet"];
 
-  //list of sorting options
-  const sort = [
-    { value: "relevance", option: "Most relevant" },
-    { value: "unread", option: "New activity" },
-    { value: "alphabetical", option: "A-Z" },
-  ];
-
   //query for getting subscription list and storing in redux (triggered by fetchMore state as well)
   useQuery({
     queryKey: ["subscription", sortBy, fetchMore],
@@ -121,15 +114,24 @@ const Subscription = () => {
               }}
               className="p-3 mt-5 font-bold transition-all rounded-md cursor-pointer bg-zinc-800"
             >
-              {sort.map((s) => (
-                <option
-                  key={s.value}
-                  className="text-sm font-medium transition-all font-text"
-                  value={s.value}
-                >
-                  {s.option}
-                </option>
-              ))}
+              <option
+                className="text-sm font-medium transition-all font-text"
+                value="relevance"
+              >
+                Most relevant
+              </option>
+              <option
+                className="text-sm font-medium transition-all font-text"
+                value="unread"
+              >
+                New activity
+              </option>
+              <option
+                className="text-sm font-medium transition-all font-text"
+                value="alphabetical"
+              >
+                A-Z
+              </option>
             </select>
 
             {/* Virtuoso component for rendering list of subscriptions */}

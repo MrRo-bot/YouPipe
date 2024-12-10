@@ -200,8 +200,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                       {videoStats?.items[0]?.contentDetails?.duration === "P0D"
                         ? "Live"
                         : videoDuration(
-                            videoStats?.items[0]?.contentDetails?.duration ||
-                              "0:00"
+                            videoStats?.items[0]?.contentDetails?.duration || ""
                           )}
                     </div>
                   )}

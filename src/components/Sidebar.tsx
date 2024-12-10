@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import {
   PiListStarFill,
   PiHouseFill,
-  // PiGearSixFill,
   PiMonitorPlayFill,
   PiUserSwitchFill,
   PiThumbsUpFill,
@@ -21,7 +20,7 @@ const Sidebar = () => {
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
   //getting token from localStorage
-  const [token] = usePersistedState<TokensType>("token", {
+  const [tokenData] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
     scope: "",
@@ -39,7 +38,7 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
 
   //query for getting youtube categories based on region
-  const { status } = useQuery({
+  useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await fetch(
@@ -49,7 +48,8 @@ const Sidebar = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token?.access_token}`,
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${tokenData?.access_token}`,
           },
         }
       );
@@ -202,7 +202,16 @@ const Sidebar = () => {
             <h2 className="px-3 py-2 text-xl font-bold tracking-wide text-slate-100">
               Explore
             </h2>
-            {status !== "success" ? (
+            {categories?.items?.length > 1 ? (
+              categories?.items?.map((category) => (
+                <div
+                  key={category.id}
+                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
+                >
+                  <div className="w-full">{category?.snippet?.title}</div>
+                </div>
+              ))
+            ) : (
               <ThreeDots
                 visible={true}
                 height="50"
@@ -213,24 +222,8 @@ const Sidebar = () => {
                 wrapperStyle={{}}
                 wrapperClass="justify-center"
               />
-            ) : (
-              categories?.items?.map((category) => (
-                <div
-                  key={category.id}
-                  className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer"
-                >
-                  {/* {icon} */}
-                  <div className="w-full">{category?.snippet?.title}</div>
-                </div>
-              ))
             )}
           </div>
-          {/* <div className="flex flex-col gap-1 py-3 pl-3 pr-0">
-            <div className="flex items-center gap-6 px-[1.3em] py-1.5 bg-zinc-100 bg-opacity-0 rounded-xl transition tracking-tight text-sm hover:bg-opacity-100 hover:text-black focus:text-black focus:bg-opacity-100 cursor-pointer">
-              <PiGearSixFill className="w-7 h-7" />
-              <div className="w-full">Settings</div>
-            </div>
-          </div> */}
         </>
       )}
     </aside>

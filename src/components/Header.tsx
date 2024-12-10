@@ -146,7 +146,7 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname.includes("/video")) dispatch(collapse());
-    if (location.pathname.includes("playlist")) dispatch(clearPlayItems());
+    if (!location.pathname.includes("playlist")) dispatch(clearPlayItems());
     if (location.pathname !== "/video") {
       dispatch(clearCommentsThread());
       dispatch(removeTimestamp());

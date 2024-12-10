@@ -1,19 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
+import { Virtuoso } from "react-virtuoso";
+import { extractColors } from "extract-colors";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
-
-import {
-  PiDownloadFill,
-  PiArrowFatRightFill,
-  PiShuffleFill,
-} from "react-icons/pi";
-
-import { Virtuoso } from "react-virtuoso";
 
 import { LikedVideosListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -102,6 +96,14 @@ const LikedVideos = () => {
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    extractColors(likedVideos?.items[0]?.snippet?.thumbnails?.default?.url, {
+      crossOrigin: "anonymous",
+    })
+      .then((data) => console.log(data))
+      .catch((err) => console.log({ error: err }));
+  }, []);
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -149,23 +151,7 @@ const LikedVideos = () => {
                   ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +
                     " videos"
                   : "0 videos"}
-              </span>{" "}
-              •<span>No views</span> • <span>Updated today</span>
-            </div>
-
-            <div className="grid w-10 h-10 p-2 mt-4 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-400/25 focus:bg-zinc-400/25 bg-zinc-200/25">
-              <PiDownloadFill className="w-full h-full" />
-            </div>
-
-            <div className="flex gap-2 mt-4 justify-evenly">
-              <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold text-black transition rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-zinc-200/75 focus:bg-zinc-200/75">
-                <PiArrowFatRightFill className="w-6 h-6" />
-                Play all
-              </div>
-              <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold transition rounded-full cursor-pointer place-items-center bg-zinc-200/25 focus:bg-zinc-400/25 hover:bg-zinc-400/25">
-                <PiShuffleFill className="w-6 h-6" />
-                Shuffle
-              </div>
+              </span>
             </div>
           </div>
 

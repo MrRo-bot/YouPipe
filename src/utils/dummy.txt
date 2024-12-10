@@ -2,16 +2,7 @@ your channel - https://youtube.googleapis.com/youtube/v3/channels?part=auditDeta
 
    channel section - https://youtube.googleapis.com/youtube/v3/channelSections?part=contentDetails%2Cid%2Csnippet&channelId=UCr9hu46nJO636Dh4UdBVZwQ&key=[YOUR_API_KEY]
 
-swiper.js if needed or dragger libraries find out
-take a closer look at popup, popover, hover, focus, active, click, effects on youtube official
 
-notification toast for expired token
-
-SORT ROUTING STUFF WHEN EVERYTHING IS A LINK
-
-- playlist custom playlist someone else's playlist all have some differences only
-- channel overview and your channel can be same (FUTURE WORK AFTER GETTING API DATA)
-- find what features youtube have that i can integrate in my project
 
 EXTENSIONS I MUST USE====================================
 - turbo console log

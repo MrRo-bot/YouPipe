@@ -1,17 +1,13 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { MouseEvent, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useQuery } from "@tanstack/react-query";
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { Virtuoso } from "react-virtuoso";
 
-import {
-  PiDotsThreeOutlineVerticalFill,
-  PiDownloadFill,
-  PiArrowFatRightFill,
-  PiShuffleFill,
-  PiSortAscendingFill,
-} from "react-icons/pi";
+import { PiSortAscendingFill } from "react-icons/pi";
 
 import PlaylistOverviewCard from "../components/PlaylistOverviewCard";
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -19,8 +15,6 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 import { addPlayItems } from "../features/playlistOverviewSlice";
 import { elapsedTime } from "../utils/functions";
 import { PlaylistItemListType, TokensType } from "../types/types";
-import { Virtuoso } from "react-virtuoso";
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 //footer shows loading or end of list
 const Footer = ({
@@ -48,6 +42,10 @@ const Footer = ({
 const PlaylistOverview = () => {
   //triggers query for fetching more data
   const [fetchMore, setFetchMore] = useState(true);
+
+  //sort playlist items
+  const [sortBy, setSortBy] = useState("");
+  const [expand, setExpand] = useState(false);
 
   //for skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
@@ -84,6 +82,10 @@ const PlaylistOverview = () => {
     id_token: "",
     expiry_date: 0,
   });
+
+  const handleSort = (e: MouseEvent<HTMLDivElement>) => {
+    setSortBy(e.currentTarget.dataset.sort || "");
+  };
 
   useQuery({
     queryKey: ["playlistItems", fetchMore],
@@ -151,29 +153,58 @@ const PlaylistOverview = () => {
               </span>
               <span>{elapsedTime(result)} ago</span>
             </div>
-            <div className="flex gap-2 mt-4">
-              <div className="grid w-10 h-10 p-2 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-400/25 focus:bg-zinc-400/25 bg-zinc-200/25">
-                <PiDownloadFill className="w-full h-full" />
-              </div>
-              <div className="grid w-10 h-10 p-2 transition rounded-full cursor-pointer place-items-center hover:bg-zinc-400/25 focus:bg-zinc-400/25 bg-zinc-200/25">
-                <PiDotsThreeOutlineVerticalFill className="w-full h-full" />
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4 justify-evenly">
-              <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold text-black transition rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-zinc-200/75 focus:bg-zinc-200/75">
-                <PiArrowFatRightFill className="w-6 h-6" />
-                Play all
-              </div>
-              <div className="flex items-center justify-center w-full gap-1 p-2 text-sm font-semibold transition rounded-full cursor-pointer place-items-center bg-zinc-200/25 focus:bg-zinc-400/25 hover:bg-zinc-400/25">
-                <PiShuffleFill className="w-6 h-6" />
-                Shuffle
-              </div>
-            </div>
           </div>
-          <div className="flex flex-col w-9/12 gap-4 mx-2 my-1 overflow-y-auto hideScrollbar">
-            <div className="flex items-center gap-2 px-2 py-1 my-2 font-semibold transition rounded-md cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 max-w-max">
-              <PiSortAscendingFill className="w-6 h-6" /> Sort
+          <div className="z-0 flex flex-col w-9/12 gap-2 mx-2 my-1 overflow-y-auto hideScrollbar">
+            <div className="block rounded-lg cursor-pointer ">
+              <div
+                onClick={() => setExpand(!expand)}
+                className="flex rounded-lg gap-1 font-bold p-2.5 bg-zinc-800 max-w-max transition-colors active:opacity-[0.85]"
+              >
+                <PiSortAscendingFill className="w-5 h-5" /> Sort by
+              </div>
+              <div
+                className={`${
+                  expand ? "absolute" : "hidden"
+                } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
+              >
+                <div
+                  data-sort="addedNew"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  Date added (newest)
+                </div>
+                <div
+                  data-sort="addedOld"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  Date added (oldest)
+                </div>
+                <div
+                  data-sort="popular"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  Most popular
+                </div>
+                <div
+                  data-sort="publishNew"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  Date published (newest)
+                </div>
+                <div
+                  data-sort="publishOld"
+                  onClick={(e) => handleSort(e)}
+                  className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                >
+                  Date published (oldest)
+                </div>
+              </div>
             </div>
+
             {/* Virtuoso virtualized rendering of playlistItems list for increased rendering performance */}
             {playlistOverview?.items?.length <= 1 ? (
               <FidgetSpinner
