@@ -36,7 +36,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="z-0 transition-all cursor-pointer rounded-xl group max-w-96"
+        className="z-0 p-1 transition-all cursor-pointer rounded-xl group max-w-96 active:bg-zinc-600/70"
       >
         <div className="flex flex-col gap-2">
           <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl">
@@ -67,7 +67,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               {!playlist?.snippet?.title ? (
                 <Skeleton width={200} height={15} className="rounded-2xl" />
               ) : (
-                <div className="text-ellipsis line-clamp-1">
+                <div className="text-lg font-medium text-ellipsis line-clamp-1">
                   {playlist?.snippet?.title}
                 </div>
               )}
@@ -79,7 +79,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-400">
+            <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-300">
               {!playlist?.status?.privacyStatus ? (
                 <Skeleton width={100} className="rounded-2xl" />
               ) : (
@@ -90,7 +90,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               )}
             </div>
             {isImgLoaded ? (
-              <div className="text-xs tracking-wide text-zinc-400">
+              <div className="text-xs tracking-wide text-zinc-300">
                 {elapsedTime(result)} ago
               </div>
             ) : (
@@ -103,7 +103,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             {isImgLoaded ? (
               <div
                 onClick={() => navigate(`/playlist/${playlist?.id}`)}
-                className="text-sm font-medium tracking-wide transition-colors text-zinc-400 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
+                className="text-sm font-medium tracking-wide transition-colors text-zinc-300 hover:text-zinc-100 focus:text-zinc-100 "
               >
                 View full playlist
               </div>

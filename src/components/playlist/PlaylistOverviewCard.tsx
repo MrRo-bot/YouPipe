@@ -80,7 +80,7 @@ const PlaylistOverviewCard = ({
       onClick={() =>
         navigate(`/video/${playlistItem?.contentDetails?.videoId}`)
       }
-      className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 glass rounded-2xl"
+      className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 glass rounded-2xl"
     >
       <div className="flex">
         <div className="self-center mr-2">{<RiDraggable />}</div>

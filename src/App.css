@@ -272,7 +272,7 @@
         var(--c-4) var(--s-start-4),
         transparent var(--s-end-4)
       );
-    animation: hero-gradient-animation 55s linear infinite alternate;
+    /* animation: hero-gradient-animation 55s linear infinite alternate; */
     background-blend-mode: hard-light, hard-light, hard-light, hard-light,
       hard-light;
   }
@@ -289,10 +289,24 @@
   }
 
   .glass-dark {
-    backdrop-filter: blur(4px) saturate(200%);
+    backdrop-filter: blur(4px) saturate(220%);
     -webkit-backdrop-filter: blur(4px) saturate(200%);
-    background-color: rgba(17, 25, 40, 0.75);
+    background-color: rgba(17, 25, 40, 0.85);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
+  }
+
+  @keyframes slideDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-500px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+  .slideIn {
+    animation: slideDown 1s ease-in;
   }
 }

@@ -17,6 +17,7 @@ import {
   videoDuration,
 } from "../../utils/functions";
 import { ChannelInfoType, VideosListType } from "../../types/types";
+import { useNavigate } from "react-router-dom";
 
 const VideoCard = ({
   video,
@@ -34,6 +35,8 @@ const VideoCard = ({
   //getting time from date
   const result = myDate.getTime();
 
+  const navigate = useNavigate();
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -46,7 +49,8 @@ const VideoCard = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="z-0 flex flex-col justify-between h-full gap-1 p-2 transition-all cursor-pointer group max-w-96 glass rounded-2xl"
+        onClick={() => navigate(`/video/${video?.items[0]?.id}`)}
+        className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-all cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl`}
       >
         <div className="flex flex-col gap-4">
           <div className="relative overflow-hidden aspect-video rounded-2xl">

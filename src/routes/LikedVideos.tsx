@@ -141,11 +141,11 @@ const LikedVideos = () => {
                 <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
               )}
             </div>
-            <h1 className="text-2xl font-bold">Liked videos</h1>
-            <h3 className="mt-5 text-sm font-semibold tracking-tighter">
+            <h1 className="text-4xl font-bold">Liked videos</h1>
+            <h3 className="mt-5 font-semibold tracking-tighter">
               Chhavimani Choubey
             </h3>
-            <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter text-zinc-400">
+            <div className="flex gap-2 mt-2 font-medium tracking-tighter text-zinc-400">
               <span>
                 {likedVideos?.items?.length
                   ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +

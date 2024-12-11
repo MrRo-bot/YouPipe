@@ -9,7 +9,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { collapse, toggle } from "../features/hamburgerMenuSlice";
+import { collapse, expand, toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
 import { addSearchString, clearSearchList } from "../features/searchSlice";
@@ -146,9 +146,10 @@ const Header = () => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname.includes("/video")) dispatch(collapse());
     if (location.pathname !== "playlist") dispatch(clearPlayItems());
-    if (location.pathname !== "/video") {
+    if (!location.pathname.includes("/video")) {
       dispatch(clearCommentsThread());
       dispatch(removeTimestamp());
+      dispatch(expand());
     }
   }, [location.pathname]);
 

@@ -32,7 +32,7 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
         className="z-0 p-2 transition-all cursor-pointer group glass rounded-2xl"
       >
         <div className="flex items-center justify-start gap-4">
-          <div className="transition min-w-28 w-28 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="transition w-32 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             {snippet?.thumbnails && (
               <img
                 onLoad={() => setIsImgLoaded(!isImgLoaded)}
@@ -44,9 +44,9 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
 
             {!isImgLoaded && (
               <Skeleton
-                width={120}
-                height={120}
                 circle
+                width={135}
+                height={135}
                 className="-top-2 -left-1"
               />
             )}

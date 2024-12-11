@@ -97,7 +97,117 @@ const Home = () => {
           {!profileData?.email && (
             <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
               <strong className="block text-3xl tracking-wider">
-                Login to get started.
+                <div
+                  style={{ animationDelay: "0ms" }}
+                  className="inline-block slideIn"
+                >
+                  L
+                </div>
+                <div
+                  style={{ animationDelay: "50ms" }}
+                  className="inline-block slideIn"
+                >
+                  o
+                </div>
+                <div
+                  style={{ animationDelay: "100ms" }}
+                  className="inline-block slideIn"
+                >
+                  g
+                </div>
+                <div
+                  style={{ animationDelay: "150ms" }}
+                  className="inline-block slideIn"
+                >
+                  i
+                </div>
+                <div
+                  style={{ animationDelay: "200ms" }}
+                  className="inline-block slideIn"
+                >
+                  n
+                </div>
+                <div className="inline-block">&nbsp;</div>
+                <div
+                  style={{ animationDelay: "300ms" }}
+                  className="inline-block slideIn"
+                >
+                  t
+                </div>
+                <div
+                  style={{ animationDelay: "350ms" }}
+                  className="inline-block slideIn"
+                >
+                  o
+                </div>
+                <div className="inline-block">&nbsp;</div>
+                <div
+                  style={{ animationDelay: "450ms" }}
+                  className="inline-block slideIn"
+                >
+                  g
+                </div>
+                <div
+                  style={{ animationDelay: "500ms" }}
+                  className="inline-block slideIn"
+                >
+                  e
+                </div>
+                <div
+                  style={{ animationDelay: "550ms" }}
+                  className="inline-block slideIn"
+                >
+                  t
+                </div>
+                <div className="inline-block">&nbsp;</div>
+                <div
+                  style={{ animationDelay: "650ms" }}
+                  className="inline-block slideIn"
+                >
+                  s
+                </div>
+                <div
+                  style={{ animationDelay: "700ms" }}
+                  className="inline-block slideIn"
+                >
+                  t
+                </div>
+                <div
+                  style={{ animationDelay: "750ms" }}
+                  className="inline-block slideIn"
+                >
+                  a
+                </div>
+                <div
+                  style={{ animationDelay: "800ms" }}
+                  className="inline-block slideIn"
+                >
+                  r
+                </div>
+                <div
+                  style={{ animationDelay: "850ms" }}
+                  className="inline-block slideIn"
+                >
+                  t
+                </div>
+                <div
+                  style={{ animationDelay: "900ms" }}
+                  className="inline-block slideIn"
+                >
+                  e
+                </div>
+                <div
+                  style={{ animationDelay: "950ms" }}
+                  className="inline-block slideIn"
+                >
+                  d
+                </div>
+                <div
+                  style={{ animationDelay: "1000ms" }}
+                  className="inline-block slideIn"
+                >
+                  .
+                </div>
               </strong>
               <i className="block pt-4">Start searching videos you love.</i>
             </div>

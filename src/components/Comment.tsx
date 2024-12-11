@@ -80,14 +80,14 @@ const Comment = ({
       >
         <div className="w-[15%] p-1">
           <img
-            className="w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
+            className="relative w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
             src={comm?.authorProfileImageUrl}
             alt={comm?.authorDisplayName[1]?.toUpperCase()}
           />
         </div>
         <div className="w-[85%] flex flex-col gap-2">
           <div>
-            <div className="font-bold text-left text-yellow-400">
+            <div className="font-medium text-left text-yellow-400">
               {comm?.authorDisplayName}
             </div>
             <div className="font-medium text-left text-zinc-400">
@@ -115,7 +115,7 @@ const Comment = ({
                 onClick={() => setExpand(!expand)}
                 className={`flex items-center gap-2 px-2 py-1 my-1 text-yellow-400 transition-colors rounded-full cursor-pointer ${
                   expand ? "bg-indigo-950" : "bg-purple-950"
-                } hover:bg-violet-950 active:bg-violet-950 focus:bg-violet-950 max-w-max`}
+                } hover:bg-violet-950 active:bg-violet-900 focus:bg-violet-950 max-w-max`}
               >
                 {expand ? (
                   <IoIosArrowDropupCircle className="w-5 h-5 transition-all" />
@@ -142,7 +142,13 @@ const Comment = ({
                   );
 
                   return (
-                    <div className="flex p-1 mx-1 rounded-xl glass-dark">
+                    <div
+                      className={`flex p-1 mx-1 rounded-xl ${
+                        channelId === comment?.snippet?.authorChannelId?.value
+                          ? "bg-black/50"
+                          : "glass-dark"
+                      }`}
+                    >
                       <div className="w-[15%] p-1">
                         <img
                           className="w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
@@ -152,7 +158,7 @@ const Comment = ({
                       </div>
                       <div className="w-[85%] flex flex-col gap-2">
                         <div>
-                          <div className="font-bold text-left text-yellow-400">
+                          <div className="font-medium text-left text-yellow-400">
                             {comment?.snippet?.authorDisplayName}
                           </div>
                           <div className="font-medium text-left text-zinc-400">
