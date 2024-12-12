@@ -18,6 +18,7 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../utils/functions";
+import { useNavigate } from "react-router-dom";
 
 const SearchCard = ({ search }: { search: SearchType }) => {
   //storing video stats from search details
@@ -47,6 +48,8 @@ const SearchCard = ({ search }: { search: SearchType }) => {
 
   //video, playlist or channel
   const kind = search?.id?.kind.split("#")[1];
+
+  const navigate = useNavigate();
 
   //effect for getting more details about video, channel, or playlist
   useEffect(() => {
@@ -154,7 +157,14 @@ const SearchCard = ({ search }: { search: SearchType }) => {
   }, [playlistStats?.items[0]?.id]);
 
   return (
-    <div className="py-4">
+    <div
+      className="py-4"
+      onClick={() =>
+        (kind === "video" && navigate(`/video/${videoStats?.items[0]?.id}`)) ||
+        (kind === "playlist" &&
+          navigate(`/playlist/${playlistStats?.items[0]?.id}`))
+      }
+    >
       <SkeletonTheme
         baseColor="rgba(255,255,255,0.1)"
         customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"

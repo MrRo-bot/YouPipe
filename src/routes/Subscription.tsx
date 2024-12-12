@@ -110,11 +110,11 @@ const Subscription = () => {
           className="relative w-1/2 min-h-full mx-auto hideScrollbar rounded-xl"
         >
           <div className="flex flex-col items-start gap-5 px-2 py-3">
-            <h1 className="text-4xl font-bold tracking-tight text-center text-slate-200">
+            <h1 className="mx-4 text-4xl font-bold tracking-tight text-center text-slate-200">
               All Subscriptions
             </h1>
 
-            <div className="block mt-4 rounded-lg cursor-pointer">
+            <div className="block mx-4 mt-4 rounded-lg cursor-pointer">
               <div
                 onClick={() => setExpand(!expand)}
                 className="p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"

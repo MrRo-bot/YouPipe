@@ -115,7 +115,12 @@ const PlaylistOverview = () => {
             !isOpen ? "w-[85vw]" : "w-full"
           }  flex`}
         >
-          <div className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6">
+          <div
+            style={{
+              background: `linear-gradient(to bottom, rgba(15,15,15) 33%, rgba(15,15,15,0.100) 100%)`,
+            }}
+            className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
+          >
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
               {playlistOverview?.items?.length > 1 ? (
                 <img

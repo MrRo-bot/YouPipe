@@ -37,7 +37,7 @@ const SubscriptionCard = ({
         className="z-0 p-2 transition-all rounded-full cursor-pointer group glass"
       >
         <div className="flex items-center justify-start gap-4">
-          <div className="transition w-32 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="transition w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             {snippet?.thumbnails && (
               <img
                 onLoad={() => setIsImgLoaded(!isImgLoaded)}
@@ -57,7 +57,7 @@ const SubscriptionCard = ({
             )}
           </div>
 
-          <div className="flex flex-col items-start w-7/12 px-1">
+          <div className="flex flex-col items-start w-9/12 px-1">
             <div className="flex items-center gap-1">
               {!snippet?.title ? (
                 <Skeleton width={100} height={20} className="rounded-2xl" />
