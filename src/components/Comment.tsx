@@ -142,49 +142,51 @@ const Comment = ({
                   );
 
                   return (
-                    <div
-                      className={`flex p-1 mx-1 rounded-xl ${
-                        channelId === comment?.snippet?.authorChannelId?.value
-                          ? "bg-black/50"
-                          : "glass-dark"
-                      }`}
-                    >
-                      <div className="w-[15%] p-1">
-                        <img
-                          className="w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
-                          src={comment?.snippet?.authorProfileImageUrl}
-                          alt={comment?.snippet?.authorDisplayName[1]?.toUpperCase()}
-                        />
-                      </div>
-                      <div className="w-[85%] flex flex-col gap-2">
-                        <div>
-                          <div className="font-medium text-left text-yellow-400">
-                            {comment?.snippet?.authorDisplayName}
-                          </div>
-                          <div className="font-medium text-left text-zinc-400">
-                            {comment?.snippet?.publishedAt ===
-                            comment?.snippet?.updatedAt
-                              ? elapsedTime(publishedAt) + " ago"
-                              : elapsedTime(updatedAt) + " ago" + " (edited)"}
-                          </div>
+                    <div className="py-1">
+                      <div
+                        className={`flex p-1 mx-1 rounded-xl ${
+                          channelId === comment?.snippet?.authorChannelId?.value
+                            ? "bg-black/50"
+                            : "glass-dark"
+                        }`}
+                      >
+                        <div className="w-[15%] p-1">
+                          <img
+                            className="w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
+                            src={comment?.snippet?.authorProfileImageUrl}
+                            alt={comment?.snippet?.authorDisplayName[1]?.toUpperCase()}
+                          />
                         </div>
-                        <div className="text-left text-zinc-100">
-                          <span onClick={(e) => handleTimestamp(e)}>
-                            {parse(modifiedReply)}
-                          </span>
-                        </div>
-                        {comment?.snippet?.likeCount !== 0 ? (
-                          <div className="transition-colors text-sm cursor-pointer flex items-center gap-2 hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 hover:text-yellow-400 focus:text-yellow-400 active:text-yellow-400 max-w-max rounded-3xl px-2 py-0.5">
-                            {rawViewsToString(
-                              String(comment?.snippet?.likeCount)
-                            )}{" "}
-                            {
-                              <PiThumbsUpFill className="w-4 h-4 -scale-x-100" />
-                            }
+                        <div className="w-[85%] flex flex-col gap-2">
+                          <div>
+                            <div className="font-medium text-left text-yellow-400">
+                              {comment?.snippet?.authorDisplayName}
+                            </div>
+                            <div className="font-medium text-left text-zinc-400">
+                              {comment?.snippet?.publishedAt ===
+                              comment?.snippet?.updatedAt
+                                ? elapsedTime(publishedAt) + " ago"
+                                : elapsedTime(updatedAt) + " ago" + " (edited)"}
+                            </div>
                           </div>
-                        ) : (
-                          ""
-                        )}
+                          <div className="text-left text-zinc-100">
+                            <span onClick={(e) => handleTimestamp(e)}>
+                              {parse(modifiedReply)}
+                            </span>
+                          </div>
+                          {comment?.snippet?.likeCount !== 0 ? (
+                            <div className="transition-colors text-sm cursor-pointer flex items-center gap-2 hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 hover:text-yellow-400 focus:text-yellow-400 active:text-yellow-400 max-w-max rounded-3xl px-2 py-0.5">
+                              {rawViewsToString(
+                                String(comment?.snippet?.likeCount)
+                              )}{" "}
+                              {
+                                <PiThumbsUpFill className="w-4 h-4 -scale-x-100" />
+                              }
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
                     </div>
                   );

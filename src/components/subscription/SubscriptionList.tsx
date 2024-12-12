@@ -44,7 +44,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
 
   return (
     <div className="p-2">
-      <SubscriptionCard stat={channelStats!} />
+      <SubscriptionCard stat={channelStats!} subId={sub?.id} />
     </div>
   );
 };

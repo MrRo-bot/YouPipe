@@ -99,112 +99,112 @@ const Home = () => {
               <strong className="block text-3xl tracking-wider">
                 <div
                   style={{ animationDelay: "0ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   L
                 </div>
                 <div
                   style={{ animationDelay: "50ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   o
                 </div>
                 <div
                   style={{ animationDelay: "100ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   g
                 </div>
                 <div
                   style={{ animationDelay: "150ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   i
                 </div>
                 <div
                   style={{ animationDelay: "200ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   n
                 </div>
                 <div className="inline-block">&nbsp;</div>
                 <div
                   style={{ animationDelay: "300ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   t
                 </div>
                 <div
                   style={{ animationDelay: "350ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   o
                 </div>
                 <div className="inline-block">&nbsp;</div>
                 <div
                   style={{ animationDelay: "450ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   g
                 </div>
                 <div
                   style={{ animationDelay: "500ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   e
                 </div>
                 <div
                   style={{ animationDelay: "550ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   t
                 </div>
                 <div className="inline-block">&nbsp;</div>
                 <div
                   style={{ animationDelay: "650ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   s
                 </div>
                 <div
                   style={{ animationDelay: "700ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   t
                 </div>
                 <div
                   style={{ animationDelay: "750ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   a
                 </div>
                 <div
                   style={{ animationDelay: "800ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   r
                 </div>
                 <div
                   style={{ animationDelay: "850ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   t
                 </div>
                 <div
                   style={{ animationDelay: "900ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   e
                 </div>
                 <div
                   style={{ animationDelay: "950ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   d
                 </div>
                 <div
                   style={{ animationDelay: "1000ms" }}
-                  className="inline-block slideIn"
+                  className="inline-block transition-all slideIn"
                 >
                   .
                 </div>

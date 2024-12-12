@@ -69,8 +69,8 @@ const VideoCard = ({
                 )}
                 <div className="absolute z-50 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
                   {videoDuration(
-                    video?.items[0]?.contentDetails?.duration || ""
-                  ) || ""}
+                    video?.items[0]?.contentDetails?.duration || "00:0"
+                  )}
                 </div>
               </>
             }

@@ -13,6 +13,7 @@ import {
 } from "../features/subscriptionSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import SubscriptionList from "../components/subscription/SubscriptionList";
+import { RiArrowDownWideFill, RiArrowUpWideFill } from "react-icons/ri";
 
 //footer shows loading or end of list
 const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
@@ -108,7 +109,7 @@ const Subscription = () => {
           exit={{ opacity: 0, scale: 0.7 }}
           className="relative w-1/2 min-h-full mx-auto hideScrollbar rounded-xl"
         >
-          <div className="flex flex-col items-start justify-between px-2 py-3">
+          <div className="flex flex-col items-start gap-5 px-2 py-3">
             <h1 className="text-4xl font-bold tracking-tight text-center text-slate-200">
               All Subscriptions
             </h1>
@@ -116,7 +117,7 @@ const Subscription = () => {
             <div className="block mt-4 rounded-lg cursor-pointer">
               <div
                 onClick={() => setExpand(!expand)}
-                className="p-2.5 rounded-lg max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600"
+                className="p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
               >
                 {sortBy === "relevance"
                   ? "Most relevant"
@@ -125,6 +126,11 @@ const Subscription = () => {
                   : sortBy === "alphabetical"
                   ? "A-Z"
                   : ""}
+                {expand ? (
+                  <RiArrowUpWideFill className="w-4 h-4 transition-all" />
+                ) : (
+                  <RiArrowDownWideFill className="w-4 h-4 transition-all" />
+                )}
               </div>
               <div
                 className={`${
@@ -154,9 +160,8 @@ const Subscription = () => {
                 </div>
               </div>
             </div>
-
-            {/* Virtuoso component for rendering list of subscriptions */}
           </div>
+          {/* Virtuoso component for rendering list of subscriptions */}
           {subData?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}

@@ -56,6 +56,8 @@ const Sidebar = () => {
       dispatch(addCategories(data));
       return data;
     },
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   return (

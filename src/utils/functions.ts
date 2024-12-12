@@ -30,7 +30,7 @@ export const videoDuration = (duration: string): string => {
     }`;
   }
 
-  return "0:00";
+  return "";
 };
 
 //getting time passed since the date number given

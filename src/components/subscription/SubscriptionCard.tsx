@@ -4,19 +4,24 @@ import { motion } from "framer-motion";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { PiBellRingingFill } from "react-icons/pi";
-
 import { ChannelInfoType } from "../../types/types";
 import { rawViewsToString } from "../../utils/functions";
 
-const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
+const SubscriptionCard = ({
+  stat,
+  subId,
+}: {
+  stat: ChannelInfoType;
+  subId: string;
+}) => {
   //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
+  const [sub, setSub] = useState(true);
 
   const snippet = stat?.items[0]?.snippet;
   const statistics = stat?.items[0]?.statistics;
 
+  console.log(subId);
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -29,7 +34,7 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="z-0 p-2 transition-all cursor-pointer group glass rounded-2xl"
+        className="z-0 p-2 transition-all rounded-full cursor-pointer group glass"
       >
         <div className="flex items-center justify-start gap-4">
           <div className="transition w-32 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
@@ -88,9 +93,29 @@ const SubscriptionCard = ({ stat }: { stat: ChannelInfoType }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-2 mt-1 ml-auto font-medium rounded-full cursor-pointer bg-zinc-800">
-            <PiBellRingingFill className="w-5 h-5" /> Subscribed
-            <MdKeyboardArrowDown />
+          <div
+            onClick={() => {
+              setSub(!sub);
+            }}
+            className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none
+           ${
+             sub ? "bg-zinc-800" : "bg-white text-black"
+           } active:bg-zinc-600/70`}
+          >
+            <span
+              className={`col-start-1 row-start-1 mx-auto ${
+                !sub ? "invisible" : ""
+              } `}
+            >
+              Subscribed
+            </span>
+            <span
+              className={`col-start-1 row-start-1 mx-auto ${
+                sub ? "invisible" : ""
+              } `}
+            >
+              Subscribe
+            </span>
           </div>
         </div>
       </motion.div>

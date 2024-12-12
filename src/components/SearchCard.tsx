@@ -192,7 +192,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                   />
                   {kind === "video" && (
                     <div
-                      className={`absolute z-40 p-1 text-xs text-white bottom-1 right-1 glass-dark ${
+                      className={`absolute z-50 p-1 text-xs text-white bottom-1 right-1 glass-dark ${
                         videoStats?.items[0]?.contentDetails?.duration ===
                           "P0D" && "animate-pulse"
                       }`}
@@ -200,7 +200,8 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                       {videoStats?.items[0]?.contentDetails?.duration === "P0D"
                         ? "Live"
                         : videoDuration(
-                            videoStats?.items[0]?.contentDetails?.duration || ""
+                            videoStats?.items[0]?.contentDetails?.duration ||
+                              "00:0"
                           )}
                     </div>
                   )}

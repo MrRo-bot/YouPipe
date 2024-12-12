@@ -62,8 +62,10 @@ const LikedVideosCard = ({
                   src={likedvideo?.snippet?.thumbnails?.high?.url}
                   alt=""
                 />
-                <div className="absolute z-40 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
-                  {videoDuration(likedvideo?.contentDetails?.duration || "")}
+                <div className="absolute z-50 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
+                  {videoDuration(
+                    likedvideo?.contentDetails?.duration || "00:0"
+                  )}
                 </div>
               </>
             )}
