@@ -37,7 +37,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
         const channel = await res.json();
         if (channel) setChannelStats(channel);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     })();
   }, []);

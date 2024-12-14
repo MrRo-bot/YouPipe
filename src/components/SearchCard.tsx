@@ -73,7 +73,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const video = await res.json();
           if (video) setVideoStats(video);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       })();
     }
@@ -97,7 +97,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const channel = await res.json();
           if (channel) setChannelStats(channel);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       })();
     }
@@ -123,7 +123,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlist = await res.json();
           if (playlist) setPlaylistStats(playlist);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       })();
     }
@@ -150,7 +150,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlistItems = await res.json();
           if (playlistItems) setPlaylistItemsStats(playlistItems);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       })();
     }

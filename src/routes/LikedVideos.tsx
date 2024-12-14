@@ -101,7 +101,7 @@ const LikedVideos = () => {
       crossOrigin: "anonymous",
     })
       .then((data) => console.log(data))
-      .catch((err) => console.log({ error: err }));
+      .catch((err) => console.error({ error: err }));
   }, []);
 
   return (

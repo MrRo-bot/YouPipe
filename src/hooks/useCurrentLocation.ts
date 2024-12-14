@@ -21,7 +21,7 @@ const useCurrentLocation = () => {
 
   //error function for API error
   const posFail = (err: { code: number; message: string }) => {
-    console.log(`Unable to fetch location ERROR:${err.code}=${err.message}`);
+    console.error(`Unable to fetch location ERROR:${err.code}=${err.message}`);
   };
 
   //effect for fetching location data using GeolocationAPI
@@ -31,7 +31,7 @@ const useCurrentLocation = () => {
         enableHighAccuracy: true,
       });
     } else {
-      console.log("Browser doesn't support Geolocation API");
+      console.error("Browser doesn't support Geolocation API");
     }
   }, []);
 

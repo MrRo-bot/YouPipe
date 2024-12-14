@@ -1,4 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from "react-loader-spinner";
 
 import {
   PiListStarFill,
@@ -8,25 +12,11 @@ import {
 } from "react-icons/pi";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { useQuery } from "@tanstack/react-query";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import { TokensType } from "../types/types";
-import { ThreeDots } from "react-loader-spinner";
 import { addCategories } from "../features/categoriesSlice";
 
 const Sidebar = () => {
   //for toggling side menu to expand or collapse
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
-
-  //getting token from localStorage
-  const [tokenData] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
 
   //location codes
   const regionCode = useAppSelector((state) => state.location);
@@ -43,21 +33,31 @@ const Sidebar = () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=${regionCode.address.country_code.toUpperCase()}&key=${
           import.meta.env.VITE_API_KEY
-        }`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
-          },
-        }
+        }`
       );
       const data = await res.json();
       dispatch(addCategories(data));
+      //react toastify for fetch error
+      toast(
+        `${
+          data?.items?.length > 1
+            ? "✅ categories fetched"
+            : "❌ categories not fetched"
+        }`,
+        {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        }
+      );
       return data;
     },
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
   });
 
   return (

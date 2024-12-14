@@ -6,11 +6,12 @@ import "./App.css";
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
-      <div className="text-slate-200 font-text">
+      <div className="relative text-slate-200 font-text">
         <div className="w-full">
           <Header />
         </div>
@@ -24,6 +25,7 @@ function App() {
       </div>
       {/* query dev tools */}
       <ReactQueryDevtools initialIsOpen={false} />
+      <ToastContainer />
     </>
   );
 }

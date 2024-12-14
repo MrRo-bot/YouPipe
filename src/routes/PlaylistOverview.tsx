@@ -140,13 +140,13 @@ const PlaylistOverview = () => {
               {currPlaylist[0]?.snippet?.channelTitle}
             </h3>
             <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter text-zinc-400">
-              <span>{currPlaylist[0]?.contentDetails?.itemCount} videos</span>
+              <span>{currPlaylist[0]?.contentDetails?.itemCount} videos</span>•
               <span>
                 {`${currPlaylist[0]?.status?.privacyStatus[0].toUpperCase()}${currPlaylist[0]?.status?.privacyStatus.slice(
                   1
                 )}`}
               </span>
-              <span>{elapsedTime(result)} ago</span>
+              •<span>{elapsedTime(result)} ago</span>
             </div>
           </div>
           <div className="z-0 flex flex-col w-9/12 gap-2 mx-2 my-1 overflow-y-auto hideScrollbar">

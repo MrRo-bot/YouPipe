@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
+import { toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
@@ -82,6 +84,18 @@ const Header = () => {
     });
     const tokens = await response.json();
     dispatch(addToken(tokens));
+    //react toastify for access token fetched message
+    toast("🪙 Access token received!", {
+      position: "bottom-left",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     setToken(tokens); //setting it on localStorage
   };
 
@@ -98,7 +112,6 @@ const Header = () => {
     queryKey: ["googleLogin", fetchTokens],
     queryFn: googleLogin,
     enabled: !!fetchTokens,
-    refetchInterval: 3500000, //re-fetched every hour to get new access token
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -112,13 +125,39 @@ const Header = () => {
             `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token?.access_token}`
           );
           if (!response.ok) {
-            throw new Error("Oh no! haven't found access token yet");
+            throw new Error("❌ No access token");
           }
           const profile = await response.json();
           dispatch(addProfile(profile));
           setProfile(profile); //setting it on localStorage
+          //react toastify notification for welcoming user
+          if (profile?.name?.length > 1) {
+            toast(`Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`, {
+              position: "bottom-left",
+              autoClose: false,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+          }
         } catch (error) {
-          console.log(error);
+          console.error(error);
+          //react toastify notification for access token error
+          toast(`${error}!`, {
+            position: "bottom-left",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         }
       })();
     }
@@ -134,9 +173,33 @@ const Header = () => {
           );
           const coordsDetails = await res.json();
           dispatch(getLocationData(coordsDetails));
+          //react toastify for getting location data
+          toast("🧭 Location fetched!", {
+            position: "bottom-left",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        //react toastify for location fetch errors
+        toast("❌ No location found!", {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       }
     })();
   }, [locationCoords]);

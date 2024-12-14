@@ -21,7 +21,6 @@ const SubscriptionCard = ({
   const snippet = stat?.items[0]?.snippet;
   const statistics = stat?.items[0]?.statistics;
 
-  console.log(subId);
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
