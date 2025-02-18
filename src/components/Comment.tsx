@@ -80,6 +80,7 @@ const Comment = ({
       >
         <div className="w-[15%] p-1">
           <img
+            referrerPolicy="no-referrer"
             className="relative w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
             src={comm?.authorProfileImageUrl}
             alt={comm?.authorDisplayName[1]?.toUpperCase()}
@@ -152,6 +153,7 @@ const Comment = ({
                       >
                         <div className="w-[15%] p-1">
                           <img
+                            referrerPolicy="no-referrer"
                             className="w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
                             src={comment?.snippet?.authorProfileImageUrl}
                             alt={comment?.snippet?.authorDisplayName[1]?.toUpperCase()}

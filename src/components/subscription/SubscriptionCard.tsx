@@ -39,6 +39,7 @@ const SubscriptionCard = ({
           <div className="transition w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             {snippet?.thumbnails && (
               <img
+                referrerPolicy="no-referrer"
                 onLoad={() => setIsImgLoaded(!isImgLoaded)}
                 className="w-full h-full rounded-full"
                 src={snippet?.thumbnails?.high?.url}
@@ -85,7 +86,7 @@ const SubscriptionCard = ({
 
             <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
               {!snippet?.description ? (
-                <Skeleton width={200} height={10} className="rounded-2xl" />
+                <p className="text-xs text-zinc-400"></p>
               ) : (
                 <p className="text-xs text-zinc-400">{snippet?.description}</p>
               )}

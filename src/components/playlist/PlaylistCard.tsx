@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill, PiPen } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { PlaylistType } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { elapsedTime } from "../../utils/functions";
+import { RiDeleteBin3Line } from "react-icons/ri";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   //skeleton loading before image is loaded
@@ -36,7 +37,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="z-0 p-1 transition-all cursor-pointer rounded-xl group max-w-96 active:bg-zinc-600/70"
+        className="p-1 transition-all cursor-pointer rounded-xl group max-w-96 active:bg-zinc-600/70"
       >
         <div className="flex flex-col gap-2">
           <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl">
@@ -54,7 +55,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                   src={playlist?.snippet?.thumbnails?.maxres?.url}
                   alt=""
                 />
-                <div className="absolute z-50 p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
+                <div className="absolute p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
                   <MdOutlinePlaylistPlay className="w-4 h-4" />{" "}
                   {playlist?.contentDetails?.itemCount} videos
                 </div>
@@ -71,11 +72,22 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                   {playlist?.snippet?.title}
                 </div>
               )}
-              <div className="grid ml-auto transition hover:scale-105 focus:scale-105 place-items-center">
-                <PiDotsThreeOutlineVerticalFill
-                  size={1.1 + "em"}
-                  className="mb-0.5"
-                />
+              <div className="grid ml-auto -mr-3 transition rounded-full hover:bg-zinc-500/50 focus:bg-zinc-500/50 aspect-square place-items-center">
+                <PiDotsThreeOutlineVerticalFill />
+                {/* <div
+                  className={`absolute rounded-sm bg-black ${
+                    contextMenu ? "hidden" : "block"
+                  }`}
+                >
+                  <div className="flex gap-2 px-4 py-2">
+                    <RiDeleteBin3Line className="w-5 h-5 mr-2" />
+                    Delete
+                  </div>
+                  <div className="flex gap-2 px-4 py-2">
+                    <PiPen className="w-5 h-5 mr-2 " />
+                    Edit
+                  </div>
+                </div> */}
               </div>
             </div>
 

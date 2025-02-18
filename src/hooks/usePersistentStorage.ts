@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //custom hook for storing fetched information in localStorage
 import { useEffect, useState } from "react";
 

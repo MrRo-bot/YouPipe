@@ -58,6 +58,8 @@ const Sidebar = () => {
       );
       return data;
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   return (

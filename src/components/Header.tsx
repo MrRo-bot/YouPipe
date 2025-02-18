@@ -295,7 +295,11 @@ const Header = () => {
             className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700"
           >
             {profileData?.picture ? (
-              <img src={profile?.picture} alt={profile?.name[0]} />
+              <img
+                referrerPolicy="no-referrer"
+                src={profile?.picture}
+                alt={profile?.name[0]}
+              />
             ) : (
               <PiUserCirclePlusFill className="w-full h-full p-1" />
             )}
