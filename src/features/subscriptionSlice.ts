@@ -101,10 +101,18 @@ export const subscriptionSlice = createSlice({
     clearSubscription: (state) => {
       Object.assign(state, initialState);
     },
+
+    deleteSubscription: (state, action) => {
+      Object.assign(
+        state.items,
+        state.items.filter((item) => item.id !== action.payload)
+      );
+    },
   },
 });
 
-export const { addSubscription, clearSubscription } = subscriptionSlice.actions;
+export const { addSubscription, clearSubscription, deleteSubscription } =
+  subscriptionSlice.actions;
 
 export const subscription = (state: RootState) => state.subscription;
 

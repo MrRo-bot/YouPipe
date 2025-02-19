@@ -4,8 +4,15 @@ import { motion } from "framer-motion";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-import { ChannelInfoType } from "../../types/types";
+import { toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { ChannelInfoType, TokensType } from "../../types/types";
 import { rawViewsToString } from "../../utils/functions";
+import { useMutation } from "@tanstack/react-query";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import { deleteSubscription } from "../../features/subscriptionSlice";
+import { useAppDispatch } from "../../app/store";
 
 const SubscriptionCard = ({
   stat,
@@ -18,8 +25,63 @@ const SubscriptionCard = ({
   const [isImgLoaded, setIsImgLoaded] = useState(false);
   const [sub, setSub] = useState(true);
 
+  //token from localStorage
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
+  const dispatch = useAppDispatch();
   const snippet = stat?.items[0]?.snippet;
   const statistics = stat?.items[0]?.statistics;
+
+  //deleting subscription
+  const mutation = useMutation({
+    mutationFn: (sub: string) => {
+      return fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${sub}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      toast("🥲 Unsubscribed!", {
+        position: "bottom-left",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+    onError: () => {
+      toast("🤔 Somethings off!", {
+        position: "bottom-left",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+  });
 
   return (
     <SkeletonTheme
@@ -103,6 +165,10 @@ const SubscriptionCard = ({
            } active:bg-zinc-600/70`}
           >
             <span
+              onClick={() => {
+                mutation.mutate(subId);
+                dispatch(deleteSubscription(subId));
+              }}
               className={`col-start-1 row-start-1 mx-auto ${
                 !sub ? "invisible" : ""
               } `}
