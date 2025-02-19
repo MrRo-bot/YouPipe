@@ -2,7 +2,11 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useGoogleLogin, CodeResponse } from "@react-oauth/google";
+import {
+  useGoogleLogin,
+  googleLogout,
+  CodeResponse,
+} from "@react-oauth/google";
 import { toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -89,7 +93,7 @@ const Header = () => {
       position: "bottom-left",
       autoClose: 10000,
       hideProgressBar: false,
-      closeOnClick: false,
+      closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
@@ -116,6 +120,28 @@ const Header = () => {
     refetchOnWindowFocus: false,
   });
 
+  const logout = () => {
+    googleLogout();
+    setProfile({
+      sub: "",
+      name: "",
+      given_name: "",
+      family_name: "",
+      picture: "",
+      email: "",
+      email_verified: false,
+    });
+    setToken({
+      access_token: "",
+      refresh_token: "",
+      scope: "",
+      token_type: "",
+      id_token: "",
+      expiry_date: 0,
+    });
+    window.location.reload();
+  };
+
   //getting google profile data using token data provided by google login function
   useEffect(() => {
     if (token?.access_token) {
@@ -134,9 +160,9 @@ const Header = () => {
           if (profile?.name?.length > 1) {
             toast(`Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`, {
               position: "bottom-left",
-              autoClose: false,
+              autoClose: 10000,
               hideProgressBar: false,
-              closeOnClick: false,
+              closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
@@ -151,7 +177,7 @@ const Header = () => {
             position: "bottom-left",
             autoClose: 10000,
             hideProgressBar: false,
-            closeOnClick: false,
+            closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
@@ -178,7 +204,7 @@ const Header = () => {
             position: "bottom-left",
             autoClose: 10000,
             hideProgressBar: false,
-            closeOnClick: false,
+            closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
@@ -193,7 +219,7 @@ const Header = () => {
           position: "bottom-left",
           autoClose: 10000,
           hideProgressBar: false,
-          closeOnClick: false,
+          closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
@@ -284,16 +310,17 @@ const Header = () => {
           <MdOutlineSearch className="w-6 h-6" />
         </div>
       </div>
-      <div>
-        <div className="flex items-center gap-4 mx-2 min-h-12">
-          {/* <div className="grid transition bg-opacity-0 rounded-full cursor-pointer w-9 h-9 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
-            <AiOutlineVideoCameraAdd className="w-full h-full p-2.5" />
-          </div> */}
-          {/* google login button */}
+      <div className="flex items-center justify-between gap-2">
+        {profileData?.picture && (
           <div
-            onClick={() => setFetchTokens(!fetchTokens)}
-            className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700"
+            onClick={logout}
+            className="hover:bg-zinc-100 focus:bg-zinc-100 p-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-100 glass"
           >
+            Logout
+          </div>
+        )}
+        <div className="flex items-center gap-4 mx-2 min-h-12">
+          <div className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
             {profileData?.picture ? (
               <img
                 referrerPolicy="no-referrer"
@@ -301,7 +328,10 @@ const Header = () => {
                 alt={profile?.name[0]}
               />
             ) : (
-              <PiUserCirclePlusFill className="w-full h-full p-1" />
+              <PiUserCirclePlusFill
+                onClick={() => setFetchTokens(!fetchTokens)}
+                className="w-full h-full p-1"
+              />
             )}
           </div>
         </div>
