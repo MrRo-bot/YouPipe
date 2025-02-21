@@ -58,7 +58,7 @@ const SubscriptionCard = ({
     onSuccess: () => {
       toast("🥲 Unsubscribed!", {
         position: "bottom-left",
-        autoClose: 10000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -71,7 +71,7 @@ const SubscriptionCard = ({
     onError: () => {
       toast("🤔 Somethings off!", {
         position: "bottom-left",
-        autoClose: 10000,
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

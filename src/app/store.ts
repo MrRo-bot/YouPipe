@@ -10,7 +10,6 @@ import likedVideosSlice from "../features/likedVideosSlice";
 import locationSlice from "../features/locationSlice";
 import searchSlice from "../features/searchSlice";
 import homeSlice from "../features/homeSlice";
-import categoriesSlice from "../features/categoriesSlice";
 import commentsThreadSlice from "../features/commentsThreadSlice";
 import timestampSlice from "../features/timestampSlice";
 import PlaylistOverviewSlice from "../features/playlistOverviewSlice";
@@ -27,7 +26,6 @@ export const store = configureStore({
     location: locationSlice,
     search: searchSlice,
     home: homeSlice,
-    categories: categoriesSlice,
     commentsThread: commentsThreadSlice,
     timestamp: timestampSlice,
     playlistOverview: PlaylistOverviewSlice,

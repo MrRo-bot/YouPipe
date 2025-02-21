@@ -91,7 +91,7 @@ const Header = () => {
     //react toastify for access token fetched message
     toast("🪙 Access token received!", {
       position: "bottom-left",
-      autoClose: 10000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -160,7 +160,7 @@ const Header = () => {
           if (profile?.name?.length > 1) {
             toast(`Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`, {
               position: "bottom-left",
-              autoClose: 10000,
+              autoClose: 5000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -175,7 +175,7 @@ const Header = () => {
           //react toastify notification for access token error
           toast(`${error}!`, {
             position: "bottom-left",
-            autoClose: 10000,
+            autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -202,7 +202,7 @@ const Header = () => {
           //react toastify for getting location data
           toast("🧭 Location fetched!", {
             position: "bottom-left",
-            autoClose: 10000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -217,7 +217,7 @@ const Header = () => {
         //react toastify for location fetch errors
         toast("❌ No location found!", {
           position: "bottom-left",
-          autoClose: 10000,
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
