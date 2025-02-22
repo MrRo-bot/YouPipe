@@ -37,6 +37,21 @@ const LikedVideos = () => {
   //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
+  //extracted colors from the image
+  const [extractedColors, setExtractedColors] = useState([
+    {
+      hex: "#000000",
+      red: 255,
+      green: 255,
+      blue: 255,
+      area: 1,
+      hue: 0,
+      saturation: 1,
+      lightness: 1,
+      intensity: 1,
+    },
+  ]);
+
   //triggers query for fetching more data
   const [fetchMore, setFetchMore] = useState(true);
 
@@ -97,11 +112,15 @@ const LikedVideos = () => {
   });
 
   useEffect(() => {
-    extractColors(likedVideos?.items[0]?.snippet?.thumbnails?.default?.url, {
-      crossOrigin: "anonymous",
-    })
-      .then((data) => console.log(data))
-      .catch((err) => console.error({ error: err }));
+    if (likedVideos?.items[0]) {
+      extractColors(likedVideos?.items[0]?.snippet?.thumbnails?.default?.url, {
+        crossOrigin: "anonymous",
+      })
+        .then((data) => {
+          setExtractedColors(data);
+        })
+        .catch((err) => console.error({ error: err }));
+    }
   }, []);
 
   return (
@@ -120,7 +139,7 @@ const LikedVideos = () => {
         >
           <div
             style={{
-              background: `linear-gradient(to bottom, rgba(15,15,15) 33%, rgba(15,15,15,0.100) 100%)`,
+              background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
             }}
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >

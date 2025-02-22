@@ -166,9 +166,13 @@ const PlaylistOverview = () => {
                 increaseViewportBy={100}
                 data={playlistOverview?.items}
                 totalCount={playlistOverview?.pageInfo?.totalResults}
-                itemContent={(_, data) => (
+                itemContent={(index, data) => (
                   <div className="py-2">
-                    <PlaylistOverviewCard key={data?.id} playlistItem={data} />
+                    <PlaylistOverviewCard
+                      key={data?.id}
+                      playlistItem={data}
+                      index={index}
+                    />
                   </div>
                 )}
                 endReached={() => setTimeout(() => setFetchMore(true), 500)}

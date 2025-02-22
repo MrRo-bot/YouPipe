@@ -1,20 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-import { PiDotsThreeOutlineVerticalFill, PiPen } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { PlaylistType } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { elapsedTime } from "../../utils/functions";
-import { RiDeleteBin3Line } from "react-icons/ri";
+import { extractColors } from "extract-colors";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
+
+  //extracted colors from the image
+  const [extractedColors, setExtractedColors] = useState([
+    {
+      hex: "#000000",
+      red: 255,
+      green: 255,
+      blue: 255,
+      area: 1,
+      hue: 0,
+      saturation: 1,
+      lightness: 1,
+      intensity: 1,
+    },
+  ]);
 
   //navigate method for navigating to playlistOverview route
   const navigate = useNavigate();
@@ -24,6 +39,18 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
 
   //getting time from date
   const result = myDate.getTime();
+
+  useEffect(() => {
+    if (playlist?.snippet?.thumbnails?.maxres?.url) {
+      extractColors(playlist?.snippet?.thumbnails?.maxres?.url, {
+        crossOrigin: "anonymous",
+      })
+        .then((data) => {
+          setExtractedColors(data);
+        })
+        .catch((err) => console.error({ error: err }));
+    }
+  }, []);
 
   return (
     <SkeletonTheme
@@ -37,30 +64,63 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="p-1 transition-all cursor-pointer rounded-xl group max-w-96 active:bg-zinc-600/70"
+        className="z-0 p-1 transition-all cursor-pointer rounded-xl group max-w-96 active:bg-zinc-600/70"
       >
         <div className="flex flex-col gap-2">
-          <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl">
-            {!playlist?.snippet?.thumbnails?.maxres?.url ? (
-              <Skeleton
-                width={"100%"}
-                height={"100%"}
-                className="rounded-2xl -top-1"
-              />
-            ) : (
-              <>
-                <img
-                  onLoad={() => setIsImgLoaded(!isImgLoaded)}
-                  className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
-                  src={playlist?.snippet?.thumbnails?.maxres?.url}
-                  alt=""
+          <div
+            style={
+              {
+                "--bg": extractedColors[0].hex,
+              } as React.CSSProperties
+            }
+            className={`
+          before:content-['']
+          before:absolute
+          before:inline-block
+          before:left-[10px]
+          before:h-10
+          before:-z-10
+          before:-top-0.5
+          before:w-[93%]
+          before:rounded-xl
+          before:bg-[var(--bg)]
+          before:contrast-100
+          
+          after:content-['']
+          after:absolute
+          after:inline-block
+          after:left-[14px]
+          after:h-10
+          after:-z-20
+          after:-top-1.5
+          after:w-[90%]
+          after:rounded-xl
+          after:bg-[var(--bg)]
+          after:contrast-50
+          `}
+          >
+            <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl before:absolute ">
+              {!playlist?.snippet?.thumbnails?.maxres?.url ? (
+                <Skeleton
+                  width={"100%"}
+                  height={"100%"}
+                  className="rounded-2xl -top-1"
                 />
-                <div className="absolute p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
-                  <MdOutlinePlaylistPlay className="w-4 h-4" />{" "}
-                  {playlist?.contentDetails?.itemCount} videos
-                </div>
-              </>
-            )}
+              ) : (
+                <>
+                  <img
+                    onLoad={() => setIsImgLoaded(!isImgLoaded)}
+                    className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
+                    src={playlist?.snippet?.thumbnails?.maxres?.url}
+                    alt=""
+                  />
+                  <div className="absolute p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
+                    <MdOutlinePlaylistPlay className="w-4 h-4" />{" "}
+                    {playlist?.contentDetails?.itemCount} videos
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-1 px-2">
@@ -74,20 +134,6 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               )}
               <div className="grid ml-auto -mr-3 transition rounded-full hover:bg-zinc-500/50 focus:bg-zinc-500/50 aspect-square place-items-center">
                 <PiDotsThreeOutlineVerticalFill />
-                {/* <div
-                  className={`absolute rounded-sm bg-black ${
-                    contextMenu ? "hidden" : "block"
-                  }`}
-                >
-                  <div className="flex gap-2 px-4 py-2">
-                    <RiDeleteBin3Line className="w-5 h-5 mr-2" />
-                    Delete
-                  </div>
-                  <div className="flex gap-2 px-4 py-2">
-                    <PiPen className="w-5 h-5 mr-2 " />
-                    Edit
-                  </div>
-                </div> */}
               </div>
             </div>
 

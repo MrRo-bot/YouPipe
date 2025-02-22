@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { RiDraggable } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +21,10 @@ import {
 
 const PlaylistOverviewCard = ({
   playlistItem,
+  index,
 }: {
   playlistItem: PlaylistItemType;
+  index: number;
 }) => {
   const [videoStat, setVideoStat] = useState<VideosListType>();
   //creating date value from ISO 8601 format
@@ -83,7 +84,7 @@ const PlaylistOverviewCard = ({
       className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 glass rounded-2xl"
     >
       <div className="flex">
-        <div className="self-center mr-2">{<RiDraggable />}</div>
+        <div className="self-center mr-2">{index + 1}</div>
         <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
           {!playlistItem?.snippet?.thumbnails?.high?.url ? (
             <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
