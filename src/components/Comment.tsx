@@ -75,7 +75,7 @@ const Comment = ({
         className={`flex p-1 mx-1 rounded-xl glass-dark ${
           channelId ===
             comment?.snippet?.topLevelComment?.snippet?.authorChannelId
-              ?.value && "bg-slate-900"
+              ?.value && "bg-slate-950"
         }`}
       >
         <div className="w-[15%] p-1">

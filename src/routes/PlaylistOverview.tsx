@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,6 +13,7 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 import { addPlayItems } from "../features/playlistOverviewSlice";
 import { elapsedTime } from "../utils/functions";
 import { PlaylistItemListType, TokensType } from "../types/types";
+import { extractColors } from "extract-colors";
 
 //footer shows loading or end of list
 const Footer = ({
@@ -43,6 +44,21 @@ const PlaylistOverview = () => {
 
   //for skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
+
+  //extracted colors from the image
+  const [extractedColors, setExtractedColors] = useState([
+    {
+      hex: "#000000",
+      red: 255,
+      green: 255,
+      blue: 255,
+      area: 1,
+      hue: 0,
+      saturation: 1,
+      lightness: 1,
+      intensity: 1,
+    },
+  ]);
 
   //redux store dispatch
   const dispatch = useAppDispatch();
@@ -101,6 +117,18 @@ const PlaylistOverview = () => {
     enabled: !!fetchMore,
   });
 
+  useEffect(() => {
+    if (currPlaylist[0]?.snippet?.thumbnails?.high?.url) {
+      extractColors(currPlaylist[0]?.snippet?.thumbnails?.high?.url, {
+        crossOrigin: "anonymous",
+      })
+        .then((data) => {
+          setExtractedColors(data);
+        })
+        .catch((err) => console.error({ error: err }));
+    }
+  }, []);
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -117,7 +145,7 @@ const PlaylistOverview = () => {
         >
           <div
             style={{
-              background: `linear-gradient(to bottom, rgba(15,15,15) 33%, rgba(15,15,15,0.100) 100%)`,
+              background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
             }}
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >

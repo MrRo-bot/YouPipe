@@ -112,7 +112,7 @@ const LikedVideos = () => {
   });
 
   useEffect(() => {
-    if (likedVideos?.items[0]) {
+    if (likedVideos?.items[0]?.snippet?.thumbnails?.default?.url) {
       extractColors(likedVideos?.items[0]?.snippet?.thumbnails?.default?.url, {
         crossOrigin: "anonymous",
       })
