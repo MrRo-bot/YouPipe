@@ -83,7 +83,7 @@ const Comment = ({
             referrerPolicy="no-referrer"
             className="relative w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
             src={comm?.authorProfileImageUrl}
-            alt={comm?.authorDisplayName[1]?.toUpperCase()}
+            alt=""
           />
         </div>
         <div className="w-[85%] flex flex-col gap-2">
@@ -103,7 +103,7 @@ const Comment = ({
             </span>
           </div>
           {comm?.likeCount !== 0 ? (
-            <div className="transition-colors cursor-pointer flex text-sm items-center gap-2 hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 hover:text-yellow-400 focus:text-yellow-400 active:text-yellow-400 max-w-max rounded-3xl px-2 py-0.5">
+            <div className="transition-colors cursor-pointer flex text-sm items-center gap-2   max-w-max rounded-3xl px-2 py-0.5">
               {rawViewsToString(String(comm?.likeCount))}{" "}
               {<PiThumbsUpFill className="w-4 h-4 -scale-x-100" />}
             </div>
@@ -156,7 +156,7 @@ const Comment = ({
                             referrerPolicy="no-referrer"
                             className="w-10 h-10 mx-auto text-center rounded-full outline outline-1 outline-yellow-400"
                             src={comment?.snippet?.authorProfileImageUrl}
-                            alt={comment?.snippet?.authorDisplayName[1]?.toUpperCase()}
+                            alt=""
                           />
                         </div>
                         <div className="w-[85%] flex flex-col gap-2">
@@ -177,7 +177,7 @@ const Comment = ({
                             </span>
                           </div>
                           {comment?.snippet?.likeCount !== 0 ? (
-                            <div className="transition-colors text-sm cursor-pointer flex items-center gap-2 hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 hover:text-yellow-400 focus:text-yellow-400 active:text-yellow-400 max-w-max rounded-3xl px-2 py-0.5">
+                            <div className="transition-colors text-sm cursor-pointer flex items-center gap-2   max-w-max rounded-3xl px-2 py-0.5">
                               {rawViewsToString(
                                 String(comment?.snippet?.likeCount)
                               )}{" "}

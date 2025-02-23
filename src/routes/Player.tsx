@@ -4,13 +4,23 @@ import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { nanoid } from "nanoid";
 
-import { PiThumbsDownFill, PiThumbsUpFill } from "react-icons/pi";
+import {
+  PiThumbsDownBold,
+  PiThumbsDownFill,
+  PiThumbsUpBold,
+  PiThumbsUpFill,
+} from "react-icons/pi";
 
 import ReactPlayer from "react-player/youtube";
 
 import Comment from "../components/Comment";
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import { CommentListType, TokensType, VideosListType } from "../types/types";
+import {
+  CommentListType,
+  RatingType,
+  TokensType,
+  VideosListType,
+} from "../types/types";
 import { rawViewsToString } from "../utils/functions";
 import { addCommentsThread } from "../features/commentsThreadSlice";
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -44,6 +54,18 @@ const Footer = ({
 const Player = () => {
   //state for storing playing status
   const [isPlaying, setIsPlaying] = useState(false);
+
+  //getting rating
+  const [rating, setRating] = useState<RatingType>({
+    kind: "",
+    etag: "",
+    items: [
+      {
+        videoId: "",
+        rating: "",
+      },
+    ],
+  });
 
   //react player ref
   const playerRef = useRef(null);
@@ -178,6 +200,82 @@ const Player = () => {
     }
   }, [timestamp]);
 
+  //query for getting video rating
+  useQuery({
+    queryKey: ["rating"],
+    queryFn: async () => {
+      if (videoId) {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/videos/getRating?id=${videoId}&key=${
+            import.meta.env.VITE_API_KEY
+          }`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        const ratings = await res.json();
+        setRating(ratings);
+        return ratings;
+      }
+    },
+  });
+
+  //handling like dislike rating of a video in player
+  const handleRating = (e: {
+    stopPropagation: () => void;
+    currentTarget: { id: string };
+  }) => {
+    e.stopPropagation();
+    const rate = rating.items[0].rating;
+    const ratingPostFunc = async (r: string) => {
+      return await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videos/rate?id=${videoId}&rating=${r}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+    };
+    if (e.currentTarget.id === "like") {
+      if (rate === "like") {
+        ratingPostFunc("none");
+        setRating((prev) => ({
+          ...prev,
+          items: [{ videoId: prev.items[0].videoId, rating: "none" }],
+        }));
+      } else {
+        ratingPostFunc("like");
+        setRating((prev) => ({
+          ...prev,
+          items: [{ videoId: prev.items[0].videoId, rating: "like" }],
+        }));
+      }
+    }
+    if (e.currentTarget.id === "dislike") {
+      if (rate === "dislike") {
+        ratingPostFunc("none");
+        setRating((prev) => ({
+          ...prev,
+          items: [{ videoId: prev.items[0].videoId, rating: "none" }],
+        }));
+      } else {
+        ratingPostFunc("dislike");
+        setRating((prev) => ({
+          ...prev,
+          items: [{ videoId: prev.items[0].videoId, rating: "dislike" }],
+        }));
+      }
+    }
+  };
+
   return (
     <div className="w-full h-[90vh] pt-5">
       <div className="flex w-[95%] h-full mx-auto">
@@ -209,14 +307,43 @@ const Player = () => {
                   views
                 </div>
                 |
-                <div className="flex items-center gap-2">
-                  <PiThumbsUpFill />
-                  <strong className="text-violet-200">
-                    {rawViewsToString(
-                      video?.items[0]?.statistics?.likeCount || "0"
+                <div className="flex items-center gap-2 transition-colors ">
+                  <div
+                    id="like"
+                    onClick={handleRating}
+                    className={`flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
+                      rating.items[0].rating === "like" && "text-yellow-400"
+                    }`}
+                  >
+                    {rating.items[0].rating === "like" ? (
+                      <PiThumbsUpFill />
+                    ) : (
+                      <PiThumbsUpBold />
                     )}
-                  </strong>{" "}
-                  Likes • <PiThumbsDownFill />
+                    <strong
+                      className={`text-violet-200 ${
+                        rating.items[0].rating === "like" && "text-yellow-400"
+                      }`}
+                    >
+                      {rawViewsToString(
+                        video?.items[0]?.statistics?.likeCount || "0"
+                      )}
+                    </strong>
+                  </div>
+                  •
+                  <div
+                    id="dislike"
+                    onClick={handleRating}
+                    className={`cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
+                      rating.items[0].rating === "dislike" && "text-yellow-400"
+                    }`}
+                  >
+                    {rating.items[0].rating === "dislike" ? (
+                      <PiThumbsDownFill />
+                    ) : (
+                      <PiThumbsDownBold />
+                    )}
+                  </div>
                 </div>
                 |
                 <div className="flex items-center gap-2">

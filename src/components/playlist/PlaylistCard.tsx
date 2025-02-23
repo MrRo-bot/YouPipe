@@ -19,7 +19,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   //extracted colors from the image
   const [extractedColors, setExtractedColors] = useState([
     {
-      hex: "#000000",
+      hex: "#ffffff",
       red: 255,
       green: 255,
       blue: 255,
@@ -70,7 +70,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           <div
             style={
               {
-                "--bg": extractedColors[0].hex,
+                "--bg": `rgb(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue})`,
               } as React.CSSProperties
             }
             className={`
@@ -84,7 +84,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           before:w-[93%]
           before:rounded-xl
           before:bg-[var(--bg)]
-          before:contrast-100
+          before:opacity-50
           
           after:content-['']
           after:absolute
@@ -96,10 +96,10 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           after:w-[90%]
           after:rounded-xl
           after:bg-[var(--bg)]
-          after:contrast-50
+          after:opacity-25
           `}
           >
-            <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl before:absolute ">
+            <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl before:absolute">
               {!playlist?.snippet?.thumbnails?.maxres?.url ? (
                 <Skeleton
                   width={"100%"}

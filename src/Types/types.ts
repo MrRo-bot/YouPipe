@@ -909,3 +909,14 @@ export type CommentListType = {
   };
   items: [CommentType];
 };
+
+export type RatingType = {
+  kind: string;
+  etag: string;
+  items: [
+    {
+      videoId: string;
+      rating: string;
+    }
+  ];
+};
