@@ -11,9 +11,9 @@ import { elapsedTime, rawViewsToString } from "../utils/functions";
 import { CommentType } from "../types/types";
 import { useAppDispatch } from "../app/store";
 import { addTimestamp } from "../features/timestampSlice";
-import { PiThumbsUpFill } from "react-icons/pi";
+import { PiThumbsUpFill, PiThumbsUpLight } from "react-icons/pi";
 
-const Comment = ({
+const Comments = ({
   comment,
   channelId,
 }: {
@@ -103,12 +103,14 @@ const Comment = ({
             </span>
           </div>
           {comm?.likeCount !== 0 ? (
-            <div className="transition-colors cursor-pointer flex text-sm items-center gap-2   max-w-max rounded-3xl px-2 py-0.5">
+            <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
               {rawViewsToString(String(comm?.likeCount))}{" "}
               {<PiThumbsUpFill className="w-4 h-4 -scale-x-100" />}
             </div>
           ) : (
-            ""
+            <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
+              0 {<PiThumbsUpLight className="w-4 h-4 -scale-x-100" />}
+            </div>
           )}
           {replyCount >= 1 && (
             <>
@@ -176,17 +178,21 @@ const Comment = ({
                               {parse(modifiedReply)}
                             </span>
                           </div>
+
                           {comment?.snippet?.likeCount !== 0 ? (
-                            <div className="transition-colors text-sm cursor-pointer flex items-center gap-2   max-w-max rounded-3xl px-2 py-0.5">
-                              {rawViewsToString(
-                                String(comment?.snippet?.likeCount)
-                              )}{" "}
+                            <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
+                              {rawViewsToString(String(comm?.likeCount))}{" "}
                               {
                                 <PiThumbsUpFill className="w-4 h-4 -scale-x-100" />
                               }
                             </div>
                           ) : (
-                            ""
+                            <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
+                              0{" "}
+                              {
+                                <PiThumbsUpLight className="w-4 h-4 -scale-x-100" />
+                              }
+                            </div>
                           )}
                         </div>
                       </div>
@@ -202,4 +208,4 @@ const Comment = ({
   );
 };
 
-export default Comment;
+export default Comments;

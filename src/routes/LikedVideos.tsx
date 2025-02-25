@@ -108,7 +108,8 @@ const LikedVideos = () => {
       return likedVideosList;
     },
     enabled: !!fetchMore,
-    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   useEffect(() => {

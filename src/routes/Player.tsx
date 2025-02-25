@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
@@ -11,9 +11,15 @@ import {
   PiThumbsUpFill,
 } from "react-icons/pi";
 
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { Virtuoso } from "react-virtuoso";
+
 import ReactPlayer from "react-player/youtube";
 
-import Comment from "../components/Comment";
+import Comments from "../components/Comments";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import {
   CommentListType,
@@ -24,8 +30,6 @@ import {
 import { rawViewsToString } from "../utils/functions";
 import { addCommentsThread } from "../features/commentsThreadSlice";
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { Virtuoso } from "react-virtuoso";
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { addTimestamp } from "../features/timestampSlice";
 
 //footer shows loading or end of list
@@ -54,6 +58,9 @@ const Footer = ({
 const Player = () => {
   //state for storing playing status
   const [isPlaying, setIsPlaying] = useState(false);
+
+  //custom comment
+  const [myComment, setMyComment] = useState("");
 
   //getting rating
   const [rating, setRating] = useState<RatingType>({
@@ -127,8 +134,8 @@ const Player = () => {
       return video;
     },
     enabled: !!videoId,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
 
   //creating date value from ISO 8601 format
@@ -159,8 +166,8 @@ const Player = () => {
       return commentThread;
     },
     enabled: !!videoId && !!fetchMore,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   //modifying description by detecting links and adding styles to it
@@ -169,7 +176,7 @@ const Player = () => {
     `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="$&">$&</a>`
   );
 
-  const handleTimestamp = (e) => {
+  const handleTimestamp = (e: MouseEvent<HTMLSpanElement, MouseEvent>) => {
     const timestampArr = e.target.innerText.split(":");
     let seconds = 0;
 
@@ -274,6 +281,43 @@ const Player = () => {
         }));
       }
     }
+  };
+
+  //sending comment to video
+  const handleComment = async () => {
+    await fetch(
+      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&key=${
+        import.meta.env.VITE_API_KEY
+      }`,
+
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token?.access_token}`,
+        },
+        body: JSON.stringify({
+          snippet: {
+            videoId: videoId,
+            topLevelComment: { snippet: { textOriginal: myComment } },
+          },
+        }),
+      }
+    );
+    setMyComment("");
+    //react toastify notification for showing that comment is added
+    toast(`Comment added`, {
+      position: "bottom-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   };
 
   return (
@@ -383,6 +427,36 @@ const Player = () => {
             Comments
           </h2>
 
+          <div className="relative w-full">
+            <div className="overflow-y-hidden min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
+              {myComment}
+            </div>{" "}
+            <textarea
+              className="hideScrollbar absolute p-2 py-3 text-zinc-100  bg-transparent focus:bg-slate-700/50 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+              value={myComment}
+              placeholder="Add your comment..."
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setMyComment(e.target.value)
+              }
+            />
+          </div>
+          <div className="flex gap-6 mx-auto">
+            <button
+              onClick={() => setMyComment("")}
+              className="px-3 py-2 rounded-full cursor-pointer hover:bg-gray-500/50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleComment()}
+              className={`px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 ${
+                myComment.length > 0 && "bg-pink-500"
+              }`}
+            >
+              Comment
+            </button>
+          </div>
+
           {/* Virtuoso virtualized rendering of comments */}
 
           {comments?.items[0]?.kind === "" ? (
@@ -404,7 +478,7 @@ const Player = () => {
               )}
               itemContent={(_, data) => (
                 <div className="pt-3">
-                  <Comment
+                  <Comments
                     key={data.id}
                     comment={data}
                     channelId={video?.items[0]?.snippet?.channelId || ""}
