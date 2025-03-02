@@ -76,7 +76,6 @@ const Search = () => {
       return search;
     },
     enabled: !!fetchMore,
-    refetchOnWindowFocus: false,
   });
 
   return (
@@ -117,6 +116,8 @@ const Search = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 2000)}
               context={searchData}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               components={{ Footer }}
             />
           )}

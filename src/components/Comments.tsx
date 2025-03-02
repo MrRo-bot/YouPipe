@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
 import {
@@ -8,10 +8,15 @@ import {
 import parse from "html-react-parser";
 
 import { elapsedTime, rawViewsToString } from "../utils/functions";
-import { CommentType } from "../types/types";
+import { CommentType, TokensType } from "../types/types";
 import { useAppDispatch } from "../app/store";
 import { addTimestamp } from "../features/timestampSlice";
 import { PiThumbsUpFill, PiThumbsUpLight } from "react-icons/pi";
+import { FaRegCommentAlt } from "react-icons/fa";
+import { Bounce, toast } from "react-toastify";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { useMutation } from "@tanstack/react-query";
+import { addReply } from "../features/commentsThreadSlice";
 
 const Comments = ({
   comment,
@@ -21,6 +26,22 @@ const Comments = ({
   channelId: string;
 }) => {
   const [expand, setExpand] = useState(false);
+
+  //toggle reply field
+  const [toggleReply, setToggleReply] = useState(false);
+
+  //handle users reply
+  const [myReply, setMyReply] = useState("");
+
+  //getting token from localStorage
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
 
   const dispatch = useAppDispatch();
 
@@ -36,8 +57,10 @@ const Comments = ({
   const publishedAt = myPubDate.getTime();
   const updatedAt = myUpdDate.getTime();
 
-  const handleTimestamp = (e: MouseEvent<HTMLSpanElement>) => {
-    const timestampArr = e.currentTarget.innerText.split(":");
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const handleTimestamp = (e) => {
+    const timestampArr = e.target.innerText.split(":");
     let seconds = 0;
 
     //if hours exists in timestamp
@@ -58,6 +81,59 @@ const Comments = ({
     (match) =>
       `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
   );
+
+  //sending reply on an existing comment
+  const replyMutation = useMutation({
+    mutationFn: async (reply: string) => {
+      const response = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/comments?part=id%2Csnippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+          body: JSON.stringify({
+            snippet: {
+              textOriginal: reply,
+              parentId: comment?.snippet?.topLevelComment?.id,
+            },
+          }),
+        }
+      );
+      dispatch(addReply(await response.json()));
+    },
+    onSuccess: () => {
+      setMyReply("");
+      setToggleReply(false);
+      toast("💬 reply added!", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast(`🤔 ${e}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+  });
 
   return (
     <SkeletonTheme
@@ -102,16 +178,58 @@ const Comments = ({
               {parse(modifiedComment || "")}
             </span>
           </div>
-          {comm?.likeCount !== 0 ? (
-            <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
-              {rawViewsToString(String(comm?.likeCount))}{" "}
-              {<PiThumbsUpFill className="w-4 h-4 -scale-x-100" />}
+          <div className="flex items-center justify-start w-1/2 gap-6">
+            {comm?.likeCount !== 0 ? (
+              <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
+                {rawViewsToString(String(comm?.likeCount))}{" "}
+                {<PiThumbsUpFill className="w-4 h-4 -scale-x-100" />}
+              </div>
+            ) : (
+              <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
+                0 {<PiThumbsUpLight className="w-4 h-4 -scale-x-100" />}
+              </div>
+            )}
+            <div
+              onClick={() => setToggleReply(!toggleReply)}
+              className="px-3 py-2 cursor-pointer hover:bg-slate-500/20 rounded-3xl"
+            >
+              <FaRegCommentAlt className="w-3 h-3 scale-x-100" />
             </div>
-          ) : (
-            <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
-              0 {<PiThumbsUpLight className="w-4 h-4 -scale-x-100" />}
+          </div>
+          {toggleReply && (
+            <div className="my-2">
+              <div className="relative w-full">
+                <div className="overflow-y-hidden min-h-10 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
+                  {myReply}
+                </div>{" "}
+                <textarea
+                  className="hideScrollbar absolute p-2 text-zinc-100  bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                  value={myReply}
+                  placeholder="Add your reply..."
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setMyReply(e.target.value)
+                  }
+                />
+              </div>
+              <div className="flex gap-6 mx-auto mt-2">
+                <button
+                  onClick={() => setToggleReply(false)}
+                  className="px-2 py-1 text-sm rounded-full cursor-pointer hover:bg-gray-500/50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => replyMutation.mutate(myReply)}
+                  className={`px-2 py-1 text-sm rounded-full cursor-pointer bg-gray-500/50 ${
+                    myReply.length > 0 && "bg-pink-500"
+                  }`}
+                >
+                  Reply
+                </button>
+              </div>
             </div>
           )}
+
           {replyCount >= 1 && (
             <>
               <div

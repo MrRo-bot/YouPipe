@@ -18,13 +18,59 @@ const initialState: CommentListType = {
       snippet: {
         channelId: "",
         videoId: "",
-        topLevelComment: [],
+        topLevelComment: {
+          kind: "",
+          etag: "",
+          id: "",
+          snippet: {
+            channelId: "",
+            videoId: "",
+            parentId: "",
+            textDisplay: "",
+            textOriginal: "",
+            authorDisplayName: "",
+            authorProfileImageUrl: "",
+            authorChannelUrl: "",
+            authorChannelId: {
+              value: "",
+            },
+            canRate: false,
+            viewerRating: "",
+            likeCount: 0,
+            publishedAt: "",
+            updatedAt: "",
+          },
+        },
         canReply: false,
         totalReplyCount: 0,
         isPublic: false,
       },
       replies: {
-        comments: [],
+        comments: [
+          {
+            kind: "",
+            etag: "",
+            id: "",
+            snippet: {
+              channelId: "",
+              videoId: "",
+              textDisplay: "",
+              textOriginal: "",
+              parentId: "",
+              authorDisplayName: "",
+              authorProfileImageUrl: "",
+              authorChannelUrl: "",
+              authorChannelId: {
+                value: "",
+              },
+              canRate: false,
+              viewerRating: "",
+              likeCount: 0,
+              publishedAt: "",
+              updatedAt: "",
+            },
+          },
+        ],
       },
     },
   ],
@@ -49,13 +95,36 @@ export const commentsThreadSlice = createSlice({
         ],
       });
     },
+
+    addComment: (state, action) => {
+      Object.assign(state, state.items.unshift(action.payload));
+    },
+    addReply: (state, action) => {
+      Object.assign(
+        state,
+        state.items.map((comment) => {
+          if (comment.id === action.payload.id.split(".")[0]) {
+            return {
+              ...comment,
+              snippet: {
+                ...comment.snippet,
+                totalReplyCount: comment?.snippet?.totalReplyCount || 0 + 1,
+              },
+              replies: {
+                comments: comment?.replies?.comments.push(action.payload),
+              },
+            };
+          }
+        })
+      );
+    },
     clearCommentsThread: (state) => {
       Object.assign(state, initialState);
     },
   },
 });
 
-export const { addCommentsThread, clearCommentsThread } =
+export const { addCommentsThread, clearCommentsThread, addComment, addReply } =
   commentsThreadSlice.actions;
 
 export const commentsThread = (state: RootState) => state.commentsThread;

@@ -58,7 +58,6 @@ const Home = () => {
   //     return home;
   //   },
   //   enabled: !!inView,
-  //   refetchOnWindowFocus: false,
   // });
 
   return (

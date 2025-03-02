@@ -109,7 +109,6 @@ const LikedVideos = () => {
     },
     enabled: !!fetchMore,
     refetchOnMount: true,
-    refetchOnWindowFocus: true,
   });
 
   useEffect(() => {
@@ -200,6 +199,8 @@ const LikedVideos = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 500)}
               context={likedVideos}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               components={{ Footer }}
             />
           )}

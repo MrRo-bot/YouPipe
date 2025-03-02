@@ -1,5 +1,5 @@
-import { MouseEvent, useEffect, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { nanoid } from "nanoid";
@@ -28,9 +28,10 @@ import {
   VideosListType,
 } from "../types/types";
 import { rawViewsToString } from "../utils/functions";
-import { addCommentsThread } from "../features/commentsThreadSlice";
+import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addTimestamp } from "../features/timestampSlice";
+import { addLikedVideo, removeLikedVideo } from "../features/likedVideosSlice";
 
 //footer shows loading or end of list
 const Footer = ({
@@ -134,8 +135,6 @@ const Player = () => {
       return video;
     },
     enabled: !!videoId,
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
   });
 
   //creating date value from ISO 8601 format
@@ -166,8 +165,6 @@ const Player = () => {
       return commentThread;
     },
     enabled: !!videoId && !!fetchMore,
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
   });
 
   //modifying description by detecting links and adding styles to it
@@ -176,7 +173,9 @@ const Player = () => {
     `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="$&">$&</a>`
   );
 
-  const handleTimestamp = (e: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const handleTimestamp = (e) => {
     const timestampArr = e.target.innerText.split(":");
     let seconds = 0;
 
@@ -202,6 +201,8 @@ const Player = () => {
   //seeking to a timestamp
   useEffect(() => {
     if (timestamp !== 0) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       playerRef.current?.seekTo(timestamp, "seconds");
       setIsPlaying(true);
     }
@@ -230,12 +231,8 @@ const Player = () => {
     },
   });
 
-  //handling like dislike rating of a video in player
-  const handleRating = (e: {
-    stopPropagation: () => void;
-    currentTarget: { id: string };
-  }) => {
-    e.stopPropagation();
+  //handling like/dislike rating of a video in player
+  const handleRating = (e: { currentTarget: { id: string } }) => {
     const rate = rating.items[0].rating;
     const ratingPostFunc = async (r: string) => {
       return await fetch(
@@ -251,14 +248,17 @@ const Player = () => {
         }
       );
     };
+
     if (e.currentTarget.id === "like") {
       if (rate === "like") {
         ratingPostFunc("none");
+        dispatch(removeLikedVideo(video?.items[0]));
         setRating((prev) => ({
           ...prev,
           items: [{ videoId: prev.items[0].videoId, rating: "none" }],
         }));
       } else {
+        dispatch(addLikedVideo(video?.items[0]));
         ratingPostFunc("like");
         setRating((prev) => ({
           ...prev,
@@ -274,6 +274,7 @@ const Player = () => {
           items: [{ videoId: prev.items[0].videoId, rating: "none" }],
         }));
       } else {
+        dispatch(removeLikedVideo(video?.items[0]));
         ratingPostFunc("dislike");
         setRating((prev) => ({
           ...prev,
@@ -284,41 +285,57 @@ const Player = () => {
   };
 
   //sending comment to video
-  const handleComment = async () => {
-    await fetch(
-      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&key=${
-        import.meta.env.VITE_API_KEY
-      }`,
+  const comMutation = useMutation({
+    mutationFn: async (id: string | undefined) => {
+      const response = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
 
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token?.access_token}`,
-        },
-        body: JSON.stringify({
-          snippet: {
-            videoId: videoId,
-            topLevelComment: { snippet: { textOriginal: myComment } },
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
           },
-        }),
-      }
-    );
-    setMyComment("");
-    //react toastify notification for showing that comment is added
-    toast(`Comment added`, {
-      position: "bottom-left",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-  };
+          body: JSON.stringify({
+            snippet: {
+              videoId: id,
+              topLevelComment: { snippet: { textOriginal: myComment } },
+            },
+          }),
+        }
+      );
+      dispatch(addComment(await response.json()));
+    },
+    onSuccess: () => {
+      setMyComment("");
+      toast("💬 Comment added!", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast(`🤔 ${e}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+  });
 
   return (
     <div className="w-full h-[90vh] pt-5">
@@ -360,9 +377,9 @@ const Player = () => {
                     }`}
                   >
                     {rating.items[0].rating === "like" ? (
-                      <PiThumbsUpFill />
+                      <PiThumbsUpFill className="pointer-events-none" />
                     ) : (
-                      <PiThumbsUpBold />
+                      <PiThumbsUpBold className="pointer-events-none" />
                     )}
                     <strong
                       className={`text-violet-200 ${
@@ -448,7 +465,7 @@ const Player = () => {
               Cancel
             </button>
             <button
-              onClick={() => handleComment()}
+              onClick={() => comMutation.mutate(videoId)}
               className={`px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 ${
                 myComment.length > 0 && "bg-pink-500"
               }`}
@@ -487,6 +504,8 @@ const Player = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 2000)}
               context={{ comments: comments, video: video }}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               components={{ Footer }}
             />
           )}

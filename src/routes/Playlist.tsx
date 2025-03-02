@@ -59,8 +59,6 @@ const Playlist = () => {
       dispatch(addPlaylists(playlist));
       return playlist;
     },
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
   });
 
   return (

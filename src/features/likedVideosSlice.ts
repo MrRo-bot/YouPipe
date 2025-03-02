@@ -187,7 +187,6 @@ export const likedVideosSlice = createSlice({
   name: "likedVideos",
   initialState,
   reducers: {
-    //adding liked videos list in redux store
     addLikedVideos: (state, action: PayloadAction<LikedVideosListType>) => {
       const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
         action.payload;
@@ -204,10 +203,20 @@ export const likedVideosSlice = createSlice({
         ],
       });
     },
+    addLikedVideo: (state, action) => {
+      Object.assign(state, [action.payload, ...state.items]);
+    },
+    removeLikedVideo: (state, action) => {
+      Object.assign(
+        state,
+        state.items.filter((video) => video.id !== action.payload.id)
+      );
+    },
   },
 });
 
-export const { addLikedVideos } = likedVideosSlice.actions;
+export const { addLikedVideos, addLikedVideo, removeLikedVideo } =
+  likedVideosSlice.actions;
 
 export const likedVideos = (state: RootState) => state.likedVideos;
 

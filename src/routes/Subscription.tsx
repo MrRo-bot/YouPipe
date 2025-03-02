@@ -86,7 +86,6 @@ const Subscription = () => {
       return subscription;
     },
     enabled: !!sortBy && !!fetchMore,
-    refetchOnWindowFocus: false,
   });
 
   const handleSort = (e: MouseEvent<HTMLDivElement>) => {
@@ -182,6 +181,8 @@ const Subscription = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 500)}
               context={subData}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               components={{ Footer }}
             />
           )}

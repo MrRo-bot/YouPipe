@@ -40,7 +40,7 @@ const SubscriptionCard = ({
   const statistics = stat?.items[0]?.statistics;
 
   //deleting subscription
-  const mutation = useMutation({
+  const subMutation = useMutation({
     mutationFn: (sub: string) => {
       return fetch(
         `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${sub}&key=${
@@ -55,21 +55,20 @@ const SubscriptionCard = ({
         }
       );
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast("🥲 Unsubscribed!", {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
         transition: Bounce,
       });
     },
-    onError: () => {
-      toast("🤔 Somethings off!", {
+    onError: (e) => {
+      toast(`🤔 ${e}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -166,7 +165,7 @@ const SubscriptionCard = ({
           >
             <span
               onClick={() => {
-                mutation.mutate(subId);
+                subMutation.mutate(subId);
                 dispatch(deleteSubscription(subId));
               }}
               className={`col-start-1 row-start-1 mx-auto ${

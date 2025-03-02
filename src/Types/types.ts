@@ -837,44 +837,6 @@ export type VideosListType = {
   items: [VideoType];
 };
 
-export type CommentType = {
-  kind: string;
-  etag: string;
-  id: string;
-  snippet?: {
-    channelId: string;
-    videoId: string;
-    topLevelComment: {
-      kind: string;
-      etag: string;
-      id: string;
-      snippet: {
-        channelId: string;
-        videoId: string;
-        textDisplay: string;
-        textOriginal: string;
-        authorDisplayName: string;
-        authorProfileImageUrl: string;
-        authorChannelUrl: string;
-        authorChannelId: {
-          value: string;
-        };
-        canRate: boolean;
-        viewerRating: string;
-        likeCount: number;
-        publishedAt: string;
-        updatedAt: string;
-      };
-    };
-    canReply: boolean;
-    totalReplyCount: number;
-    isPublic: boolean;
-  };
-  replies?: {
-    comments: [CommentReplyType];
-  };
-};
-
 export type CommentReplyType = {
   kind: string;
   etag: string;
@@ -896,6 +858,45 @@ export type CommentReplyType = {
     likeCount: number;
     publishedAt: string;
     updatedAt: string;
+  };
+};
+
+export type CommentType = {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet?: {
+    channelId: string;
+    videoId: string;
+    topLevelComment: {
+      kind: string;
+      etag: string;
+      id: string;
+      snippet: {
+        channelId: string;
+        videoId: string;
+        parentId: string;
+        textDisplay: string;
+        textOriginal: string;
+        authorDisplayName: string;
+        authorProfileImageUrl: string;
+        authorChannelUrl: string;
+        authorChannelId: {
+          value: string;
+        };
+        canRate: boolean;
+        viewerRating: string;
+        likeCount: number;
+        publishedAt: string;
+        updatedAt: string;
+      };
+    };
+    canReply: boolean;
+    totalReplyCount: number;
+    isPublic: boolean;
+  };
+  replies?: {
+    comments: [CommentReplyType];
   };
 };
 

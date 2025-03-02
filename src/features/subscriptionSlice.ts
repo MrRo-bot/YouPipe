@@ -102,6 +102,7 @@ export const subscriptionSlice = createSlice({
       Object.assign(state, initialState);
     },
 
+    //deleting a subscriber from the list
     deleteSubscription: (state, action) => {
       Object.assign(
         state.items,
