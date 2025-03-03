@@ -99,25 +99,27 @@ export const commentsThreadSlice = createSlice({
     addComment: (state, action) => {
       Object.assign(state, state.items.unshift(action.payload));
     },
+
     addReply: (state, action) => {
+      const index = action.payload.id.split(".")[0];
+
+      const isReply = Object.prototype.hasOwnProperty.call(
+        state.items[state.items.findIndex((comment) => comment.id === index)],
+        "replies"
+      );
+
       Object.assign(
         state,
-        state.items.map((comment) => {
-          if (comment.id === action.payload.id.split(".")[0]) {
-            return {
-              ...comment,
-              snippet: {
-                ...comment.snippet,
-                totalReplyCount: comment?.snippet?.totalReplyCount || 0 + 1,
-              },
-              replies: {
-                comments: comment?.replies?.comments.push(action.payload),
-              },
-            };
-          }
-        })
+        isReply
+          ? state.items[
+              state.items.findIndex((comment) => comment.id === index)
+            ]?.replies?.comments.push(action.payload)
+          : (state.items[
+              state.items.findIndex((comment) => comment.id === index)
+            ]["replies"] = { comments: [action.payload] })
       );
     },
+
     clearCommentsThread: (state) => {
       Object.assign(state, initialState);
     },

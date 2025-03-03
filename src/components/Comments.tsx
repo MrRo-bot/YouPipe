@@ -11,7 +11,12 @@ import { elapsedTime, rawViewsToString } from "../utils/functions";
 import { CommentType, TokensType } from "../types/types";
 import { useAppDispatch } from "../app/store";
 import { addTimestamp } from "../features/timestampSlice";
-import { PiThumbsUpFill, PiThumbsUpLight } from "react-icons/pi";
+import {
+  // PiPencilBold,
+  // PiTrashBold,
+  PiThumbsUpFill,
+  PiThumbsUpLight,
+} from "react-icons/pi";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { Bounce, toast } from "react-toastify";
 import { usePersistedState } from "../hooks/usePersistentStorage";
@@ -164,8 +169,15 @@ const Comments = ({
         </div>
         <div className="w-[85%] flex flex-col gap-2">
           <div>
-            <div className="font-medium text-left text-yellow-400">
+            <div className="flex justify-between font-medium text-left text-yellow-400">
               {comm?.authorDisplayName}
+              {/* {channelId ===
+                comment?.snippet?.topLevelComment?.snippet?.authorChannelId
+                  ?.value && (
+                <div>
+                  <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                </div>
+              )} */}
             </div>
             <div className="font-medium text-left text-zinc-400">
               {comm?.publishedAt === comm?.updatedAt
@@ -180,9 +192,11 @@ const Comments = ({
           </div>
           <div className="flex items-center justify-start w-1/2 gap-6">
             {comm?.likeCount !== 0 ? (
-              <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
+              <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5  bg-pink-500 text-yellow-400 min-w-12 min-h-6">
                 {rawViewsToString(String(comm?.likeCount))}{" "}
-                {<PiThumbsUpFill className="w-4 h-4 -scale-x-100" />}
+                {
+                  <PiThumbsUpFill className="w-4 h-4 text-yellow-400 -scale-x-100" />
+                }
               </div>
             ) : (
               <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
@@ -206,6 +220,7 @@ const Comments = ({
                   className="hideScrollbar absolute p-2 text-zinc-100  bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
                   value={myReply}
                   placeholder="Add your reply..."
+                  autoFocus={true}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setMyReply(e.target.value)
                   }
@@ -214,13 +229,13 @@ const Comments = ({
               <div className="flex gap-6 mx-auto mt-2">
                 <button
                   onClick={() => setToggleReply(false)}
-                  className="px-2 py-1 text-sm rounded-full cursor-pointer hover:bg-gray-500/50"
+                  className="px-2 py-1 text-sm transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => replyMutation.mutate(myReply)}
-                  className={`px-2 py-1 text-sm rounded-full cursor-pointer bg-gray-500/50 ${
+                  className={`transition delay-50 duration-300 ease-in-out px-2 py-1 text-sm rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
                     myReply.length > 0 && "bg-pink-500"
                   }`}
                 >
@@ -281,8 +296,15 @@ const Comments = ({
                         </div>
                         <div className="w-[85%] flex flex-col gap-2">
                           <div>
-                            <div className="font-medium text-left text-yellow-400">
+                            <div className="flex justify-between font-medium text-left text-yellow-400">
                               {comment?.snippet?.authorDisplayName}
+                              {/* {channelId ===
+                                comment?.snippet?.authorChannelId?.value && (
+                                <div className="flex justify-between gap-2">
+                                  <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                                  <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                                </div>
+                              )} */}
                             </div>
                             <div className="font-medium text-left text-zinc-400">
                               {comment?.snippet?.publishedAt ===

@@ -339,7 +339,7 @@ const Player = () => {
 
   return (
     <div className="w-full h-[90vh] pt-5">
-      <div className="flex w-[95%] h-full mx-auto">
+      <div className="flex w-[97%] h-full mx-auto">
         <div className="w-[75%] overflow-y-scroll hideScrollbar">
           <div className="relative">
             <div className="w-full h-full overflow-hidden aspect-video rounded-3xl">
@@ -358,7 +358,7 @@ const Player = () => {
             </div>
 
             <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2">
-              <div className="flex items-center gap-2 px-2 py-1 rounded-3xl glass-dark w-max">
+              <div className="flex items-center gap-2 px-2 py-1 rounded-3xl glass-dark w-max ">
                 <div className="flex items-center gap-2">
                   <strong className="text-violet-200">
                     {rawViewsToString(
@@ -460,13 +460,13 @@ const Player = () => {
           <div className="flex gap-6 mx-auto">
             <button
               onClick={() => setMyComment("")}
-              className="px-3 py-2 rounded-full cursor-pointer hover:bg-gray-500/50"
+              className="px-3 py-2 transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
             >
               Cancel
             </button>
             <button
               onClick={() => comMutation.mutate(videoId)}
-              className={`px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 ${
+              className={`transition duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
                 myComment.length > 0 && "bg-pink-500"
               }`}
             >

@@ -85,6 +85,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           before:rounded-xl
           before:bg-[var(--bg)]
           before:opacity-50
+          before:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]
           
           after:content-['']
           after:absolute
@@ -97,9 +98,10 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           after:rounded-xl
           after:bg-[var(--bg)]
           after:opacity-25
+          after:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]
           `}
           >
-            <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl before:absolute">
+            <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
               {!playlist?.snippet?.thumbnails?.maxres?.url ? (
                 <Skeleton
                   width={"100%"}

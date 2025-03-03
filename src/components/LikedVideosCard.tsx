@@ -47,7 +47,7 @@ const LikedVideosCard = ({
         whileInView={"visible"}
         //navigate to video route
         onClick={() => navigate(`/video/${likedvideo?.id}`)}
-        className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 rounded-2xl"
+        className="flex items-start justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 rounded-2xl"
       >
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
@@ -103,7 +103,7 @@ const LikedVideosCard = ({
           </div>
         </div>
 
-        <PiDotsThreeOutlineVerticalFill className="cursor-pointer w-7 h-7 text-zinc-200" />
+        <PiDotsThreeOutlineVerticalFill className="w-5 h-5 cursor-pointer text-zinc-200" />
       </motion.div>
     </SkeletonTheme>
   );
