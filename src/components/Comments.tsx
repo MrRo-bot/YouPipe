@@ -18,6 +18,7 @@ import {
   PiThumbsUpLight,
 } from "react-icons/pi";
 import { FaRegCommentAlt } from "react-icons/fa";
+import "react-toastify/dist/ReactToastify.css";
 import { Bounce, toast } from "react-toastify";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { useMutation } from "@tanstack/react-query";
@@ -126,7 +127,7 @@ const Comments = ({
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e}`, {
+      toast(`🤔 ${e.message}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,

@@ -169,9 +169,8 @@ const Header = () => {
             });
           }
         } catch (error) {
-          console.error(error);
           //react toastify notification for access token error
-          toast(`${error}!`, {
+          toast(`${error instanceof Error ? error.message : error}!`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -210,9 +209,8 @@ const Header = () => {
           });
         }
       } catch (error) {
-        console.error(error);
         //react toastify for location fetch errors
-        toast("❌ No location found!", {
+        toast(`❌ ${error instanceof Error ? error.message : error}`, {
           position: "bottom-left",
           autoClose: 5000,
           hideProgressBar: false,

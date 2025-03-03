@@ -68,7 +68,7 @@ const SubscriptionCard = ({
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e}`, {
+      toast(`🤔 ${e.message}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,

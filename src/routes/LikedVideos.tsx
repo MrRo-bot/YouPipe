@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import LikedVideosCard from "../components/LikedVideosCard";
+import { Bounce, toast } from "react-toastify";
 
 //footer shows loading or end of list
 const Footer = ({ context: likedVideos }: { context: LikedVideosListType }) => {
@@ -119,7 +120,19 @@ const LikedVideos = () => {
         .then((data) => {
           setExtractedColors(data);
         })
-        .catch((err) => console.error({ error: err }));
+        .catch((error) =>
+          toast(`${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          })
+        );
     }
   }, []);
 

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/store";
 import { SubscriptionType } from "../../types/types";
 import SubscriptionCard from "./SubscriptionCard";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
   //storing channel stats from subscription details
@@ -37,7 +39,17 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
         const channel = await res.json();
         if (channel) setChannelStats(channel);
       } catch (error) {
-        console.error(error);
+        toast(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       }
     })();
   }, []);

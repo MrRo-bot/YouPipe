@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Bounce, toast } from "react-toastify";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
@@ -125,7 +126,19 @@ const PlaylistOverview = () => {
         .then((data) => {
           setExtractedColors(data);
         })
-        .catch((err) => console.error({ error: err }));
+        .catch((error) =>
+          toast(`${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          })
+        );
     }
   }, []);
 

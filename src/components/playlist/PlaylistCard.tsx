@@ -3,14 +3,16 @@ import { motion } from "framer-motion";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { Bounce, toast } from "react-toastify";
+import { extractColors } from "extract-colors";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { PlaylistType } from "../../types/types";
-import { useNavigate } from "react-router-dom";
 import { elapsedTime } from "../../utils/functions";
-import { extractColors } from "extract-colors";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   //skeleton loading before image is loaded
@@ -48,7 +50,19 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         .then((data) => {
           setExtractedColors(data);
         })
-        .catch((err) => console.error({ error: err }));
+        .catch((error) =>
+          toast(` ${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          })
+        );
     }
   }, []);
 

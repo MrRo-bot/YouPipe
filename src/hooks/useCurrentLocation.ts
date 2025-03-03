@@ -1,5 +1,7 @@
 //custom hook for getting location coordinates
 import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useCurrentLocation = () => {
   //state object for storing location coordinates
@@ -31,7 +33,17 @@ const useCurrentLocation = () => {
         enableHighAccuracy: true,
       });
     } else {
-      console.error("Browser doesn't support Geolocation API");
+      toast(`Geolocation API not supported`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   }, []);
 

@@ -2,7 +2,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 import { PiDotsThreeOutlineVerticalFill, PiListPlus } from "react-icons/pi";
 
 import { useAppSelector } from "../app/store";
@@ -18,7 +20,6 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../utils/functions";
-import { useNavigate } from "react-router-dom";
 
 const SearchCard = ({ search }: { search: SearchType }) => {
   //storing video stats from search details
@@ -73,7 +74,17 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const video = await res.json();
           if (video) setVideoStats(video);
         } catch (error) {
-          console.error(error);
+          toast(`❌ ${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         }
       })();
     }
@@ -97,7 +108,17 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const channel = await res.json();
           if (channel) setChannelStats(channel);
         } catch (error) {
-          console.error(error);
+          toast(`${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         }
       })();
     }
@@ -123,7 +144,17 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlist = await res.json();
           if (playlist) setPlaylistStats(playlist);
         } catch (error) {
-          console.error(error);
+          toast(`${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         }
       })();
     }
@@ -150,7 +181,17 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlistItems = await res.json();
           if (playlistItems) setPlaylistItemsStats(playlistItems);
         } catch (error) {
-          console.error(error);
+          toast(`${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         }
       })();
     }

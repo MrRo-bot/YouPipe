@@ -1,20 +1,42 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //custom hook for storing fetched information in localStorage
 import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const getItem = (key: string) => {
   try {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : undefined;
   } catch (error) {
-    console.error(error);
+    toast(`❌ ${error instanceof Error ? error.message : error}`, {
+      position: "bottom-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   }
 };
 const setItem = (key: string, value: unknown) => {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    console.error(error);
+    toast(`❌ ${error instanceof Error ? error.message : error}`, {
+      position: "bottom-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   }
 };
 

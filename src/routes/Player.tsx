@@ -345,7 +345,7 @@ const Player = () => {
             <div className="w-full h-full overflow-hidden aspect-video rounded-3xl">
               <ReactPlayer
                 ref={playerRef}
-                url={`https://www.youtube.com/watch?v=${videoId}`}
+                url={`https://www.youtube.com/watch?v=${videoId}`} //[] url array for playlist playback (create list of links from playlist first)
                 playing={isPlaying}
                 onPlay={() => setIsPlaying(true)}
                 controls={true}
