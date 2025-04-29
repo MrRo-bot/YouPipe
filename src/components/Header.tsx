@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   useGoogleLogin,
@@ -111,13 +110,32 @@ const Header = () => {
     flow: "auth-code",
   });
 
-  useQuery({
-    queryKey: ["googleLogin", fetchTokens],
-    queryFn: googleLogin,
-    enabled: !!fetchTokens,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  useEffect(() => {
+    googleLogin();
+  }, [fetchTokens]);
+
+  // ========================================================================================================================================
+  //refresh token
+  // const waitTime = 350000;
+  // let executionTime;
+  // const initialTime = localStorage.getItem("initialTime");
+  // if (initialTime === null) {
+  //   localStorage.setItem("initialTime", new Date().getTime());
+  //   executionTime = waitTime;
+  // } else {
+  //   executionTime = parseInt(initialTime, 10) + waitTime - new Date().getTime();
+  //   if (executionTime < 0) executionTime = 0;
+  // }
+
+  // useEffect(() => {
+  //   setInterval(function () {
+  //     refetch();
+  //     // reset the timeout to start from waitTime on page reload
+  //     localStorage.removeItem("initialTime");
+  //   }, executionTime);
+  // }, []);
+
+  // ========================================================================================================================================
 
   const logout = () => {
     googleLogout();
