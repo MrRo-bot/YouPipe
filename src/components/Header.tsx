@@ -17,7 +17,11 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { collapse, expand, toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
-import { addSearchString, clearSearchList } from "../features/searchSlice";
+import {
+  addSearchString,
+  clearSearchList,
+  refetch,
+} from "../features/searchSlice";
 import { getLocationData } from "../features/locationSlice";
 import { clearCommentsThread } from "../features/commentsThreadSlice";
 import { clearHomeVideos } from "../features/homeSlice";
@@ -294,7 +298,10 @@ const Header = () => {
           }}
           //if user clicks enter we navigate to search route
           onKeyDown={(e) => {
-            if (e.key === "Enter") navigate("search");
+            if (e.key === "Enter") {
+              navigate("search");
+              dispatch(refetch(true));
+            }
           }}
           type="text"
           name="search"
@@ -317,7 +324,10 @@ const Header = () => {
         </div>
         <div
           id="searchButton"
-          onClick={() => navigate("search")}
+          onClick={() => {
+            navigate("search");
+            dispatch(refetch(true));
+          }}
           className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <MdOutlineSearch className="w-6 h-6" />

@@ -630,6 +630,7 @@ export type SearchType = {
 
 export type SearchListType = {
   searchString: string;
+  refetch: boolean;
   kind: string;
   etag: string;
   nextPageToken: string;

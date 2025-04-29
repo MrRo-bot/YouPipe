@@ -32,6 +32,8 @@ const Search = () => {
   //search string
   const searchStr = useAppSelector((state) => state.search.searchString);
 
+  const refetch = useAppSelector((state) => state.search.refetch);
+
   //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
 
@@ -56,7 +58,7 @@ const Search = () => {
 
   //fetching search list using query string
   useQuery({
-    queryKey: ["search", fetchMore],
+    queryKey: ["search", fetchMore, refetch],
     queryFn: async () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
@@ -75,7 +77,7 @@ const Search = () => {
       setFetchMore(false);
       return search;
     },
-    enabled: !!fetchMore,
+    enabled: !!fetchMore || !!refetch,
     // refetchOnMount: true,
     // refetchOnWindowFocus: true,
   });
