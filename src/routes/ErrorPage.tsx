@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 //Error page for routing errors only
 export default function ErrorPage() {
   const error = useRouteError() as ErrorType;
-  toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+  toast(`❌ ${error instanceof Error ? error.message : error}`, {
     position: "bottom-left",
     autoClose: 5000,
     hideProgressBar: false,
@@ -17,7 +17,6 @@ export default function ErrorPage() {
     draggable: true,
     progress: undefined,
     theme: "light",
-    bodyClassName: "text-purple-700 font-semibold",
     transition: Bounce,
   });
 

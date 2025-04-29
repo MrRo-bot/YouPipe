@@ -127,7 +127,7 @@ const PlaylistOverview = () => {
           setExtractedColors(data);
         })
         .catch((error) =>
-          toast.error(`${error instanceof Error ? error.message : error}`, {
+          toast(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -136,12 +136,11 @@ const PlaylistOverview = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           })
         );
     }
-  }, [currPlaylist]);
+  }, []);
 
   return (
     <SkeletonTheme

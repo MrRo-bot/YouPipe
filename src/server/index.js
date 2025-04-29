@@ -44,17 +44,6 @@ app.post("/auth/google", async (req, res) => {
   res.json(tokens);
 });
 
-//refresh tokens
-app.post("/auth/google/refresh-token", async (req, res) => {
-  const user = new UserRefreshClient(
-    clientId,
-    clientSecret,
-    req.body.refreshToken
-  );
-  const { credentials } = await user.refreshAccessToken(); // optain new tokens
-  res.json(credentials);
-});
-
 // app.listen(PORT, () => console.log(`server is running`));
 httpsServer.listen(PORT, () => {
   console.log("HTTPS server running on port: " + PORT);

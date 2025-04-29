@@ -121,7 +121,7 @@ const LikedVideos = () => {
           setExtractedColors(data);
         })
         .catch((error) =>
-          toast.error(`${error instanceof Error ? error.message : error}`, {
+          toast(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -130,12 +130,11 @@ const LikedVideos = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           })
         );
     }
-  }, [likedVideos?.items]);
+  }, []);
 
   return (
     <SkeletonTheme

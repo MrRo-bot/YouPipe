@@ -123,12 +123,11 @@ const Comments = ({
         draggable: true,
         progress: undefined,
         theme: "light",
-        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
+      toast(`🤔 ${e.message}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -137,7 +136,6 @@ const Comments = ({
         draggable: true,
         progress: undefined,
         theme: "light",
-        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     },

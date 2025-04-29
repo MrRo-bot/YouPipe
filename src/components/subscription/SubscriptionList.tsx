@@ -39,7 +39,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
         const channel = await res.json();
         if (channel) setChannelStats(channel);
       } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+        toast(`❌ ${error instanceof Error ? error.message : error}`, {
           position: "bottom-left",
           autoClose: 5000,
           hideProgressBar: false,
@@ -48,7 +48,6 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          bodyClassName: "text-purple-700 font-semibold",
           transition: Bounce,
         });
       }
