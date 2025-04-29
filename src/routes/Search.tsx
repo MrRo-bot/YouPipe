@@ -76,6 +76,8 @@ const Search = () => {
       return search;
     },
     enabled: !!fetchMore,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   return (

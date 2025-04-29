@@ -208,7 +208,7 @@ export const likedVideosSlice = createSlice({
     },
     removeLikedVideo: (state, action) => {
       Object.assign(
-        state,
+        state.items,
         state.items.filter((video) => video.id !== action.payload.id)
       );
     },

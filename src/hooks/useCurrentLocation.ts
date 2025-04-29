@@ -33,7 +33,7 @@ const useCurrentLocation = () => {
         enableHighAccuracy: true,
       });
     } else {
-      toast(`Geolocation API not supported`, {
+      toast.error(`Geolocation API not supported`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -42,6 +42,7 @@ const useCurrentLocation = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
+        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     }

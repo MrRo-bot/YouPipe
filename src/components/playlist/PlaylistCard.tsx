@@ -22,9 +22,9 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   const [extractedColors, setExtractedColors] = useState([
     {
       hex: "#ffffff",
-      red: 255,
-      green: 255,
-      blue: 255,
+      red: 0,
+      green: 0,
+      blue: 0,
       area: 1,
       hue: 0,
       saturation: 1,
@@ -51,7 +51,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           setExtractedColors(data);
         })
         .catch((error) =>
-          toast(` ${error instanceof Error ? error.message : error}`, {
+          toast.error(` ${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -60,11 +60,12 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           })
         );
     }
-  }, []);
+  }, [playlist?.snippet?.thumbnails?.maxres?.url]);
 
   return (
     <SkeletonTheme

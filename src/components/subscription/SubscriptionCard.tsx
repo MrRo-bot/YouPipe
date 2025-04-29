@@ -64,11 +64,12 @@ const SubscriptionCard = ({
         draggable: true,
         progress: undefined,
         theme: "light",
+        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e.message}`, {
+      toast.error(`🤔 ${e.message}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -77,6 +78,7 @@ const SubscriptionCard = ({
         draggable: true,
         progress: undefined,
         theme: "light",
+        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     },

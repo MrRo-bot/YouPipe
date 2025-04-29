@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   useGoogleLogin,
   googleLogout,
@@ -18,20 +18,18 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { collapse, expand, toggle } from "../features/hamburgerMenuSlice";
 import { addProfile } from "../features/profileSlice";
 import { addToken } from "../features/tokenSlice";
-import { addSearchString, clearSearchList } from "../features/searchSlice";
+
 import { getLocationData } from "../features/locationSlice";
 import { clearCommentsThread } from "../features/commentsThreadSlice";
 import { clearHomeVideos } from "../features/homeSlice";
 import { removeTimestamp } from "../features/timestampSlice";
+
 import { clearPlayItems } from "../features/playlistOverviewSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../types/types";
 
 const Header = () => {
-  //clearing search field in various ways
-  const [clearSearch, setClearSearch] = useState(false);
-
   //location hook for detecting route location
   const location = useLocation();
 
@@ -40,9 +38,6 @@ const Header = () => {
 
   //location coordinates from custom hook
   const locationCoords = useCurrentLocation();
-
-  //navigate to any route
-  const navigate = useNavigate();
 
   //custom hook for reading and storing in localStorage
   const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
@@ -70,7 +65,6 @@ const Header = () => {
   //getting various redux state variables
   const profileData = useAppSelector((state) => state.profile);
   const locationCode = useAppSelector((state) => state.location);
-  const searchState = useAppSelector((state) => state.search.searchString);
 
   //space separated list of scopes required for project itself
   const scope =
@@ -97,6 +91,7 @@ const Header = () => {
       draggable: true,
       progress: undefined,
       theme: "light",
+      bodyClassName: "text-purple-700 font-semibold",
       transition: Bounce,
     });
     setToken(tokens); //setting it on localStorage
@@ -111,13 +106,36 @@ const Header = () => {
     flow: "auth-code",
   });
 
-  useQuery({
+  const { refetch } = useQuery({
     queryKey: ["googleLogin", fetchTokens],
     queryFn: googleLogin,
     enabled: !!fetchTokens,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+
+  // ========================================================================================================================================
+  //refresh token
+  const waitTime = 350000;
+  let executionTime;
+  const initialTime = localStorage.getItem("initialTime");
+  if (initialTime === null) {
+    localStorage.setItem("initialTime", new Date().getTime());
+    executionTime = waitTime;
+  } else {
+    executionTime = parseInt(initialTime, 10) + waitTime - new Date().getTime();
+    if (executionTime < 0) executionTime = 0;
+  }
+
+  useEffect(() => {
+    setInterval(function () {
+      refetch();
+      // reset the timeout to start from waitTime on page reload
+      localStorage.removeItem("initialTime");
+    }, executionTime);
+  }, []);
+
+  // ========================================================================================================================================
 
   const logout = () => {
     googleLogout();
@@ -165,12 +183,13 @@ const Header = () => {
               draggable: true,
               progress: undefined,
               theme: "light",
+              bodyClassName: "text-purple-700 font-semibold",
               transition: Bounce,
             });
           }
         } catch (error) {
           //react toastify notification for access token error
-          toast(`${error instanceof Error ? error.message : error}!`, {
+          toast.error(`${error instanceof Error ? error.message : error}!`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -179,6 +198,7 @@ const Header = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           });
         }
@@ -205,12 +225,13 @@ const Header = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           });
         }
       } catch (error) {
         //react toastify for location fetch errors
-        toast(`❌ ${error instanceof Error ? error.message : error}`, {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
           position: "bottom-left",
           autoClose: 5000,
           hideProgressBar: false,
@@ -219,6 +240,7 @@ const Header = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
+          bodyClassName: "text-purple-700 font-semibold",
           transition: Bounce,
         });
       }
@@ -263,48 +285,43 @@ const Header = () => {
           </div>
         </NavLink>
       </div>
+
       {/* various logic used to make search bar */}
       <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input
-          onChange={(e) => {
-            //toggles if search bar is clear or not
-            setClearSearch(e.target.value !== "" ? true : false);
+          // onChange={ (e) => {
 
-            //adds input string to searchString redux store
-            dispatch(addSearchString(e?.target?.value));
-            if (e?.target?.value === "") dispatch(clearSearchList());
-          }}
-          //if user clicks enter we navigate to search route
-          onKeyDown={(e) => {
-            if (e.key === "Enter") navigate("search");
-          }}
+          // }}
+          // onKeyDown={ (e) => {
+          //   if (e.key === "Enter") {
+
+          //   }
+          // }}
           type="text"
           name="search"
           id="search"
-          value={searchState}
+          // value={search}
           placeholder="Search anything..."
           className="w-full h-full py-2 pl-4 pr-12 font-semibold bg-transparent"
         />
 
         <div
-          onClick={() => {
-            dispatch(clearSearchList());
-            setClearSearch(false);
-          }}
-          className={`absolute ${
-            !clearSearch ? "hidden" : "grid"
-          } transition -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
+          //   ${
+          //   !search ? "hidden" : "grid"
+          // }
+          className={`absolute 
+          transition -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
         >
           <PiX className="w-7 h-7" />
         </div>
         <div
           id="searchButton"
-          onClick={() => navigate("search")}
           className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <MdOutlineSearch className="w-6 h-6" />
         </div>
       </div>
+
       <div className="flex items-center justify-between gap-2">
         {profileData?.picture && (
           <div

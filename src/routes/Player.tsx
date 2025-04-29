@@ -319,11 +319,12 @@ const Player = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
+        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e}`, {
+      toast.error(`🤔 ${e}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -332,6 +333,7 @@ const Player = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
+        bodyClassName: "text-purple-700 font-semibold",
         transition: Bounce,
       });
     },

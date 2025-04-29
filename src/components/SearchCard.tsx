@@ -74,7 +74,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const video = await res.json();
           if (video) setVideoStats(video);
         } catch (error) {
-          toast(`❌ ${error instanceof Error ? error.message : error}`, {
+          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -83,6 +83,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           });
         }
@@ -108,7 +109,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const channel = await res.json();
           if (channel) setChannelStats(channel);
         } catch (error) {
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -117,6 +118,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           });
         }
@@ -144,7 +146,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlist = await res.json();
           if (playlist) setPlaylistStats(playlist);
         } catch (error) {
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -153,6 +155,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           });
         }
@@ -181,7 +184,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlistItems = await res.json();
           if (playlistItems) setPlaylistItemsStats(playlistItems);
         } catch (error) {
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -190,6 +193,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            bodyClassName: "text-purple-700 font-semibold",
             transition: Bounce,
           });
         }

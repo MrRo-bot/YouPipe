@@ -9,7 +9,7 @@ const getItem = (key: string) => {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : undefined;
   } catch (error) {
-    toast(`❌ ${error instanceof Error ? error.message : error}`, {
+    toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
       position: "bottom-left",
       autoClose: 5000,
       hideProgressBar: false,
@@ -18,6 +18,7 @@ const getItem = (key: string) => {
       draggable: true,
       progress: undefined,
       theme: "light",
+      bodyClassName: "text-purple-700 font-semibold",
       transition: Bounce,
     });
   }
@@ -26,7 +27,7 @@ const setItem = (key: string, value: unknown) => {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    toast(`❌ ${error instanceof Error ? error.message : error}`, {
+    toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
       position: "bottom-left",
       autoClose: 5000,
       hideProgressBar: false,
@@ -35,6 +36,7 @@ const setItem = (key: string, value: unknown) => {
       draggable: true,
       progress: undefined,
       theme: "light",
+      bodyClassName: "text-purple-700 font-semibold",
       transition: Bounce,
     });
   }
