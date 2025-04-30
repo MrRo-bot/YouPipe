@@ -13,23 +13,23 @@ import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-import { useAppDispatch, useAppSelector } from "../app/store";
-import { collapse, expand, toggle } from "../features/hamburgerMenuSlice";
-import { addProfile } from "../features/profileSlice";
-import { addToken } from "../features/tokenSlice";
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { collapse, expand, toggle } from "../../features/hamburgerMenuSlice";
+import { addProfile } from "../../features/profileSlice";
+import { addToken } from "../../features/tokenSlice";
 import {
   addSearchString,
   clearSearchList,
   refetch,
-} from "../features/searchSlice";
-import { getLocationData } from "../features/locationSlice";
-import { clearCommentsThread } from "../features/commentsThreadSlice";
-import { clearHomeVideos } from "../features/homeSlice";
-import { removeTimestamp } from "../features/timestampSlice";
-import { clearPlayItems } from "../features/playlistOverviewSlice";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import useCurrentLocation from "../hooks/useCurrentLocation";
-import { ProfileType, TokensType } from "../types/types";
+} from "../../features/searchSlice";
+import { getLocationData } from "../../features/locationSlice";
+import { clearCommentsThread } from "../../features/commentsThreadSlice";
+import { clearHomeVideos } from "../../features/homeSlice";
+import { removeTimestamp } from "../../features/timestampSlice";
+import { clearPlayItems } from "../../features/playlistOverviewSlice";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import useCurrentLocation from "../../hooks/useCurrentLocation";
+import { ProfileType, TokensType } from "../../types/types";
 
 const Header = () => {
   //clearing search field in various ways

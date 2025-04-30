@@ -7,7 +7,7 @@ import { Virtuoso } from "react-virtuoso";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { SearchListType, TokensType } from "../types/types";
 import { addSearch } from "../features/searchSlice";
-import SearchCard from "../components/SearchCard";
+import SearchCard from "../components/search/SearchCard";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
 //footer shows loading or end of list

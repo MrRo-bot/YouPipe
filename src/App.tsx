@@ -4,8 +4,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "./App.css";
 
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import Header from "./components/layout/Header";
+import Sidebar from "./components/layout/Sidebar";
 import { ToastContainer } from "react-toastify";
 
 function App() {

@@ -13,7 +13,7 @@ import { LikedVideosListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import LikedVideosCard from "../components/LikedVideosCard";
+import LikedVideosCard from "../components/likedVideos/LikedVideosCard";
 import { Bounce, toast } from "react-toastify";
 
 //footer shows loading or end of list

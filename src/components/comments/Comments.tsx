@@ -7,10 +7,10 @@ import {
 } from "react-icons/io";
 import parse from "html-react-parser";
 
-import { elapsedTime, rawViewsToString } from "../utils/functions";
-import { CommentType, TokensType } from "../types/types";
-import { useAppDispatch } from "../app/store";
-import { addTimestamp } from "../features/timestampSlice";
+import { elapsedTime, rawViewsToString } from "../../utils/functions";
+import { CommentType, TokensType } from "../../types/types";
+import { useAppDispatch } from "../../app/store";
+import { addTimestamp } from "../../features/timestampSlice";
 import {
   // PiPencilBold,
   // PiTrashBold,
@@ -20,9 +20,9 @@ import {
 import { FaRegCommentAlt } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { Bounce, toast } from "react-toastify";
-import { usePersistedState } from "../hooks/usePersistentStorage";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { useMutation } from "@tanstack/react-query";
-import { addReply } from "../features/commentsThreadSlice";
+import { addReply } from "../../features/commentsThreadSlice";
 
 const Comments = ({
   comment,

@@ -7,7 +7,7 @@ import {
   PiThumbsUpFill,
 } from "react-icons/pi";
 
-import { useAppSelector } from "../app/store";
+import { useAppSelector } from "../../app/store";
 
 const Sidebar = () => {
   //for toggling side menu to expand or collapse

@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
-import { useAppSelector } from "../app/store";
-import { CategoryType, TokensType } from "../types/types";
-import { usePersistedState } from "../hooks/usePersistentStorage";
+import { useAppSelector } from "../../app/store";
+import { CategoryType, TokensType } from "../../types/types";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
 
 const Filters = () => {
   //toggle scroll arrow depending on scroll progress

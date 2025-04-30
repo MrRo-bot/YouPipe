@@ -19,7 +19,7 @@ import { Virtuoso } from "react-virtuoso";
 
 import ReactPlayer from "react-player/youtube";
 
-import Comments from "../components/Comments";
+import Comments from "../components/comments/Comments";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import {
   CommentListType,

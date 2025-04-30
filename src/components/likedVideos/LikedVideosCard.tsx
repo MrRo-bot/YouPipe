@@ -8,12 +8,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
-import { LikedVideosType } from "../types/types";
+import { LikedVideosType } from "../../types/types";
 import {
   elapsedTime,
   rawViewsToString,
   videoDuration,
-} from "../utils/functions";
+} from "../../utils/functions";
 
 const LikedVideosCard = ({
   likedvideo,

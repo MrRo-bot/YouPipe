@@ -7,19 +7,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { PiDotsThreeOutlineVerticalFill, PiListPlus } from "react-icons/pi";
 
-import { useAppSelector } from "../app/store";
+import { useAppSelector } from "../../app/store";
 import {
   ChannelInfoType,
   PlaylistItemListType,
   PlaylistListType,
   SearchType,
   VideosListType,
-} from "../types/types";
+} from "../../types/types";
 import {
   elapsedTime,
   rawViewsToString,
   videoDuration,
-} from "../utils/functions";
+} from "../../utils/functions";
 
 const SearchCard = ({ search }: { search: SearchType }) => {
   //storing video stats from search details
