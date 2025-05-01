@@ -57,6 +57,7 @@ const VideoCard = ({
             {
               <>
                 <img
+                  referrerPolicy="no-referrer"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   src={video?.items[0]?.snippet?.thumbnails?.high?.url || ""}
                   alt=""
@@ -134,6 +135,7 @@ const VideoCard = ({
           <div className="grid w-5 h-5 overflow-hidden rounded-full place-items-center">
             {isImgLoaded && (
               <img
+                referrerPolicy="no-referrer"
                 className="w-full h-full rounded-full"
                 src={channel?.items[0]?.snippet?.thumbnails?.default?.url || ""}
                 alt=""

@@ -91,6 +91,7 @@ const PlaylistOverviewCard = ({
           ) : (
             <>
               <img
+                referrerPolicy="no-referrer"
                 onLoad={() => setIsImgLoaded(!isImgLoaded)}
                 className="object-cover w-full h-full"
                 src={playlistItem?.snippet?.thumbnails?.high?.url}

@@ -192,7 +192,7 @@ const Header = () => {
           }
         } catch (error) {
           //react toastify notification for access token error
-          toast(`${error instanceof Error ? error.message : error}!`, {
+          toast.error(`${error instanceof Error ? error.message : error}!`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -232,7 +232,7 @@ const Header = () => {
         }
       } catch (error) {
         //react toastify for location fetch errors
-        toast(`❌ ${error instanceof Error ? error.message : error}`, {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
           position: "bottom-left",
           autoClose: 5000,
           hideProgressBar: false,
@@ -272,6 +272,7 @@ const Header = () => {
         <NavLink className="flex items-center min-h-10" to="/">
           <div className="w-8 h-8">
             <img
+              referrerPolicy="no-referrer"
               className="text-nowrap indent-[100%] overflow-hidden"
               src="icon.svg"
               alt="youpipe"

@@ -39,7 +39,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
         const channel = await res.json();
         if (channel) setChannelStats(channel);
       } catch (error) {
-        toast(`❌ ${error instanceof Error ? error.message : error}`, {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
           position: "bottom-left",
           autoClose: 5000,
           hideProgressBar: false,

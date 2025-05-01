@@ -74,7 +74,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const video = await res.json();
           if (video) setVideoStats(video);
         } catch (error) {
-          toast(`❌ ${error instanceof Error ? error.message : error}`, {
+          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -108,7 +108,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const channel = await res.json();
           if (channel) setChannelStats(channel);
         } catch (error) {
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -144,7 +144,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlist = await res.json();
           if (playlist) setPlaylistStats(playlist);
         } catch (error) {
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -181,7 +181,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
           const playlistItems = await res.json();
           if (playlistItems) setPlaylistItemsStats(playlistItems);
         } catch (error) {
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -197,11 +197,15 @@ const SearchCard = ({ search }: { search: SearchType }) => {
     }
   }, [playlistStats?.items[0]?.id]);
 
+  console.log(channelStats);
+
   return (
     <div
       className="py-4"
       onClick={() =>
         (kind === "video" && navigate(`/video/${videoStats?.items[0]?.id}`)) ||
+        (kind === "channel" &&
+          navigate(`/channel/${channelStats?.items[0]?.id}`)) ||
         (kind === "playlist" &&
           navigate(`/playlist/${playlistStats?.items[0]?.id}`))
       }
@@ -234,6 +238,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
               ) : (
                 <>
                   <img
+                    referrerPolicy="no-referrer"
                     onLoad={() => setIsImgLoaded(!isImgLoaded)}
                     className={`object-cover ${
                       kind === "channel" ? "rounded-full mx-auto" : "w-full"

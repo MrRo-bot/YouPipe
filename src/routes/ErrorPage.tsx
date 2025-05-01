@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 //Error page for routing errors only
 export default function ErrorPage() {
   const error = useRouteError() as ErrorType;
-  toast(`❌ ${error instanceof Error ? error.message : error}`, {
+  toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
     position: "bottom-left",
     autoClose: 5000,
     hideProgressBar: false,
@@ -28,18 +28,25 @@ export default function ErrorPage() {
         exit={{ opacity: 0, scale: 0.7 }}
         className="grid h-[90vh] place-items-center text-zinc-200"
       >
-        <div className="flex flex-col gap-12 text-center">
-          <h1 className="text-4xl font-bold">Oops!</h1>
-          <p className="font-semibold text-slate-200">
-            Sorry, an unexpected error has occurred.
-          </p>
-          <p className="text-slate-300">
-            <i>
-              {(!error && "unexpected error in program") ||
-                (error && error?.statusText) ||
-                error?.error?.message}
-            </i>
-          </p>
+        <div className="flex flex-col w-1/4 gap-12 text-center">
+          <img
+            referrerPolicy="no-referrer"
+            loading="lazy"
+            src="./404.svg"
+            alt=""
+          />
+          <div className="flex flex-col gap-2">
+            <span className="text-xl font-medium text-purple-300">
+              Message from console:{"  "}
+            </span>
+            <span className="text-3xl font-black text-blue-300">
+              <code>
+                {(!error && "unexpected error in program") ||
+                  (error && error?.statusText) ||
+                  error?.error?.message}
+              </code>
+            </span>
+          </div>
         </div>
       </motion.div>
     </AnimatePresence>

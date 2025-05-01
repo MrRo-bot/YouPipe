@@ -51,7 +51,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           setExtractedColors(data);
         })
         .catch((error) =>
-          toast(` ${error instanceof Error ? error.message : error}`, {
+          toast.error(` ${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -125,6 +125,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               ) : (
                 <>
                   <img
+                    referrerPolicy="no-referrer"
                     onLoad={() => setIsImgLoaded(!isImgLoaded)}
                     className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
                     src={playlist?.snippet?.thumbnails?.maxres?.url}

@@ -323,7 +323,7 @@ const Player = () => {
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e}`, {
+      toast.error(`🤔 ${e}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,

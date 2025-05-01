@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
@@ -7,8 +7,8 @@ import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { useAppDispatch, useAppSelector } from "../app/store";
 
 // import Filters from "../components/Filters";
-import { addHomeVideos } from "../features/homeSlice";
-import VideoList from "../components/video/VideoList";
+// import { addHomeVideos } from "../features/homeSlice";
+// import VideoList from "../components/video/VideoList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
 import { nanoid } from "@reduxjs/toolkit";

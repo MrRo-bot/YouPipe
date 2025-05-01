@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { deleteSubscription } from "../../features/subscriptionSlice";
 import { useAppDispatch } from "../../app/store";
+import { useNavigate } from "react-router-dom";
 
 const SubscriptionCard = ({
   stat,
@@ -24,6 +25,9 @@ const SubscriptionCard = ({
   //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
   const [sub, setSub] = useState(true);
+
+  //navigating to channel section and details
+  const navigate = useNavigate();
 
   //token from localStorage
   const [token] = usePersistedState<TokensType>("token", {
@@ -68,7 +72,7 @@ const SubscriptionCard = ({
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e.message}`, {
+      toast.error(`🤔 ${e.message}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -88,6 +92,7 @@ const SubscriptionCard = ({
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
       <motion.div
+        onClick={() => navigate(`/channel/${stat?.items[0].id}`)}
         variants={{
           hidden: { scale: 0.95 },
           visible: { scale: 1 },

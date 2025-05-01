@@ -13,6 +13,7 @@ import homeSlice from "../features/homeSlice";
 import commentsThreadSlice from "../features/commentsThreadSlice";
 import timestampSlice from "../features/timestampSlice";
 import PlaylistOverviewSlice from "../features/playlistOverviewSlice";
+// import channelSlice from "../features/channelSlice";
 
 //all reducers for various data stores
 export const store = configureStore({
@@ -29,6 +30,7 @@ export const store = configureStore({
     commentsThread: commentsThreadSlice,
     timestamp: timestampSlice,
     playlistOverview: PlaylistOverviewSlice,
+    // channel: channelSlice,
   },
 });
 

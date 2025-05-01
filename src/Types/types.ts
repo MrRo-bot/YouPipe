@@ -40,6 +40,7 @@ export type ChannelType = {
     description: string;
     customUrl: string;
     publishedAt: string;
+    channelId: string;
     thumbnails: {
       default: {
         url: string;
@@ -89,7 +90,7 @@ export type ChannelType = {
     selfDeclaredMadeForKids: boolean;
   };
   brandingSettings?: {
-    channel: {
+    channel?: {
       title: string;
       description: string;
       keywords: string;
@@ -98,10 +99,13 @@ export type ChannelType = {
       defaultLanguage: string;
       country: string;
     };
-    watch: {
+    watch?: {
       textColor: string;
       backgroundColor: string;
       featuredPlaylistId: string;
+    };
+    image?: {
+      bannerExternalUrl: string;
     };
   };
   auditDetails?: {
@@ -919,6 +923,39 @@ export type RatingType = {
     {
       videoId: string;
       rating: string;
+    }
+  ];
+};
+
+export type ChannelSectionType = {
+  kind: string;
+  etag: string;
+  items: [
+    {
+      kind: string;
+      etag: string;
+      id: string;
+      snippet: {
+        type: string;
+        channelId: string;
+        title: string;
+        position: number;
+      };
+      contentDetails?: {
+        playlists?: [string];
+        channels?: [string];
+
+        // allPlaylists?
+        // completedEvents
+        // liveEvents
+        // multipleChannels
+        // multiplePlaylists
+        // popularUploads
+        // recentUploads
+        // singlePlaylist
+        // subscriptions
+        // upcomingEvents
+      };
     }
   ];
 };

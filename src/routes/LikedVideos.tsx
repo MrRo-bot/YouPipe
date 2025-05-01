@@ -121,7 +121,7 @@ const LikedVideos = () => {
           setExtractedColors(data);
         })
         .catch((error) =>
-          toast(`${error instanceof Error ? error.message : error}`, {
+          toast.error(`${error instanceof Error ? error.message : error}`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -159,6 +159,7 @@ const LikedVideos = () => {
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
               {likedVideos?.items?.length > 1 && (
                 <img
+                  referrerPolicy="no-referrer"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={

@@ -24,6 +24,7 @@ import Search from "./routes/Search.tsx";
 import Player from "./routes/Player.tsx";
 
 import { store } from "./app/store.ts";
+import ChannelOverview from "./routes/ChannelOverview.tsx";
 
 //creating query client
 const queryClient = new QueryClient();
@@ -36,7 +37,7 @@ const router = createBrowserRouter(
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="playlists" element={<Playlist />} />
       <Route path="likedvideos" element={<LikedVideos />} />
-      {/* <Route path="channeloverview" element={<ChannelOverview />} /> */}
+      <Route path="channel/:channelId" element={<ChannelOverview />} />
       <Route path="search" element={<Search />} />
       <Route path="playlist/:playlistId" element={<PlaylistOverview />} />
       <Route path="video/:videoId" element={<Player />} />

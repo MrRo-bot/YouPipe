@@ -25,6 +25,7 @@ const VideoList = ({ video }: { video: SearchType }) => {
     expiry_date: 0,
   });
 
+  //create parallel query using tanstack query
   //query for getting video and channel data for video card
   useEffect(() => {
     (async () => {

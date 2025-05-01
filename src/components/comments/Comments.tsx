@@ -127,7 +127,7 @@ const Comments = ({
       });
     },
     onError: (e) => {
-      toast(`🤔 ${e.message}`, {
+      toast.error(`🤔 ${e.message}`, {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,

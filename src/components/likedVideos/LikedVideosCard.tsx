@@ -57,6 +57,7 @@ const LikedVideosCard = ({
             ) : (
               <>
                 <img
+                  referrerPolicy="no-referrer"
                   onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={likedvideo?.snippet?.thumbnails?.high?.url}

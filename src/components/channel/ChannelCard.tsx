@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FcStart } from "react-icons/fc";
 
-const ChannelOverviewCard = ({ size }: { size: string }) => {
+const ChannelCard = () => {
   return (
     <motion.div
       variants={{
@@ -12,16 +12,12 @@ const ChannelOverviewCard = ({ size }: { size: string }) => {
       }}
       initial={"hidden"}
       whileInView={"visible"}
-      style={{
-        minWidth: `${
-          size === "big" ? 24 + "rem" : size === "big" ? 16 + "rem" : 14 + "rem"
-        }`,
-      }}
-      className="z-0 p-2 transition-all cursor-pointer group glass rounded-2xl "
+      className="z-0 p-2 m-3 transition-all cursor-pointer max-w-96 group glass rounded-2xl"
     >
       <div className="flex flex-col gap-4">
         <div className="relative overflow-hidden aspect-[16/9] bg-zinc-200 rounded-2xl">
           <img
+            referrerPolicy="no-referrer"
             src="https://images.pexels.com/photos/7001554/pexels-photo-7001554.jpeg?auto=compress&cs=tinysrg&dpr=1&w=480"
             alt=""
             className="object-fill transition group-hover:scale-110 group-focus:scale-110"
@@ -59,4 +55,4 @@ const ChannelOverviewCard = ({ size }: { size: string }) => {
   );
 };
 
-export default ChannelOverviewCard;
+export default ChannelCard;
