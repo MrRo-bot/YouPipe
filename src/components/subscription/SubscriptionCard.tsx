@@ -1,19 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-
-import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-
+import "react-loading-skeleton/dist/skeleton.css";
 import { toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { ChannelInfoType, TokensType } from "../../types/types";
-import { rawViewsToString } from "../../utils/functions";
-import { useMutation } from "@tanstack/react-query";
-import { usePersistedState } from "../../hooks/usePersistentStorage";
-import { deleteSubscription } from "../../features/subscriptionSlice";
 import { useAppDispatch } from "../../app/store";
-import { useNavigate } from "react-router-dom";
+import { deleteSubscription } from "../../features/subscriptionSlice";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import { rawViewsToString } from "../../utils/functions";
+import { ChannelInfoType, TokensType } from "../../types/types";
 
 const SubscriptionCard = ({
   stat,
@@ -22,14 +20,10 @@ const SubscriptionCard = ({
   stat: ChannelInfoType;
   subId: string;
 }) => {
-  //skeleton loading before image is loaded
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
   const [sub, setSub] = useState(true);
 
-  //navigating to channel section and details
   const navigate = useNavigate();
 
-  //token from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -43,7 +37,6 @@ const SubscriptionCard = ({
   const snippet = stat?.items[0]?.snippet;
   const statistics = stat?.items[0]?.statistics;
 
-  //deleting subscription
   const subMutation = useMutation({
     mutationFn: (sub: string) => {
       return fetch(
@@ -103,17 +96,14 @@ const SubscriptionCard = ({
       >
         <div className="flex items-center justify-start gap-4">
           <div className="transition w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-            {snippet?.thumbnails && (
+            {snippet?.thumbnails?.high?.url ? (
               <img
                 referrerPolicy="no-referrer"
-                onLoad={() => setIsImgLoaded(!isImgLoaded)}
                 className="w-full h-full rounded-full"
                 src={snippet?.thumbnails?.high?.url}
                 alt=""
               />
-            )}
-
-            {!isImgLoaded && (
+            ) : (
               <Skeleton
                 circle
                 width={135}
@@ -125,20 +115,18 @@ const SubscriptionCard = ({
 
           <div className="flex flex-col items-start w-9/12 px-1">
             <div className="flex items-center gap-1">
-              {!snippet?.title ? (
-                <Skeleton width={100} height={20} className="rounded-2xl" />
-              ) : (
+              {snippet?.title ? (
                 <div className="text-xl text-ellipsis line-clamp-2">
                   {snippet?.title}
                 </div>
+              ) : (
+                <Skeleton width={100} height={20} className="rounded-2xl" />
               )}
             </div>
 
             <div className="flex items-center justify-start gap-1 mt-4">
               <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
-                {!statistics ? (
-                  <Skeleton width={300} height={10} className="rounded-2xl" />
-                ) : (
+                {statistics ? (
                   `${snippet?.customUrl} • ${rawViewsToString(
                     statistics && statistics?.subscriberCount
                   )} Subs • ${rawViewsToString(
@@ -146,15 +134,17 @@ const SubscriptionCard = ({
                   )} views • ${rawViewsToString(
                     statistics && statistics?.videoCount
                   )} videos`
+                ) : (
+                  <Skeleton width={300} height={10} className="rounded-2xl" />
                 )}
               </div>
             </div>
 
             <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
-              {!snippet?.description ? (
-                <p className="text-xs text-zinc-400"></p>
-              ) : (
+              {snippet?.description ? (
                 <p className="text-xs text-zinc-400">{snippet?.description}</p>
+              ) : (
+                <p className="text-xs text-zinc-400"></p>
               )}
             </div>
           </div>

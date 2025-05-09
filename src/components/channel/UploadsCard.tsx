@@ -1,12 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import "react-loading-skeleton/dist/skeleton.css";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import {
   PiClosedCaptioningFill,
   PiDotsThreeOutlineVerticalFill,
-  PiHighDefinitionFill,
 } from "react-icons/pi";
 import { FcClock, FcStart } from "react-icons/fc";
 
@@ -15,20 +14,53 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../../utils/functions";
-import { ChannelInfoType, VideosListType } from "../../types/types";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import {
+  PlaylistItemType,
+  TokensType,
+  VideosListType,
+} from "../../types/types";
 
-const VideoCard = ({
-  video,
-  channel,
-  videoSuccess,
-  channelSuccess,
+const UploadsCard = ({
+  videoItem,
+  uniqueKey,
 }: {
-  video: VideosListType;
-  channel: ChannelInfoType;
-  videoSuccess: boolean;
-  channelSuccess: boolean;
+  videoItem: PlaylistItemType;
+  uniqueKey: string;
 }) => {
   const navigate = useNavigate();
+
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
+  const videoParts = ["statistics", "snippet", "contentDetails"];
+
+  const { isLoading, data: video } = useQuery<VideosListType>({
+    queryKey: ["videoStat", videoItem?.contentDetails?.videoId],
+    queryFn: async () => {
+      const videoRes = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videos?id=${
+          videoItem?.contentDetails?.videoId
+        }&part=${videoParts.join(",")}&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const video = await videoRes.json();
+      return video;
+    },
+    enabled: !!videoItem?.contentDetails?.videoId,
+  });
 
   const date = new Date(video?.items[0]?.snippet?.publishedAt || "").getTime();
 
@@ -38,6 +70,7 @@ const VideoCard = ({
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
       <motion.div
+        key={uniqueKey}
         variants={{
           hidden: { scale: 0.95 },
           visible: { scale: 1 },
@@ -45,11 +78,11 @@ const VideoCard = ({
         initial={"hidden"}
         whileInView={"visible"}
         onClick={() => navigate(`/video/${video?.items[0]?.id}`)}
-        className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-all cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl`}
+        className={`z-0 my-1 flex flex-col justify-between h-full gap-1 p-2 transition-all cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl`}
       >
         <div className="flex flex-col gap-4">
           <div className="relative overflow-hidden aspect-video rounded-2xl">
-            {videoSuccess ? (
+            {isLoading ? (
               <Skeleton
                 width={"100%"}
                 height={"100%"}
@@ -77,82 +110,48 @@ const VideoCard = ({
             )}
           </div>
           <div className="flex flex-col gap-3 px-1">
-            <div className="flex justify-between">
+            {isLoading ? (
+              <Skeleton width={200} className="rounded-2xl" />
+            ) : (
+              <div className="flex items-start justify-between">
+                <div className="w-10/12 text-ellipsis line-clamp-2">
+                  {video?.items[0]?.snippet?.localized?.title || ""}
+                </div>
+                <div className="mt-1 transition hover:scale-105 focus:scale-105">
+                  <PiDotsThreeOutlineVerticalFill />
+                </div>
+              </div>
+            )}
+            <div className="flex justify-start gap-2">
               <div className="flex items-center">
-                <FcStart className="w-5 h-5" />
-                {videoSuccess ? (
+                <FcStart className="w-4 h-4 mr-0.5" />
+                {isLoading ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (
-                  <div className="text-xs tracking-wide text-zinc-400">
-                    {rawViewsToString(
+                  <div className="text-xs tracking-tighter text-zinc-400">
+                    {`${rawViewsToString(
                       video?.items[0]?.statistics?.viewCount || ""
-                    )}{" "}
-                    views
+                    )} views`}
                   </div>
                 )}
               </div>
+
               <div className="flex items-center">
-                {videoSuccess ? (
-                  <Skeleton width={20} className="rounded-2xl" />
-                ) : (
-                  <div className="text-xs tracking-wide text-zinc-400">
-                    {video?.items[0]?.contentDetails?.definition === "hd" ? (
-                      <PiHighDefinitionFill className="w-5 h-5" />
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center">
-                <FcClock color="black" className="w-5 h-5" />
-                {videoSuccess ? (
+                <FcClock color="black" className="w-4 h-4 mr-0.5" />
+                {isLoading ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (
-                  <div className="text-xs tracking-wide text-zinc-400">
+                  <div className="text-xs tracking-tight text-zinc-400">
                     {elapsedTime(date)} ago
                   </div>
                 )}
               </div>
             </div>
-            {videoSuccess ? (
-              <Skeleton width={200} className="rounded-2xl" />
-            ) : (
-              <div className="text-ellipsis line-clamp-2">
-                {video?.items[0]?.snippet?.title || ""}
-              </div>
-            )}
           </div>
-        </div>
-        <div className="flex items-center justify-start gap-1">
-          <div className="grid w-5 h-5 overflow-hidden rounded-full place-items-center">
-            {channelSuccess ? (
-              <Skeleton width={20} height={20} circle className="-top-1" />
-            ) : (
-              <img
-                referrerPolicy="no-referrer"
-                className="w-full h-full rounded-full"
-                src={channel?.items[0]?.snippet?.thumbnails?.default?.url || ""}
-                alt=""
-              />
-            )}
-          </div>
-          {channelSuccess ? (
-            <Skeleton width={100} className="rounded-2xl" />
-          ) : (
-            <>
-              <div className="text-xs tracking-wide text-zinc-300 text-ellipsis">
-                {channel?.items[0]?.snippet?.title || ""}
-              </div>
-              <div className="ml-auto transition hover:scale-105 focus:scale-105">
-                <PiDotsThreeOutlineVerticalFill />
-              </div>
-            </>
-          )}
         </div>
       </motion.div>
     </SkeletonTheme>
   );
 };
 
-export default VideoCard;
+export default UploadsCard;

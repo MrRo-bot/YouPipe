@@ -1,26 +1,20 @@
 import { useState, useRef, useEffect, UIEvent } from "react";
 import { useQuery } from "@tanstack/react-query";
-
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 import { useAppSelector } from "../../app/store";
-import { CategoryType, TokensType } from "../../types/types";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+import { CategoryType, TokensType } from "../../types/types";
 
 const Filters = () => {
-  //toggle scroll arrow depending on scroll progress
   const [scrollArrow, setScrollArrow] = useState({ left: false, right: true });
-
-  //setting which side to scroll
   const [scroll, setScroll] = useState({ side: "" });
 
-  //ref for checking scroll progress
   const scrollProgressRef = useRef<HTMLUListElement>(null);
 
-  //getting location data from redux store
   const locationData = useAppSelector((state) => state.location);
 
-  const [tokenData] = usePersistedState<TokensType>("token", {
+  const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
     scope: "",
@@ -29,8 +23,7 @@ const Filters = () => {
     expiry_date: 0,
   });
 
-  //query for getting video categories, to be used as filters
-  const { data: filters, status } = useQuery({
+  const { data: filters, isSuccess } = useQuery({
     queryKey: ["filters"],
     queryFn: async () => {
       const data = await fetch(
@@ -41,7 +34,7 @@ const Filters = () => {
           headers: {
             "Content-Type": "application/json",
             Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
+            Authorization: `Bearer ${token?.access_token}`,
           },
         }
       );
@@ -49,12 +42,10 @@ const Filters = () => {
     },
   });
 
-  //setting filter arrow scroll left or right
   const handleFilterArrow = (data: { side: string }) => {
     setScroll((prev) => ({ ...prev, side: data.side }));
   };
 
-  //scrolling 150px left or right
   useEffect(() => {
     const ref = scrollProgressRef.current;
     if (ref !== null) {
@@ -63,7 +54,6 @@ const Filters = () => {
     }
   }, [scroll]);
 
-  //calculating how much is required to filter to side scroll
   const handleScroll = (e: UIEvent<HTMLUListElement>) => {
     const target = e.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;
@@ -96,7 +86,7 @@ const Filters = () => {
         onScroll={(e) => handleScroll(e)}
         className="sticky top-0 flex items-center justify-between gap-4 px-3 py-2 my-2 overflow-y-scroll glass-dark hideScrollbar"
       >
-        {status === "success" ? (
+        {isSuccess ? (
           filters?.items?.map((filter: CategoryType) => (
             <li
               key={filter?.id}

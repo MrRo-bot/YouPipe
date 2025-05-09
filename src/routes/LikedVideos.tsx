@@ -3,42 +3,20 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
 import { extractColors } from "extract-colors";
-
-import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-
+import "react-loading-skeleton/dist/skeleton.css";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { LikedVideosListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import LikedVideosCard from "../components/likedVideos/LikedVideosCard";
-import { Bounce, toast } from "react-toastify";
-
-//footer shows loading or end of list
-const Footer = ({ context: likedVideos }: { context: LikedVideosListType }) => {
-  return likedVideos?.items?.length < likedVideos?.pageInfo?.totalResults ? (
-    <ThreeDots
-      visible={true}
-      height="50"
-      width="50"
-      color="#3bf6fcbf"
-      radius="9"
-      ariaLabel="three-dots-loading"
-      wrapperStyle={{}}
-      wrapperClass="justify-center"
-    />
-  ) : (
-    <div className="mx-auto text-lg italic font-bold w-max">End</div>
-  );
-};
+import { TokensType } from "../types/types";
 
 const LikedVideos = () => {
-  //skeleton loading before image is loaded
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
-
-  //extracted colors from the image
+  const [fetchMore, setFetchMore] = useState(true);
   const [extractedColors, setExtractedColors] = useState([
     {
       hex: "#000000",
@@ -53,10 +31,10 @@ const LikedVideos = () => {
     },
   ]);
 
-  //triggers query for fetching more data
-  const [fetchMore, setFetchMore] = useState(true);
+  const dispatch = useAppDispatch();
+  const likedVideos = useAppSelector((state) => state.likedVideos);
+  const isOpen = useAppSelector((state) => state.hamburger);
 
-  //getting token from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -66,14 +44,6 @@ const LikedVideos = () => {
     expiry_date: 0,
   });
 
-  //dispatching redux reducers
-  const dispatch = useAppDispatch();
-
-  //getting data from store
-  const likedVideos = useAppSelector((state) => state.likedVideos);
-  const isOpen = useAppSelector((state) => state.hamburger);
-
-  //parts used in API calls
   const parts = [
     "contentDetails",
     "id",
@@ -85,9 +55,8 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
-  //query for getting liked videos list and storing in redux (triggered by fetchMore state as well)
-  useQuery({
-    queryKey: ["likedvideos", fetchMore],
+  const { isLoading } = useQuery({
+    queryKey: ["likedVideos", fetchMore],
     queryFn: async () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?part=${parts.join(
@@ -134,7 +103,7 @@ const LikedVideos = () => {
           })
         );
     }
-  }, []);
+  });
 
   return (
     <SkeletonTheme
@@ -157,10 +126,11 @@ const LikedVideos = () => {
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
-              {likedVideos?.items?.length > 1 && (
+              {isLoading ? (
+                <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
+              ) : (
                 <img
                   referrerPolicy="no-referrer"
-                  onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={
                     likedVideos?.items
@@ -169,9 +139,6 @@ const LikedVideos = () => {
                   }
                   alt=""
                 />
-              )}
-              {!isImgLoaded && (
-                <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
               )}
             </div>
             <h1 className="text-4xl font-bold">Liked videos</h1>
@@ -188,7 +155,6 @@ const LikedVideos = () => {
             </div>
           </div>
 
-          {/* Virtuoso virtualized rendering of liked videos list for increased rendering performance */}
           {likedVideos?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}
@@ -213,9 +179,28 @@ const LikedVideos = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 500)}
               context={likedVideos}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              components={{ Footer }}
+              components={{
+                Footer: ({ context: likedVideos }) => {
+                  return likedVideos &&
+                    likedVideos?.items?.length <
+                      likedVideos?.pageInfo?.totalResults ? (
+                    <ThreeDots
+                      visible={true}
+                      height="50"
+                      width="50"
+                      color="#3bf6fcbf"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="justify-center"
+                    />
+                  ) : (
+                    <div className="mx-auto text-lg italic font-bold w-max">
+                      End
+                    </div>
+                  );
+                },
+              }}
             />
           )}
         </motion.div>

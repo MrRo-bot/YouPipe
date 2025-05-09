@@ -27,27 +27,21 @@ import { clearCommentsThread } from "../../features/commentsThreadSlice";
 import { clearHomeVideos } from "../../features/homeSlice";
 import { removeTimestamp } from "../../features/timestampSlice";
 import { clearPlayItems } from "../../features/playlistOverviewSlice";
+import { clearChannel } from "../../features/channelOverviewSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../../types/types";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = () => {
-  //clearing search field in various ways
   const [clearSearch, setClearSearch] = useState(false);
-
-  //location hook for detecting route location
-  const location = useLocation();
-
-  //fetching tokens
   const [fetchTokens, setFetchTokens] = useState(false);
 
-  //location coordinates from custom hook
-  const locationCoords = useCurrentLocation();
-
-  //navigate to any route
+  const location = useLocation();
   const navigate = useNavigate();
 
-  //custom hook for reading and storing in localStorage
+  const locationCoords = useCurrentLocation();
+
   const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
     sub: "",
     name: "",
@@ -67,10 +61,7 @@ const Header = () => {
     expiry_date: 0,
   });
 
-  //modifying store
   const dispatch = useAppDispatch();
-
-  //getting various redux state variables
   const profileData = useAppSelector((state) => state.profile);
   const locationCode = useAppSelector((state) => state.location);
   const searchState = useAppSelector((state) => state.search.searchString);
@@ -91,7 +82,7 @@ const Header = () => {
     });
     const tokens = await response.json();
     dispatch(addToken(tokens));
-    //react toastify for access token fetched message
+
     toast("🪙 Access token received!", {
       position: "bottom-left",
       autoClose: 3000,
@@ -102,7 +93,7 @@ const Header = () => {
       theme: "light",
       transition: Bounce,
     });
-    setToken(tokens); //setting it on localStorage
+    setToken(tokens);
   };
 
   //click function for initiating google login, post method to backend
@@ -118,7 +109,7 @@ const Header = () => {
     googleLogin();
   }, [fetchTokens]);
 
-  // ========================================================================================================================================
+  //========================================================================================================================================
   //refresh token
   // const waitTime = 350000;
   // let executionTime;
@@ -163,7 +154,6 @@ const Header = () => {
     window.location.reload();
   };
 
-  //getting google profile data using token data provided by google login function
   useEffect(() => {
     if (token?.access_token) {
       (async () => {
@@ -208,9 +198,9 @@ const Header = () => {
     }
   }, [token?.access_token]);
 
-  //getting country code using location coordinates
-  useEffect(() => {
-    (async () => {
+  useQuery({
+    queryKey: ["locationDetails", locationCoords],
+    queryFn: async () => {
       try {
         if (locationCoords.latitude > 0 && locationCoords.longitude > 0) {
           const res = await fetch(
@@ -218,7 +208,6 @@ const Header = () => {
           );
           const coordsDetails = await res.json();
           dispatch(getLocationData(coordsDetails));
-          //react toastify for getting location data
           toast("🧭 Location fetched!", {
             position: "bottom-left",
             autoClose: 3000,
@@ -244,10 +233,10 @@ const Header = () => {
           transition: Bounce,
         });
       }
-    })();
-  }, [locationCoords]);
+    },
+  });
 
-  //effect for clearing home videos when user leaves home route, checks when user in player route(collapse sidebar)
+  //effect for clearing redux store parts depending upon which route user currently is
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname.includes("/video")) dispatch(collapse());
@@ -257,13 +246,15 @@ const Header = () => {
       dispatch(removeTimestamp());
       dispatch(expand());
     }
+    if (!location.pathname.includes("/channel")) {
+      dispatch(clearChannel());
+    }
   }, [location.pathname]);
 
   return (
     <header className="flex items-center justify-between px-2 py-1 glass">
       <div className="flex items-center justify-between gap-6">
         <div
-          //toggling hamburger menu
           onClick={() => dispatch(toggle())}
           className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
@@ -286,18 +277,13 @@ const Header = () => {
           </div>
         </NavLink>
       </div>
-      {/* various logic used to make search bar */}
       <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input
           onChange={(e) => {
-            //toggles if search bar is clear or not
             setClearSearch(e.target.value !== "" ? true : false);
-
-            //adds input string to searchString redux store
             dispatch(addSearchString(e?.target?.value));
             if (e?.target?.value === "") dispatch(clearSearchList());
           }}
-          //if user clicks enter we navigate to search route
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               navigate("search");

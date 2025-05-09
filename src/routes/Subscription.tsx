@@ -2,10 +2,9 @@ import { MouseEvent, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
-
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { RiArrowDownWideFill, RiArrowUpWideFill } from "react-icons/ri";
 
-import { SubscriptionListType, TokensType } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import {
   addSubscription,
@@ -13,35 +12,13 @@ import {
 } from "../features/subscriptionSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import SubscriptionList from "../components/subscription/SubscriptionList";
-import { RiArrowDownWideFill, RiArrowUpWideFill } from "react-icons/ri";
-
-//footer shows loading or end of list
-const Footer = ({ context: subData }: { context: SubscriptionListType }) => {
-  return subData?.items?.length < subData?.pageInfo?.totalResults ? (
-    <ThreeDots
-      visible={true}
-      height="50"
-      width="50"
-      color="#3bf6fcbf"
-      radius="9"
-      ariaLabel="three-dots-loading"
-      wrapperStyle={{}}
-      wrapperClass="justify-center"
-    />
-  ) : (
-    <div className="mx-auto text-lg italic font-bold w-max">End</div>
-  );
-};
+import { TokensType } from "../types/types";
 
 const Subscription = () => {
-  //sorting options
   const [sortBy, setSortBy] = useState("relevance");
   const [expand, setExpand] = useState(false);
-
-  //fetch more data when scrolling down
   const [fetchMore, setFetchMore] = useState(true);
 
-  //custom hook for getting token data from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -51,17 +28,12 @@ const Subscription = () => {
     expiry_date: 0,
   });
 
-  //dispatching reducers
   const dispatch = useAppDispatch();
-
-  //getting access to redux store
   const subData = useAppSelector((state) => state.subscription);
   const isOpen = useAppSelector((state) => state.hamburger);
 
-  //parts used for API calls
   const parts = ["contentDetails", "id", "snippet"];
 
-  //query for getting subscription list and storing in redux (triggered by fetchMore state as well)
   useQuery({
     queryKey: ["subscription", sortBy, fetchMore],
     queryFn: async () => {
@@ -82,7 +54,6 @@ const Subscription = () => {
       const subscription = await res.json();
       dispatch(addSubscription(subscription));
       setFetchMore(false);
-
       return subscription;
     },
     enabled: !!sortBy && !!fetchMore,
@@ -160,7 +131,7 @@ const Subscription = () => {
               </div>
             </div>
           </div>
-          {/* Virtuoso component for rendering list of subscriptions */}
+
           {subData?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}
@@ -181,9 +152,27 @@ const Subscription = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 500)}
               context={subData}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              components={{ Footer }}
+              components={{
+                Footer: ({ context: subData }) => {
+                  return subData &&
+                    subData?.items?.length < subData?.pageInfo?.totalResults ? (
+                    <ThreeDots
+                      visible={true}
+                      height="50"
+                      width="50"
+                      color="#3bf6fcbf"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="justify-center"
+                    />
+                  ) : (
+                    <div className="mx-auto text-lg italic font-bold w-max">
+                      -----------------End of the list-----------------
+                    </div>
+                  );
+                },
+              }}
             />
           )}
         </motion.div>

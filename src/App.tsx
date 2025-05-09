@@ -1,4 +1,5 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -6,7 +7,6 @@ import "./App.css";
 
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
-import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -17,13 +17,10 @@ function App() {
         </div>
         <main className="relative flex min-h-[90vh]">
           <Sidebar />
-          {/* rendering ui here */}
           <Outlet />
-          {/* restoring scroll to top after every navigation */}
           <ScrollRestoration />
         </main>
       </div>
-      {/* query dev tools */}
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer />
     </>

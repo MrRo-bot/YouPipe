@@ -60,6 +60,7 @@ const initialState: SearchListType = {
       },
     },
   ],
+  refetch: false,
 };
 
 export const homeSlice = createSlice({

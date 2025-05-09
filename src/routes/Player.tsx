@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { Virtuoso } from "react-virtuoso";
+import ReactPlayer from "react-player/youtube";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
 import { nanoid } from "nanoid";
 
@@ -11,59 +16,19 @@ import {
   PiThumbsUpFill,
 } from "react-icons/pi";
 
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import { Virtuoso } from "react-virtuoso";
-
-import ReactPlayer from "react-player/youtube";
-
-import Comments from "../components/comments/Comments";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import {
-  CommentListType,
-  RatingType,
-  TokensType,
-  VideosListType,
-} from "../types/types";
-import { rawViewsToString } from "../utils/functions";
-import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { addTimestamp } from "../features/timestampSlice";
+import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
 import { addLikedVideo, removeLikedVideo } from "../features/likedVideosSlice";
-
-//footer shows loading or end of list
-const Footer = ({
-  context: { comments: comments, video: video },
-}: {
-  context: { comments: CommentListType; video: VideosListType | undefined };
-}) => {
-  return comments?.items?.length <
-    Number(video?.items[0]?.statistics?.commentCount) ? (
-    <ThreeDots
-      visible={true}
-      height="50"
-      width="50"
-      color="#3bf6fcbf"
-      radius="9"
-      ariaLabel="three-dots-loading"
-      wrapperStyle={{}}
-      wrapperClass="justify-center"
-    />
-  ) : (
-    <div className="mx-auto text-lg italic font-bold w-max">End</div>
-  );
-};
+import { addTimestamp } from "../features/timestampSlice";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { rawViewsToString } from "../utils/functions";
+import Comments from "../components/comments/Comments";
+import { RatingType, TokensType, VideosListType } from "../types/types";
 
 const Player = () => {
-  //state for storing playing status
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  //custom comment
   const [myComment, setMyComment] = useState("");
-
-  //getting rating
+  const [fetchMore, setFetchMore] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [rating, setRating] = useState<RatingType>({
     kind: "",
     etag: "",
@@ -75,25 +40,14 @@ const Player = () => {
     ],
   });
 
-  //react player ref
-  const playerRef = useRef(null);
-
-  //redux store for timestamp
-  const timestamp = useAppSelector((state) => state.timestamp.value);
-
-  //params for getting parameters passed in route link
   const { videoId } = useParams();
 
-  //dispatch reducer functions
-  const dispatch = useAppDispatch();
+  const playerRef = useRef(null);
 
-  //store for comments
+  const dispatch = useAppDispatch();
+  const timestamp = useAppSelector((state) => state.timestamp.value);
   const comments = useAppSelector((state) => state.commentsThread);
 
-  //fetch more comments
-  const [fetchMore, setFetchMore] = useState<boolean>(true);
-
-  //getting token from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -103,7 +57,6 @@ const Player = () => {
     expiry_date: 0,
   });
 
-  //parts used in API calls
   const parts = [
     "contentDetails",
     "id",
@@ -115,7 +68,6 @@ const Player = () => {
     "topicDetails",
   ];
 
-  //query for getting video details
   const { data: video } = useQuery<VideosListType>({
     queryKey: ["playingVideo", videoId],
     queryFn: async () => {
@@ -137,13 +89,10 @@ const Player = () => {
     enabled: !!videoId,
   });
 
-  //creating date value from ISO 8601 format
-  const myDate = new Date(video?.items[0]?.snippet?.publishedAt || "");
+  const date = new Date(
+    video?.items[0]?.snippet?.publishedAt || ""
+  ).toLocaleDateString();
 
-  //getting time from date
-  const result = myDate.toLocaleDateString();
-
-  //query for getting video comments
   useQuery({
     queryKey: ["playingVideoComments", videoId, fetchMore],
     queryFn: async () => {
@@ -208,7 +157,6 @@ const Player = () => {
     }
   }, [timestamp]);
 
-  //query for getting video rating
   useQuery({
     queryKey: ["rating"],
     queryFn: async () => {
@@ -231,7 +179,6 @@ const Player = () => {
     },
   });
 
-  //handling like/dislike rating of a video in player
   const handleRating = (e: { currentTarget: { id: string } }) => {
     const rate = rating.items[0].rating;
     const ratingPostFunc = async (r: string) => {
@@ -284,7 +231,6 @@ const Player = () => {
     }
   };
 
-  //sending comment to video
   const comMutation = useMutation({
     mutationFn: async (id: string | undefined) => {
       const response = await fetch(
@@ -307,7 +253,8 @@ const Player = () => {
           }),
         }
       );
-      dispatch(addComment(await response.json()));
+      const comment = await response.json();
+      dispatch(addComment(comment));
     },
     onSuccess: () => {
       setMyComment("");
@@ -408,7 +355,7 @@ const Player = () => {
                 </div>
                 |
                 <div className="flex items-center gap-2">
-                  <strong className="text-violet-200">{result}</strong>
+                  <strong className="text-violet-200">{date}</strong>
                 </div>
               </div>
 
@@ -474,8 +421,6 @@ const Player = () => {
             </button>
           </div>
 
-          {/* Virtuoso virtualized rendering of comments */}
-
           {comments?.items[0]?.kind === "" ? (
             <FidgetSpinner
               visible={true}
@@ -504,9 +449,30 @@ const Player = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 2000)}
               context={{ comments: comments, video: video }}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              components={{ Footer }}
+              components={{
+                Footer: ({ context }) => {
+                  return context &&
+                    context?.comments?.items?.length <
+                      Number(
+                        context?.video?.items[0]?.statistics?.commentCount
+                      ) ? (
+                    <ThreeDots
+                      visible={true}
+                      height="50"
+                      width="50"
+                      color="#3bf6fcbf"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="justify-center"
+                    />
+                  ) : (
+                    <div className="mx-auto text-lg italic font-bold w-max">
+                      End
+                    </div>
+                  );
+                },
+              }}
             />
           )}
         </div>

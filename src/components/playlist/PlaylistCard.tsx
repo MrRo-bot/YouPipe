@@ -1,24 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-toastify/dist/ReactToastify.css";
 import { Bounce, toast } from "react-toastify";
 import { extractColors } from "extract-colors";
-import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
-import { PlaylistType } from "../../types/types";
 import { elapsedTime } from "../../utils/functions";
+import { PlaylistType } from "../../types/types";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
-  //skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
-
-  //extracted colors from the image
   const [extractedColors, setExtractedColors] = useState([
     {
       hex: "#ffffff",
@@ -33,14 +30,9 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
     },
   ]);
 
-  //navigate method for navigating to playlistOverview route
   const navigate = useNavigate();
 
-  //creating date value from ISO 8601 format
-  const myDate = new Date(playlist?.snippet?.publishedAt || "");
-
-  //getting time from date
-  const result = myDate.getTime();
+  const date = new Date(playlist?.snippet?.publishedAt || "").getTime();
 
   useEffect(() => {
     if (playlist?.snippet?.thumbnails?.maxres?.url) {
@@ -166,7 +158,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             </div>
             {isImgLoaded ? (
               <div className="text-xs tracking-wide text-zinc-300">
-                {elapsedTime(result)} ago
+                {elapsedTime(date)} ago
               </div>
             ) : (
               <Skeleton

@@ -1,34 +1,25 @@
 import { AnimatePresence, motion } from "framer-motion";
 // import { useQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { nanoid } from "nanoid";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-
-// import Filters from "../components/Filters";
 // import { addHomeVideos } from "../features/homeSlice";
-// import VideoList from "../components/video/VideoList";
 import { usePersistedState } from "../hooks/usePersistentStorage";
+// import Filters from "../components/Filters";
+// import VideoList from "../components/video/VideoList";
 import { TokensType } from "../types/types";
-import { nanoid } from "@reduxjs/toolkit";
 
 const Home = () => {
-  //intersection observer
   const { ref, inView } = useInView();
 
-  //sidebar
-  const isOpen = useAppSelector((state) => state.hamburger);
-
-  //redux dispatch
   const dispatch = useAppDispatch();
-
-  //profile data from redux store
+  const isOpen = useAppSelector((state) => state.hamburger);
   const profileData = useAppSelector((state) => state.profile);
   const homeData = useAppSelector((state) => state.home);
 
-  //getting access token from localStorage
-  const [tokenData] = usePersistedState<TokensType>("token", {
+  const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
     scope: "",
@@ -49,7 +40,7 @@ const Home = () => {
   //         headers: {
   //           "Content-Type": "application/json",
   //           Host: "www.googleapis.com",
-  //           Authorization: `Bearer ${tokenData?.access_token}`,
+  //           Authorization: `Bearer ${token?.access_token}`,
   //         },
   //       }
   //     );

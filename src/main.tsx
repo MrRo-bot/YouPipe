@@ -1,18 +1,11 @@
 import { createRoot } from "react-dom/client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from "react-router-dom";
-
-import { Provider } from "react-redux";
-
-import { GoogleOAuthProvider } from "@react-oauth/google";
-
 import App from "./App.tsx";
 import ErrorPage from "./routes/ErrorPage.tsx";
 import Home from "./routes/Home.tsx";
@@ -22,14 +15,19 @@ import Subscription from "./routes/Subscription.tsx";
 import PlaylistOverview from "./routes/PlaylistOverview.tsx";
 import Search from "./routes/Search.tsx";
 import Player from "./routes/Player.tsx";
-
-import { store } from "./app/store.ts";
 import ChannelOverview from "./routes/ChannelOverview.tsx";
+import UploadsList from "./components/channel/UploadsList.tsx";
+import Channels from "./components/channel/Channels.tsx";
+import Playlists from "./components/channel/Playlists.tsx";
 
-//creating query client
+import { Provider } from "react-redux";
+import { store } from "./app/store.ts";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
-//defining routers with browser router and routes form elements
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} errorElement={<ErrorPage />}>
@@ -37,7 +35,11 @@ const router = createBrowserRouter(
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="playlists" element={<Playlist />} />
       <Route path="likedvideos" element={<LikedVideos />} />
-      <Route path="channel/:channelId" element={<ChannelOverview />} />
+      <Route path="channel/:channelId" element={<ChannelOverview />}>
+        <Route index path="" element={<UploadsList />} />
+        <Route path="channels" element={<Channels />} />
+        <Route path="playlists" element={<Playlists />} />
+      </Route>
       <Route path="search" element={<Search />} />
       <Route path="playlist/:playlistId" element={<PlaylistOverview />} />
       <Route path="video/:videoId" element={<Player />} />
@@ -46,13 +48,9 @@ const router = createBrowserRouter(
 );
 
 createRoot(document.getElementById("root")!).render(
-  // google auth library
   <GoogleOAuthProvider clientId={import.meta.env.VITE_YOUPIPE_CLIENT_ID}>
-    {/* tanstack query */}
     <QueryClientProvider client={queryClient}>
-      {/* react redux */}
       <Provider store={store}>
-        {/* react router */}
         <RouterProvider router={router} />
       </Provider>
     </QueryClientProvider>

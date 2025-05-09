@@ -1,3 +1,16 @@
+enum SnippetEnum {
+  allPlaylists,
+  completedEvents,
+  liveEvents,
+  multipleChannels,
+  multiplePlaylists,
+  popularUploads,
+  recentUploads,
+  singlePlaylist,
+  subscriptions,
+  upcomingEvent,
+}
+
 export type ErrorType = {
   data?: string;
   error?: {
@@ -35,7 +48,7 @@ export type ChannelType = {
   kind: string;
   etag: string;
   id: string;
-  snippet?: {
+  snippet: {
     title: string;
     description: string;
     customUrl: string;
@@ -129,8 +142,8 @@ export type ChannelType = {
 export type ChannelInfoType = {
   kind: string;
   etag: string;
-  nextPageToken: string;
-  prevPageToken: string;
+  nextPageToken?: string;
+  prevPageToken?: string;
   pageInfo: {
     totalResults: number;
     resultsPerPage: number;
@@ -215,7 +228,7 @@ export type PlaylistItemType = {
   kind: string;
   etag: string;
   id: string;
-  snippet?: {
+  snippet: {
     publishedAt: string;
     channelId: string;
     title: string;
@@ -257,14 +270,14 @@ export type PlaylistItemType = {
       videoId: string;
     };
   };
-  contentDetails?: {
+  contentDetails: {
     videoId: string;
     startAt: string;
     endAt: string;
     note: string;
     videoPublishedAt: number;
   };
-  status?: {
+  status: {
     privacyStatus: string;
   };
 };
@@ -936,7 +949,7 @@ export type ChannelSectionType = {
       etag: string;
       id: string;
       snippet: {
-        type: string;
+        type: SnippetEnum;
         channelId: string;
         title: string;
         position: number;
@@ -944,17 +957,6 @@ export type ChannelSectionType = {
       contentDetails?: {
         playlists?: [string];
         channels?: [string];
-
-        // allPlaylists?
-        // completedEvents
-        // liveEvents
-        // multipleChannels
-        // multiplePlaylists
-        // popularUploads
-        // recentUploads
-        // singlePlaylist
-        // subscriptions
-        // upcomingEvents
       };
     }
   ];

@@ -1,16 +1,14 @@
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
+import "react-toastify/dist/ReactToastify.css";
+import { Bounce, toast } from "react-toastify";
+import parse from "html-react-parser";
 import {
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,
 } from "react-icons/io";
-import parse from "html-react-parser";
-
-import { elapsedTime, rawViewsToString } from "../../utils/functions";
-import { CommentType, TokensType } from "../../types/types";
-import { useAppDispatch } from "../../app/store";
-import { addTimestamp } from "../../features/timestampSlice";
 import {
   // PiPencilBold,
   // PiTrashBold,
@@ -18,11 +16,13 @@ import {
   PiThumbsUpLight,
 } from "react-icons/pi";
 import { FaRegCommentAlt } from "react-icons/fa";
-import "react-toastify/dist/ReactToastify.css";
-import { Bounce, toast } from "react-toastify";
-import { usePersistedState } from "../../hooks/usePersistentStorage";
-import { useMutation } from "@tanstack/react-query";
+
+import { useAppDispatch } from "../../app/store";
 import { addReply } from "../../features/commentsThreadSlice";
+import { addTimestamp } from "../../features/timestampSlice";
+import { elapsedTime, rawViewsToString } from "../../utils/functions";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import { CommentType, TokensType } from "../../types/types";
 
 const Comments = ({
   comment,
@@ -32,36 +32,21 @@ const Comments = ({
   channelId: string;
 }) => {
   const [expand, setExpand] = useState(false);
-
-  //toggle reply field
   const [toggleReply, setToggleReply] = useState(false);
-
-  //handle users reply
   const [myReply, setMyReply] = useState("");
-
-  //getting token from localStorage
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
 
   const dispatch = useAppDispatch();
 
   const comm = comment?.snippet?.topLevelComment?.snippet;
   const replies = comment?.replies?.comments;
   const replyCount = replies?.length || 0;
-
-  //creating date value from ISO 8601 format
-  const myPubDate = new Date(comm?.publishedAt || "");
-  const myUpdDate = new Date(comm?.updatedAt || "");
-
-  //getting time from date
-  const publishedAt = myPubDate.getTime();
-  const updatedAt = myUpdDate.getTime();
+  const myPubDate = new Date(comm?.publishedAt || "").getTime();
+  const myUpdDate = new Date(comm?.updatedAt || "").getTime();
+  const modifiedComment = comm?.textOriginal.replace(
+    /(\d*:?\d{1,2}:\d{1,2})/gm,
+    (match) =>
+      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
+  );
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
@@ -81,14 +66,15 @@ const Comments = ({
     dispatch(addTimestamp(seconds));
   };
 
-  //handling timestamp
-  const modifiedComment = comm?.textOriginal.replace(
-    /(\d*:?\d{1,2}:\d{1,2})/gm,
-    (match) =>
-      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
-  );
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
 
-  //sending reply on an existing comment
   const replyMutation = useMutation({
     mutationFn: async (reply: string) => {
       const response = await fetch(
@@ -110,7 +96,8 @@ const Comments = ({
           }),
         }
       );
-      dispatch(addReply(await response.json()));
+      const replyData = await response.json();
+      dispatch(addReply(replyData));
     },
     onSuccess: () => {
       setMyReply("");
@@ -182,8 +169,8 @@ const Comments = ({
             </div>
             <div className="font-medium text-left text-zinc-400">
               {comm?.publishedAt === comm?.updatedAt
-                ? elapsedTime(publishedAt) + " ago"
-                : elapsedTime(updatedAt) + " ago" + " (edited)"}
+                ? elapsedTime(myPubDate) + " ago"
+                : elapsedTime(myUpdDate) + " ago" + " (edited)"}
             </div>
           </div>
           <div className="text-left text-zinc-100">
@@ -267,7 +254,6 @@ const Comments = ({
                   const myPubDate = new Date(
                     comment?.snippet?.publishedAt || ""
                   );
-                  //getting time from date
                   const publishedAt = myPubDate.getTime();
                   const updatedAt = myUpdDate.getTime();
 

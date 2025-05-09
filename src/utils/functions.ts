@@ -37,27 +37,47 @@ export const videoDuration = (duration: string): string => {
 export const elapsedTime = (date: number) => {
   const seconds = Math.floor((new Date().valueOf() - date) / 1000);
 
-  let interval = seconds / 31536000;
-
+  // Calculate the time difference in years, months, days, hours, minutes, and seconds
+  let interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
     return Math.floor(interval) + " years";
   }
-  interval = seconds / 2592000;
+  if (interval === 1) {
+    return Math.floor(interval) + " year";
+  }
+
+  interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
     return Math.floor(interval) + " months";
   }
-  interval = seconds / 86400;
+  if (interval === 1) {
+    return Math.floor(interval) + " month";
+  }
+
+  interval = Math.floor(seconds / 86400);
   if (interval > 1) {
     return Math.floor(interval) + " days";
   }
-  interval = seconds / 3600;
+  if (interval === 1) {
+    return Math.floor(interval) + " day";
+  }
+
+  interval = Math.floor(seconds / 3600);
   if (interval > 1) {
     return Math.floor(interval) + " hours";
   }
-  interval = seconds / 60;
+  if (interval === 1) {
+    return Math.floor(interval) + " hour";
+  }
+
+  interval = Math.floor(seconds / 60);
   if (interval > 1) {
     return Math.floor(interval) + " minutes";
   }
+  if (interval === 1) {
+    return Math.floor(interval) + " minute";
+  }
+
   return Math.floor(seconds) + " seconds";
 };
 
@@ -81,6 +101,7 @@ export const unixToTimeString = (unix_timestamp: number) => {
   // multiplied by 1000 so that the argument is in milliseconds, not seconds
   const date = new Date(unix_timestamp * 1000);
 
+  //change locale dynamically depends on situation
   date.toLocaleString("en-IN", { timeZone: "Asia/kolkata" });
 
   // Hours part from the timestamp
@@ -94,7 +115,7 @@ export const unixToTimeString = (unix_timestamp: number) => {
 
   // Will display time in 10:30:23 format
   const formattedTime =
-    hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+    hours + ":" + minutes.substring(-2) + ":" + seconds.substring(-2);
 
   return formattedTime;
 };

@@ -1,33 +1,27 @@
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-// import Slider from "react-slick";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-// import ChannelOverviewCard from "../components/channel/ChannelOverviewCard";
-import { useAppSelector } from "../app/store";
-// import { useAppDispatch, useAppSelector } from "../app/store";
-// import ChannelCard from "../components/channel/ChannelCard";
+import { useAppDispatch, useAppSelector } from "../app/store";
+import {
+  addChannelDetails,
+  addChannelSections,
+} from "../features/channelOverviewSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import { TokensType } from "../types/types";
-// import { addChannelSection } from "../features/channelSlice";
-
 import { rawViewsToString } from "../utils/functions";
+import { TokensType } from "../types/types";
 
 const ChannelOverview = () => {
-  //to get sidebar status if its shrunk or expanded
-  const isOpen = useAppSelector((state) => state.hamburger);
-
-  // const channel = useAppSelector((state) => state.channel);
-
-  //redux store dispatch
-  // const dispatch = useAppDispatch();
-
-  //getting route parameter
   const { channelId } = useParams();
 
-  //custom hook for getting token data from localStorage
+  const dispatch = useAppDispatch();
+  const isOpen = useAppSelector((state) => state.hamburger);
+  const channelDetails = useAppSelector(
+    (state) => state.channelOverview.channelDetails
+  );
+
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -37,42 +31,46 @@ const ChannelOverview = () => {
     expiry_date: 0,
   });
 
-  //parts used for API calls
-  // const parts = ["contentDetails", "id", "snippet"];
+  const sectionParts = ["contentDetails", "id", "snippet"];
 
-  //query for getting channel sections
-  // useQuery({
-  //   queryKey: ["channel", channelId],
-  //   queryFn: async () => {
-  //     const res = await fetch(
-  //       `https://youtube.googleapis.com/youtube/v3/channelSections?part=${parts.join(
-  //         ","
-  //       )}&channelId=${channelId}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Host: "www.googleapis.com",
-  //           Authorization: `Bearer ${token?.access_token}`,
-  //         },
-  //       }
-  //     );
-  //     const channelSection = await res.json();
-  //     dispatch(addChannelSection(channelSection));
-  //     return channel;
-  //   },
-  //   refetchOnWindowFocus: false,
-  //   refetchOnMount: false,
-  //   enabled: !!channelId,
-  // });
+  useQuery({
+    queryKey: ["channelSections", channelId],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/channelSections?part=${sectionParts.join(
+          ","
+        )}&channelId=${channelId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const channelSection = await res.json();
+      dispatch(addChannelSections(channelSection));
+      return channelSection;
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!channelId,
+  });
 
-  // query for getting channel detail
-  const { data: channelDetails } = useQuery({
+  const channelParts = [
+    "brandingSettings",
+    "contentDetails",
+    "snippet",
+    "statistics",
+    "status",
+  ];
+
+  const { isLoading } = useQuery({
     queryKey: ["channelDetails", channelId],
     queryFn: async () => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/channels?id=${channelId}&part=brandingSettings%2CcontentDetails%2Csnippet%2Cstatistics%2Cstatus&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
+        `https://youtube.googleapis.com/youtube/v3/channels?id=${channelId}&part=${channelParts.join(
+          ","
+        )}&key=${import.meta.env.VITE_API_KEY}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -82,10 +80,10 @@ const ChannelOverview = () => {
         }
       );
       const channelDetails = await res.json();
+      dispatch(addChannelDetails(channelDetails));
       return channelDetails;
     },
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
     enabled: !!channelId,
   });
 
@@ -104,37 +102,46 @@ const ChannelOverview = () => {
           } `}
         >
           <div className="w-9/12 mx-auto">
-            {channelDetails?.items[0]?.brandingSettings?.image && (
-              <div className="h-[20vh] overflow-hidden rounded-2xl">
-                <img
-                  referrerPolicy="no-referrer"
-                  className="object-cover w-full h-full"
-                  src={
-                    channelDetails?.items[0]?.brandingSettings?.image
-                      ?.bannerExternalUrl
-                  }
-                  alt=""
-                />
-              </div>
+            {channelDetails?.items[0]?.brandingSettings?.image
+              ?.bannerExternalUrl ? (
+              isLoading ? (
+                <div className="h-[20vh] overflow-hidden rounded-2xl">
+                  <Skeleton className="object-cover w-full h-full pt-1"></Skeleton>
+                </div>
+              ) : (
+                <div className="h-[20vh] overflow-hidden rounded-2xl">
+                  <img
+                    referrerPolicy="no-referrer"
+                    className="object-cover w-full h-full"
+                    src={
+                      channelDetails?.items[0]?.brandingSettings?.image
+                        ?.bannerExternalUrl
+                    }
+                    alt=""
+                  />
+                </div>
+              )
+            ) : (
+              <div></div>
             )}
 
             <div className="flex items-center justify-start gap-4 pt-4">
-              <div className="grid overflow-hidden rounded-full min-w-40 place-items-center">
-                {!channelDetails?.items[0]?.snippet ? (
-                  <Skeleton className="p-1 aspect-square min-w-40" />
+              <div className="grid overflow-hidden rounded-full max-w-40 place-items-center">
+                {isLoading ? (
+                  <Skeleton className="pt-1 aspect-square" />
                 ) : (
                   <img
                     referrerPolicy="no-referrer"
-                    className="w-full h-full"
+                    className=""
                     src={
-                      channelDetails?.items[0]?.snippet?.thumbnails?.medium?.url
+                      channelDetails?.items[0]?.snippet?.thumbnails?.high?.url
                     }
                     alt=""
                   />
                 )}
               </div>
               <div className="flex flex-col min-w-64">
-                {!channelDetails?.items[0].snippet ? (
+                {isLoading ? (
                   <Skeleton className="min-w-full mb-2 min-h-10" />
                 ) : (
                   <h1 className="mb-2 text-3xl font-extrabold">
@@ -142,7 +149,7 @@ const ChannelOverview = () => {
                   </h1>
                 )}
 
-                {!channelDetails?.items[0]?.snippet ? (
+                {isLoading ? (
                   <Skeleton
                     containerClassName="flex gap-2"
                     className="w-10 h-4"
@@ -170,43 +177,59 @@ const ChannelOverview = () => {
                     </span>
                   </span>
                 )}
-                {!channelDetails?.items[0]?.snippet ? (
+                {isLoading ? (
                   <Skeleton className="mt-4 min-w-40" />
                 ) : (
                   <span className="flex justify-start mt-4 cursor-pointer text-zinc-400">
-                    <span className="w-1/3 line-clamp-1">
+                    <span className="max-w-[50%] line-clamp-1">
                       {channelDetails?.items[0]?.snippet?.description}
                     </span>
                     {/* open popup with channel description with statistics */}
-                    <strong className="font-bold text-white">more</strong>
+                    <strong className="font-bold text-white">...more</strong>
                   </span>
                 )}
-                {/* <div className="flex justify-start gap-2">
-                  <div className="px-4 py-2 text-sm font-semibold text-center align-middle transition bg-gray-700 rounded-full cursor-pointer focus:bg-gray-600 hover:bg-gray-600">
-                    Customise Channel
-                  </div>
-                  <div className="px-4 py-2 text-sm font-semibold text-center align-middle transition bg-gray-700 rounded-full cursor-pointer focus:bg-gray-600 hover:bg-gray-600">
-                    Manage Videos
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
-          <div className="w-full shadow-[0_1px_0_0_rgba(150,150,150,0.5)]">
-            <div className="flex items-center w-9/12 gap-5 mx-auto">
-              <div className="py-4 px-0.5 font-semibold cursor-pointer text-zinc-400">
-                Videos
-              </div>
-              <div className="py-4 px-0.5 font-semibold cursor-pointer text-zinc-400">
-                Playlists
-              </div>
-              <div className="py-4 px-0.5 font-semibold cursor-pointer text-zinc-400">
-                Channels
-              </div>
+          <div className="w-full mb-2 shadow-[0_1px_0_0_rgba(150,150,150,0.5)]">
+            <div className="flex items-center w-9/12 gap-3 pt-4 pb-2 mx-auto">
+              <NavLink
+                to=""
+                className={({ isActive }) =>
+                  isActive ? "text-black bg-white rounded-md" : ""
+                }
+                end
+              >
+                <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+                  Home
+                </div>
+              </NavLink>
+              <NavLink
+                to="channels"
+                className={({ isActive }) =>
+                  isActive ? "text-black bg-white rounded-md" : ""
+                }
+                end
+              >
+                <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+                  Channels
+                </div>
+              </NavLink>
+              <NavLink
+                to="playlists"
+                className={({ isActive }) =>
+                  isActive ? "text-black bg-white rounded-md" : ""
+                }
+                end
+              >
+                <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+                  Playlists
+                </div>
+              </NavLink>
             </div>
           </div>
           <div className="w-9/12 mx-auto">
-            <div className="relative"></div>
+            <Outlet />
           </div>
         </motion.div>
       </AnimatePresence>

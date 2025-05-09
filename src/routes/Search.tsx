@@ -5,49 +5,21 @@ import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { SearchListType, TokensType } from "../types/types";
 import { addSearch } from "../features/searchSlice";
-import SearchCard from "../components/search/SearchCard";
 import { usePersistedState } from "../hooks/usePersistentStorage";
-
-//footer shows loading or end of list
-const Footer = ({ context: searchData }: { context: SearchListType }) => {
-  return searchData?.items?.length < searchData?.pageInfo?.totalResults ? (
-    <ThreeDots
-      visible={true}
-      height="50"
-      width="50"
-      color="#3bf6fcbf"
-      radius="9"
-      ariaLabel="three-dots-loading"
-      wrapperStyle={{}}
-      wrapperClass="justify-center"
-    />
-  ) : (
-    <div className="mx-auto text-lg italic font-bold w-max">End</div>
-  );
-};
+import SearchCard from "../components/search/SearchCard";
+import { TokensType } from "../types/types";
 
 const Search = () => {
-  //search string
-  const searchStr = useAppSelector((state) => state.search.searchString);
-
-  const refetch = useAppSelector((state) => state.search.refetch);
-
-  //sidebar
-  const isOpen = useAppSelector((state) => state.hamburger);
-
-  //fetch more data when scrolling down
   const [fetchMore, setFetchMore] = useState<boolean>(true);
 
-  //dispatching redux reducers
   const dispatch = useAppDispatch();
-
-  //getting search data from redux store
+  const searchStr = useAppSelector((state) => state.search.searchString);
+  const refetch = useAppSelector((state) => state.search.refetch);
+  const isOpen = useAppSelector((state) => state.hamburger);
   const searchData = useAppSelector((state) => state.search);
 
-  //access token from localStorage
-  const [tokenData] = usePersistedState<TokensType>("token", {
+  const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
     scope: "",
@@ -56,7 +28,6 @@ const Search = () => {
     expiry_date: 0,
   });
 
-  //fetching search list using query string
   useQuery({
     queryKey: ["search", fetchMore, refetch],
     queryFn: async () => {
@@ -68,7 +39,7 @@ const Search = () => {
           headers: {
             "Content-Type": "application/json",
             Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
+            Authorization: `Bearer ${token?.access_token}`,
           },
         }
       );
@@ -78,8 +49,6 @@ const Search = () => {
       return search;
     },
     enabled: !!fetchMore || !!refetch,
-    // refetchOnMount: true,
-    // refetchOnWindowFocus: true,
   });
 
   return (
@@ -120,9 +89,28 @@ const Search = () => {
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 2000)}
               context={searchData}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              components={{ Footer }}
+              components={{
+                Footer: ({ context: searchData }) => {
+                  return searchData &&
+                    searchData?.items?.length <
+                      searchData?.pageInfo?.totalResults ? (
+                    <ThreeDots
+                      visible={true}
+                      height="50"
+                      width="50"
+                      color="#3bf6fcbf"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="justify-center"
+                    />
+                  ) : (
+                    <div className="mx-auto text-lg italic font-bold w-max">
+                      End
+                    </div>
+                  );
+                },
+              }}
             />
           )}
         </div>

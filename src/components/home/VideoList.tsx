@@ -1,22 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-
-import { SearchType, TokensType } from "../../types/types";
-import VideoCard from "./VideoCard";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+import VideoCard from "./VideoCard";
+import { SearchType, TokensType } from "../../types/types";
+import { useQuery } from "@tanstack/react-query";
 
 const VideoList = ({ video }: { video: SearchType }) => {
-  //data for individual components
-  const [videoStat, setVideoStat] = useState();
-  const [channelStat, setChannelStat] = useState();
-
-  //channel parts to be called with the API
   const channelParts = ["statistics", "snippet"];
-
-  //video parts to be called with the API
   const videoParts = ["statistics", "snippet", "contentDetails"];
 
-  const [tokenData] = usePersistedState<TokensType>("token", {
+  const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
     scope: "",
@@ -25,10 +16,9 @@ const VideoList = ({ video }: { video: SearchType }) => {
     expiry_date: 0,
   });
 
-  //create parallel query using tanstack query
-  //query for getting video and channel data for video card
-  useEffect(() => {
-    (async () => {
+  const { data: videoStat, isSuccess: videoSuccess } = useQuery({
+    queryKey: ["videoStat"],
+    queryFn: async () => {
       const resVideo = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?id=${
           video?.id?.videoId
@@ -37,10 +27,17 @@ const VideoList = ({ video }: { video: SearchType }) => {
           headers: {
             "Content-Type": "application/json",
             Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
+            Authorization: `Bearer ${token?.access_token}`,
           },
         }
       );
+      return await resVideo.json();
+    },
+  });
+
+  const { data: channelStat, isSuccess: channelSuccess } = useQuery({
+    queryKey: ["videoStat"],
+    queryFn: async () => {
       const resChannel = await fetch(
         `https://youtube.googleapis.com/youtube/v3/channels?id=${
           video?.snippet?.channelId
@@ -49,21 +46,22 @@ const VideoList = ({ video }: { video: SearchType }) => {
           headers: {
             "Content-Type": "application/json",
             Host: "www.googleapis.com",
-            Authorization: `Bearer ${tokenData?.access_token}`,
+            Authorization: `Bearer ${token?.access_token}`,
           },
         }
       );
-      const videoStat = await resVideo.json();
-      const channelStat = await resChannel.json();
-
-      setVideoStat(videoStat);
-      setChannelStat(channelStat);
-    })();
-  }, []);
+      return await resChannel.json();
+    },
+  });
 
   return (
     <div className="p-2">
-      <VideoCard video={videoStat!} channel={channelStat!} />
+      <VideoCard
+        video={videoStat}
+        videoSuccess={videoSuccess}
+        channel={channelStat}
+        channelSuccess={channelSuccess}
+      />
     </div>
   );
 };

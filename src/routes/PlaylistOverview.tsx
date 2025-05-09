@@ -2,51 +2,26 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import "react-loading-skeleton/dist/skeleton.css";
 import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
-
-import PlaylistOverviewCard from "../components/playlist/PlaylistOverviewCard";
-import { useAppDispatch, useAppSelector } from "../app/store";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import { addPlayItems } from "../features/playlistOverviewSlice";
-import { elapsedTime } from "../utils/functions";
-import { PlaylistItemListType, TokensType } from "../types/types";
 import { extractColors } from "extract-colors";
 
-//footer shows loading or end of list
-const Footer = ({
-  context: playlistOverview,
-}: {
-  context: PlaylistItemListType;
-}) => {
-  return playlistOverview?.items?.length <
-    playlistOverview?.pageInfo?.totalResults ? (
-    <ThreeDots
-      visible={true}
-      height="50"
-      width="50"
-      color="#3bf6fcbf"
-      radius="9"
-      ariaLabel="three-dots-loading"
-      wrapperStyle={{}}
-      wrapperClass="justify-center"
-    />
-  ) : (
-    <div className="mx-auto text-lg italic font-bold w-max">End</div>
-  );
-};
+import { useAppDispatch, useAppSelector } from "../app/store";
+import { addPlayItems } from "../features/playlistOverviewSlice";
+import { usePersistedState } from "../hooks/usePersistentStorage";
+import { elapsedTime } from "../utils/functions";
+import PlaylistOverviewCard from "../components/playlist/PlaylistOverviewCard";
+import { TokensType } from "../types/types";
 
 const PlaylistOverview = () => {
-  //triggers query for fetching more data
   const [fetchMore, setFetchMore] = useState(true);
 
-  //for skeleton loading before image is loaded
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
+  const { playlistId } = useParams();
 
-  //extracted colors from the image
   const [extractedColors, setExtractedColors] = useState([
     {
       hex: "#000000",
@@ -61,30 +36,15 @@ const PlaylistOverview = () => {
     },
   ]);
 
-  //redux store dispatch
   const dispatch = useAppDispatch();
-
-  //sidebar
   const isOpen = useAppSelector((state) => state.hamburger);
-  //playlist overview
   const playlistOverview = useAppSelector((state) => state.playlistOverview);
-
-  //getting route parameter
-  const { playlistId } = useParams();
-
-  //playlist store
-  //filter out the playlist details from playlistId
   const currPlaylist = useAppSelector((state) =>
     state.playlist.items.filter((list) => list.id === playlistId)
   );
 
-  //creating date value from ISO 8601 format
-  const myDate = new Date(currPlaylist[0].snippet?.publishedAt || "");
+  const date = new Date(currPlaylist[0].snippet?.publishedAt || "")?.getTime();
 
-  //getting time from date
-  const result = myDate.getTime();
-
-  //getting token from localStorage
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -140,7 +100,7 @@ const PlaylistOverview = () => {
           })
         );
     }
-  }, []);
+  });
 
   return (
     <SkeletonTheme
@@ -166,7 +126,6 @@ const PlaylistOverview = () => {
               {playlistOverview?.items?.length > 1 ? (
                 <img
                   referrerPolicy="no-referrer"
-                  onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={currPlaylist[0]?.snippet?.thumbnails?.high?.url}
                   alt=""
@@ -188,11 +147,10 @@ const PlaylistOverview = () => {
                   1
                 )}`}
               </span>
-              •<span>{elapsedTime(result)} ago</span>
+              •<span>{elapsedTime(date)} ago</span>
             </div>
           </div>
           <div className="z-0 flex flex-col w-9/12 gap-2 mx-2 my-1 overflow-y-auto hideScrollbar">
-            {/* Virtuoso virtualized rendering of playlistItems list for increased rendering performance */}
             {playlistOverview?.items?.length <= 1 ? (
               <FidgetSpinner
                 visible={true}
@@ -219,9 +177,28 @@ const PlaylistOverview = () => {
                 )}
                 endReached={() => setTimeout(() => setFetchMore(true), 500)}
                 context={playlistOverview}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-ignore
-                components={{ Footer }}
+                components={{
+                  Footer: ({ context: playlistOverview }) => {
+                    return playlistOverview &&
+                      playlistOverview?.items?.length <
+                        playlistOverview?.pageInfo?.totalResults ? (
+                      <ThreeDots
+                        visible={true}
+                        height="50"
+                        width="50"
+                        color="#3bf6fcbf"
+                        radius="9"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="justify-center"
+                      />
+                    ) : (
+                      <div className="mx-auto text-lg italic font-bold w-max">
+                        -----------------End of the list-----------------
+                      </div>
+                    );
+                  },
+                }}
               />
             )}
           </div>

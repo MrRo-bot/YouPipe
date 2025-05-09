@@ -1,62 +1,56 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+
 import { PiDotsThreeOutlineVerticalFill, PiListPlus } from "react-icons/pi";
 
-import { useAppSelector } from "../../app/store";
-import {
-  ChannelInfoType,
-  PlaylistItemListType,
-  PlaylistListType,
-  SearchType,
-  VideosListType,
-} from "../../types/types";
 import {
   elapsedTime,
   rawViewsToString,
   videoDuration,
 } from "../../utils/functions";
+import {
+  ChannelInfoType,
+  PlaylistItemListType,
+  PlaylistListType,
+  SearchType,
+  TokensType,
+  VideosListType,
+} from "../../types/types";
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+import { useQuery } from "@tanstack/react-query";
 
 const SearchCard = ({ search }: { search: SearchType }) => {
-  //storing video stats from search details
   const [videoStats, setVideoStats] = useState<VideosListType>();
-  //storing channel stats from search details
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
-  //storing playlist stats from search details
   const [playlistStats, setPlaylistStats] = useState<PlaylistListType>();
-  //storing playlist items stats from playlistStats
   const [playlistItemsStats, setPlaylistItemsStats] =
     useState<PlaylistItemListType>();
 
-  //for skeleton loading before image is loaded
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
-
-  //creating date value from ISO 8601 format
-  const myDate = new Date(search?.snippet?.publishedAt || "");
-
-  //getting time from date
-  const result = myDate.getTime();
-
-  //getting token data from redux store
-  const tokenData = useAppSelector((state) => state.token);
-
-  //parts to be called with the API
-  const parts = ["statistics", "snippet", "contentDetails"];
-
-  //video, playlist or channel
-  const kind = search?.id?.kind.split("#")[1];
-
   const navigate = useNavigate();
 
-  //effect for getting more details about video, channel, or playlist
-  useEffect(() => {
-    //if search type is video
-    if (kind === "video") {
-      (async () => {
+  const date = new Date(search?.snippet?.publishedAt || "").getTime();
+
+  const kind = search?.id?.kind.split("#")[1];
+
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
+  const parts = ["statistics", "snippet", "contentDetails"];
+
+  useQuery({
+    queryKey: ["searchItems", kind],
+    queryFn: async () => {
+      if (kind === "video") {
         try {
           const res = await fetch(
             `https://youtube.googleapis.com/youtube/v3/videos?id=${
@@ -66,7 +60,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
               headers: {
                 "Content-Type": "application/json",
                 Host: "www.googleapis.com",
-                Authorization: `Bearer ${tokenData?.access_token}`,
+                Authorization: `Bearer ${token?.access_token}`,
               },
             }
           );
@@ -86,11 +80,9 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             transition: Bounce,
           });
         }
-      })();
-    }
-    //if search type is channel
-    if (kind === "channel") {
-      (async () => {
+      }
+
+      if (kind === "channel") {
         try {
           const res = await fetch(
             `https://youtube.googleapis.com/youtube/v3/channels?id=${
@@ -100,7 +92,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
               headers: {
                 "Content-Type": "application/json",
                 Host: "www.googleapis.com",
-                Authorization: `Bearer ${tokenData?.access_token}`,
+                Authorization: `Bearer ${token?.access_token}`,
               },
             }
           );
@@ -120,11 +112,9 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             transition: Bounce,
           });
         }
-      })();
-    }
-    //if search type is playlist
-    if (kind === "playlist") {
-      (async () => {
+      }
+
+      if (kind === "playlist") {
         try {
           const res = await fetch(
             `https://youtube.googleapis.com/youtube/v3/playlists?id=${
@@ -136,7 +126,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
               headers: {
                 "Content-Type": "application/json",
                 Host: "www.googleapis.com",
-                Authorization: `Bearer ${tokenData?.access_token}`,
+                Authorization: `Bearer ${token?.access_token}`,
               },
             }
           );
@@ -156,11 +146,9 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             transition: Bounce,
           });
         }
-      })();
-    }
-    //if search type is playlist and need some playlist items
-    if (playlistStats?.items[0]?.id) {
-      (async () => {
+      }
+
+      if (playlistStats?.items[0]?.id) {
         try {
           const res = await fetch(
             `https://youtube.googleapis.com/youtube/v3/playlistItems?part=${parts
@@ -173,7 +161,7 @@ const SearchCard = ({ search }: { search: SearchType }) => {
               headers: {
                 "Content-Type": "application/json",
                 Host: "www.googleapis.com",
-                Authorization: `Bearer ${tokenData?.access_token}`,
+                Authorization: `Bearer ${token?.access_token}`,
               },
             }
           );
@@ -193,11 +181,9 @@ const SearchCard = ({ search }: { search: SearchType }) => {
             transition: Bounce,
           });
         }
-      })();
-    }
-  }, [playlistStats?.items[0]?.id]);
-
-  console.log(channelStats);
+      }
+    },
+  });
 
   return (
     <div
@@ -233,13 +219,10 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                   : " rounded-2xl min-w-96 w-96 aspect-video"
               } `}
             >
-              {!search?.snippet?.thumbnails?.high?.url ? (
-                <Skeleton height={"100%"} className="-top-1" />
-              ) : (
+              {search?.snippet?.thumbnails ? (
                 <>
                   <img
                     referrerPolicy="no-referrer"
-                    onLoad={() => setIsImgLoaded(!isImgLoaded)}
                     className={`object-cover ${
                       kind === "channel" ? "rounded-full mx-auto" : "w-full"
                     } h-full`}
@@ -269,10 +252,12 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                     </div>
                   )}
                 </>
+              ) : (
+                <Skeleton height={"100%"} className="-top-1" />
               )}
             </div>
             <div className="flex flex-col w-2/3 ml-3 flex-start">
-              {isImgLoaded ? (
+              {search?.snippet?.title ? (
                 <h3 className="w-full text-lg font-semibold text-ellipsis line-clamp-2">
                   {search?.snippet?.title || ""}
                 </h3>
@@ -285,21 +270,21 @@ const SearchCard = ({ search }: { search: SearchType }) => {
               )}
 
               <div className="flex items-center gap-2 text-sm font-medium text-zinc-300">
-                {isImgLoaded && kind === "video" ? (
+                {videoStats?.items && kind === "video" ? (
                   `${rawViewsToString(
                     videoStats?.items[0]?.statistics?.viewCount || ""
                   )} views • ${
-                    elapsedTime(result) || ""
+                    elapsedTime(date) || ""
                   } ago • ${rawViewsToString(
                     videoStats?.items[0]?.statistics?.likeCount || ""
                   )} likes • ${rawViewsToString(
                     videoStats?.items[0]?.statistics?.commentCount || ""
                   )} comments`
-                ) : isImgLoaded && kind === "playlist" ? (
+                ) : search?.snippet && kind === "playlist" ? (
                   `${
                     search?.snippet?.channelTitle
-                  } • Playlist • Created ${elapsedTime(result)} ago`
-                ) : isImgLoaded && kind === "channel" ? (
+                  } • Playlist • Created ${elapsedTime(date)} ago`
+                ) : channelStats?.items && kind === "channel" ? (
                   `${
                     channelStats?.items
                       ? channelStats?.items[0]?.snippet?.customUrl
@@ -333,12 +318,11 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                 )}
               </div>
 
-              {kind === "video" && isImgLoaded && (
+              {kind === "video" && search?.snippet ? (
                 <div className="py-3 tracking-wide text-zinc-300 text-ellipsis">
                   {search?.snippet?.channelTitle}
                 </div>
-              )}
-              {kind === "video" && !isImgLoaded && (
+              ) : (
                 <Skeleton width={100} className="rounded-2xl" />
               )}
 
@@ -347,18 +331,11 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                   kind !== "playlist" && "my-3 text-ellipsis line-clamp-2"
                 } text-zinc-400`}
               >
-                {(isImgLoaded && kind === "video") || kind === "channel" ? (
+                {(search?.snippet && kind === "video") || kind === "channel" ? (
                   search?.snippet?.description
-                ) : isImgLoaded && kind === "playlist" ? (
+                ) : playlistItemsStats?.items && kind === "playlist" ? (
                   <>
-                    {!playlistItemsStats?.items ? (
-                      <Skeleton
-                        count={2}
-                        height={20}
-                        width={80 + "%"}
-                        className="my-1"
-                      />
-                    ) : (
+                    {playlistItemsStats?.items ? (
                       playlistItemsStats?.items?.map((item) => (
                         <div className="flex justify-start my-1" key={item?.id}>
                           <div className="w-4/6 text-ellipsis line-clamp-1">
@@ -369,6 +346,13 @@ const SearchCard = ({ search }: { search: SearchType }) => {
                           </div>
                         </div>
                       ))
+                    ) : (
+                      <Skeleton
+                        count={2}
+                        height={20}
+                        width={80 + "%"}
+                        className="my-1"
+                      />
                     )}
                   </>
                 ) : (

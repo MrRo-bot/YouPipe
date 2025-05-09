@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 //custom hook for storing fetched information in localStorage
+
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +48,7 @@ export function usePersistedState<T>(key: string, initialValue: T) {
 
   useEffect(() => {
     setItem(key, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return [value, setValue] as const;

@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-
 import { useNavigate } from "react-router-dom";
-
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
-import { LikedVideosType } from "../../types/types";
 import {
   elapsedTime,
   rawViewsToString,
   videoDuration,
 } from "../../utils/functions";
+import { LikedVideosType } from "../../types/types";
 
 const LikedVideosCard = ({
   likedvideo,
@@ -22,16 +20,11 @@ const LikedVideosCard = ({
   likedvideo: LikedVideosType;
   index: number;
 }) => {
-  //creating date value from ISO 8601 format
-  const myDate = new Date(likedvideo?.snippet?.publishedAt || "");
-
-  //getting time from date
-  const result = myDate.getTime();
-
-  //for skeleton loading before image is loaded
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const navigate = useNavigate();
+
+  const date = new Date(likedvideo?.snippet?.publishedAt || "").getTime();
 
   return (
     <SkeletonTheme
@@ -45,7 +38,6 @@ const LikedVideosCard = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        //navigate to video route
         onClick={() => navigate(`/video/${likedvideo?.id}`)}
         className="flex items-start justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 rounded-2xl"
       >
@@ -92,7 +84,7 @@ const LikedVideosCard = ({
                   likedvideo?.snippet?.channelTitle || ""
                 } • ${rawViewsToString(
                   likedvideo?.statistics?.viewCount || ""
-                )} views • ${elapsedTime(result) || ""} ago`
+                )} views • ${elapsedTime(date) || ""} ago`
               ) : (
                 <Skeleton
                   width={150}
