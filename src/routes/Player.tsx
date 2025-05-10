@@ -441,7 +441,7 @@ const Player = () => {
               itemContent={(_, data) => (
                 <div className="pt-3">
                   <Comments
-                    key={data.id}
+                    key={data?.etag}
                     comment={data}
                     channelId={video?.items[0]?.snippet?.channelId || ""}
                   />

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -20,8 +19,6 @@ const LikedVideosCard = ({
   likedvideo: LikedVideosType;
   index: number;
 }) => {
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
-
   const navigate = useNavigate();
 
   const date = new Date(likedvideo?.snippet?.publishedAt || "").getTime();
@@ -44,13 +41,10 @@ const LikedVideosCard = ({
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
           <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
-            {!likedvideo?.snippet?.thumbnails?.high?.url ? (
-              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
-            ) : (
+            {likedvideo?.snippet && likedvideo?.contentDetails ? (
               <>
                 <img
                   referrerPolicy="no-referrer"
-                  onLoad={() => setIsImgLoaded(!isImgLoaded)}
                   className="object-cover w-full h-full"
                   src={likedvideo?.snippet?.thumbnails?.high?.url}
                   alt=""
@@ -61,12 +55,14 @@ const LikedVideosCard = ({
                   )}
                 </div>
               </>
+            ) : (
+              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             )}
           </div>
 
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
-              {isImgLoaded ? (
+              {likedvideo?.snippet?.title ? (
                 <h3 className="w-full text-lg text-ellipsis line-clamp-1">
                   {likedvideo?.snippet?.title || ""}
                 </h3>
@@ -79,7 +75,8 @@ const LikedVideosCard = ({
               )}
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
-              {isImgLoaded ? (
+              {likedvideo?.snippet?.channelTitle &&
+              likedvideo?.statistics?.viewCount ? (
                 `${
                   likedvideo?.snippet?.channelTitle || ""
                 } • ${rawViewsToString(

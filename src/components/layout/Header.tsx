@@ -27,12 +27,11 @@ import { clearCommentsThread } from "../../features/commentsThreadSlice";
 import { clearHomeVideos } from "../../features/homeSlice";
 import { removeTimestamp } from "../../features/timestampSlice";
 import { clearPlayItems } from "../../features/playlistOverviewSlice";
+import { clearLikedVideos } from "../../features/likedVideosSlice";
 import { clearChannel } from "../../features/channelOverviewSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../../types/types";
-import { useQuery } from "@tanstack/react-query";
-import { clearLikedVideos } from "../../features/likedVideosSlice";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
@@ -199,9 +198,8 @@ const Header = () => {
     }
   }, [token?.access_token]);
 
-  useQuery({
-    queryKey: ["locationDetails", locationCoords],
-    queryFn: async () => {
+  useEffect(() => {
+    (async () => {
       try {
         if (locationCoords.latitude > 0 && locationCoords.longitude > 0) {
           const res = await fetch(
@@ -219,6 +217,7 @@ const Header = () => {
             theme: "light",
             transition: Bounce,
           });
+          return coordsDetails;
         }
       } catch (error) {
         //react toastify for location fetch errors
@@ -234,8 +233,8 @@ const Header = () => {
           transition: Bounce,
         });
       }
-    },
-  });
+    })();
+  }, [locationCoords]);
 
   //effect for clearing redux store parts depending upon which route user currently is
   useEffect(() => {

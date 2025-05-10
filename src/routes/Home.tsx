@@ -79,7 +79,7 @@ const Home = () => {
                 </div>
               ) : (
                 homeData?.items?.map((video) => (
-                  <VideoList key={nanoid()} video={video} />
+                  <VideoList key={video?.etag} video={video} />
                 ))
               )}
             </>
