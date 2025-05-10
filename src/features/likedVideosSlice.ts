@@ -212,11 +212,18 @@ export const likedVideosSlice = createSlice({
         state.items.filter((video) => video.id !== action.payload.id)
       );
     },
+    clearLikedVideos: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { addLikedVideos, addLikedVideo, removeLikedVideo } =
-  likedVideosSlice.actions;
+export const {
+  addLikedVideos,
+  addLikedVideo,
+  removeLikedVideo,
+  clearLikedVideos,
+} = likedVideosSlice.actions;
 
 export const likedVideos = (state: RootState) => state.likedVideos;
 

@@ -32,6 +32,7 @@ import { usePersistedState } from "../../hooks/usePersistentStorage";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../../types/types";
 import { useQuery } from "@tanstack/react-query";
+import { clearLikedVideos } from "../../features/likedVideosSlice";
 
 const Header = () => {
   const [clearSearch, setClearSearch] = useState(false);
@@ -248,6 +249,9 @@ const Header = () => {
     }
     if (!location.pathname.includes("/channel")) {
       dispatch(clearChannel());
+    }
+    if (!location.pathname.includes("/likedvideos")) {
+      dispatch(clearLikedVideos());
     }
   }, [location.pathname]);
 
