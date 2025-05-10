@@ -109,7 +109,7 @@ const UploadsList = () => {
                     wrapperClass="justify-center py-1"
                   />
                 ) : (
-                  <div className="mx-auto text-lg italic font-bold y-1 w-max">
+                  <div className="py-1 mx-auto text-lg italic font-bold w-max">
                     That's All
                   </div>
                 );

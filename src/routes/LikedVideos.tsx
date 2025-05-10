@@ -177,7 +177,7 @@ const LikedVideos = () => {
                   index={index}
                 />
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 500)}
+              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
               context={likedVideos}
               components={{
                 Footer: ({ context: likedVideos }) => {

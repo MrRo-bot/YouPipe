@@ -150,7 +150,7 @@ const Subscription = () => {
               itemContent={(_, data) => (
                 <SubscriptionList key={data?.id} sub={data} />
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 500)}
+              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
               context={subData}
               components={{
                 Footer: ({ context: subData }) => {

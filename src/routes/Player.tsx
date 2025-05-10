@@ -447,7 +447,7 @@ const Player = () => {
                   />
                 </div>
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 2000)}
+              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
               context={{ comments: comments, video: video }}
               components={{
                 Footer: ({ context }) => {

@@ -87,7 +87,7 @@ const Search = () => {
                   search={data}
                 />
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 2000)}
+              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
               context={searchData}
               components={{
                 Footer: ({ context: searchData }) => {
