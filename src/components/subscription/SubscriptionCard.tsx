@@ -60,7 +60,7 @@ const SubscriptionCard = ({
         closeOnClick: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        className: "!toastGradient !font-bold !text-zinc-50",
         transition: Bounce,
       });
     },
@@ -73,7 +73,7 @@ const SubscriptionCard = ({
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        className: "!toastGradientError !font-bold !text-zinc-50",
         transition: Bounce,
       });
     },

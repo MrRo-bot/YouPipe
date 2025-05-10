@@ -90,7 +90,7 @@ const Header = () => {
       closeOnClick: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      className: "!toastGradient !font-bold !text-zinc-50",
       transition: Bounce,
     });
     setToken(tokens);
@@ -176,7 +176,7 @@ const Header = () => {
               closeOnClick: true,
               draggable: true,
               progress: undefined,
-              theme: "light",
+              className: "!toastGradient !font-bold !text-zinc-50",
               transition: Bounce,
             });
           }
@@ -190,7 +190,7 @@ const Header = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            className: "!toastGradientError !font-bold !text-zinc-50",
             transition: Bounce,
           });
         }
@@ -214,8 +214,8 @@ const Header = () => {
             closeOnClick: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
             transition: Bounce,
+            className: "!toastGradient !font-bold !text-zinc-50",
           });
           return coordsDetails;
         }
@@ -229,7 +229,7 @@ const Header = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          className: "!toastGradientError !font-bold !text-zinc-50",
           transition: Bounce,
         });
       }

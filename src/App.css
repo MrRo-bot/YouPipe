@@ -280,6 +280,40 @@
 
 /* glassmorphism design style */
 @layer components {
+  .toastGradient {
+    background: #080335; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to left,
+      #fcc2eb,
+      #ec38bc,
+      #7303c0,
+      #03001e
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to left,
+      #fcc2eb,
+      #ec38bc,
+      #7303c0,
+      #03001e
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+
+  .toastGradientError {
+    background: #833ab4; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #e3d5ec,
+      #fd1d1d,
+      #fcb045a2
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #e3d5ec,
+      #fd1d1d,
+      #fcb045a2
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+
   .glass {
     backdrop-filter: blur(4px) saturate(180%);
     -webkit-backdrop-filter: blur(4px) saturate(180%);
@@ -306,6 +340,7 @@
       transform: translateY(0px);
     }
   }
+
   .slideIn {
     animation: slideDown 1s ease-in;
   }
@@ -315,6 +350,7 @@
     transition: transform ease-in 0.1s, background-color ease-in 0.1s,
       box-shadow ease-in 0.25s;
   }
+
   .btn-bubbles::before {
     position: absolute;
     content: "";
@@ -398,10 +434,12 @@
       64% 70%, 80% 71%;
     animation: bubbles ease-in-out 0.75s forwards;
   }
+
   .btn-bubbles:active {
     transform: scale(0.95);
     background: hsl(190, 100%, 45%);
   }
+
   .btn-bubbles:active::before {
     animation: none;
     background-size: 0;

@@ -98,7 +98,7 @@ const LikedVideos = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            className: "!toastGradientError !font-bold !text-zinc-50",
             transition: Bounce,
           })
         );

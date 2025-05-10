@@ -17,7 +17,7 @@ const getItem = (key: string) => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      className: "!toastGradientError !font-bold !text-zinc-50",
       transition: Bounce,
     });
   }
@@ -34,7 +34,7 @@ const setItem = (key: string, value: unknown) => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      className: "!toastGradientError !font-bold !text-zinc-50",
       transition: Bounce,
     });
   }
