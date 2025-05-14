@@ -35,7 +35,7 @@ const Search = () => {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
+          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${searchStr}&key=${
             import.meta.env.VITE_API_KEY
           }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`,
           {
@@ -66,6 +66,8 @@ const Search = () => {
       }
     },
     enabled: !!fetchMore || !!refetch,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   return (

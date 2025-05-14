@@ -97,7 +97,7 @@ const Player = () => {
     queryKey: ["playingVideoComments", videoId, fetchMore],
     queryFn: async () => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&videoId=${videoId}&maxResults=100&textFormat=html&key=${
+        `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&videoId=${videoId}&maxResults=50&textFormat=html&key=${
           import.meta.env.VITE_API_KEY
         }&pageToken=${fetchMore ? comments?.nextPageToken : ""}`,
         {
