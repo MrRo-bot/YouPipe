@@ -58,24 +58,39 @@ const LikedVideos = () => {
   const { isLoading } = useQuery({
     queryKey: ["likedVideos", fetchMore],
     queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/videos?part=${parts.join(
-          ","
-        )}&maxResults=50&myRating=like&key=${
-          import.meta.env.VITE_API_KEY
-        }&pageToken=${fetchMore ? likedVideos?.nextPageToken : ""}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const likedVideosList = await res.json();
-      dispatch(addLikedVideos(likedVideosList));
-      setFetchMore(false);
-      return likedVideosList;
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/videos?part=${parts.join(
+            ","
+          )}&maxResults=50&myRating=like&key=${
+            import.meta.env.VITE_API_KEY
+          }&pageToken=${fetchMore ? likedVideos?.nextPageToken : ""}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching liked videos");
+        const likedVideosList = await res.json();
+        dispatch(addLikedVideos(likedVideosList));
+        setFetchMore(false);
+        return likedVideosList;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     enabled: !!fetchMore,
     refetchOnMount: true,

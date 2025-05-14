@@ -255,8 +255,8 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <header className="flex items-center justify-between px-2 py-1 glass">
-      <div className="flex items-center justify-between gap-6">
+    <header className="flex items-center justify-between px-5 py-1 glass">
+      <div className="flex items-center justify-between gap-3">
         <div
           onClick={() => dispatch(toggle())}
           className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"

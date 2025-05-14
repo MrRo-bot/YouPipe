@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { FidgetSpinner } from "react-loader-spinner";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addPlaylists } from "../features/playlistsSlice";
@@ -32,24 +34,40 @@ const Playlist = () => {
   ];
 
   //(Don't know why I can't get any saved playlist in this as well)
-  const { isLoading } = useQuery({
+  useQuery({
     queryKey: ["playlists"],
     queryFn: async () => {
-      const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/playlists?mine=true&part=${parts.join(
-          ","
-        )}&maxResults=50`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const playlist = await res.json();
-      dispatch(addPlaylists(playlist));
-      return playlist;
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlists?mine=true&part=${parts.join(
+            ","
+          )}&maxResults=50`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching user playlists");
+
+        const playlist = await res.json();
+        dispatch(addPlaylists(playlist));
+        return playlist;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
   });
 
@@ -63,7 +81,7 @@ const Playlist = () => {
         <h1 className="px-2 text-4xl font-bold">My Custom Playlists</h1>
 
         <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {isLoading ? (
+          {!playlistData?.items?.length ? (
             <FidgetSpinner
               visible={true}
               height="80"

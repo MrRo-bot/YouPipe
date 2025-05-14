@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { RiArrowDownWideFill, RiArrowUpWideFill } from "react-icons/ri";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -37,24 +40,39 @@ const Subscription = () => {
   useQuery({
     queryKey: ["subscription", sortBy, fetchMore],
     queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
-          ","
-        )}&order=${sortBy}&maxResults=50&pageToken=${
-          fetchMore ? subData?.nextPageToken : ""
-        }`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const subscription = await res.json();
-      dispatch(addSubscription(subscription));
-      setFetchMore(false);
-      return subscription;
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
+            ","
+          )}&order=${sortBy}&maxResults=50&pageToken=${
+            fetchMore ? subData?.nextPageToken : ""
+          }`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching subscribers");
+        const subscription = await res.json();
+        dispatch(addSubscription(subscription));
+        setFetchMore(false);
+        return subscription;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     enabled: !!sortBy && !!fetchMore,
   });

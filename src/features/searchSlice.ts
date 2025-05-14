@@ -67,7 +67,6 @@ export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
-    //adding search results in redux store
     addSearch: (state, action: PayloadAction<SearchListType>) => {
       const {
         kind,
@@ -94,11 +93,9 @@ export const searchSlice = createSlice({
     addSearchString: (state, action) => {
       state.searchString = action.payload;
     },
-    //clear search list
     clearSearchList: (state) => {
       Object.assign(state, initialState);
     },
-    //entering new search string again to refetch query
     refetch: (state, action) => {
       state.refetch = action.payload;
     },
