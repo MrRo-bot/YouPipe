@@ -124,7 +124,7 @@ const SubscriptionCard = ({
               )}
             </div>
 
-            <div className="flex items-center justify-start gap-1 mt-4">
+            <div className="flex items-center justify-start gap-1 mt-2">
               <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
                 {statistics ? (
                   `${snippet?.customUrl} • ${rawViewsToString(

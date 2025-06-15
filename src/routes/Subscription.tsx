@@ -44,7 +44,7 @@ const Subscription = () => {
         const res = await fetch(
           `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
             ","
-          )}&order=${sortBy}&maxResults=50&pageToken=${
+          )}&order=${sortBy}&maxResults=20&pageToken=${
             fetchMore ? subData?.nextPageToken : ""
           }`,
           {
@@ -75,6 +75,8 @@ const Subscription = () => {
       }
     },
     enabled: !!sortBy && !!fetchMore,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const handleSort = (e: MouseEvent<HTMLDivElement>) => {

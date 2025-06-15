@@ -33,7 +33,7 @@ const Home = () => {
   //   queryKey: ["home", inView],
   //   queryFn: async () => {
   //     const res = await fetch(
-  //       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&key=${
+  //       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=20&key=${
   //         import.meta.env.VITE_API_KEY
   //       }&pageToken=${inView ? homeData?.nextPageToken : ""}`,
   //       {
