@@ -648,6 +648,7 @@ export type SearchType = {
 export type SearchListType = {
   searchString: string;
   refetch: boolean;
+  fetchMore: boolean;
   kind: string;
   etag: string;
   nextPageToken: string;

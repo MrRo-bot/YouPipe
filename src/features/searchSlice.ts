@@ -5,6 +5,7 @@ import { SearchListType } from "../types/types";
 const initialState: SearchListType = {
   searchString: "",
   refetch: false,
+  fetchMore: false,
   kind: "",
   etag: "",
   nextPageToken: "",
@@ -99,11 +100,19 @@ export const searchSlice = createSlice({
     refetch: (state, action) => {
       state.refetch = action.payload;
     },
+    fetchMore: (state, action) => {
+      state.fetchMore = action.payload;
+    },
   },
 });
 
-export const { addSearch, addSearchString, clearSearchList, refetch } =
-  searchSlice.actions;
+export const {
+  addSearch,
+  addSearchString,
+  clearSearchList,
+  refetch,
+  fetchMore,
+} = searchSlice.actions;
 
 export const search = (state: RootState) => state.search;
 

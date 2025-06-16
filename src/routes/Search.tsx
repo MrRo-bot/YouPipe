@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
@@ -7,17 +6,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { Virtuoso } from "react-virtuoso";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { addSearch } from "../features/searchSlice";
+import { addSearch, fetchMore } from "../features/searchSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import SearchCard from "../components/search/SearchCard";
 import { TokensType } from "../types/types";
 
 const Search = () => {
-  const [fetchMore, setFetchMore] = useState<boolean>(true);
-
   const dispatch = useAppDispatch();
   const searchStr = useAppSelector((state) => state.search.searchString);
-  const refetch = useAppSelector((state) => state.search.refetch);
+  const location = useAppSelector((state) => state.location);
+  const refetchMore = useAppSelector((state) => state.search.refetch);
+  const fetchMoreSearchItems = useAppSelector(
+    (state) => state.search.fetchMore
+  );
   const isOpen = useAppSelector((state) => state.hamburger);
   const searchData = useAppSelector((state) => state.search);
 
@@ -31,13 +32,16 @@ const Search = () => {
   });
 
   useQuery({
-    queryKey: ["search", fetchMore, refetch],
+    queryKey: ["search", refetchMore, fetchMoreSearchItems],
     queryFn: async () => {
       try {
         const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${searchStr}&key=${
+          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&regionCode=${location.address[
+            "ISO3166-2-lvl4"
+          ].slice(0, 2)}&q=${searchStr}&key=${
             import.meta.env.VITE_API_KEY
-          }&pageToken=${fetchMore ? searchData?.nextPageToken : ""}`,
+          }&pageToken=${fetchMoreSearchItems ? searchData?.nextPageToken : ""}
+          `,
           {
             headers: {
               "Content-Type": "application/json",
@@ -49,7 +53,7 @@ const Search = () => {
         if (!res.ok) throw new Error("Error in fetching search results");
         const search = await res.json();
         dispatch(addSearch(search));
-        setFetchMore(false);
+        dispatch(fetchMore(false));
         return search;
       } catch (error) {
         toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
@@ -65,7 +69,7 @@ const Search = () => {
         });
       }
     },
-    enabled: !!fetchMore || !!refetch,
+    enabled: !!refetchMore || !!fetchMoreSearchItems,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -81,7 +85,7 @@ const Search = () => {
         }  overflow-y-auto hideScrollbar rounded-xl`}
       >
         <div className="w-2/3 mx-auto">
-          {searchData?.items?.length <= 1 ? (
+          {searchData?.items?.length < 1 ? (
             <FidgetSpinner
               visible={true}
               height="80"
@@ -106,7 +110,9 @@ const Search = () => {
                   search={data}
                 />
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+              endReached={() =>
+                setTimeout(() => dispatch(fetchMore(true)), 1000)
+              }
               context={searchData}
               components={{
                 Footer: ({ context: searchData }) => {
