@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   useGoogleLogin,
@@ -34,6 +34,7 @@ import useCurrentLocation from "../../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../../types/types";
 
 const Header = () => {
+  const searchRef = useRef<HTMLInputElement>(null);
   const [clearSearch, setClearSearch] = useState(false);
   const [fetchTokens, setFetchTokens] = useState(false);
 
@@ -153,6 +154,27 @@ const Header = () => {
     });
     window.location.reload();
   };
+
+  //focus on search bar using cmd / ctrl + k
+  useEffect(() => {
+    const handleKeyDown = (e: {
+      ctrlKey: boolean;
+      key: string;
+      preventDefault: () => void;
+    }) => {
+      if (e.ctrlKey && e.key === "k") {
+        e.preventDefault(); // Prevent browser's default behavior
+        // searchRef.current.focus();
+        searchRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     if (token?.access_token) {
@@ -282,6 +304,7 @@ const Header = () => {
       </div>
       <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
         <input
+          ref={searchRef}
           onChange={(e) => {
             setClearSearch(e.target.value !== "" ? true : false);
             dispatch(addSearchString(e?.target?.value));
@@ -297,7 +320,7 @@ const Header = () => {
           name="search"
           id="search"
           value={searchState}
-          placeholder="Search anything..."
+          placeholder="Search anything... | ctrl + k to focus"
           className="w-full h-full py-2 pl-4 pr-12 font-semibold bg-transparent"
         />
 
