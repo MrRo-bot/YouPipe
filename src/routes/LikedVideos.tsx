@@ -118,7 +118,8 @@ const LikedVideos = () => {
           })
         );
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [likedVideos?.items[0]?.snippet?.thumbnails?.default?.url]);
 
   return (
     <SkeletonTheme

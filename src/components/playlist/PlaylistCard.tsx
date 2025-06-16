@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -56,7 +55,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           })
         );
     }
-  }, []);
+  }, [playlist?.snippet?.thumbnails?.maxres?.url]);
 
   return (
     <SkeletonTheme

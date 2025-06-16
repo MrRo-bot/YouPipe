@@ -107,7 +107,8 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
         }
       }
     })();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search?.id?.playlistId]);
 
   useEffect(() => {
     (async () => {

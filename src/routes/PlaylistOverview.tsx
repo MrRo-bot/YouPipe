@@ -43,7 +43,7 @@ const PlaylistOverview = () => {
     state.playlist.items.filter((list) => list.id === playlistId)
   );
 
-  const date = new Date(currPlaylist[0].snippet?.publishedAt || "")?.getTime();
+  const date = new Date(currPlaylist[0]?.snippet?.publishedAt || "")?.getTime();
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -123,7 +123,7 @@ const PlaylistOverview = () => {
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
-              {playlistOverview?.items?.length > 1 ? (
+              {currPlaylist[0]?.snippet?.thumbnails?.high?.url ? (
                 <img
                   referrerPolicy="no-referrer"
                   className="object-cover w-full h-full"
@@ -135,17 +135,20 @@ const PlaylistOverview = () => {
               )}
             </div>
             <h1 className="text-2xl font-bold">
-              {currPlaylist[0]?.snippet?.localized?.title}
+              {currPlaylist[0]?.snippet?.localized?.title || ""}
             </h1>
             <h3 className="mt-5 text-sm font-semibold tracking-tighter">
-              {currPlaylist[0]?.snippet?.channelTitle}
+              {currPlaylist[0]?.snippet?.channelTitle || ""}
             </h3>
             <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter text-zinc-400">
-              <span>{currPlaylist[0]?.contentDetails?.itemCount} videos</span>•
               <span>
-                {`${currPlaylist[0]?.status?.privacyStatus[0].toUpperCase()}${currPlaylist[0]?.status?.privacyStatus.slice(
-                  1
-                )}`}
+                {currPlaylist[0]?.contentDetails?.itemCount || "..."} videos
+              </span>
+              •
+              <span>
+                {`${
+                  currPlaylist[0]?.status?.privacyStatus[0].toUpperCase() || ""
+                }${currPlaylist[0]?.status?.privacyStatus.slice(1) || ""}`}
               </span>
               •<span>{elapsedTime(date)} ago</span>
             </div>
