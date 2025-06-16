@@ -41,7 +41,7 @@ const Playlist = () => {
         const res = await fetch(
           `https://www.googleapis.com/youtube/v3/playlists?mine=true&part=${parts.join(
             ","
-          )}&maxResults=20`,
+          )}&maxResults=50`,
           {
             headers: {
               "Content-Type": "application/json",

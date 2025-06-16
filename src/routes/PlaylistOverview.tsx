@@ -58,7 +58,7 @@ const PlaylistOverview = () => {
     queryKey: ["playlistItems", fetchMore],
     queryFn: async () => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails,id,snippet,status&playlistId=${playlistId}&maxResults=20&key=${
+        `https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails,id,snippet,status&playlistId=${playlistId}&maxResults=50&key=${
           import.meta.env.VITE_API_KEY
         }&pageToken=${fetchMore ? playlistOverview?.nextPageToken : ""}
         `,
