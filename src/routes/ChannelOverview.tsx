@@ -12,6 +12,7 @@ import {
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { rawViewsToString } from "../utils/functions";
 import { TokensType } from "../types/types";
+import { Bounce, toast } from "react-toastify";
 
 const ChannelOverview = () => {
   const { channelId } = useParams();
@@ -36,21 +37,36 @@ const ChannelOverview = () => {
   useQuery({
     queryKey: ["channelSections", channelId],
     queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/channelSections?part=${sectionParts.join(
-          ","
-        )}&channelId=${channelId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const channelSection = await res.json();
-      dispatch(addChannelSections(channelSection));
-      return channelSection;
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/channelSections?part=${sectionParts.join(
+            ","
+          )}&channelId=${channelId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching channel sections");
+        const channelSection = await res.json();
+        dispatch(addChannelSections(channelSection));
+        return channelSection;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     refetchOnWindowFocus: false,
     enabled: !!channelId,
@@ -67,21 +83,36 @@ const ChannelOverview = () => {
   const { isLoading } = useQuery({
     queryKey: ["channelDetails", channelId],
     queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/channels?id=${channelId}&part=${channelParts.join(
-          ","
-        )}&key=${import.meta.env.VITE_API_KEY}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const channelDetails = await res.json();
-      dispatch(addChannelDetails(channelDetails));
-      return channelDetails;
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/channels?id=${channelId}&part=${channelParts.join(
+            ","
+          )}&key=${import.meta.env.VITE_API_KEY}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching channel details");
+        const channelDetails = await res.json();
+        dispatch(addChannelDetails(channelDetails));
+        return channelDetails;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     refetchOnWindowFocus: false,
     enabled: !!channelId,

@@ -27,10 +27,10 @@ export const store = configureStore({
     location: locationSlice,
     search: searchSlice,
     home: homeSlice,
-    commentsThread: commentsThreadSlice,
     timestamp: timestampSlice,
     playlistOverview: playlistOverviewSlice,
     channelOverview: channelOverviewSlice,
+    commentsThread: commentsThreadSlice,
   },
 });
 

@@ -20,6 +20,7 @@ import {
   TokensType,
   VideosListType,
 } from "../../types/types";
+import { Bounce, toast } from "react-toastify";
 
 const UploadsCard = ({
   videoItem,
@@ -44,20 +45,35 @@ const UploadsCard = ({
   const { isLoading, data: video } = useQuery<VideosListType>({
     queryKey: ["videoStat", videoItem?.contentDetails?.videoId],
     queryFn: async () => {
-      const videoRes = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/videos?id=${
-          videoItem?.contentDetails?.videoId
-        }&part=${videoParts.join(",")}&key=${import.meta.env.VITE_API_KEY}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const video = await videoRes.json();
-      return video;
+      try {
+        const videoRes = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/videos?id=${
+            videoItem?.contentDetails?.videoId
+          }&part=${videoParts.join(",")}&key=${import.meta.env.VITE_API_KEY}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!videoRes.ok) throw new Error("Error in fetching video stats");
+        const video = await videoRes.json();
+        return video;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     enabled: !!videoItem?.contentDetails?.videoId,
   });

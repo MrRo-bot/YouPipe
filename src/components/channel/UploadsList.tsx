@@ -10,6 +10,7 @@ import { addChannelUploads } from "../../features/channelOverviewSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import UploadsCard from "./UploadsCard";
 import { TokensType } from "../../types/types";
+import { Bounce, toast } from "react-toastify";
 
 const UploadsList = () => {
   const [fetchMore, setFetchMore] = useState(true);
@@ -40,27 +41,42 @@ const UploadsList = () => {
       fetchMore,
     ],
     queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/playlistItems?part=${channelUploadParts.join(
-          ","
-        )}&maxResults=12&playlistId=${
-          channelDetails?.items[0]?.contentDetails?.relatedPlaylists?.uploads
-        }&key=${import.meta.env.VITE_API_KEY}&pageToken=${
-          fetchMore ? channelUploads?.nextPageToken : ""
-        }
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/playlistItems?part=${channelUploadParts.join(
+            ","
+          )}&maxResults=12&playlistId=${
+            channelDetails?.items[0]?.contentDetails?.relatedPlaylists?.uploads
+          }&key=${import.meta.env.VITE_API_KEY}&pageToken=${
+            fetchMore ? channelUploads?.nextPageToken : ""
+          }
         `,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const channelVideos = await res.json();
-      dispatch(addChannelUploads(channelVideos));
-      setFetchMore(false);
-      return channelVideos;
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching channel uploads");
+        const channelVideos = await res.json();
+        dispatch(addChannelUploads(channelVideos));
+        setFetchMore(false);
+        return channelVideos;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     refetchOnWindowFocus: false,
     enabled:

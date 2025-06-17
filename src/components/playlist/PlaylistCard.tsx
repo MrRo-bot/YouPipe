@@ -17,10 +17,10 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   const [isImgLoaded, setIsImgLoaded] = useState(false);
   const [extractedColors, setExtractedColors] = useState([
     {
-      hex: "#ffffff",
-      red: 255,
-      green: 255,
-      blue: 255,
+      hex: "",
+      red: 0,
+      green: 0,
+      blue: 0,
       area: 1,
       hue: 0,
       saturation: 1,
