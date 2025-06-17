@@ -265,7 +265,7 @@ const Comments = ({
                   );
 
                   return (
-                    <div key={comment?.etag} className="py-1">
+                    <div key={comment?.id} className="py-1">
                       <div
                         className={`flex p-1 mx-1 rounded-xl ${
                           channelId === comment?.snippet?.authorChannelId?.value

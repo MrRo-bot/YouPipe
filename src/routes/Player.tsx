@@ -368,7 +368,7 @@ const Player = () => {
                   {video?.items[0]?.snippet?.tags?.map((tag: string) => (
                     <>
                       <span
-                        key={video?.etag}
+                        key={tag}
                         className="px-2 py-1 font-bold rounded-3xl bg-slate-500 text-slate-950"
                       >
                         #{tag.split(" ").join("_")}
@@ -440,7 +440,7 @@ const Player = () => {
               itemContent={(_, data) => (
                 <div className="pt-3">
                   <Comments
-                    key={data?.etag}
+                    key={data?.id}
                     comment={data}
                     channelId={video?.items[0]?.snippet?.channelId || ""}
                   />
