@@ -57,38 +57,23 @@ const PlaylistOverview = () => {
   useQuery({
     queryKey: ["playlistItems", fetchMore],
     queryFn: async () => {
-      try {
-        const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails,id,snippet,status&playlistId=${playlistId}&maxResults=50&key=${
-            import.meta.env.VITE_API_KEY
-          }&pageToken=${fetchMore ? playlistOverview?.nextPageToken : ""}
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails,id,snippet,status&playlistId=${playlistId}&maxResults=50&key=${
+          import.meta.env.VITE_API_KEY
+        }&pageToken=${fetchMore ? playlistOverview?.nextPageToken : ""}
         `,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Error in fetching playlist items");
-        const playlistItems = await res.json();
-        dispatch(addPlayItems(playlistItems));
-        setFetchMore(false);
-        return playlistItems;
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const playlistItems = await res.json();
+      dispatch(addPlayItems(playlistItems));
+      setFetchMore(false);
+      return playlistItems;
     },
     enabled: !!fetchMore,
   });

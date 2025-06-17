@@ -70,35 +70,20 @@ const Player = () => {
   const { data: video } = useQuery<VideosListType>({
     queryKey: ["playingVideo", videoId],
     queryFn: async () => {
-      try {
-        const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/videos?id=${videoId}&part=${parts.join(
-            ","
-          )}&key=${import.meta.env.VITE_API_KEY}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Error in fetching video");
-        const video = await res.json();
-        return video;
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videos?id=${videoId}&part=${parts.join(
+          ","
+        )}&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const video = await res.json();
+      return video;
     },
     enabled: !!videoId,
   });
@@ -110,37 +95,22 @@ const Player = () => {
   useQuery({
     queryKey: ["playingVideoComments", videoId, fetchMore],
     queryFn: async () => {
-      try {
-        const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&videoId=${videoId}&maxResults=100&textFormat=html&key=${
-            import.meta.env.VITE_API_KEY
-          }&pageToken=${fetchMore ? comments?.nextPageToken : ""}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Error in fetching comments");
-        const commentThread = await res.json();
-        dispatch(addCommentsThread(commentThread));
-        setFetchMore(false);
-        return commentThread;
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&videoId=${videoId}&maxResults=100&textFormat=html&key=${
+          import.meta.env.VITE_API_KEY
+        }&pageToken=${fetchMore ? comments?.nextPageToken : ""}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const commentThread = await res.json();
+      dispatch(addCommentsThread(commentThread));
+      setFetchMore(false);
+      return commentThread;
     },
     enabled: !!videoId && !!fetchMore,
   });
@@ -189,36 +159,21 @@ const Player = () => {
   useQuery({
     queryKey: ["rating"],
     queryFn: async () => {
-      try {
-        if (videoId) {
-          const res = await fetch(
-            `https://youtube.googleapis.com/youtube/v3/videos/getRating?id=${videoId}&key=${
-              import.meta.env.VITE_API_KEY
-            }`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token?.access_token}`,
-              },
-            }
-          );
-          if (!res.ok) throw new Error("Error in fetching ratings");
-          const ratings = await res.json();
-          setRating(ratings);
-          return ratings;
-        }
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+      if (videoId) {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/videos/getRating?id=${videoId}&key=${
+            import.meta.env.VITE_API_KEY
+          }`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        const ratings = await res.json();
+        setRating(ratings);
+        return ratings;
       }
     },
   });

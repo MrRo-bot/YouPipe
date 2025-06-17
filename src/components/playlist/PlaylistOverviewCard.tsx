@@ -13,7 +13,6 @@ import {
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { PlaylistItemType, TokensType } from "../../types/types";
 import { useQuery } from "@tanstack/react-query";
-import { Bounce, toast } from "react-toastify";
 
 const PlaylistOverviewCard = ({
   playlistItem,
@@ -40,37 +39,22 @@ const PlaylistOverviewCard = ({
   const { data: videoStat, isLoading } = useQuery({
     queryKey: ["videoStats", playlistItem?.contentDetails?.videoId],
     queryFn: async () => {
-      try {
-        const resVideo = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/videos?id=${
-            playlistItem?.contentDetails?.videoId
-          }&part=status,statistics,contentDetails&key=${
-            import.meta.env.VITE_API_KEY
-          }`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!resVideo.ok) throw new Error("Error in fetching video stats");
-        const videoStat = await resVideo.json();
-        return videoStat;
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
+      const resVideo = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videos?id=${
+          playlistItem?.contentDetails?.videoId
+        }&part=status,statistics,contentDetails&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const videoStat = await resVideo.json();
+      return videoStat;
     },
   });
 

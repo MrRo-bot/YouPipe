@@ -5,7 +5,6 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { useAppSelector } from "../../app/store";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { CategoryType, TokensType } from "../../types/types";
-import { Bounce, toast } from "react-toastify";
 
 const Filters = () => {
   const [scrollArrow, setScrollArrow] = useState({ left: false, right: true });
@@ -27,34 +26,19 @@ const Filters = () => {
   const { data: filters, isSuccess } = useQuery({
     queryKey: ["filters"],
     queryFn: async () => {
-      try {
-        const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=${locationData?.address?.country_code.toUpperCase()}&key=${
-            import.meta.env.VITE_API_KEY
-          }`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Error in fetching filters");
-        return await res.json();
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
+      const data = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=${locationData?.address?.country_code.toUpperCase()}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      return await data.json();
     },
   });
 
