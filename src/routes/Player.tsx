@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
 import ReactPlayer from "react-player/youtube";
@@ -23,6 +23,7 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 import { rawViewsToString } from "../utils/functions";
 import Comments from "../components/comments/Comments";
 import { RatingType, TokensType, VideosListType } from "../types/types";
+import { addSearchString } from "../features/searchSlice";
 
 const Player = () => {
   const [myComment, setMyComment] = useState("");
@@ -40,6 +41,7 @@ const Player = () => {
   });
 
   const { videoId } = useParams();
+  const navigate = useNavigate();
 
   const playerRef = useRef(null);
 
@@ -368,8 +370,12 @@ const Player = () => {
                   {video?.items[0]?.snippet?.tags?.map((tag: string) => (
                     <>
                       <span
+                        onClick={() => {
+                          dispatch(addSearchString(tag.split(" ").join("_")));
+                          navigate("/search");
+                        }}
                         key={tag}
-                        className="px-2 py-1 font-bold rounded-3xl bg-slate-500 text-slate-950"
+                        className="px-2 py-1 font-bold rounded-3xl bg-slate-500 cursor-crosshair text-slate-950"
                       >
                         #{tag.split(" ").join("_")}
                       </span>{" "}
