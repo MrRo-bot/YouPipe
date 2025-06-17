@@ -3,6 +3,20 @@ import fs from "fs"; //reading files
 import https from "https"; //creating https server
 import { OAuth2Client, UserRefreshClient } from "google-auth-library"; //google auth library for easy authentication
 import cors from "cors"; //removing cors errors
+import dotenv from "dotenv"; //for managing env related things
+import morgan from "morgan"; //for logs
+
+const requiredEnvVars = [
+  "VITE_YOUPIPE_CLIENT_ID",
+  "VITE_YOUPIPE_CLIENT_SECRET",
+];
+
+requiredEnvVars.forEach((varName) => {
+  if (!process.env[varName]) {
+    console.error(`Missing environment variable: ${varName}`);
+    process.exit(1);
+  }
+});
 
 const app = express();
 const PORT = process.env.PORT || 8089;
@@ -16,20 +30,16 @@ const credentials = { key: privateKey, passphrase, cert: certificate };
 //creating an HTTPS server with my express app
 const httpsServer = https.createServer(credentials, app);
 
-//defining middleware to redirect http to https
-function ensureSecure(req, res, next) {
-  if (req.secure) {
-    //request is already secure
-    return next();
-  }
-  //redirect to https
-  res.redirect("https://" + req.hostname + req.originalUrl);
-}
+dotenv.config();
 
 //making express app use these things
-app.use(ensureSecure);
-app.use(cors());
-app.use(json());
+app.use(morgan("combined")); //for logs
+app.use(
+  cors({
+    origin: "https://localhost:5173", //define frontend domains here
+  })
+);
+app.use(json({ limit: "10kb" })); //setting reasonable payload limit to not overwhelm the server
 
 //creating auth client with client id and secret
 const oAuth2Client = new OAuth2Client(
@@ -38,24 +48,54 @@ const oAuth2Client = new OAuth2Client(
   "postmessage"
 );
 
+//health check
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", uptime: process.uptime() });
+});
+
 //sending request to google servers with code to get token info
 app.post("/auth/google", async (req, res) => {
-  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
-  res.json(tokens);
+  try {
+    const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+    res.json(tokens);
+  } catch (error) {
+    console.error("Error exchanging code for tokens:", error);
+    res.status(500).json({ error: "Failed to exchange code for tokens" });
+  }
 });
 
 //refresh tokens
 app.post("/auth/google/refresh-token", async (req, res) => {
-  const user = new UserRefreshClient(
-    clientId,
-    clientSecret,
-    req.body.refreshToken
-  );
-  const { credentials } = await user.refreshAccessToken(); // optain new tokens
-  res.json(credentials);
+  try {
+    const user = new UserRefreshClient(
+      process.env.VITE_YOUPIPE_CLIENT_ID,
+      process.env.VITE_YOUPIPE_CLIENT_SECRET,
+      req.body.refreshToken
+    );
+    const { credentials } = await user.refreshAccessToken(); // optain new tokens
+    res.json(credentials);
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    res.status(500).json({ error: "Failed to refresh token" });
+  }
 });
 
 // app.listen(PORT, () => console.log(`server is running`));
 httpsServer.listen(PORT, () => {
   console.log("HTTPS server running on port: " + PORT);
+});
+
+//global error handler middleware
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Internal server error" });
+});
+
+//Graceful shutdown
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Closing HTTPS server...");
+  httpsServer.close(() => {
+    console.log("HTTPS server closed.");
+    process.exit(0);
+  });
 });
