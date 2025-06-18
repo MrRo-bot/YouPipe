@@ -16,7 +16,7 @@ import PlaylistOverview from "./routes/PlaylistOverview.tsx";
 import Search from "./routes/Search.tsx";
 import Player from "./routes/Player.tsx";
 import ChannelOverview from "./routes/ChannelOverview.tsx";
-import UploadsList from "./components/channel/UploadsList.tsx";
+import Uploads from "./components/channel/Uploads.tsx";
 import Channels from "./components/channel/Channels.tsx";
 import Playlists from "./components/channel/Playlists.tsx";
 
@@ -36,7 +36,7 @@ const router = createBrowserRouter(
       <Route path="playlists" element={<Playlist />} />
       <Route path="likedvideos" element={<LikedVideos />} />
       <Route path="channel/:channelId" element={<ChannelOverview />}>
-        <Route index path="" element={<UploadsList />} />
+        <Route index path="" element={<Uploads />} />
         <Route path="channels" element={<Channels />} />
         <Route path="playlists" element={<Playlists />} />
       </Route>

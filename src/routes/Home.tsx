@@ -11,21 +11,21 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 import { TokensType } from "../types/types";
 
 const Home = () => {
-  const { ref, inView } = useInView();
+  // const { ref, inView } = useInView();
 
-  const dispatch = useAppDispatch();
-  const isOpen = useAppSelector((state) => state.hamburger);
-  const profileData = useAppSelector((state) => state.profile);
-  const homeData = useAppSelector((state) => state.home);
+  // const dispatch = useAppDispatch();
+  // const isOpen = useAppSelector((state) => state.hamburger);
+  // const profileData = useAppSelector((state) => state.profile);
+  // const homeData = useAppSelector((state) => state.home);
 
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
+  // const [token] = usePersistedState<TokensType>("token", {
+  //   access_token: "",
+  //   refresh_token: "",
+  //   scope: "",
+  //   token_type: "",
+  //   id_token: "",
+  //   expiry_date: 0,
+  // });
 
   //fetching search list using query string
   // useQuery({
@@ -53,19 +53,19 @@ const Home = () => {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.7 }}
-        className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] ${
-          !isOpen ? "w-[85vw]" : "w-full"
-        }  overflow-y-auto hideScrollbar rounded-xl`}
+      // initial={{ opacity: 0, scale: 0.7 }}
+      // animate={{ opacity: 1, scale: 1 }}
+      // exit={{ opacity: 0, scale: 0.7 }}
+      // className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] ${
+      //   !isOpen ? "w-[85vw]" : "w-full"
+      // }  overflow-y-auto hideScrollbar rounded-xl`}
       >
         {/* {profileData?.email && <Filters />} */}
 
-        <div className="grid grid-flow-row py-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {/* <div className="grid grid-flow-row py-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {profileData?.email && (
             <>
-              {homeData?.items?.length <= 1 ? (
+              {homeData?.items?.length < 1 ? (
                 <div ref={ref} className="col-start-1 mx-auto -col-end-1">
                   <FidgetSpinner
                     visible={true}
@@ -201,8 +201,8 @@ const Home = () => {
               <i className="block pt-4">Start searching videos you love.</i>
             </div>
           )}
-        </div>
-        {homeData?.items && homeData?.items?.length > 1 && (
+        </div> */}
+        {/* {homeData?.items && homeData?.items?.length > 1 && (
           <div ref={ref}>
             <ThreeDots
               visible={true}
@@ -215,7 +215,7 @@ const Home = () => {
               wrapperClass="justify-center"
             />
           </div>
-        )}
+        )} */}
       </motion.div>
     </AnimatePresence>
   );

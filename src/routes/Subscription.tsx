@@ -152,7 +152,7 @@ const Subscription = () => {
             </div>
           </div>
 
-          {subData?.items?.length <= 1 ? (
+          {subData?.items?.length < 1 ? (
             <FidgetSpinner
               visible={true}
               height="80"
