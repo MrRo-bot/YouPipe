@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
@@ -11,8 +11,8 @@ import {
   IoIosArrowDropupCircle,
 } from "react-icons/io";
 import {
-  // PiPencilBold,
-  // PiTrashBold,
+  PiPencilBold,
+  PiTrashBold,
   PiThumbsUpFill,
   PiThumbsUpLight,
 } from "react-icons/pi";
@@ -32,6 +32,7 @@ const Comments = ({
   comment: CommentType;
   channelId: string;
 }) => {
+  const containerRef = useRef<HTMLSpanElement>(null);
   const [expand, setExpand] = useState(false);
   const [toggleReply, setToggleReply] = useState(false);
   const [myReply, setMyReply] = useState("");
@@ -43,16 +44,11 @@ const Comments = ({
   const replyCount = replies?.length || 0;
   const myPubDate = new Date(comm?.publishedAt || "").getTime();
   const myUpdDate = new Date(comm?.updatedAt || "").getTime();
-  const modifiedComment = comm?.textOriginal.replace(
-    /(\d*:?\d{1,2}:\d{1,2})/gm,
-    (match) =>
-      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
-  );
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const handleTimestamp = (e) => {
-    const timestampArr = e.target.innerText.split(":");
+  const timestampRegex = /\b(?=[0-5]?\d)(?:[0-5]?\d)(?::[0-5]?\d){1,2}\b/gm;
+
+  const handleTimestamp = (e: MouseEvent<HTMLElement>) => {
+    const timestampArr = e.currentTarget.innerText.split(":");
     let seconds = 0;
 
     //if hours exists in timestamp
@@ -66,6 +62,12 @@ const Comments = ({
 
     dispatch(addTimestamp(seconds));
   };
+
+  const modifiedComment = comm?.textOriginal.replace(
+    timestampRegex,
+    (match) =>
+      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
+  );
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -129,6 +131,19 @@ const Comments = ({
     },
   });
 
+  //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps
+  useEffect(() => {
+    const codeElement = containerRef?.current?.querySelectorAll("code");
+    //@ts-expect-error type not found
+    const codeElementArray = Array?.from(codeElement);
+
+    codeElementArray.map((x) => {
+      //@ts-expect-error type not found
+      x?.addEventListener("click", handleTimestamp);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -160,13 +175,13 @@ const Comments = ({
           <div>
             <div className="flex justify-between font-medium text-left text-yellow-400">
               {comm?.authorDisplayName}
-              {/* {channelId ===
+              {channelId ===
                 comment?.snippet?.topLevelComment?.snippet?.authorChannelId
                   ?.value && (
                 <div>
                   <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
                 </div>
-              )} */}
+              )}
             </div>
             <div className="font-medium text-left text-zinc-400">
               {comm?.publishedAt === comm?.updatedAt
@@ -175,9 +190,7 @@ const Comments = ({
             </div>
           </div>
           <div className="text-left text-zinc-100">
-            <span onClick={(e) => handleTimestamp(e)}>
-              {parse(modifiedComment || "")}
-            </span>
+            <span ref={containerRef}>{parse(modifiedComment || "")}</span>
           </div>
           <div className="flex items-center justify-start w-1/2 gap-6">
             {comm?.likeCount !== 0 ? (
@@ -286,13 +299,13 @@ const Comments = ({
                           <div>
                             <div className="flex justify-between font-medium text-left text-yellow-400">
                               {comment?.snippet?.authorDisplayName}
-                              {/* {channelId ===
+                              {channelId ===
                                 comment?.snippet?.authorChannelId?.value && (
                                 <div className="flex justify-between gap-2">
                                   <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
                                   <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
                                 </div>
-                              )} */}
+                              )}
                             </div>
                             <div className="font-medium text-left text-zinc-400">
                               {comment?.snippet?.publishedAt ===

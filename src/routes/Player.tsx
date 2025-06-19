@@ -19,11 +19,11 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
 import { addLikedVideo, removeLikedVideo } from "../features/likedVideosSlice";
 import { addTimestamp } from "../features/timestampSlice";
+import { addSearchString } from "../features/searchSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 import { rawViewsToString } from "../utils/functions";
 import Comments from "../components/comments/Comments";
 import { RatingType, TokensType, VideosListType } from "../types/types";
-import { addSearchString } from "../features/searchSlice";
 
 const Player = () => {
   const [myComment, setMyComment] = useState("");
