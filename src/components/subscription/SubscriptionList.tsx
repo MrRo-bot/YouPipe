@@ -9,7 +9,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
   const token = useAppSelector((state) => state.token);
 
-  const id = sub?.snippet?.resourceId?.channelId;
+  const id = sub?.snippet?.resourceId.channelId;
 
   const parts = ["statistics", "snippet"];
 
@@ -36,7 +36,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
 
   return (
     <div className="p-2">
-      <SubscriptionCard stat={channelStats!} subId={sub?.id} />
+      {<SubscriptionCard stat={channelStats!} subId={sub?.id} />}
     </div>
   );
 };

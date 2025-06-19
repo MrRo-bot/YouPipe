@@ -126,7 +126,6 @@ const Search = () => {
                       color="#3bf6fcbf"
                       radius="9"
                       ariaLabel="three-dots-loading"
-                      wrapperStyle={{}}
                       wrapperClass="justify-center"
                     />
                   ) : (

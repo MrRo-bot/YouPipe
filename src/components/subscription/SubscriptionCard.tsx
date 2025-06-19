@@ -34,8 +34,6 @@ const SubscriptionCard = ({
   });
 
   const dispatch = useAppDispatch();
-  const snippet = stat?.items[0]?.snippet;
-  const statistics = stat?.items[0]?.statistics;
 
   const subMutation = useMutation({
     mutationFn: (sub: string) => {
@@ -47,7 +45,7 @@ const SubscriptionCard = ({
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token?.access_token}`,
+            Authorization: `Bearer ${token.access_token}`,
           },
         }
       );
@@ -85,7 +83,7 @@ const SubscriptionCard = ({
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
       <motion.div
-        onClick={() => navigate(`/channel/${stat?.items[0].id}`)}
+        onClick={() => navigate(`/channel/${stat && stat.items[0].id}`)}
         variants={{
           hidden: { scale: 0.95 },
           visible: { scale: 1 },
@@ -96,11 +94,11 @@ const SubscriptionCard = ({
       >
         <div className="flex items-center justify-start gap-4">
           <div className="transition w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
-            {snippet?.thumbnails?.high?.url ? (
+            {stat ? (
               <img
                 referrerPolicy="no-referrer"
                 className="w-full h-full rounded-full"
-                src={snippet?.thumbnails?.high?.url}
+                src={stat.items[0].snippet.thumbnails.high.url}
                 alt=""
               />
             ) : (
@@ -115,9 +113,9 @@ const SubscriptionCard = ({
 
           <div className="flex flex-col items-start w-9/12 px-1">
             <div className="flex items-center gap-1">
-              {snippet?.title ? (
+              {stat ? (
                 <div className="text-xl text-ellipsis line-clamp-2">
-                  {snippet?.title}
+                  {stat.items[0].snippet.title}
                 </div>
               ) : (
                 <Skeleton width={100} height={20} className="rounded-2xl" />
@@ -126,13 +124,13 @@ const SubscriptionCard = ({
 
             <div className="flex items-center justify-start gap-1 mt-2">
               <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
-                {statistics ? (
-                  `${snippet?.customUrl} • ${rawViewsToString(
-                    statistics && statistics?.subscriberCount
+                {stat ? (
+                  `${stat.items[0].snippet.customUrl} • ${rawViewsToString(
+                    stat?.items[0]?.statistics?.subscriberCount || ""
                   )} Subs • ${rawViewsToString(
-                    statistics && statistics?.viewCount
+                    stat?.items[0]?.statistics?.viewCount || ""
                   )} views • ${rawViewsToString(
-                    statistics && statistics?.videoCount
+                    stat?.items[0]?.statistics?.videoCount || ""
                   )} videos`
                 ) : (
                   <Skeleton width={300} height={10} className="rounded-2xl" />
@@ -141,10 +139,12 @@ const SubscriptionCard = ({
             </div>
 
             <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
-              {snippet?.description ? (
-                <p className="text-xs text-zinc-400">{snippet?.description}</p>
+              {stat ? (
+                <p className="text-xs text-zinc-400">
+                  {stat.items[0].snippet.description}
+                </p>
               ) : (
-                <p className="text-xs text-zinc-400"></p>
+                <p className="text-xs text-zinc-400">No Description Found</p>
               )}
             </div>
           </div>

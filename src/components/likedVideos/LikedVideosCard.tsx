@@ -40,8 +40,10 @@ const LikedVideosCard = ({
       >
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
-          <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
-            {likedvideo?.snippet && likedvideo?.contentDetails ? (
+          <div className="relative h-32 overflow-hidden w-52 selection:aspect-video rounded-2xl">
+            {!likedvideo?.snippet?.thumbnails?.high?.url ? (
+              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
+            ) : (
               <>
                 <img
                   referrerPolicy="no-referrer"
@@ -55,8 +57,6 @@ const LikedVideosCard = ({
                   )}
                 </div>
               </>
-            ) : (
-              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             )}
           </div>
 

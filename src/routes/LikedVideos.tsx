@@ -55,7 +55,7 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
-  const { isLoading } = useQuery({
+  useQuery({
     queryKey: ["likedVideos", fetchMore],
     queryFn: async () => {
       try {
@@ -142,7 +142,7 @@ const LikedVideos = () => {
             className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
           >
             <div className="my-6 overflow-hidden rounded-2xl aspect-video">
-              {isLoading ? (
+              {!likedVideos?.items[0]?.snippet?.thumbnails?.high?.url ? (
                 <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
               ) : (
                 <img

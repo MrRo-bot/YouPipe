@@ -45,13 +45,13 @@ const Subscription = () => {
           `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
             ","
           )}&order=${sortBy}&maxResults=50&pageToken=${
-            fetchMore ? subData?.nextPageToken : ""
+            fetchMore ? subData.nextPageToken : ""
           }`,
           {
             headers: {
               "Content-Type": "application/json",
               Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
+              Authorization: `Bearer ${token.access_token}`,
             },
           }
         );
@@ -152,7 +152,7 @@ const Subscription = () => {
             </div>
           </div>
 
-          {subData?.items?.length < 1 ? (
+          {subData.items.length <= 1 ? (
             <FidgetSpinner
               visible={true}
               height="80"
@@ -165,17 +165,17 @@ const Subscription = () => {
             <Virtuoso
               className="!flex !flex-col !overflow-y-auto !min-h-[75vh] !hideScrollbar"
               increaseViewportBy={100}
-              data={subData?.items}
-              totalCount={subData?.pageInfo?.totalResults}
+              data={subData.items}
+              totalCount={subData.pageInfo.totalResults}
               itemContent={(_, data) => (
-                <SubscriptionList key={data?.id} sub={data} />
+                <SubscriptionList key={data.id} sub={data} />
               )}
               endReached={() => setTimeout(() => setFetchMore(true), 1000)}
               context={subData}
               components={{
                 Footer: ({ context: subData }) => {
                   return subData &&
-                    subData?.items?.length < subData?.pageInfo?.totalResults ? (
+                    subData.items.length < subData.pageInfo.totalResults ? (
                     <ThreeDots
                       visible={true}
                       height="50"
