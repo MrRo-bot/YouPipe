@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
@@ -47,7 +47,7 @@ const Comments = ({
 
   const timestampRegex = /\b(?=[0-5]?\d)(?:[0-5]?\d)(?::[0-5]?\d){1,2}\b/gm;
 
-  const handleTimestamp = (e: MouseEvent<HTMLElement>) => {
+  const handleTimestamp = (e: { currentTarget: { innerText: string } }) => {
     const timestampArr = e.currentTarget.innerText.split(":");
     let seconds = 0;
 
@@ -68,6 +68,19 @@ const Comments = ({
     (match) =>
       `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
   );
+
+  //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps
+  useEffect(() => {
+    const codeElement = containerRef?.current?.querySelectorAll("code");
+    //@ts-expect-error type not found
+    const codeElementArray = Array?.from(codeElement);
+
+    codeElementArray.map((x) => {
+      //@ts-expect-error type not found
+      x?.addEventListener("click", handleTimestamp);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -130,19 +143,6 @@ const Comments = ({
       });
     },
   });
-
-  //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps
-  useEffect(() => {
-    const codeElement = containerRef?.current?.querySelectorAll("code");
-    //@ts-expect-error type not found
-    const codeElementArray = Array?.from(codeElement);
-
-    codeElementArray.map((x) => {
-      //@ts-expect-error type not found
-      x?.addEventListener("click", handleTimestamp);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <SkeletonTheme
@@ -315,7 +315,7 @@ const Comments = ({
                             </div>
                           </div>
                           <div className="text-left text-zinc-100">
-                            <span onClick={(e) => handleTimestamp(e)}>
+                            <span ref={containerRef}>
                               {parse(modifiedReply)}
                             </span>
                           </div>

@@ -26,6 +26,8 @@ import Comments from "../components/comments/Comments";
 import { RatingType, TokensType, VideosListType } from "../types/types";
 
 const Player = () => {
+  const containerRef = useRef<HTMLSpanElement>(null);
+
   const [myComment, setMyComment] = useState("");
   const [fetchMore, setFetchMore] = useState<boolean>(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -120,6 +122,8 @@ const Player = () => {
   //modifying description by detecting links and adding styles to it
   const linkRegex =
     /(?:(https?:\/\/)|(?:www\.))[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]/gi;
+  //finding timestamps in description
+  const timestampRegex = /\b(?=[0-5]?\d)(?:[0-5]?\d)(?::[0-5]?\d){1,2}\b/gm;
 
   const replacer = (match: string) => {
     // Remove http:// or https:// if present, otherwise return match unchanged
@@ -137,10 +141,8 @@ const Player = () => {
     }
   );
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const handleTimestamp = (e) => {
-    const timestampArr = e.target.innerText.split(":");
+  const handleTimestamp = (e: { currentTarget: { innerText: string } }) => {
+    const timestampArr = e.currentTarget.innerText.split(":");
     let seconds = 0;
 
     //if hours exists in timestamp
@@ -155,12 +157,24 @@ const Player = () => {
     dispatch(addTimestamp(seconds));
   };
 
-  //handling timestamp
   const modifiedDescription = findingLinks?.replace(
-    /(\d*:?\d{1,2}:\d{1,2})/gm,
+    timestampRegex,
     (match) =>
       `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
   );
+
+  //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps
+  useEffect(() => {
+    const codeElement = containerRef?.current?.querySelectorAll("code");
+    //@ts-expect-error too much type overload
+    const codeElementArray = Array?.from(codeElement);
+
+    codeElementArray.map((x) => {
+      //@ts-expect-error too much type overload
+      x?.addEventListener("click", handleTimestamp);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //seeking to a timestamp
   useEffect(() => {
@@ -375,7 +389,7 @@ const Player = () => {
               </div>
 
               <pre className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark">
-                <span onClick={(e) => handleTimestamp(e)}>
+                <span ref={containerRef}>
                   {parse(modifiedDescription || "")}
                 </span>
                 <br />
