@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { extractColors } from "extract-colors";
 
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";

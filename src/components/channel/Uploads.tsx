@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { VirtuosoGrid } from "react-virtuoso";
 import { useQuery } from "@tanstack/react-query";

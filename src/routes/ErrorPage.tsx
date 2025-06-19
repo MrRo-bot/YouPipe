@@ -1,45 +1,62 @@
 import { Link, useRouteError } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-
-import { ErrorType } from "../types/types";
+import { useEffect } from "react";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-//Error page for routing errors only
+export type ErrorType =
+  | {
+      statusText?: string;
+      error?: { message: string };
+      message?: string;
+    }
+  | Error;
+
 export default function ErrorPage() {
   const error = useRouteError() as ErrorType;
-  toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-    position: "bottom-left",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    className: "!toastGradientError !font-bold !text-zinc-50",
-    transition: Bounce,
-  });
+
+  const errorMessage =
+    error instanceof Error
+      ? error.message
+      : error?.statusText ||
+        error?.error?.message ||
+        "Unexpected error in program";
+
+  useEffect(() => {
+    const toastId = "error-toast";
+    if (!toast.isActive(toastId)) {
+      toast.error(`❌ ${errorMessage}`, {
+        toastId,
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    }
+  }, [errorMessage]);
 
   return (
     <AnimatePresence>
       <motion.div
+        key="error-page"
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
         className="grid h-[90vh] place-items-center text-zinc-200"
       >
-        <div className="flex flex-col w-1/4 gap-12 text-center">
-          <img src="/404.svg" alt="" />
+        <div className="flex flex-col w-full gap-12 text-center sm:w-1/2 md:w-1/3">
+          <img src="/404.svg" alt="404 error illustration" />
           <div className="flex flex-col gap-2">
             <span className="text-xl font-medium text-purple-300">
-              Message from console:{"  "}
+              Message from console:
             </span>
             <span className="text-3xl font-black text-blue-300">
-              <code>
-                {(!error && "unexpected error in program") ||
-                  (error && error?.statusText) ||
-                  error?.error?.message}
-              </code>
+              <code>{errorMessage}</code>
             </span>
           </div>
           <Link

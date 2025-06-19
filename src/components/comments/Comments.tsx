@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { SkeletonTheme } from "react-loading-skeleton";
-import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
 import {
   IoIosArrowDropdownCircle,

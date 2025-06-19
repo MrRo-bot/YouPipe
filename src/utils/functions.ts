@@ -1,3 +1,13 @@
+export const formatDate = (timestamp: string) => {
+  const date = new Date(timestamp); // ISO 8601 time string
+
+  return date.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 // getting video duration from given string
 export const videoDuration = (duration: string): string => {
   if (duration === "P0D") return "Live";

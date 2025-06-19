@@ -118,9 +118,23 @@ const Player = () => {
   });
 
   //modifying description by detecting links and adding styles to it
+  const linkRegex =
+    /(?:(https?:\/\/)|(?:www\.))[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]/gi;
+
+  const replacer = (match: string) => {
+    // Remove http:// or https:// if present, otherwise return match unchanged
+    return match.replace(/^https?:\/\//, "");
+  };
+
   const findingLinks = video?.items[0]?.snippet?.localized?.description.replace(
-    /(\b(https?|http):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/gi,
-    `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="$&">$&</a>`
+    linkRegex,
+    (match: string) => {
+      const url = replacer(match);
+      // Basic sanitization to prevent XSS (use a library like DOMPurify in production)
+      const sanitizedUrl = url.replace(/javascript:/gi, "");
+      const sanitizedMatch = match.replace(/javascript:/gi, "");
+      return `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="//${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${sanitizedMatch}</a>`;
+    }
   );
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

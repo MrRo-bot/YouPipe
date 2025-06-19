@@ -21,6 +21,10 @@
     scrollbar-width: none;
   }
 
+  dialog:not([open]) {
+    display: none;
+  }
+
   /* main animated gradient in background */
   @keyframes hero-gradient-animation {
     0% {

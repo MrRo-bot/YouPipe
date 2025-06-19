@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { rawViewsToString } from "../../utils/functions";
