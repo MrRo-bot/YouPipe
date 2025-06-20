@@ -39,7 +39,7 @@ function App() {
         <div className="w-full">
           <Header />
         </div>
-        <main className="relative flex min-h-[90vh]">
+        <main className="relative flex min-h-[93vh]">
           <Sidebar />
           <Outlet />
           <ScrollRestoration />

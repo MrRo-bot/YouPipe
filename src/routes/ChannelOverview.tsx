@@ -381,7 +381,7 @@ const ChannelOverview = () => {
               </NavLink>
             </div>
           </div>
-          <div className="w-9/12 mx-auto">
+          <div className="w-9/12 h-full mx-auto">
             <Outlet />
           </div>
         </motion.div>
