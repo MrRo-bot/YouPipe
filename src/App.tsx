@@ -35,7 +35,7 @@ function App() {
 
   return (
     <>
-      <div className="relative text-slate-200 font-text">
+      <div className="relative h-screen p-1 text-slate-200 font-text">
         <div className="w-full">
           <Header />
         </div>

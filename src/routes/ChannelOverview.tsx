@@ -6,14 +6,6 @@ import parse from "html-react-parser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import { useAppDispatch, useAppSelector } from "../app/store";
-import {
-  addChannelDetails,
-  addChannelSections,
-} from "../features/channelOverviewSlice";
-import { usePersistedState } from "../hooks/usePersistentStorage";
-import { formatDate, rawViewsToString } from "../utils/functions";
-import { TokensType } from "../types/types";
 import {
   PiArrowBendRightUpFill,
   PiGlobeFill,
@@ -24,12 +16,28 @@ import {
   PiVideoFill,
 } from "react-icons/pi";
 
+import { useAppDispatch, useAppSelector } from "../app/store";
+
+import {
+  addChannelDetails,
+  addChannelSections,
+} from "../features/channelOverviewSlice";
+
+import { usePersistedState } from "../hooks/usePersistentStorage";
+
+import { formatDate, rawViewsToString } from "../utils/functions";
+
+import { TokensType } from "../types/types";
+
 const ChannelOverview = () => {
   const descRef = useRef<HTMLDialogElement>(null);
+
   const { channelId } = useParams();
 
   const dispatch = useAppDispatch();
+
   const isOpen = useAppSelector((state) => state.hamburger);
+
   const channelDetails = useAppSelector(
     (state) => state.channelOverview.channelDetails
   );
@@ -64,6 +72,7 @@ const ChannelOverview = () => {
       dispatch(addChannelSections(channelSection));
       return channelSection;
     },
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
     enabled: !!channelId,
   });
@@ -122,9 +131,7 @@ const ChannelOverview = () => {
     );
 
   const email =
-    channelDetails?.items[0]?.snippet?.localized?.description.match(
-      mailRegex
-    ) || "No Email Found";
+    channelDetails?.items[0]?.snippet?.localized?.description.match(mailRegex);
 
   const rawViews = new Intl.NumberFormat("en-US").format(
     +channelDetails?.items[0]?.statistics?.viewCount
@@ -151,11 +158,11 @@ const ChannelOverview = () => {
             {channelDetails?.items[0]?.brandingSettings?.image
               ?.bannerExternalUrl ? (
               isLoading ? (
-                <div className="h-[20vh] overflow-hidden rounded-2xl">
+                <div className="h-[18vh] overflow-hidden rounded-2xl">
                   <Skeleton className="object-cover w-full h-full pt-1"></Skeleton>
                 </div>
               ) : (
-                <div className="h-[20vh] overflow-hidden rounded-2xl">
+                <div className="h-[18vh] overflow-hidden rounded-2xl">
                   <img
                     referrerPolicy="no-referrer"
                     className="object-cover w-full h-full"
@@ -172,7 +179,7 @@ const ChannelOverview = () => {
             )}
 
             <div className="flex items-center justify-start gap-4 pt-4">
-              <div className="grid overflow-hidden rounded-full max-w-40 place-items-center">
+              <div className="grid overflow-hidden rounded-full max-w-36 place-items-center">
                 {isLoading ? (
                   <Skeleton className="pt-1 aspect-square" />
                 ) : (
@@ -266,17 +273,19 @@ const ChannelOverview = () => {
                             className="text-yellow-500"
                           />
                         </div>
-                        <div className="col-start-2 col-end-3 row-start-1 row-end-2">
-                          {
+                        <div className="col-start-2 col-end-3 row-start-1 row-end-2 p-1">
+                          {email ? (
                             <a
-                              className="p-1 text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
+                              className="text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
                               href={`mailto://${email[0]}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
                               {email[0]}
                             </a>
-                          }
+                          ) : (
+                            "No Email Found"
+                          )}
                         </div>
                         <div className="grid col-start-1 col-end-2 row-start-2 row-end-3 place-items-center">
                           <PiGlobeFill size={20} className="text-yellow-500" />

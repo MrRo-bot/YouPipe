@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { FidgetSpinner } from "react-loader-spinner";
-import { Virtuoso } from "react-virtuoso";
 import { useQuery } from "@tanstack/react-query";
+import { Virtuoso } from "react-virtuoso";
+import { FidgetSpinner } from "react-loader-spinner";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { useAppSelector } from "../../app/store";
 
@@ -34,6 +34,8 @@ const ChannelsList = ({ id }: { id: string }) => {
       setChannelStats(channel);
       return channel;
     },
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -56,7 +58,7 @@ const Channels = () => {
 
   return (
     <AnimatePresence>
-      <div className="hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] w-full">
+      <div className="hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] h-[50vh] w-full">
         {!channelsList ? (
           <div className="mx-auto text-lg italic font-bold w-max">
             No Channels Found
