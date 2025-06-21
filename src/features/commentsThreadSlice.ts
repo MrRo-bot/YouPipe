@@ -124,6 +124,61 @@ export const commentsThreadSlice = createSlice({
       Object.assign(state, initialState);
     },
 
+    updateComment: (state, action) => {
+      const { commentId, text } = action.payload;
+      Object.assign(state, {
+        ...state,
+        items: state.items.map((c) =>
+          c.id === commentId
+            ? {
+                ...c,
+                snippet: {
+                  ...c.snippet,
+                  topLevelComment: {
+                    ...c?.snippet?.topLevelComment,
+                    snippet: {
+                      ...c?.snippet?.topLevelComment?.snippet,
+                      textOriginal: text,
+                      textDisplay: text,
+                      updatedAt: new Date().toISOString(),
+                    },
+                  },
+                },
+              }
+            : c
+        ),
+      });
+    },
+
+    updateReply: (state, action) => {
+      const { replyId, text } = action.payload;
+      Object.assign(state, {
+        ...state,
+        items: state.items.map((c) =>
+          c.replies
+            ? {
+                ...c,
+                replies: {
+                  comments: c.replies.comments.map((r) =>
+                    r.id === replyId
+                      ? {
+                          ...r,
+                          snippet: {
+                            ...r.snippet,
+                            textOriginal: text,
+                            textDisplay: text,
+                            updatedAt: new Date().toISOString(),
+                          },
+                        }
+                      : r
+                  ),
+                },
+              }
+            : c
+        ),
+      });
+    },
+
     deleteComment: (state, action) => {
       Object.assign(state, {
         ...state,
@@ -156,6 +211,8 @@ export const {
   clearCommentsThread,
   addComment,
   addReply,
+  updateComment,
+  updateReply,
   deleteComment,
   deleteReply,
 } = commentsThreadSlice.actions;
