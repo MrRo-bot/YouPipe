@@ -123,11 +123,42 @@ export const commentsThreadSlice = createSlice({
     clearCommentsThread: (state) => {
       Object.assign(state, initialState);
     },
+
+    deleteComment: (state, action) => {
+      Object.assign(state, {
+        ...state,
+        items: state.items.filter((comment) => comment.id !== action.payload),
+      });
+    },
+
+    deleteReply: (state, action) => {
+      Object.assign(state, {
+        ...state,
+        items: state.items.map((comment) =>
+          comment.replies
+            ? {
+                ...comment,
+                replies: {
+                  comments: comment.replies.comments.filter(
+                    (reply) => !reply.id.includes(action.payload)
+                  ),
+                },
+              }
+            : comment
+        ),
+      });
+    },
   },
 });
 
-export const { addCommentsThread, clearCommentsThread, addComment, addReply } =
-  commentsThreadSlice.actions;
+export const {
+  addCommentsThread,
+  clearCommentsThread,
+  addComment,
+  addReply,
+  deleteComment,
+  deleteReply,
+} = commentsThreadSlice.actions;
 
 export const commentsThread = (state: RootState) => state.commentsThread;
 

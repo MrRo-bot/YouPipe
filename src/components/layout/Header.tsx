@@ -15,7 +15,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { collapse, expand, toggle } from "../../features/hamburgerMenuSlice";
-import { addProfile } from "../../features/profileSlice";
+import { addChannelId, addProfile } from "../../features/profileSlice";
 import { addToken } from "../../features/tokenSlice";
 import {
   addSearchString,
@@ -32,6 +32,7 @@ import { clearChannel } from "../../features/channelOverviewSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../../types/types";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
@@ -275,6 +276,42 @@ const Header = () => {
       dispatch(clearLikedVideos());
     }
   }, [location.pathname]);
+
+  //adding channelId to profile store object
+  useQuery({
+    queryKey: ["channelId"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/channels?mine=true&part=id`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching channel ID");
+
+        const channelId = await res.json();
+        dispatch(addChannelId(channelId.items[0].id));
+        return channelId;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
+    },
+  });
 
   return (
     <header className="flex items-center justify-between px-5 py-1 glass">

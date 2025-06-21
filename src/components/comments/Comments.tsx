@@ -18,8 +18,12 @@ import {
 } from "react-icons/pi";
 import { FaRegCommentAlt } from "react-icons/fa";
 
-import { useAppDispatch } from "../../app/store";
-import { addReply } from "../../features/commentsThreadSlice";
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import {
+  addReply,
+  deleteComment,
+  deleteReply,
+} from "../../features/commentsThreadSlice";
 import { addTimestamp } from "../../features/timestampSlice";
 import { elapsedTime, rawViewsToString } from "../../utils/functions";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
@@ -38,6 +42,8 @@ const Comments = ({
   const [myReply, setMyReply] = useState("");
 
   const dispatch = useAppDispatch();
+
+  const profileChannelId = useAppSelector((state) => state.profile.channelId);
 
   const comm = comment?.snippet?.topLevelComment?.snippet;
   const replies = comment?.replies?.comments;
@@ -65,7 +71,7 @@ const Comments = ({
 
   const modifiedComment = comm?.textOriginal.replace(
     timestampRegex,
-    (match) =>
+    (match: string) =>
       `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
   );
 
@@ -91,6 +97,7 @@ const Comments = ({
     expiry_date: 0,
   });
 
+  //adding a reply
   const replyMutation = useMutation({
     mutationFn: async (reply: string) => {
       const response = await fetch(
@@ -144,6 +151,62 @@ const Comments = ({
     },
   });
 
+  //delete mutation
+  const mutation = useMutation({
+    mutationFn: async (commentIds: { commentId: string; replyId: string }) => {
+      await fetch(
+        `https://youtube.googleapis.com/youtube/v3/comments?id=${
+          commentIds.commentId || commentIds.replyId
+        }&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      dispatch(
+        commentIds.commentId
+          ? deleteComment(commentIds.commentId)
+          : deleteReply(commentIds.replyId)
+      );
+    },
+    onSuccess: () => {
+      toast(`💬 deleted!`, {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
+
+  //delete a comment or reply
+  const handleDelete = (commentIds: { commentId: string; replyId: string }) => {
+    if (window.confirm("Are you sure you want to delete this comment?")) {
+      mutation.mutate(commentIds);
+    }
+  };
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -175,10 +238,15 @@ const Comments = ({
           <div>
             <div className="flex justify-between font-medium text-left text-yellow-400">
               {comm?.authorDisplayName}
-              {channelId ===
-                comment?.snippet?.topLevelComment?.snippet?.authorChannelId
-                  ?.value && (
-                <div>
+              {comm && comm?.authorChannelId.value === profileChannelId && (
+                <div className="flex items-center justify-between gap-2">
+                  <div
+                    onClick={() =>
+                      handleDelete({ commentId: comment?.id, replyId: "" })
+                    }
+                  >
+                    <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                  </div>
                   <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
                 </div>
               )}
@@ -299,13 +367,23 @@ const Comments = ({
                           <div>
                             <div className="flex justify-between font-medium text-left text-yellow-400">
                               {comment?.snippet?.authorDisplayName}
-                              {channelId ===
-                                comment?.snippet?.authorChannelId?.value && (
-                                <div className="flex justify-between gap-2">
-                                  <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
-                                  <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
-                                </div>
-                              )}
+                              {comment &&
+                                comment?.snippet?.authorChannelId.value ===
+                                  profileChannelId && (
+                                  <div className="flex items-center justify-between gap-2">
+                                    <div
+                                      onClick={() =>
+                                        handleDelete({
+                                          commentId: "",
+                                          replyId: comment?.id,
+                                        })
+                                      }
+                                    >
+                                      <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                                    </div>
+                                    <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                                  </div>
+                                )}
                             </div>
                             <div className="font-medium text-left text-zinc-400">
                               {comment?.snippet?.publishedAt ===

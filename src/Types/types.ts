@@ -42,6 +42,7 @@ export type ProfileType = {
   picture: string;
   email: string;
   email_verified: boolean;
+  channelId?: string;
 };
 
 export type ChannelType = {
