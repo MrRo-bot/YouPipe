@@ -358,7 +358,7 @@ const Player = () => {
             </div>
 
             <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2">
-              <div className="flex items-center gap-2 px-2 py-1 rounded-3xl glass-dark w-max ">
+              <div className="flex items-center gap-2 px-2 py-1 rounded-3xl glass-dark w-max">
                 <div className="flex items-center gap-2">
                   <strong className="text-violet-200">
                     {rawViewsToString(
@@ -368,13 +368,13 @@ const Player = () => {
                   views
                 </div>
                 |
-                <div className="flex items-center gap-2 transition-colors ">
+                <div className="flex items-center gap-2 transition-colors">
                   <div
                     id="like"
                     onClick={handleRating}
                     className={`flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
                       rating.items[0].rating === "like" && "text-yellow-400"
-                    }`}
+                    } ${rating.items[0].rating === "like" && "btn-bubbles"}`}
                   >
                     {rating.items[0].rating === "like" ? (
                       <PiThumbsUpFill className="pointer-events-none" />

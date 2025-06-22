@@ -9,10 +9,10 @@ import { usePersistedState } from "../../hooks/usePersistentStorage";
 
 import PlaylistCard from "../playlist/PlaylistCard";
 
-import { PlaylistType, TokensType } from "../../types/types";
+import { PlaylistItemListType, TokensType } from "../../types/types";
 
 const Playlists = () => {
-  const [playlist, setPlaylist] = useState<PlaylistType[]>([]);
+  const [playlist, setPlaylist] = useState<PlaylistItemListType[]>([]);
 
   const channelSections = useAppSelector((state) =>
     state.channelOverview.channelSections.items.filter(
@@ -82,19 +82,22 @@ const Playlists = () => {
   return (
     <AnimatePresence>
       <motion.div className="relative mb-2 mt-3 max-h-[90vh] rounded-xl mx-4 w-full overflow-y-auto hideScrollbar">
-        {playlist.length < 1 ? (
+        {playlist?.length < 1 ? (
           <div className="mx-auto text-lg italic font-bold w-max">
             No Playlists Found
           </div>
         ) : (
           <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {playlist?.map((playlist) => (
-              <PlaylistCard
-                key={playlist?.etag}
-                //@ts-expect-error its just PlaylistType
-                playlist={playlist?.items[0]}
-              />
-            ))}
+            {playlist?.map(
+              (playlist) =>
+                playlist?.pageInfo?.totalResults !== 0 && (
+                  <PlaylistCard
+                    key={playlist?.etag}
+                    //@ts-expect-error its just PlaylistItemListType for PlaylistCard takes PlaylistType
+                    playlist={playlist?.items[0]}
+                  />
+                )
+            )}
           </div>
         )}
       </motion.div>
