@@ -1,4 +1,5 @@
 import React, { RefObject, useState } from "react";
+import { UseMutationResult } from "@tanstack/react-query";
 import { Bounce, toast } from "react-toastify";
 import parse from "html-react-parser";
 
@@ -9,11 +10,11 @@ import {
   PiTrashBold,
 } from "react-icons/pi";
 
+import { useAppSelector } from "../../app/store";
+
 import { elapsedTime, rawViewsToString } from "../../utils/functions";
 
 import { CommentReplyType } from "../../types/types";
-import { useAppSelector } from "../../app/store";
-import { UseMutationResult } from "@tanstack/react-query";
 
 interface RepliesType {
   comment: CommentReplyType;

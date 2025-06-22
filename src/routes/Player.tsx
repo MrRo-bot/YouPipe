@@ -20,14 +20,16 @@ import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
 import { addLikedVideo, removeLikedVideo } from "../features/likedVideosSlice";
 import { addTimestamp } from "../features/timestampSlice";
 import { addSearchString } from "../features/searchSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import { rawViewsToString } from "../utils/functions";
+
 import Comments from "../components/comments/Comments";
+
+import { rawViewsToString } from "../utils/functions";
+
 import { RatingType, TokensType, VideosListType } from "../types/types";
 
 const Player = () => {
-  const containerRef = useRef<HTMLSpanElement>(null);
-
   const [myComment, setMyComment] = useState("");
   const [fetchMore, setFetchMore] = useState<boolean>(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -42,12 +44,14 @@ const Player = () => {
     ],
   });
 
-  const { videoId } = useParams();
-  const navigate = useNavigate();
-
+  const containerRef = useRef<HTMLSpanElement>(null);
   const playerRef = useRef(null);
 
+  const { videoId } = useParams();
+
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const timestamp = useAppSelector((state) => state.timestamp.value);
   const comments = useAppSelector((state) => state.commentsThread);
 
@@ -240,6 +244,16 @@ const Player = () => {
           ...prev,
           items: [{ videoId: prev.items[0].videoId, rating: "like" }],
         }));
+        toast("💖 LIKEd!", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradient !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
       }
     }
     if (e.currentTarget.id === "dislike") {
@@ -256,6 +270,16 @@ const Player = () => {
           ...prev,
           items: [{ videoId: prev.items[0].videoId, rating: "dislike" }],
         }));
+        toast("💔 DISLIKEd!", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradient !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
       }
     }
   };

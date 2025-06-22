@@ -6,6 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
+
 import {
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,
@@ -27,10 +28,14 @@ import {
   updateReply,
 } from "../../features/commentsThreadSlice";
 import { addTimestamp } from "../../features/timestampSlice";
+
 import { elapsedTime, rawViewsToString } from "../../utils/functions";
+
 import { usePersistedState } from "../../hooks/usePersistentStorage";
-import { CommentType, TokensType } from "../../types/types";
+
 import Replies from "./Replies";
+
+import { CommentType, TokensType } from "../../types/types";
 
 const Comments = ({
   comment,
@@ -40,6 +45,7 @@ const Comments = ({
   channelId: string;
 }) => {
   const containerRef = useRef<HTMLSpanElement>(null);
+
   const [expand, setExpand] = useState(false);
   const [toggleReply, setToggleReply] = useState(false);
   const [myReply, setMyReply] = useState("");
@@ -47,6 +53,15 @@ const Comments = ({
   const [editedComment, setEditedComment] = useState(
     comment?.snippet?.topLevelComment?.snippet?.textOriginal || ""
   );
+
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
 
   const dispatch = useAppDispatch();
   const profileChannelId = useAppSelector((state) => state.profile.channelId);
@@ -93,15 +108,6 @@ const Comments = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
 
   //adding a reply
   const replyMutation = useMutation({
