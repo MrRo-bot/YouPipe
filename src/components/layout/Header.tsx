@@ -6,7 +6,7 @@ import {
   googleLogout,
   CodeResponse,
 } from "@react-oauth/google";
-import { toast, Bounce } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
@@ -33,6 +33,7 @@ import { usePersistedState } from "../../hooks/usePersistentStorage";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import { ProfileType, TokensType } from "../../types/types";
 import { useQuery } from "@tanstack/react-query";
+import { clearSubscription } from "../../features/subscriptionSlice";
 
 const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
@@ -262,6 +263,7 @@ const Header = () => {
   //effect for clearing redux store parts depending upon which route user currently is
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
+    if (location.pathname !== "/search") dispatch(clearSubscription());
     if (location.pathname.includes("/video")) dispatch(collapse());
     if (location.pathname !== "playlist") dispatch(clearPlayItems());
     if (!location.pathname.includes("/video")) {

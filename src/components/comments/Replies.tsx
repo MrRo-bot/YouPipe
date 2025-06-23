@@ -1,6 +1,7 @@
 import React, { RefObject, useState } from "react";
 import { UseMutationResult } from "@tanstack/react-query";
 import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
 
 import {

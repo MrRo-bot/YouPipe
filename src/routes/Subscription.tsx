@@ -75,7 +75,7 @@ const Subscription = () => {
       }
     },
     enabled: !!sortBy && !!fetchMore,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
 

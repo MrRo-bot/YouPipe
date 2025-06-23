@@ -9,10 +9,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { rawViewsToString } from "../../utils/functions";
 import { ChannelInfoType, SearchType, TokensType } from "../../types/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
   const [channelLoading, setChannelLoading] = useState<boolean>(true);
+  const [sub, setSub] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,6 +28,121 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
   });
 
   const parts = ["statistics", "snippet", "contentDetails"];
+
+  const { data: isSubData } = useQuery({
+    queryKey: ["isSubscribed?", channelStats?.items[0]?.id],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&forChannelId=${
+          channelStats?.items[0]?.id
+        }&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const isSubscribed = await res.json();
+      setSub(isSubscribed.pageInfo.totalResults ? true : false);
+      return isSubscribed;
+    },
+    enabled: !!channelStats?.items[0]?.id,
+  });
+
+  const subDelMutation = useMutation({
+    mutationFn: async (id: string | undefined) => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error("Error removing subscriber");
+    },
+    onSuccess: async () => {
+      toast("🥲 Unsubscribed!", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
+  const subAddMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+          body: JSON.stringify({
+            snippet: {
+              resourceId: {
+                kind: search?.id?.kind,
+                channelId: search?.id?.channelId,
+              },
+            },
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Error subscribing to user");
+    },
+    onSuccess: async () => {
+      toast("🥳 Subscribed", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
 
   useEffect(() => {
     (async () => {
@@ -150,14 +267,45 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
               </div>
             )}
           </div>
-          <div
+          {/* <div
             onClick={(e) => {
-              e.stopPropagation();
-              console.log("subscriber button");
+
             }}
             className="self-center px-4 py-2 mx-auto font-medium rounded-full cursor-pointer bg-zinc-800"
           >
             Subscribed
+          </div> */}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setSub(!sub);
+            }}
+            className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
+           ${
+             sub ? "bg-zinc-800" : "bg-white text-black"
+           } active:bg-zinc-600/70`}
+          >
+            <span
+              onClick={() =>
+                isSubData?.pageInfo?.totalResults &&
+                subDelMutation.mutate(isSubData?.items[0]?.id)
+              }
+              className={`col-start-1 row-start-1 mx-auto ${
+                !sub ? "invisible" : ""
+              } `}
+            >
+              Subscribed
+            </span>
+            <span
+              onClick={() => {
+                subAddMutation.mutate();
+              }}
+              className={`col-start-1 row-start-1 mx-auto ${
+                sub ? "invisible" : ""
+              } `}
+            >
+              Subscribe
+            </span>
           </div>
         </motion.div>
       </SkeletonTheme>

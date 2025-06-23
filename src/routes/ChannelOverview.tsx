@@ -1,10 +1,12 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   PiArrowBendRightUpFill,
@@ -32,12 +34,13 @@ import { TokensType } from "../types/types";
 const ChannelOverview = () => {
   const descRef = useRef<HTMLDialogElement>(null);
 
+  const [sub, setSub] = useState(false);
+
   const { channelId } = useParams();
 
   const dispatch = useAppDispatch();
 
   const isOpen = useAppSelector((state) => state.hamburger);
-
   const channelDetails = useAppSelector(
     (state) => state.channelOverview.channelDetails
   );
@@ -85,7 +88,7 @@ const ChannelOverview = () => {
     "status",
   ];
 
-  const { isLoading } = useQuery({
+  useQuery({
     queryKey: ["channelDetails", channelId],
     queryFn: async () => {
       const res = await fetch(
@@ -106,6 +109,121 @@ const ChannelOverview = () => {
     },
     refetchOnWindowFocus: false,
     enabled: !!channelId,
+  });
+
+  const { isLoading, data: isSubData } = useQuery({
+    queryKey: ["isSubscribed?", channelDetails?.items[0]?.id],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&forChannelId=${
+          channelDetails?.items[0]?.id
+        }&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const isSubscribed = await res.json();
+      setSub(isSubscribed.pageInfo.totalResults ? true : false);
+      return isSubscribed;
+    },
+    enabled: !!channelDetails?.items[0]?.id,
+  });
+
+  const subDelMutation = useMutation({
+    mutationFn: async (id: string | undefined) => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error("Error removing subscriber");
+    },
+    onSuccess: async () => {
+      toast("🥲 Unsubscribed!", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
+  const subAddMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+          body: JSON.stringify({
+            snippet: {
+              resourceId: {
+                kind: isSubData?.items[0]?.snippet?.resourceId?.kind,
+                channelId: isSubData?.items[0]?.snippet?.resourceId?.channelId,
+              },
+            },
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Error subscribing to user");
+    },
+    onSuccess: async () => {
+      toast("🥳 Subscribed", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
   });
 
   const mailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}/g;
@@ -159,7 +277,7 @@ const ChannelOverview = () => {
               ?.bannerExternalUrl ? (
               isLoading ? (
                 <div className="h-[18vh] overflow-hidden rounded-2xl">
-                  <Skeleton className="object-cover w-full h-full pt-1"></Skeleton>
+                  <Skeleton className="object-cover w-full h-full pt-1" />
                 </div>
               ) : (
                 <div className="h-[18vh] overflow-hidden rounded-2xl">
@@ -178,10 +296,10 @@ const ChannelOverview = () => {
               <div></div>
             )}
 
-            <div className="flex items-center justify-start gap-4 pt-4">
+            <div className="flex items-center justify-start gap-4 py-4">
               <div className="grid overflow-hidden rounded-full max-w-36 place-items-center">
                 {isLoading ? (
-                  <Skeleton className="pt-1 aspect-square" />
+                  <Skeleton className="!min-w-36 aspect-square -top-0.25 p-1" />
                 ) : (
                   <img
                     referrerPolicy="no-referrer"
@@ -195,9 +313,9 @@ const ChannelOverview = () => {
               </div>
               <div className="flex flex-col min-w-64">
                 {isLoading ? (
-                  <Skeleton className="min-w-full mb-2 min-h-10" />
+                  <Skeleton className="min-w-full mb-2 min-h-8" />
                 ) : (
-                  <h1 className="mb-2 text-3xl font-extrabold">
+                  <h1 className="text-3xl font-extrabold">
                     {channelDetails?.items[0]?.snippet?.title}
                   </h1>
                 )}
@@ -231,7 +349,7 @@ const ChannelOverview = () => {
                   </span>
                 )}
                 {isLoading ? (
-                  <Skeleton className="mt-4 min-w-40" />
+                  <Skeleton className="my-2 min-w-48" />
                 ) : (
                   <>
                     <span
@@ -239,12 +357,14 @@ const ChannelOverview = () => {
                         e.stopPropagation();
                         descRef?.current?.showModal();
                       }}
-                      className="flex justify-start mt-4 cursor-pointer text-zinc-400"
+                      className="flex justify-start cursor-pointer text-zinc-400"
                     >
-                      <span className="max-w-[50%] line-clamp-1">
+                      <span className="w-[50%] line-clamp-1 my-2">
                         {channelDetails?.items[0]?.snippet?.description}
                       </span>
-                      <strong className="font-bold text-white">more</strong>
+                      <strong className="my-2 font-bold text-white">
+                        more
+                      </strong>
                     </span>
                     <dialog
                       className="w-1/3 py-2 px-4 overflow-hidden font-semibold flex flex-col gap-2 min-h-1/2 rounded-2xl heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100 open: "
@@ -341,11 +461,42 @@ const ChannelOverview = () => {
                     </dialog>
                   </>
                 )}
+                {isLoading ? (
+                  <Skeleton className="px-3 py-2 !rounded-full !w-24" />
+                ) : (
+                  <div
+                    onClick={() => setSub(!sub)}
+                    className={`grid px-3 py-2 w-max font-medium transition-all rounded-full cursor-pointer select-none ${
+                      sub ? "bg-zinc-800" : "bg-white text-black"
+                    } active:bg-zinc-600/70`}
+                  >
+                    <span
+                      onClick={() => {
+                        subDelMutation.mutate(isSubData?.items[0]?.id);
+                      }}
+                      className={`col-start-1 row-start-1 mx-auto ${
+                        !sub ? "invisible" : ""
+                      } `}
+                    >
+                      Subscribed
+                    </span>
+                    <span
+                      onClick={() => {
+                        subAddMutation.mutate();
+                      }}
+                      className={`col-start-1 row-start-1 mx-auto ${
+                        sub ? "invisible" : ""
+                      } `}
+                    >
+                      Subscribe
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
           <div className="w-full mb-2 shadow-[0_1px_0_0_rgba(150,150,150,0.5)]">
-            <div className="flex items-center w-9/12 gap-3 pt-4 pb-2 mx-auto">
+            <div className="flex items-center w-9/12 gap-3 pt-3 pb-2 mx-auto">
               <NavLink
                 to=""
                 className={({ isActive }) =>
@@ -381,7 +532,7 @@ const ChannelOverview = () => {
               </NavLink>
             </div>
           </div>
-          <div className="w-9/12 h-full mx-auto">
+          <div className="w-9/12 mx-auto">
             <Outlet />
           </div>
         </motion.div>

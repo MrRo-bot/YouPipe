@@ -4,21 +4,23 @@ import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { toast, Bounce } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useAppDispatch } from "../../app/store";
-import { deleteSubscription } from "../../features/subscriptionSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+
 import { rawViewsToString } from "../../utils/functions";
+
 import { ChannelInfoType, TokensType } from "../../types/types";
 
 const SubscriptionCard = ({
   stat,
   subId,
+  subRes,
 }: {
   stat: ChannelInfoType;
   subId: string;
+  subRes: { kind: string; channelId: string } | undefined;
 }) => {
   const [sub, setSub] = useState(true);
 
@@ -33,12 +35,10 @@ const SubscriptionCard = ({
     expiry_date: 0,
   });
 
-  const dispatch = useAppDispatch();
-
-  const subMutation = useMutation({
-    mutationFn: (sub: string) => {
-      return fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${sub}&key=${
+  const subDelMutation = useMutation({
+    mutationFn: async (id: string | undefined) => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
           import.meta.env.VITE_API_KEY
         }`,
         {
@@ -49,9 +49,61 @@ const SubscriptionCard = ({
           },
         }
       );
+      if (!res.ok) throw new Error("Error removing subscriber");
     },
     onSuccess: async () => {
       toast("🥲 Unsubscribed!", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
+  const subAddMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+          body: JSON.stringify({
+            snippet: {
+              resourceId: {
+                kind: subRes?.kind,
+                channelId: subRes?.channelId,
+              },
+            },
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Error subscribing to user");
+    },
+    onSuccess: async () => {
+      toast("🥳 Subscribed", {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -98,7 +150,7 @@ const SubscriptionCard = ({
               <img
                 referrerPolicy="no-referrer"
                 className="w-full h-full rounded-full"
-                src={stat.items[0].snippet.thumbnails.high.url}
+                src={stat?.items[0]?.snippet?.thumbnails?.high?.url}
                 alt=""
               />
             ) : (
@@ -115,7 +167,7 @@ const SubscriptionCard = ({
             <div className="flex items-center gap-1">
               {stat ? (
                 <div className="text-xl text-ellipsis line-clamp-2">
-                  {stat.items[0].snippet.title}
+                  {stat?.items[0]?.snippet?.title}
                 </div>
               ) : (
                 <Skeleton width={100} height={20} className="rounded-2xl" />
@@ -125,7 +177,7 @@ const SubscriptionCard = ({
             <div className="flex items-center justify-start gap-1 mt-2">
               <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
                 {stat ? (
-                  `${stat.items[0].snippet.customUrl} • ${rawViewsToString(
+                  `${stat?.items[0]?.snippet?.customUrl} • ${rawViewsToString(
                     stat?.items[0]?.statistics?.subscriberCount || ""
                   )} Subs • ${rawViewsToString(
                     stat?.items[0]?.statistics?.viewCount || ""
@@ -141,7 +193,7 @@ const SubscriptionCard = ({
             <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
               {stat ? (
                 <p className="text-xs text-zinc-400">
-                  {stat.items[0].snippet.description}
+                  {stat?.items[0]?.snippet?.description}
                 </p>
               ) : (
                 <p className="text-xs text-zinc-400">No Description Found</p>
@@ -150,18 +202,18 @@ const SubscriptionCard = ({
           </div>
 
           <div
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setSub(!sub);
             }}
-            className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none
+            className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
            ${
              sub ? "bg-zinc-800" : "bg-white text-black"
            } active:bg-zinc-600/70`}
           >
             <span
               onClick={() => {
-                subMutation.mutate(subId);
-                dispatch(deleteSubscription(subId));
+                subDelMutation.mutate(subId);
               }}
               className={`col-start-1 row-start-1 mx-auto ${
                 !sub ? "invisible" : ""
@@ -170,6 +222,9 @@ const SubscriptionCard = ({
               Subscribed
             </span>
             <span
+              onClick={() => {
+                subAddMutation.mutate();
+              }}
               className={`col-start-1 row-start-1 mx-auto ${
                 sub ? "invisible" : ""
               } `}

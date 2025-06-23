@@ -286,7 +286,7 @@ const Player = () => {
 
   const comMutation = useMutation({
     mutationFn: async (id: string | undefined) => {
-      const response = await fetch(
+      const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&key=${
           import.meta.env.VITE_API_KEY
         }`,
@@ -306,7 +306,8 @@ const Player = () => {
           }),
         }
       );
-      const comment = await response.json();
+      if (!res.ok) throw new Error("Error adding comment");
+      const comment = await res.json();
       dispatch(addComment(comment));
     },
     onSuccess: () => {
@@ -342,7 +343,7 @@ const Player = () => {
       <div className="flex w-[97%] h-full mx-auto">
         <div className="w-[75%] overflow-y-scroll hideScrollbar">
           <div className="relative">
-            <div className="w-full h-full overflow-hidden aspect-video rounded-3xl">
+            <div className="w-full h-[70vh] overflow-hidden aspect-video rounded-3xl">
               <ReactPlayer
                 ref={playerRef}
                 url={`https://www.youtube.com/watch?v=${videoId}`} //[] url array for playlist playback (create list of links from playlist first)
@@ -374,7 +375,8 @@ const Player = () => {
                     onClick={handleRating}
                     className={`flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
                       rating.items[0].rating === "like" && "text-yellow-400"
-                    } ${rating.items[0].rating === "like" && "btn-bubbles"}`}
+                    }
+                    `}
                   >
                     {rating.items[0].rating === "like" ? (
                       <PiThumbsUpFill className="pointer-events-none" />

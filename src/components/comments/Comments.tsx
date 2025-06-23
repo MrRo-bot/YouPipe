@@ -112,7 +112,7 @@ const Comments = ({
   //adding a reply
   const replyMutation = useMutation({
     mutationFn: async (reply: string) => {
-      const response = await fetch(
+      const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/comments?part=id%2Csnippet&key=${
           import.meta.env.VITE_API_KEY
         }`,
@@ -131,7 +131,8 @@ const Comments = ({
           }),
         }
       );
-      const replyData = await response.json();
+      if (!res.ok) throw new Error("Error adding reply");
+      const replyData = await res.json();
       dispatch(addReply(replyData));
     },
     onSuccess: () => {
@@ -162,8 +163,8 @@ const Comments = ({
       });
     },
   });
-  //edit comment or reply
 
+  //edit comment or reply
   const updateMutation = useMutation({
     mutationFn: async ({
       id,
@@ -192,6 +193,7 @@ const Comments = ({
           }),
         }
       );
+      if (!res.ok) throw new Error("Error updating");
       const updatedData = await res.json();
       dispatch(
         isReply
@@ -227,10 +229,10 @@ const Comments = ({
     },
   });
 
-  //delete mutation
+  //delete a comment or reply
   const deleteMutation = useMutation({
     mutationFn: async (commentIds: { commentId: string; replyId: string }) => {
-      await fetch(
+      const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/comments?id=${
           commentIds.commentId || commentIds.replyId
         }&key=${import.meta.env.VITE_API_KEY}`,
@@ -243,6 +245,7 @@ const Comments = ({
           },
         }
       );
+      if (!res.ok) throw new Error("Error in deleting");
       dispatch(
         commentIds.commentId
           ? deleteComment(commentIds.commentId)
