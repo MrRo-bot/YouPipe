@@ -96,7 +96,7 @@ const Sidebar = () => {
                   : ""
               }
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiHouseFill className="w-7 h-7" />
                 <div className="w-full">Home</div>
               </div>
@@ -111,7 +111,7 @@ const Sidebar = () => {
               }
               to="subscriptions"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiMonitorPlayFill className="w-7 h-7" />
                 <div className="w-full">Subscriptions</div>
               </div>
@@ -127,7 +127,7 @@ const Sidebar = () => {
               }
               to="playlists"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiListStarFill className="w-7 h-7" />
                 <div className="w-full">Playlists</div>
               </div>
@@ -143,7 +143,7 @@ const Sidebar = () => {
               }
               to="likedvideos"
             >
-              <div className="flex items-center gap-6 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition tracking-tight text-sm hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiThumbsUpFill className="w-7 h-7" />
                 <div className="w-full">Liked Videos</div>
               </div>
