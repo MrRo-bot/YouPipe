@@ -6,7 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { PiListPlus } from "react-icons/pi";
+import { PiListPlus, PiUserFill } from "react-icons/pi";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { elapsedTime } from "../../utils/functions";
@@ -183,7 +183,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
           className="flex items-center justify-between gap-1 p-3 transition-all cursor-pointer hover:bg-zinc-800/70 rounded-2xl"
         >
           <div className="flex w-full">
-            <div className="relative overflow-hidden self-start min-w-[32rem] w-[32rem] rounded-2xl aspect-video">
+            <div className="relative overflow-hidden self-start min-w-[26rem] rounded-2xl aspect-video">
               {playlist?.statsLoading ? (
                 <Skeleton className="w-full h-full -top-1" />
               ) : (
@@ -232,15 +232,19 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
                 <div className="flex items-center gap-2 text-sm font-medium text-zinc-300">
                   {
                     <span
+                      className="flex items-center gap-1 transition-colors hover:text-slate-500 focus:text-slate-500 text-zinc-200"
                       onClick={(e) => {
                         e.stopPropagation();
-                        console.log("opening playlist channel");
+                        navigate(
+                          `/channel/${playlist?.playlistStats?.items[0]?.snippet?.channelId}`
+                        );
                       }}
                     >
+                      <PiUserFill className="text-yellow-200" />{" "}
                       {playlist?.playlistStats?.items[0]?.snippet?.channelTitle}
                     </span>
                   }
-                  • Playlist • Created {elapsedTime(date)} ago`
+                  • Playlist • Created {elapsedTime(date)} ago
                 </div>
               )}
 
@@ -253,17 +257,17 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               ) : playlist?.itemsLoading ? (
                 <Skeleton count={2} height={10} className="my-1" />
               ) : (
-                <div>
+                <div className="flex flex-col gap-1">
                   {playlist?.playlistItemsStats?.items?.map((item) => (
                     <div
                       onClick={() => navigate(`/video/${item?.id}`)}
                       className="w-full text-sm text-zinc-400"
                     >
                       <div className="flex justify-start my-1" key={item?.etag}>
-                        <div className="max-w-4/6 text-ellipsis line-clamp-1">
+                        <div className="w-9/12 text-ellipsis line-clamp-1">
                           {`${item?.snippet?.title}`}
                         </div>
-                        <div className="max-w-2/6">
+                        <div className="w-3/12">
                           {` • ${item?.snippet?.videoOwnerChannelTitle}`}
                         </div>
                       </div>
@@ -271,15 +275,6 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
                   ))}
                 </div>
               )}
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log("playlist videos in playlist");
-                }}
-                className="mt-6 text-zinc-50 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
-              >
-                View full playlist
-              </div>
             </div>
           </div>
         </motion.div>

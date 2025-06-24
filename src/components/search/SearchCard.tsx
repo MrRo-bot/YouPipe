@@ -11,7 +11,11 @@ const SearchCard = ({ search }: { search: SearchType }) => {
   ) : kind === "playlist" ? (
     <Playlist search={search} kind={kind} />
   ) : (
-    <Video search={search} kind={kind} />
+    <>
+      <Video search={search} kind={kind} />
+      <Channel search={search} kind={kind} />
+      <Playlist search={search} kind={kind} />
+    </>
   );
 };
 

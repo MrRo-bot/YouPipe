@@ -13,6 +13,7 @@ import {
   videoDuration,
 } from "../../utils/functions";
 import { SearchType, TokensType, VideosListType } from "../../types/types";
+import { PiUserFill } from "react-icons/pi";
 
 const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
   const [videoStats, setVideoStats] = useState<VideosListType>();
@@ -159,10 +160,15 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log("open channel");
+                    navigate(
+                      `/channel/${videoStats?.items[0]?.snippet?.channelId}`
+                    );
                   }}
-                  className="pt-1 text-xl tracking-wide text-zinc-200 text-ellipsis"
+                  className="flex items-center gap-1 pt-1 text-xl font-bold tracking-wide transition-colors hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
                 >
+                  <span>
+                    <PiUserFill className="text-yellow-200" />
+                  </span>{" "}
                   {videoStats?.items[0]?.snippet?.channelTitle}
                 </div>
               )}
