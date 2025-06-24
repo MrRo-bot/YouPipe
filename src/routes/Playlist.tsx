@@ -81,7 +81,7 @@ const Playlist = () => {
         <h1 className="px-2 text-4xl font-bold">My Custom Playlists</h1>
 
         <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {!playlistData?.items?.length ? (
+          {playlistData?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}
               height="80"

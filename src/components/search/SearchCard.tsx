@@ -6,16 +6,10 @@ import { SearchType } from "../../types/types";
 const SearchCard = ({ search }: { search: SearchType }) => {
   const kind = search?.id?.kind.split("#")[1];
 
-  return kind === "channel" ? (
-    <Channel search={search} kind={kind} />
-  ) : kind === "playlist" ? (
-    <Playlist search={search} kind={kind} />
-  ) : (
-    <>
-      <Video search={search} kind={kind} />
-      <Channel search={search} kind={kind} />
-      <Playlist search={search} kind={kind} />
-    </>
+  return (
+    (kind === "channel" && <Channel search={search} kind={kind} />) ||
+    (kind === "playlist" && <Playlist search={search} kind={kind} />) ||
+    (kind === "video" && <Video search={search} kind={kind} />)
   );
 };
 

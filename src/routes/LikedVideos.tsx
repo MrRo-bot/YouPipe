@@ -171,7 +171,7 @@ const LikedVideos = () => {
             </div>
           </div>
 
-          {likedVideos?.items?.length < 1 ? (
+          {likedVideos?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}
               height="80"

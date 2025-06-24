@@ -85,7 +85,7 @@ const Search = () => {
         }  overflow-y-auto hideScrollbar rounded-xl`}
       >
         <div className="w-2/3 mx-auto">
-          {searchData?.items?.length < 1 ? (
+          {searchData?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}
               height="80"
