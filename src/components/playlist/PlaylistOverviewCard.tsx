@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-
 import {
   elapsedTime,
   rawViewsToString,
@@ -119,8 +117,6 @@ const PlaylistOverviewCard = ({
           </div>
         </div>
       </div>
-
-      <PiDotsThreeOutlineVerticalFill className="cursor-pointer min-w-5 min-h-5 text-zinc-200" />
     </motion.div>
   );
 };

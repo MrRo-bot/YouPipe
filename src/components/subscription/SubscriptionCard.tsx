@@ -154,12 +154,7 @@ const SubscriptionCard = ({
                 alt=""
               />
             ) : (
-              <Skeleton
-                circle
-                width={135}
-                height={135}
-                className="-top-2 -left-1"
-              />
+              <Skeleton circle width={135} height={135} className="-top-0.5" />
             )}
           </div>
 
@@ -196,42 +191,45 @@ const SubscriptionCard = ({
                   {stat?.items[0]?.snippet?.description}
                 </p>
               ) : (
-                <p className="text-xs text-zinc-400">No Description Found</p>
+                <Skeleton width={400} height={20} className="rounded-2xl" />
               )}
             </div>
           </div>
-
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setSub(!sub);
-            }}
-            className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
+          {stat ? (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setSub(!sub);
+              }}
+              className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
            ${
              sub ? "bg-zinc-800" : "bg-white text-black"
            } active:bg-zinc-600/70`}
-          >
-            <span
-              onClick={() => {
-                subDelMutation.mutate(subId);
-              }}
-              className={`col-start-1 row-start-1 mx-auto ${
-                !sub ? "invisible" : ""
-              } `}
             >
-              Subscribed
-            </span>
-            <span
-              onClick={() => {
-                subAddMutation.mutate();
-              }}
-              className={`col-start-1 row-start-1 mx-auto ${
-                sub ? "invisible" : ""
-              } `}
-            >
-              Subscribe
-            </span>
-          </div>
+              <span
+                onClick={() => {
+                  subDelMutation.mutate(subId);
+                }}
+                className={`col-start-1 row-start-1 mx-auto ${
+                  !sub ? "invisible" : ""
+                } `}
+              >
+                Subscribed
+              </span>
+              <span
+                onClick={() => {
+                  subAddMutation.mutate();
+                }}
+                className={`col-start-1 row-start-1 mx-auto ${
+                  sub ? "invisible" : ""
+                } `}
+              >
+                Subscribe
+              </span>
+            </div>
+          ) : (
+            <Skeleton width={110} height={30} className="!rounded-full" />
+          )}
         </div>
       </motion.div>
     </SkeletonTheme>

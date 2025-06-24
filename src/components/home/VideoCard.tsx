@@ -3,11 +3,7 @@ import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import {
-  PiClosedCaptioningFill,
-  PiDotsThreeOutlineVerticalFill,
-  PiHighDefinitionFill,
-} from "react-icons/pi";
+import { PiClosedCaptioningFill, PiHighDefinitionFill } from "react-icons/pi";
 import { FcClock, FcStart } from "react-icons/fc";
 
 import {
@@ -143,9 +139,6 @@ const VideoCard = ({
             <>
               <div className="text-xs tracking-wide text-zinc-300 text-ellipsis">
                 {channel?.items[0]?.snippet?.title || ""}
-              </div>
-              <div className="ml-auto transition hover:scale-105 focus:scale-105">
-                <PiDotsThreeOutlineVerticalFill />
               </div>
             </>
           )}

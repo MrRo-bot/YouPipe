@@ -7,7 +7,6 @@ import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { extractColors } from "extract-colors";
 
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { elapsedTime } from "../../utils/functions";
@@ -140,9 +139,6 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                   {playlist?.snippet?.title}
                 </div>
               )}
-              <div className="grid ml-auto -mr-3 transition rounded-full hover:bg-zinc-500/50 focus:bg-zinc-500/50 aspect-square place-items-center">
-                <PiDotsThreeOutlineVerticalFill />
-              </div>
             </div>
 
             <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-300">

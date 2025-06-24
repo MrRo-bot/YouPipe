@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -11,8 +10,6 @@ import Filters from "../components/home/Filters";
 import VideoList from "../components/home/VideoList";
 
 const Home = () => {
-  const { ref, inView } = useInView();
-
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.hamburger);
   const profileData = useAppSelector((state) => state.profile);

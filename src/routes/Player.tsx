@@ -100,7 +100,7 @@ const Player = () => {
     video?.items[0]?.snippet?.publishedAt || ""
   ).toLocaleDateString();
 
-  const { data: commentsList } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["playingVideoComments", videoId, fetchMore],
     queryFn: async () => {
       const res = await fetch(
@@ -440,116 +440,121 @@ const Player = () => {
             </div>
           </div>
         </div>
-        <div className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar">
-          {!commentsList ? (
-            <span className="flex flex-col py-1 my-auto text-2xl text-zinc-50">
-              OH NO!
-              <span className="text-4xl">😿</span>
-              <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
-                comments are disabled
-              </span>
-              <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
-                so do comment box
-              </span>
-            </span>
-          ) : (
-            <>
-              <h2 className="py-1 text-2xl text-zinc-50">
-                <strong>
-                  {rawViewsToString(
-                    video?.items[0]?.statistics?.commentCount || "0"
-                  )}
-                </strong>{" "}
-                Comments
-              </h2>
 
-              <div className="relative w-full">
-                <div className="overflow-y-hidden min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
-                  {myComment}
-                </div>{" "}
-                <textarea
-                  className="hideScrollbar absolute p-2 py-3 text-zinc-100  bg-transparent focus:bg-slate-700/50 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
-                  value={myComment}
-                  placeholder="Describe your vibe 📝"
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setMyComment(e.target.value)
-                  }
-                />
-              </div>
-              <div className="flex gap-6 mx-auto">
-                <button
-                  onClick={() => setMyComment("")}
-                  className="px-3 py-2 transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => comMutation.mutate(videoId)}
-                  className={`transition duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
-                    myComment.length > 0 && "bg-pink-500"
-                  }`}
-                >
-                  Comment
-                </button>
-              </div>
+        {!isLoading && (
+          <div className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar">
+            {comments?.pageInfo?.totalResults > 1 ? (
+              <>
+                <h2 className="py-1 text-2xl text-zinc-50">
+                  <strong>
+                    {rawViewsToString(
+                      video?.items[0]?.statistics?.commentCount || "0"
+                    )}
+                  </strong>{" "}
+                  Comments
+                </h2>
 
-              {comments?.items[0]?.kind === "" ? (
-                <FidgetSpinner
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="fidget-spinner-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="fidget-spinner-wrapper mx-auto"
-                />
-              ) : (
-                <Virtuoso
-                  className="hideScrollbar"
-                  increaseViewportBy={100}
-                  data={comments?.items}
-                  totalCount={Number(
-                    video?.items[0]?.statistics?.commentCount || 0
-                  )}
-                  itemContent={(_, data) => (
-                    <div className="pt-3">
-                      <Comments
-                        key={data?.id}
-                        comment={data}
-                        channelId={video?.items[0]?.snippet?.channelId || ""}
-                      />
-                    </div>
-                  )}
-                  endReached={() => setTimeout(() => setFetchMore(true), 1000)}
-                  context={{ comments: comments, video: video }}
-                  components={{
-                    Footer: ({ context }) => {
-                      return context &&
-                        context?.comments?.items?.length <
-                          Number(
-                            context?.video?.items[0]?.statistics?.commentCount
-                          ) ? (
-                        <ThreeDots
-                          visible={true}
-                          height="50"
-                          width="50"
-                          color="#3bf6fcbf"
-                          radius="9"
-                          ariaLabel="three-dots-loading"
-                          wrapperStyle={{}}
-                          wrapperClass="justify-center"
+                <div className="relative w-full">
+                  <div className="overflow-y-hidden min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
+                    {myComment}
+                  </div>{" "}
+                  <textarea
+                    className="hideScrollbar absolute p-2 py-3 text-zinc-100  bg-transparent focus:bg-slate-700/50 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                    value={myComment}
+                    placeholder="Describe your vibe 📝"
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setMyComment(e.target.value)
+                    }
+                  />
+                </div>
+                <div className="flex gap-6 mx-auto">
+                  <button
+                    onClick={() => setMyComment("")}
+                    className="px-3 py-2 transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => comMutation.mutate(videoId)}
+                    className={`transition duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
+                      myComment.length > 0 && "bg-pink-500"
+                    }`}
+                  >
+                    Comment
+                  </button>
+                </div>
+
+                {comments?.items[0]?.kind === "" ? (
+                  <FidgetSpinner
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="fidget-spinner-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="fidget-spinner-wrapper mx-auto"
+                  />
+                ) : (
+                  <Virtuoso
+                    className="hideScrollbar"
+                    increaseViewportBy={100}
+                    data={comments?.items}
+                    totalCount={Number(
+                      video?.items[0]?.statistics?.commentCount || 0
+                    )}
+                    itemContent={(_, data) => (
+                      <div className="pt-3">
+                        <Comments
+                          key={data?.id}
+                          comment={data}
+                          channelId={video?.items[0]?.snippet?.channelId || ""}
                         />
-                      ) : (
-                        <div className="mx-auto text-lg italic font-bold w-max">
-                          End
-                        </div>
-                      );
-                    },
-                  }}
-                />
-              )}
-            </>
-          )}
-        </div>
+                      </div>
+                    )}
+                    endReached={() =>
+                      setTimeout(() => setFetchMore(true), 1000)
+                    }
+                    context={{ comments: comments, video: video }}
+                    components={{
+                      Footer: ({ context }) => {
+                        return context &&
+                          context?.comments?.items?.length <
+                            Number(
+                              context?.video?.items[0]?.statistics?.commentCount
+                            ) ? (
+                          <ThreeDots
+                            visible={true}
+                            height="50"
+                            width="50"
+                            color="#3bf6fcbf"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="justify-center"
+                          />
+                        ) : (
+                          <div className="mx-auto text-lg italic font-bold w-max">
+                            End
+                          </div>
+                        );
+                      },
+                    }}
+                  />
+                )}
+              </>
+            ) : (
+              <span className="flex flex-col py-1 my-auto text-2xl text-zinc-50">
+                OH NO!
+                <span className="text-4xl">😿</span>
+                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
+                  comments are disabled
+                </span>
+                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
+                  so do comment box
+                </span>
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

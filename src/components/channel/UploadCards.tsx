@@ -3,10 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import {
-  PiClosedCaptioningFill,
-  PiDotsThreeOutlineVerticalFill,
-} from "react-icons/pi";
+import { PiClosedCaptioningFill } from "react-icons/pi";
 import { FcClock, FcStart } from "react-icons/fc";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
@@ -116,9 +113,6 @@ export const UploadCards = ({
                 <div className="flex items-start justify-between">
                   <div className="w-10/12 text-ellipsis line-clamp-2">
                     {video?.items[0]?.snippet?.localized?.title || ""}
-                  </div>
-                  <div className="mt-1 transition hover:scale-105 focus:scale-105">
-                    <PiDotsThreeOutlineVerticalFill />
                   </div>
                 </div>
               )}
