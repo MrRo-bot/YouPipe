@@ -267,46 +267,44 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
               </div>
             )}
           </div>
-          {/* <div
-            onClick={(e) => {
-
-            }}
-            className="self-center px-4 py-2 mx-auto font-medium rounded-full cursor-pointer bg-zinc-800"
-          >
-            Subscribed
-          </div> */}
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setSub(!sub);
-            }}
-            className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
+          {channelLoading ? (
+            <div className="ml-auto">
+              <Skeleton width={110} height={30} className="!rounded-full" />
+            </div>
+          ) : (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setSub(!sub);
+              }}
+              className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
            ${
              sub ? "bg-zinc-800" : "bg-white text-black"
            } active:bg-zinc-600/70`}
-          >
-            <span
-              onClick={() =>
-                isSubData?.pageInfo?.totalResults &&
-                subDelMutation.mutate(isSubData?.items[0]?.id)
-              }
-              className={`col-start-1 row-start-1 mx-auto ${
-                !sub ? "invisible" : ""
-              } `}
             >
-              Subscribed
-            </span>
-            <span
-              onClick={() => {
-                subAddMutation.mutate();
-              }}
-              className={`col-start-1 row-start-1 mx-auto ${
-                sub ? "invisible" : ""
-              } `}
-            >
-              Subscribe
-            </span>
-          </div>
+              <span
+                onClick={() =>
+                  isSubData?.pageInfo?.totalResults &&
+                  subDelMutation.mutate(isSubData?.items[0]?.id)
+                }
+                className={`col-start-1 row-start-1 mx-auto ${
+                  !sub ? "invisible" : ""
+                } `}
+              >
+                Subscribed
+              </span>
+              <span
+                onClick={() => {
+                  subAddMutation.mutate();
+                }}
+                className={`col-start-1 row-start-1 mx-auto ${
+                  sub ? "invisible" : ""
+                } `}
+              >
+                Subscribe
+              </span>
+            </div>
+          )}
         </motion.div>
       </SkeletonTheme>
     </div>

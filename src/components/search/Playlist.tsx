@@ -185,7 +185,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
           <div className="flex w-full">
             <div className="relative overflow-hidden self-start min-w-[32rem] w-[32rem] rounded-2xl aspect-video">
               {playlist?.statsLoading ? (
-                <Skeleton height={"100%"} className="-top-1" />
+                <Skeleton className="w-full h-full -top-1" />
               ) : (
                 <>
                   <img
@@ -251,12 +251,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
                   className="top-5 rounded-2xl"
                 />
               ) : playlist?.itemsLoading ? (
-                <Skeleton
-                  count={2}
-                  height={10}
-                  width={80 + "%"}
-                  className="my-1"
-                />
+                <Skeleton count={2} height={10} className="my-1" />
               ) : (
                 <div>
                   {playlist?.playlistItemsStats?.items?.map((item) => (
@@ -281,7 +276,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
                   e.stopPropagation();
                   console.log("playlist videos in playlist");
                 }}
-                className="mt-2 text-zinc-50 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
+                className="mt-6 text-zinc-50 hover:text-zinc-200 focus:text-zinc-200 active:text-zinc-200"
               >
                 View full playlist
               </div>

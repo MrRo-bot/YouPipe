@@ -154,7 +154,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
               </div>
 
               {videoLoading ? (
-                <Skeleton width={100} className="rounded-2xl" />
+                <Skeleton width={100} className="rounded-2xl top-5" />
               ) : (
                 <div
                   onClick={(e) => {
