@@ -75,7 +75,7 @@ const Uploads = () => {
 
   return (
     <>
-      {channelUploads?.items?.length < 1 ? (
+      {channelUploads?.items?.length <= 1 ? (
         <div className="w-full">
           <FidgetSpinner
             visible={true}
@@ -123,7 +123,7 @@ const Uploads = () => {
           )}
         />
       )}
-      {channelUploads?.pageInfo?.totalResults === 0 &&
+      {channelUploads?.pageInfo?.totalResults === null &&
         channelUploads?.items.length < 1 && (
           <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
             <strong className="block text-3xl tracking-wider">

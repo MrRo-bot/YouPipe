@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { FidgetSpinner } from "react-loader-spinner";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -81,11 +82,16 @@ const Playlists = () => {
 
   return (
     <AnimatePresence>
-      <motion.div className="relative mb-2 mt-3 max-h-[90vh] rounded-xl mx-4 w-full overflow-y-auto hideScrollbar">
+      <motion.div className="relative mb-2 mt-3 max-h-[90vh] min-h-[50vh] rounded-xl mx-4 w-full overflow-y-auto hideScrollbar">
         {playlist?.length < 1 ? (
-          <div className="mx-auto text-lg italic font-bold w-max">
-            No Playlists Found
-          </div>
+          <FidgetSpinner
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="fidget-spinner-loading"
+            wrapperStyle={{}}
+            wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+          />
         ) : (
           <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {playlist?.map(

@@ -10,7 +10,7 @@ import SubscriptionCard from "../subscription/SubscriptionCard";
 
 import { ChannelInfoType } from "../../types/types";
 
-const ChannelsList = ({ id }: { id: string }) => {
+const ChannelsCard = ({ id }: { id: string }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
   const token = useAppSelector((state) => state.token);
   const parts = ["statistics", "snippet"];
@@ -59,37 +59,31 @@ const Channels = () => {
   return (
     <AnimatePresence>
       <div className="hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] h-[50vh] w-full">
-        {!channelsList ? (
-          <div className="mx-auto text-lg italic font-bold w-max">
-            No Channels Found
-          </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            className="relative w-3/4 min-h-full mx-auto hideScrollbar rounded-xl"
-          >
-            {channelsList.length < 1 ? (
-              <FidgetSpinner
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="fidget-spinner-loading"
-                wrapperStyle={{}}
-                wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
-              />
-            ) : (
-              <Virtuoso
-                className="!flex !flex-col !overflow-y-auto !min-h-[75vh] !hideScrollbar"
-                increaseViewportBy={100}
-                data={channelsList}
-                totalCount={channelsList.length}
-                itemContent={(_, data) => <ChannelsList key={data} id={data} />}
-              />
-            )}
-          </motion.div>
-        )}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.7 }}
+          className="relative w-3/4 min-h-full mx-auto hideScrollbar rounded-xl"
+        >
+          {channelsList.length < 1 ? (
+            <FidgetSpinner
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="fidget-spinner-loading"
+              wrapperStyle={{}}
+              wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+            />
+          ) : (
+            <Virtuoso
+              className="!flex !flex-col !overflow-y-auto !min-h-[75vh] !hideScrollbar"
+              increaseViewportBy={100}
+              data={channelsList}
+              totalCount={channelsList.length}
+              itemContent={(_, data) => <ChannelsCard key={data} id={data} />}
+            />
+          )}
+        </motion.div>
       </div>
     </AnimatePresence>
   );
