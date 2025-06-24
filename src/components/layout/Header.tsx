@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   useGoogleLogin,
@@ -22,18 +23,18 @@ import {
   clearSearchList,
   refetch,
 } from "../../features/searchSlice";
-import { getLocationData } from "../../features/locationSlice";
+
 import { clearCommentsThread } from "../../features/commentsThreadSlice";
 import { clearHomeVideos } from "../../features/homeSlice";
 import { removeTimestamp } from "../../features/timestampSlice";
 import { clearPlayItems } from "../../features/playlistOverviewSlice";
 import { clearLikedVideos } from "../../features/likedVideosSlice";
 import { clearChannel } from "../../features/channelOverviewSlice";
-import { usePersistedState } from "../../hooks/usePersistentStorage";
-import useCurrentLocation from "../../hooks/useCurrentLocation";
-import { ProfileType, TokensType } from "../../types/types";
-import { useQuery } from "@tanstack/react-query";
 import { clearSubscription } from "../../features/subscriptionSlice";
+
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+
+import { ProfileType, TokensType } from "../../types/types";
 
 const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
@@ -42,8 +43,6 @@ const Header = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
-  const locationCoords = useCurrentLocation();
 
   const [profile, setProfile] = usePersistedState<ProfileType>("profile", {
     sub: "",
@@ -68,6 +67,43 @@ const Header = () => {
   const profileData = useAppSelector((state) => state.profile);
   const locationCode = useAppSelector((state) => state.location);
   const searchState = useAppSelector((state) => state.search.searchString);
+
+  //adding channelId to profile store object
+  useQuery({
+    queryKey: ["channelId"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/channels?mine=true&part=id`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error in fetching channel ID");
+
+        const channelId = await res.json();
+        dispatch(addChannelId(channelId.items[0].id));
+        return channelId;
+      } catch (error) {
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
+    },
+    refetchOnWindowFocus: false,
+  });
 
   //space separated list of scopes required for project itself
   const scope =
@@ -222,44 +258,6 @@ const Header = () => {
     }
   }, [token?.access_token]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (locationCoords.latitude > 0 && locationCoords.longitude > 0) {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${locationCoords.latitude}&lon=${locationCoords.longitude}&format=json`
-          );
-          const coordsDetails = await res.json();
-          dispatch(getLocationData(coordsDetails));
-          toast("🧭 Location fetched!", {
-            position: "bottom-left",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            draggable: true,
-            progress: undefined,
-            transition: Bounce,
-            className: "!toastGradient !font-bold !text-zinc-50",
-          });
-          return coordsDetails;
-        }
-      } catch (error) {
-        //react toastify for location fetch errors
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
-    })();
-  }, [locationCoords]);
-
   //effect for clearing redux store parts depending upon which route user currently is
   useEffect(() => {
     if (location.pathname !== "/home") dispatch(clearHomeVideos());
@@ -279,44 +277,8 @@ const Header = () => {
     }
   }, [location.pathname]);
 
-  //adding channelId to profile store object
-  useQuery({
-    queryKey: ["channelId"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/channels?mine=true&part=id`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Error in fetching channel ID");
-
-        const channelId = await res.json();
-        dispatch(addChannelId(channelId.items[0].id));
-        return channelId;
-      } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
-      }
-    },
-  });
-
   return (
-    <header className="flex items-center justify-between px-5 py-1 glass">
+    <header className="flex items-center justify-between px-3 py-1 glass">
       <div className="flex items-center justify-between gap-3">
         <div
           onClick={() => dispatch(toggle())}
