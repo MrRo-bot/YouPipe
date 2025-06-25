@@ -172,7 +172,6 @@ const Player = () => {
     const codeElement = containerRef?.current?.querySelectorAll("code");
     //@ts-expect-error too much type overload
     const codeElementArray = Array?.from(codeElement);
-
     codeElementArray.map((x) => {
       //@ts-expect-error too much type overload
       x?.addEventListener("click", handleTimestamp);

@@ -154,7 +154,7 @@ const PlaylistOverview = () => {
             </div>
           </div>
           <div className="z-0 flex flex-col w-9/12 gap-2 mx-2 my-1 overflow-y-auto hideScrollbar">
-            {playlistOverview?.items?.length < 1 ? (
+            {playlistOverview?.items?.length <= 1 ? (
               <FidgetSpinner
                 visible={true}
                 height="80"

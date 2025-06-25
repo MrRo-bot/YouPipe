@@ -1,4 +1,4 @@
-import React, { RefObject, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { UseMutationResult } from "@tanstack/react-query";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,7 +11,8 @@ import {
   PiTrashBold,
 } from "react-icons/pi";
 
-import { useAppSelector } from "../../app/store";
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { addTimestamp } from "../../features/timestampSlice";
 
 import { elapsedTime, rawViewsToString } from "../../utils/functions";
 
@@ -28,7 +29,6 @@ interface RepliesType {
   channelId: string;
   deleteReply: (commentIds: { commentId: string; replyId: string }) => void;
   likeCount: number | undefined;
-  ref: RefObject<HTMLSpanElement>;
 }
 
 const Replies = ({
@@ -37,12 +37,15 @@ const Replies = ({
   channelId,
   deleteReply,
   likeCount,
-  ref,
 }: RepliesType) => {
+  const replyRef = useRef<HTMLSpanElement>(null);
+
   const [isEditingReply, setIsEditingReply] = useState(false);
   const [editedReply, setEditedReply] = useState(
     comment?.snippet?.textOriginal || ""
   );
+
+  const dispatch = useAppDispatch();
 
   const profileChannelId = useAppSelector((state) => state.profile.channelId);
 
@@ -57,6 +60,34 @@ const Replies = ({
     (match: string) =>
       `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
   );
+  const handleTimestamp = (e: { currentTarget: { innerText: string } }) => {
+    const timestampArr = e.currentTarget.innerText.split(":");
+    let seconds = 0;
+
+    //if hours exists in timestamp
+    // h * 3600 + m * 60 + s
+    seconds =
+      timestampArr.length > 2
+        ? Number(timestampArr[0]) * 3600 +
+          Number(timestampArr[1]) * 60 +
+          Number(timestampArr[2])
+        : Number(timestampArr[0]) * 60 + Number(timestampArr[1]);
+
+    dispatch(addTimestamp(seconds));
+  };
+
+  //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps
+  useEffect(() => {
+    const codeElement = replyRef?.current?.querySelectorAll("code");
+    //@ts-expect-error type not found
+    const codeElementArray = Array?.from(codeElement);
+
+    codeElementArray.map((x) => {
+      //@ts-expect-error type not found
+      x?.addEventListener("click", handleTimestamp);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle edit reply
   const handleEditReply = () => {
@@ -165,7 +196,7 @@ const Replies = ({
                 </div>
               </div>
             ) : (
-              <span ref={ref}>{parse(modifiedReply)}</span>
+              <span ref={replyRef}>{parse(modifiedReply)}</span>
             )}
           </div>
 

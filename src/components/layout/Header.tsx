@@ -289,7 +289,6 @@ const Header = () => {
         <NavLink className="flex items-center min-h-10" to="/">
           <div className="w-8 h-8">
             <img
-              referrerPolicy="no-referrer"
               className="text-nowrap indent-[100%] overflow-hidden"
               src="icon.svg"
               alt="youpipe"

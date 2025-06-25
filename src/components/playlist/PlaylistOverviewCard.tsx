@@ -104,15 +104,28 @@ const PlaylistOverviewCard = ({
             {isLoading ? (
               <Skeleton width={150} height={20} className="top-5 rounded-2xl" />
             ) : (
-              `${
-                playlistItem?.snippet?.videoOwnerChannelTitle || ""
-              } • ${rawViewsToString(
-                videoStat?.items[0]?.statistics?.viewCount || ""
-              )} views • ${rawViewsToString(
-                videoStat?.items[0]?.statistics?.likeCount || ""
-              )} likes • ${rawViewsToString(
-                videoStat?.items[0]?.statistics?.commentCount || ""
-              )} comments • ${elapsedTime(date) || ""} ago`
+              <>
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(
+                      `/channel/${playlistItem?.snippet?.videoOwnerChannelId}`
+                    );
+                  }}
+                  className="transition-all hover:text-slate-50 focus:text-slate-50"
+                >
+                  {playlistItem?.snippet?.videoOwnerChannelTitle || ""}
+                </span>
+                <span>
+                  {`• ${rawViewsToString(
+                    videoStat?.items[0]?.statistics?.viewCount || ""
+                  )} views • ${rawViewsToString(
+                    videoStat?.items[0]?.statistics?.likeCount || ""
+                  )} likes • ${rawViewsToString(
+                    videoStat?.items[0]?.statistics?.commentCount || ""
+                  )} comments • ${elapsedTime(date) || ""} ago`}
+                </span>
+              </>
             )}
           </div>
         </div>

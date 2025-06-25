@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -27,6 +28,8 @@ export const UploadCards = ({
   videoItem: PlaylistItemType;
   uniqueKey: string;
 }) => {
+  const navigate = useNavigate();
+
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
     refresh_token: "",
@@ -76,6 +79,7 @@ export const UploadCards = ({
           initial={"hidden"}
           whileInView={"visible"}
           className={`z-0 my-1 flex flex-col justify-between h-full gap-1 p-1 transition-all cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl`}
+          onClick={() => navigate(`/video/${video?.items[0]?.id}`)}
         >
           <div className="flex flex-col gap-2">
             <div className="relative overflow-hidden aspect-video rounded-2xl">

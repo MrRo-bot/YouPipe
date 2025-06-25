@@ -484,7 +484,6 @@ const Comments = ({
                     channelId={channelId}
                     deleteReply={handleDelete}
                     likeCount={comm?.likeCount}
-                    ref={containerRef}
                   />
                 ))}
               </div>

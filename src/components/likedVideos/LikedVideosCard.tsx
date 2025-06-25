@@ -75,11 +75,20 @@ const LikedVideosCard = ({
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               {likedvideo?.snippet?.channelTitle &&
               likedvideo?.statistics?.viewCount ? (
-                `${
-                  likedvideo?.snippet?.channelTitle || ""
-                } • ${rawViewsToString(
-                  likedvideo?.statistics?.viewCount || ""
-                )} views • ${elapsedTime(date) || ""} ago`
+                <>
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/channel/${likedvideo?.snippet?.channelId}`);
+                    }}
+                    className="transition-all hover:text-slate-50 focus:text-slate-50"
+                  >
+                    {likedvideo?.snippet?.channelTitle || ""}
+                  </span>
+                  {`• ${rawViewsToString(
+                    likedvideo?.statistics?.viewCount || ""
+                  )} views • ${elapsedTime(date) || ""} ago`}
+                </>
               ) : (
                 <Skeleton
                   width={150}
