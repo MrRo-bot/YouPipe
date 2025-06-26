@@ -471,9 +471,10 @@ const ChannelOverview = () => {
                     } active:bg-zinc-600/70`}
                   >
                     <span
-                      onClick={() => {
-                        subDelMutation.mutate(isSubData?.items[0]?.id);
-                      }}
+                      onClick={() =>
+                        isSubData?.pageInfo?.totalResults &&
+                        subDelMutation.mutate(isSubData?.items[0]?.id)
+                      }
                       className={`col-start-1 row-start-1 mx-auto ${
                         !sub ? "invisible" : ""
                       } `}

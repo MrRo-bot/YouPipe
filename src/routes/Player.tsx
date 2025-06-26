@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
 import ReactPlayer from "react-player/youtube";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
@@ -43,6 +45,7 @@ const Player = () => {
       },
     ],
   });
+  const [sub, setSub] = useState(false);
 
   const containerRef = useRef<HTMLSpanElement>(null);
   const playerRef = useRef(null);
@@ -99,6 +102,30 @@ const Player = () => {
   const date = new Date(
     video?.items[0]?.snippet?.publishedAt || ""
   ).toLocaleDateString();
+
+  //fetching video author data
+  const { data: channelProfile, isLoading: isChannelProfLoading } = useQuery({
+    queryKey: ["channelProfile", video?.items[0]?.snippet?.channelId],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/channels?id=${
+          video?.items[0]?.snippet?.channelId
+        }&part=snippet,statistics&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const channelStats = await res.json();
+      return channelStats;
+    },
+    enabled: !!video?.items[0]?.snippet?.channelId,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const { status, data, isLoading } = useQuery({
     queryKey: ["playingVideoComments", videoId, fetchMore],
@@ -337,218 +364,423 @@ const Player = () => {
     },
   });
 
-  return (
-    <div className="w-full h-[90vh] pt-5">
-      <div className="flex w-[97%] h-full mx-auto">
-        <div className="w-[75%] overflow-y-scroll hideScrollbar">
-          <div className="relative">
-            <div className="w-full h-[70vh] overflow-hidden aspect-video rounded-3xl">
-              <ReactPlayer
-                ref={playerRef}
-                url={`https://www.youtube.com/watch?v=${videoId}`} //[] url array for playlist playback (create list of links from playlist first)
-                playing={isPlaying}
-                onPlay={() => setIsPlaying(true)}
-                controls={true}
-                volume={0.1}
-                playbackRate={1}
-                pip={true}
-                width={100 + "%"}
-                height={100 + "%"}
-              />
-            </div>
+  const { isLoading: subLoading, data: isSubData } = useQuery({
+    queryKey: ["isSubscribed?", video?.items[0]?.snippet?.channelId],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&forChannelId=${
+          video?.items[0]?.snippet?.channelId
+        }&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const isSubscribed = await res.json();
+      setSub(isSubscribed.pageInfo.totalResults ? true : false);
+      return isSubscribed;
+    },
+    enabled: !!video?.items[0]?.snippet?.channelId,
+  });
 
-            <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2">
-              <div className="flex items-center gap-2 px-2 py-1 rounded-3xl glass-dark w-max">
-                <div className="flex items-center gap-2">
-                  <strong className="text-violet-200">
-                    {rawViewsToString(
-                      video?.items[0]?.statistics?.viewCount || "0"
-                    )}
-                  </strong>{" "}
-                  views
-                </div>
-                |
-                <div className="flex items-center gap-2 transition-colors">
-                  <div
-                    id="like"
-                    onClick={handleRating}
-                    className={`flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
-                      rating.items[0].rating === "like" && "text-yellow-400"
-                    }
-                    `}
-                  >
-                    {rating.items[0].rating === "like" ? (
-                      <PiThumbsUpFill className="pointer-events-none" />
-                    ) : (
-                      <PiThumbsUpBold className="pointer-events-none" />
-                    )}
-                    <strong
-                      className={`text-violet-200 ${
-                        rating.items[0].rating === "like" && "text-yellow-400"
-                      }`}
-                    >
-                      {rawViewsToString(
-                        video?.items[0]?.statistics?.likeCount || "0"
-                      )}
-                    </strong>
-                  </div>
-                  •
-                  <div
-                    id="dislike"
-                    onClick={handleRating}
-                    className={`cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
-                      rating.items[0].rating === "dislike" && "text-yellow-400"
-                    }`}
-                  >
-                    {rating.items[0].rating === "dislike" ? (
-                      <PiThumbsDownFill />
-                    ) : (
-                      <PiThumbsDownBold />
-                    )}
-                  </div>
-                </div>
-                |
-                <div className="flex items-center gap-2">
-                  <strong className="text-violet-200">{date}</strong>
-                </div>
+  const subDelMutation = useMutation({
+    mutationFn: async (id: string | undefined) => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error("Error removing subscriber");
+    },
+    onSuccess: async () => {
+      toast("🥲 Unsubscribed!", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
+  const subAddMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token.access_token}`,
+          },
+          body: JSON.stringify({
+            snippet: {
+              resourceId: {
+                kind: channelProfile?.items[0]?.kind,
+                channelId: channelProfile?.items[0]?.id,
+              },
+            },
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Error subscribing to user");
+    },
+    onSuccess: async () => {
+      toast("🥳 Subscribed", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradient !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+    onError: (e) => {
+      toast.error(`🤔 ${e.message}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    },
+  });
+
+  return (
+    <SkeletonTheme
+      baseColor="rgba(255,255,255,0.1)"
+      customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
+    >
+      <div className="w-full h-[90vh] pt-5">
+        <div className="flex w-[97%] h-full mx-auto">
+          <div className="w-[75%] overflow-y-scroll hideScrollbar">
+            <div className="relative">
+              <div className="w-full h-[70vh] overflow-hidden aspect-video rounded-3xl">
+                <ReactPlayer
+                  ref={playerRef}
+                  url={`https://www.youtube.com/watch?v=${videoId}`} //[] url array for playlist playback (create list of links from playlist first)
+                  playing={isPlaying}
+                  onPlay={() => setIsPlaying(true)}
+                  controls={true}
+                  volume={0.1}
+                  playbackRate={1}
+                  pip={true}
+                  width={100 + "%"}
+                  height={100 + "%"}
+                />
               </div>
 
-              <pre className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark">
-                <span ref={containerRef}>
-                  {parse(modifiedDescription || "No Description Found")}
-                </span>
-                <br />
-                <br />
-                <div className="flex flex-wrap gap-2">
-                  {video?.items[0]?.snippet?.tags?.map((tag: string) => (
-                    <>
-                      <span
-                        onClick={() => {
-                          dispatch(addSearchString(tag.split(" ").join("_")));
-                          navigate("/search");
-                        }}
-                        key={tag}
-                        className="px-2 py-1 font-bold rounded-3xl bg-slate-500 cursor-crosshair text-slate-950"
+              <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2">
+                <div className="flex items-center justify-between gap-2 px-2 py-1 rounded-3xl glass-dark">
+                  <div className="flex items-center justify-between gap-6">
+                    <div className="flex items-center justify-between gap-2">
+                      {isChannelProfLoading ? (
+                        <>
+                          <Skeleton className="!rounded-3xl !w-10 !h-10 -top-0.5" />
+                          <Skeleton count={2} className="!w-32  rounded-3xl" />
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            onClick={() =>
+                              navigate(
+                                `/channel/${channelProfile?.items[0]?.id}`
+                              )
+                            }
+                            className="grid place-items-center relative rounded-3xl w-10 h-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]"
+                          >
+                            <img
+                              referrerPolicy="no-referrer"
+                              className="rounded-3xl"
+                              src={
+                                channelProfile?.items[0]?.snippet?.thumbnails
+                                  ?.default?.url
+                              }
+                            />
+                          </div>
+                          <div>
+                            <div
+                              className="text-xl font-bold cursor-pointer"
+                              onClick={() =>
+                                navigate(
+                                  `/channel/${channelProfile?.items[0]?.id}`
+                                )
+                              }
+                            >
+                              {channelProfile?.items[0]?.snippet?.title}
+                            </div>
+                            <div className="font-semibold text-zinc-400">
+                              {rawViewsToString(
+                                channelProfile?.items[0]?.statistics
+                                  ?.subscriberCount || ""
+                              )}{" "}
+                              subscribers
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    {subLoading ? (
+                      <Skeleton className="px-3 py-2 !rounded-3xl !w-24" />
+                    ) : (
+                      <div
+                        onClick={() => setSub(!sub)}
+                        className={`grid px-3 py-1.5 w-max font-medium transition-all rounded-3xl cursor-pointer select-none ${
+                          sub ? "bg-zinc-800" : "bg-white text-black"
+                        } active:bg-zinc-600/70`}
                       >
-                        #{tag.split(" ").join("_")}
-                      </span>{" "}
-                    </>
-                  ))}
+                        <span
+                          onClick={() =>
+                            isSubData?.pageInfo?.totalResults &&
+                            subDelMutation.mutate(isSubData?.items[0]?.id)
+                          }
+                          className={`col-start-1 row-start-1 mx-auto ${
+                            !sub ? "invisible" : ""
+                          } `}
+                        >
+                          Subscribed
+                        </span>
+                        <span
+                          onClick={() => {
+                            subAddMutation.mutate();
+                          }}
+                          className={`col-start-1 row-start-1 mx-auto ${
+                            sub ? "invisible" : ""
+                          } `}
+                        >
+                          Subscribe
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <strong className="text-violet-200">
+                        {rawViewsToString(
+                          video?.items[0]?.statistics?.viewCount || "0"
+                        )}
+                      </strong>{" "}
+                      views
+                    </div>
+                    |
+                    <div className="flex items-center gap-2 transition-colors">
+                      <div
+                        id="like"
+                        onClick={handleRating}
+                        className={`flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
+                          rating.items[0].rating === "like" && "text-yellow-400"
+                        }
+                    `}
+                      >
+                        {rating.items[0].rating === "like" ? (
+                          <PiThumbsUpFill className="pointer-events-none" />
+                        ) : (
+                          <PiThumbsUpBold className="pointer-events-none" />
+                        )}
+                        <strong
+                          className={`text-violet-200 ${
+                            rating.items[0].rating === "like" &&
+                            "text-yellow-400"
+                          }`}
+                        >
+                          {rawViewsToString(
+                            video?.items[0]?.statistics?.likeCount || "0"
+                          )}
+                        </strong>
+                      </div>
+                      •
+                      <div
+                        id="dislike"
+                        onClick={handleRating}
+                        className={`cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
+                          rating.items[0].rating === "dislike" &&
+                          "text-yellow-400"
+                        }`}
+                      >
+                        {rating.items[0].rating === "dislike" ? (
+                          <PiThumbsDownFill />
+                        ) : (
+                          <PiThumbsDownBold />
+                        )}
+                      </div>
+                    </div>
+                    |
+                    <div className="flex items-center gap-2">
+                      <strong className="text-violet-200">{date}</strong>
+                    </div>
+                  </div>
                 </div>
-              </pre>
+
+                <pre className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark">
+                  <span ref={containerRef}>
+                    {parse(modifiedDescription || "No Description Found")}
+                  </span>
+                  <br />
+                  <br />
+                  <div className="flex flex-wrap gap-2">
+                    {video?.items[0]?.snippet?.tags?.map((tag: string) => (
+                      <>
+                        <span
+                          onClick={() => {
+                            dispatch(addSearchString(tag.split(" ").join("_")));
+                            navigate("/search");
+                          }}
+                          key={tag}
+                          className="px-2 py-1 font-bold rounded-3xl bg-slate-500 cursor-crosshair text-slate-950"
+                        >
+                          #{tag.split(" ").join("_")}
+                        </span>{" "}
+                      </>
+                    ))}
+                  </div>
+                </pre>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar">
-          <h2 className="py-1 text-2xl text-zinc-50">
-            <strong>
-              {rawViewsToString(
-                video?.items[0]?.statistics?.commentCount || "0"
-              )}
-            </strong>{" "}
-            Comments
-          </h2>
+          <div className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar">
+            <h2 className="py-1 text-2xl text-zinc-50">
+              <strong>
+                {rawViewsToString(
+                  video?.items[0]?.statistics?.commentCount || "0"
+                )}
+              </strong>{" "}
+              Comments
+            </h2>
 
-          <div className="relative w-full">
-            <div className="overflow-y-hidden min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
-              {myComment}
-            </div>{" "}
-            <textarea
-              className="hideScrollbar absolute p-2 py-3 text-zinc-100  bg-transparent focus:bg-slate-700/50 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
-              value={myComment}
-              placeholder="Describe your vibe 📝"
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setMyComment(e.target.value)
-              }
-            />
-          </div>
-          <div className="flex gap-6 mx-auto">
-            <button
-              onClick={() => setMyComment("")}
-              className="px-3 py-2 transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => comMutation.mutate(videoId)}
-              className={`transition duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
-                myComment.length > 0 && "bg-pink-500"
-              }`}
-            >
-              Comment
-            </button>
-          </div>
-          {status === "pending" && isLoading && (
-            <FidgetSpinner
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="fidget-spinner-loading"
-              wrapperStyle={{}}
-              wrapperClass="fidget-spinner-wrapper mx-auto"
-            />
-          )}
-          {!isLoading && comments?.items?.length > 1 && (
-            <Virtuoso
-              className="hideScrollbar"
-              increaseViewportBy={100}
-              data={comments?.items}
-              totalCount={Number(
-                video?.items[0]?.statistics?.commentCount || 0
-              )}
-              itemContent={(_, data) => (
-                <div className="pt-3">
-                  <Comments
-                    key={data?.etag}
-                    comment={data}
-                    channelId={video?.items[0]?.snippet?.channelId || ""}
-                  />
-                </div>
-              )}
-              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
-              context={{ comments: comments, video: video }}
-              components={{
-                Footer: ({ context }) => {
-                  return context &&
-                    context?.comments?.items?.length <
-                      Number(
-                        context?.video?.items[0]?.statistics?.commentCount
-                      ) ? (
-                    <ThreeDots
-                      visible={true}
-                      height="50"
-                      width="50"
-                      color="#3bf6fcbf"
-                      radius="9"
-                      ariaLabel="three-dots-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="justify-center"
+            <div className="relative w-full">
+              <div className="overflow-y-hidden min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
+                {myComment}
+              </div>{" "}
+              <textarea
+                className="hideScrollbar absolute p-2 py-3 text-zinc-100  bg-transparent focus:bg-slate-700/50 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                value={myComment}
+                placeholder="Describe your vibe 📝"
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setMyComment(e.target.value)
+                }
+              />
+            </div>
+            <div className="flex gap-6 mx-auto">
+              <button
+                onClick={() => setMyComment("")}
+                className="px-3 py-2 transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => comMutation.mutate(videoId)}
+                className={`transition duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
+                  myComment.length > 0 && "bg-pink-500"
+                }`}
+              >
+                Comment
+              </button>
+            </div>
+            {status === "pending" && isLoading && (
+              <FidgetSpinner
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="fidget-spinner-loading"
+                wrapperStyle={{}}
+                wrapperClass="fidget-spinner-wrapper mx-auto"
+              />
+            )}
+            {!isLoading && comments?.items?.length > 1 && (
+              <Virtuoso
+                className="hideScrollbar"
+                increaseViewportBy={100}
+                data={comments?.items}
+                totalCount={Number(
+                  video?.items[0]?.statistics?.commentCount || 0
+                )}
+                itemContent={(_, data) => (
+                  <div className="pt-3">
+                    <Comments
+                      key={data?.etag}
+                      comment={data}
+                      channelId={video?.items[0]?.snippet?.channelId || ""}
                     />
-                  ) : (
-                    <div className="mx-auto text-lg italic font-bold w-max">
-                      End
-                    </div>
-                  );
-                },
-              }}
-            />
-          )}
-          {status === "error" && !data && (
-            <span className="flex flex-col py-1 my-auto text-2xl text-zinc-50">
-              OH NO!
-              <span className="text-4xl">😿</span>
-              <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
-                comments are disabled
+                  </div>
+                )}
+                endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+                context={{ comments: comments, video: video }}
+                components={{
+                  Footer: ({ context }) => {
+                    return context &&
+                      context?.comments?.items?.length <
+                        Number(
+                          context?.video?.items[0]?.statistics?.commentCount
+                        ) ? (
+                      <ThreeDots
+                        visible={true}
+                        height="50"
+                        width="50"
+                        color="#3bf6fcbf"
+                        radius="9"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="justify-center"
+                      />
+                    ) : (
+                      <div className="mx-auto text-lg italic font-bold w-max">
+                        End
+                      </div>
+                    );
+                  },
+                }}
+              />
+            )}
+            {status === "error" && !data && (
+              <span className="flex flex-col py-1 my-auto text-2xl text-zinc-50">
+                OH NO!
+                <span className="text-4xl">😿</span>
+                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
+                  comments are disabled
+                </span>
+                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
+                  so do comment box
+                </span>
               </span>
-              <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">
-                so do comment box
-              </span>
-            </span>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </SkeletonTheme>
   );
 };
 

@@ -207,9 +207,7 @@ const SubscriptionCard = ({
            } active:bg-zinc-600/70`}
             >
               <span
-                onClick={() => {
-                  subDelMutation.mutate(subId);
-                }}
+                onClick={() => subDelMutation.mutate(subId)}
                 className={`col-start-1 row-start-1 mx-auto ${
                   !sub ? "invisible" : ""
                 } `}
