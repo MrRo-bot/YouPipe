@@ -1,9 +1,20 @@
-import { usePersistedState } from "../../hooks/usePersistentStorage";
-import VideoCard from "./VideoCard";
-import { SearchType, TokensType } from "../../types/types";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
-const VideoList = ({ video }: { video: SearchType }) => {
+import { usePersistedState } from "../../hooks/usePersistentStorage";
+
+import VideoCard from "./VideoCard";
+
+import {
+  ChannelInfoType,
+  TokensType,
+  VideosListType,
+  VideoType,
+} from "../../types/types";
+
+const VideoList = ({ video }: { video: VideoType }) => {
+  const [videoStat, setVideoStat] = useState<VideosListType>();
+  const [channelStat, setChannelStat] = useState<ChannelInfoType>();
+
   const channelParts = ["statistics", "snippet"];
   const videoParts = ["statistics", "snippet", "contentDetails"];
 
@@ -16,12 +27,11 @@ const VideoList = ({ video }: { video: SearchType }) => {
     expiry_date: 0,
   });
 
-  const { data: videoStat, isSuccess: videoSuccess } = useQuery({
-    queryKey: ["videoStat"],
-    queryFn: async () => {
-      const resVideo = await fetch(
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?id=${
-          video?.id?.videoId
+          video?.id
         }&part=${videoParts.join(",")}&key=${import.meta.env.VITE_API_KEY}`,
         {
           headers: {
@@ -31,14 +41,16 @@ const VideoList = ({ video }: { video: SearchType }) => {
           },
         }
       );
-      return await resVideo.json();
-    },
-  });
+      const videoData = await res.json();
+      setVideoStat(videoData);
+      return videoData;
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [video?.id]);
 
-  const { data: channelStat, isSuccess: channelSuccess } = useQuery({
-    queryKey: ["videoStat"],
-    queryFn: async () => {
-      const resChannel = await fetch(
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/channels?id=${
           video?.snippet?.channelId
         }&part=${channelParts.join(",")}&key=${import.meta.env.VITE_API_KEY}`,
@@ -50,18 +62,18 @@ const VideoList = ({ video }: { video: SearchType }) => {
           },
         }
       );
-      return await resChannel.json();
-    },
-  });
+      const channelData = await res.json();
+      setChannelStat(channelData);
+      return channelData;
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [video?.snippet?.channelId]);
 
   return (
     <div className="p-2">
-      <VideoCard
-        video={videoStat}
-        videoSuccess={videoSuccess}
-        channel={channelStat}
-        channelSuccess={channelSuccess}
-      />
+      {videoStat && channelStat && (
+        <VideoCard video={videoStat!} channel={channelStat!} />
+      )}
     </div>
   );
 };

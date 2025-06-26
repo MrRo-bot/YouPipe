@@ -1,19 +1,28 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { VirtuosoGrid } from "react-virtuoso";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addHomeVideos } from "../features/homeSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
-import { TokensType } from "../types/types";
-import Filters from "../components/home/Filters";
+
+// import Filters from "../components/home/Filters";
 import VideoList from "../components/home/VideoList";
 
+import { TokensType } from "../types/types";
+
 const Home = () => {
+  const [fetchMore, setFetchMore] = useState(true);
+
   const dispatch = useAppDispatch();
+
   const isOpen = useAppSelector((state) => state.hamburger);
   const profileData = useAppSelector((state) => state.profile);
   const homeData = useAppSelector((state) => state.home);
+  const location = useAppSelector((state) => state.location);
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -24,28 +33,38 @@ const Home = () => {
     expiry_date: 0,
   });
 
-  //fetching search list using query string
-  // useQuery({
-  //   queryKey: ["home", inView],
-  //   queryFn: async () => {
-  //     const res = await fetch(
-  //       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&key=${
-  //         import.meta.env.VITE_API_KEY
-  //       }&pageToken=${inView ? homeData?.nextPageToken : ""}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Host: "www.googleapis.com",
-  //           Authorization: `Bearer ${token?.access_token}`,
-  //         },
-  //       }
-  //     );
-  //     const home = await res.json();
-  //     dispatch(addHomeVideos(home));
-  //     return home;
-  //   },
-  //   enabled: !!inView,
-  // });
+  const homeParts = ["contentDetails", "id", "snippet", "status"];
+
+  //fetching videos based on region for home page
+  useQuery({
+    queryKey: ["home", fetchMore],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
+          ","
+        )}&chart=mostPopular&maxResults=50&key=${
+          import.meta.env.VITE_API_KEY
+        }&regionCode=${location.address.country_code}&pageToken=${
+          fetchMore && homeData?.nextPageToken
+        }
+        `,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const channelVideos = await res.json();
+      dispatch(addHomeVideos(channelVideos));
+      setFetchMore(false);
+      return channelVideos;
+    },
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    enabled: !!fetchMore,
+  });
 
   return (
     <AnimatePresence>
@@ -57,159 +76,166 @@ const Home = () => {
           !isOpen ? "w-[85vw]" : "w-full"
         }  overflow-y-auto hideScrollbar rounded-xl`}
       >
-        {profileData?.email && <Filters />}
+        {/* {profileData?.email && <Filters />} */}
+        {!profileData?.email && (
+          <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
+            <strong className="block text-3xl tracking-wider">
+              <div
+                style={{ animationDelay: "0ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                L
+              </div>
+              <div
+                style={{ animationDelay: "50ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                o
+              </div>
+              <div
+                style={{ animationDelay: "100ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                g
+              </div>
+              <div
+                style={{ animationDelay: "150ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                i
+              </div>
+              <div
+                style={{ animationDelay: "200ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                n
+              </div>
+              <div className="inline-block">&nbsp;</div>
+              <div
+                style={{ animationDelay: "300ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                t
+              </div>
+              <div
+                style={{ animationDelay: "350ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                o
+              </div>
+              <div className="inline-block">&nbsp;</div>
+              <div
+                style={{ animationDelay: "450ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                g
+              </div>
+              <div
+                style={{ animationDelay: "500ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                e
+              </div>
+              <div
+                style={{ animationDelay: "550ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                t
+              </div>
+              <div className="inline-block">&nbsp;</div>
+              <div
+                style={{ animationDelay: "650ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                s
+              </div>
+              <div
+                style={{ animationDelay: "700ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                t
+              </div>
+              <div
+                style={{ animationDelay: "750ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                a
+              </div>
+              <div
+                style={{ animationDelay: "800ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                r
+              </div>
+              <div
+                style={{ animationDelay: "850ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                t
+              </div>
+              <div
+                style={{ animationDelay: "900ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                e
+              </div>
+              <div
+                style={{ animationDelay: "950ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                d
+              </div>
+              <div
+                style={{ animationDelay: "1000ms" }}
+                className="inline-block transition-all slideIn"
+              >
+                .
+              </div>
+            </strong>
+            <i className="block pt-4">Start searching videos you love.</i>
+          </div>
+        )}
 
-        <div className="grid grid-flow-row py-2 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {profileData?.email && (
-            <>
-              {homeData?.items?.length < 1 ? (
-                <div ref={ref} className="col-start-1 mx-auto -col-end-1">
-                  <FidgetSpinner
+        {homeData?.items?.length > 1 ? (
+          <VirtuosoGrid
+            className="!w-full !max-h-[90vh] !hideScrollbar"
+            listClassName="grid grid-flow-row gap-2 2xl:gap-6  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
+            data={homeData?.items}
+            totalCount={homeData?.pageInfo?.totalResults || 0}
+            endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+            context={homeData}
+            components={{
+              Footer: ({ context: homeData }) => {
+                const total = homeData?.pageInfo?.totalResults || 0;
+                return homeData && homeData?.items?.length < total ? (
+                  <ThreeDots
                     visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="fidget-spinner-loading"
+                    height="50"
+                    width="50"
+                    color="#3bf6fcbf"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
                     wrapperStyle={{}}
-                    wrapperClass="fidget-spinner-wrapper"
+                    wrapperClass="justify-center py-1 mt-auto"
                   />
-                </div>
-              ) : (
-                homeData?.items?.map((video) => (
-                  <VideoList key={video?.etag} video={video} />
-                ))
-              )}
-            </>
-          )}
-          {!profileData?.email && (
-            <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
-              <strong className="block text-3xl tracking-wider">
-                <div
-                  style={{ animationDelay: "0ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  L
-                </div>
-                <div
-                  style={{ animationDelay: "50ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  o
-                </div>
-                <div
-                  style={{ animationDelay: "100ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  g
-                </div>
-                <div
-                  style={{ animationDelay: "150ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  i
-                </div>
-                <div
-                  style={{ animationDelay: "200ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  n
-                </div>
-                <div className="inline-block">&nbsp;</div>
-                <div
-                  style={{ animationDelay: "300ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  t
-                </div>
-                <div
-                  style={{ animationDelay: "350ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  o
-                </div>
-                <div className="inline-block">&nbsp;</div>
-                <div
-                  style={{ animationDelay: "450ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  g
-                </div>
-                <div
-                  style={{ animationDelay: "500ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  e
-                </div>
-                <div
-                  style={{ animationDelay: "550ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  t
-                </div>
-                <div className="inline-block">&nbsp;</div>
-                <div
-                  style={{ animationDelay: "650ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  s
-                </div>
-                <div
-                  style={{ animationDelay: "700ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  t
-                </div>
-                <div
-                  style={{ animationDelay: "750ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  a
-                </div>
-                <div
-                  style={{ animationDelay: "800ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  r
-                </div>
-                <div
-                  style={{ animationDelay: "850ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  t
-                </div>
-                <div
-                  style={{ animationDelay: "900ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  e
-                </div>
-                <div
-                  style={{ animationDelay: "950ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  d
-                </div>
-                <div
-                  style={{ animationDelay: "1000ms" }}
-                  className="inline-block transition-all slideIn"
-                >
-                  .
-                </div>
-              </strong>
-              <i className="block pt-4">Start searching videos you love.</i>
-            </div>
-          )}
-        </div>
-        {homeData?.items && homeData?.items?.length > 1 && (
-          <div ref={ref}>
-            <ThreeDots
+                ) : (
+                  <div className="py-1 mx-auto text-lg italic font-bold w-max">
+                    That's All
+                  </div>
+                );
+              },
+            }}
+            itemContent={(_, homeItem) => <VideoList video={homeItem} />}
+          />
+        ) : (
+          <div className="w-full">
+            <FidgetSpinner
               visible={true}
-              height="50"
-              width="50"
-              color="#3bf6fcbf"
-              radius="9"
-              ariaLabel="three-dots-loading"
+              height="80"
+              width="80"
+              ariaLabel="fidget-spinner-loading"
               wrapperStyle={{}}
-              wrapperClass="justify-center"
+              wrapperClass="fidget-spinner-wrapper mx-auto"
             />
           </div>
         )}

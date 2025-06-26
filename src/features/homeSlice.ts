@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import { SearchListType } from "../types/types";
+import { VideosListType } from "../types/types";
 
-const initialState: SearchListType = {
-  searchString: "",
+const initialState: VideosListType = {
   kind: "",
   etag: "",
   nextPageToken: "",
   prevPageToken: "",
-  regionCode: "",
   pageInfo: {
     totalResults: 0,
     resultsPerPage: 0,
@@ -17,12 +15,7 @@ const initialState: SearchListType = {
     {
       kind: "",
       etag: "",
-      id: {
-        kind: "",
-        videoId: "",
-        channelId: "",
-        playlistId: "",
-      },
+      id: "",
       snippet: {
         publishedAt: "",
         channelId: "",
@@ -56,11 +49,152 @@ const initialState: SearchListType = {
           },
         },
         channelTitle: "",
+        tags: [""],
+        categoryId: "",
         liveBroadcastContent: "",
+        defaultLanguage: "",
+        localized: {
+          title: "",
+          description: "",
+        },
+        defaultAudioLanguage: "",
+      },
+      contentDetails: {
+        duration: "",
+        dimension: "",
+        definition: "",
+        caption: "",
+        licensedContent: false,
+        regionRestriction: {
+          allowed: [""],
+          blocked: [""],
+        },
+        contentRating: {
+          acbRating: "",
+          agcomRating: "",
+          anatelRating: "",
+          bbfcRating: "",
+          bfvcRating: "",
+          bmukkRating: "",
+          catvRating: "",
+          catvfrRating: "",
+          cbfcRating: "",
+          cccRating: "",
+          cceRating: "",
+          chfilmRating: "",
+          chvrsRating: "",
+          cicfRating: "",
+          cnaRating: "",
+          cncRating: "",
+          csaRating: "",
+          cscfRating: "",
+          czfilmRating: "",
+          djctqRating: "",
+          djctqRatingReasons: [""],
+          ecbmctRating: "",
+          eefilmRating: "",
+          egfilmRating: "",
+          eirinRating: "",
+          fcbmRating: "",
+          fcoRating: "",
+          fmocRating: "",
+          fpbRating: "",
+          fpbRatingReasons: [""],
+          fskRating: "",
+          grfilmRating: "",
+          icaaRating: "",
+          ifcoRating: "",
+          ilfilmRating: "",
+          incaaRating: "",
+          kfcbRating: "",
+          kijkwijzerRating: "",
+          kmrbRating: "",
+          lsfRating: "",
+          mccaaRating: "",
+          mccypRating: "",
+          mcstRating: "",
+          mdaRating: "",
+          medietilsynetRating: "",
+          mekuRating: "",
+          mibacRating: "",
+          mocRating: "",
+          moctwRating: "",
+          mpaaRating: "",
+          mpaatRating: "",
+          mtrcbRating: "",
+          nbcRating: "",
+          nbcplRating: "",
+          nfrcRating: "",
+          nfvcbRating: "",
+          nkclvRating: "",
+          oflcRating: "",
+          pefilmRating: "",
+          rcnofRating: "",
+          resorteviolenciaRating: "",
+          rtcRating: "",
+          rteRating: "",
+          russiaRating: "",
+          skfilmRating: "",
+          smaisRating: "",
+          smsaRating: "",
+          tvpgRating: "",
+          ytRating: "",
+        },
+        projection: "",
+        hasCustomThumbnail: false,
+      },
+      status: {
+        uploadStatus: "",
+        failureReason: "",
+        rejectionReason: "",
+        privacyStatus: "",
+        publishAt: "",
+        license: "",
+        embeddable: false,
+        publicStatsViewable: false,
+        madeForKids: false,
+        selfDeclaredMadeForKids: false,
+        containsSyntheticMedia: false,
+      },
+      statistics: {
+        viewCount: "",
+        likeCount: "",
+        dislikeCount: "",
+        favoriteCount: "",
+        commentCount: "",
+      },
+      paidProductPlacementDetails: {
+        hasPaidProductPlacement: false,
+      },
+      player: {
+        embedHtml: "",
+        embedHeight: 0,
+        embedWidth: 0,
+      },
+      topicDetails: {
+        topicIds: [""],
+        relevantTopicIds: [""],
+        topicCategories: [""],
+      },
+      recordingDetails: {
+        recordingDate: "",
+      },
+      liveStreamingDetails: {
+        actualStartTime: "",
+        actualEndTime: "",
+        scheduledStartTime: "",
+        scheduledEndTime: "",
+        concurrentViewers: 0,
+        activeLiveChatId: "",
+      },
+      localizations: {
+        key: {
+          title: "",
+          description: "",
+        },
       },
     },
   ],
-  refetch: false,
 };
 
 export const homeSlice = createSlice({
@@ -68,23 +202,15 @@ export const homeSlice = createSlice({
   initialState,
   reducers: {
     //adding home search videos list in redux store
-    addHomeVideos: (state, action: PayloadAction<SearchListType>) => {
-      const {
-        kind,
-        etag,
-        nextPageToken,
-        prevPageToken,
-        regionCode,
-        pageInfo,
-        items,
-      } = action.payload;
+    addHomeVideos: (state, action: PayloadAction<VideosListType>) => {
+      const { kind, etag, nextPageToken, prevPageToken, pageInfo, items } =
+        action.payload;
 
       Object.assign(state, {
         kind,
         etag,
         nextPageToken,
         prevPageToken,
-        regionCode,
         pageInfo,
         items: [
           ...(state?.kind === "" ? state.items.slice(1) : state.items),
