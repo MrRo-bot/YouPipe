@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -272,38 +272,45 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
               <Skeleton width={110} height={30} className="!rounded-full" />
             </div>
           ) : (
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setSub(!sub);
-              }}
-              className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
+            <AnimatePresence>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSub(!sub);
+                }}
+                className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
            ${
              sub ? "bg-zinc-800" : "bg-white text-black"
            } active:bg-zinc-600/70`}
-            >
-              <span
-                onClick={() =>
-                  isSubData?.pageInfo?.totalResults &&
-                  subDelMutation.mutate(isSubData?.items[0]?.id)
-                }
-                className={`col-start-1 row-start-1 mx-auto ${
-                  !sub ? "invisible" : ""
-                } `}
               >
-                Subscribed
-              </span>
-              <span
-                onClick={() => {
-                  subAddMutation.mutate();
-                }}
-                className={`col-start-1 row-start-1 mx-auto ${
-                  sub ? "invisible" : ""
-                } `}
-              >
-                Subscribe
-              </span>
-            </div>
+                {sub ? (
+                  <motion.span
+                    key="subscribed"
+                    initial={{ opacity: 0, x: -100, rotate: -45 }}
+                    animate={{ opacity: 1, x: 0, rotate: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    onClick={() =>
+                      isSubData?.pageInfo?.totalResults &&
+                      subDelMutation.mutate(isSubData?.items[0]?.id)
+                    }
+                  >
+                    Subscribed
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="subscribe"
+                    initial={{ opacity: 0, y: -100 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    onClick={() => {
+                      subAddMutation.mutate();
+                    }}
+                  >
+                    Subscribe
+                  </motion.span>
+                )}
+              </div>
+            </AnimatePresence>
           )}
         </motion.div>
       </SkeletonTheme>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
@@ -556,34 +557,41 @@ const Player = () => {
                     {subLoading ? (
                       <Skeleton className="px-3 py-2 !rounded-3xl !w-24" />
                     ) : (
-                      <div
-                        onClick={() => setSub(!sub)}
-                        className={`grid px-3 py-1.5 w-max font-medium transition-all rounded-3xl cursor-pointer select-none ${
-                          sub ? "bg-zinc-800" : "bg-white text-black"
-                        } active:bg-zinc-600/70`}
-                      >
-                        <span
-                          onClick={() =>
-                            isSubData?.pageInfo?.totalResults &&
-                            subDelMutation.mutate(isSubData?.items[0]?.id)
-                          }
-                          className={`col-start-1 row-start-1 mx-auto ${
-                            !sub ? "invisible" : ""
-                          } `}
+                      <AnimatePresence>
+                        <div
+                          onClick={(e) => (e.stopPropagation(), setSub(!sub))}
+                          className={`grid px-3 py-1.5 w-max font-medium transition-all rounded-3xl cursor-pointer select-none ${
+                            sub ? "bg-zinc-800" : "bg-white text-black"
+                          } active:bg-zinc-600/70`}
                         >
-                          Subscribed
-                        </span>
-                        <span
-                          onClick={() => {
-                            subAddMutation.mutate();
-                          }}
-                          className={`col-start-1 row-start-1 mx-auto ${
-                            sub ? "invisible" : ""
-                          } `}
-                        >
-                          Subscribe
-                        </span>
-                      </div>
+                          {sub ? (
+                            <motion.span
+                              key="subscribed"
+                              initial={{ opacity: 0, x: -100, rotate: -45 }}
+                              animate={{ opacity: 1, x: 0, rotate: 0 }}
+                              transition={{ duration: 0.35, ease: "easeInOut" }}
+                              onClick={() =>
+                                isSubData?.pageInfo?.totalResults &&
+                                subDelMutation.mutate(isSubData?.items[0]?.id)
+                              }
+                            >
+                              Subscribed
+                            </motion.span>
+                          ) : (
+                            <motion.span
+                              key="subscribe"
+                              initial={{ opacity: 0, y: -100 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.25, ease: "easeInOut" }}
+                              onClick={() => {
+                                subAddMutation.mutate();
+                              }}
+                            >
+                              Subscribe
+                            </motion.span>
+                          )}
+                        </div>
+                      </AnimatePresence>
                     )}
                   </div>
                   <div className="flex items-center justify-between gap-3">
