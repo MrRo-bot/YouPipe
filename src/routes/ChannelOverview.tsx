@@ -367,7 +367,7 @@ const ChannelOverview = () => {
                       </strong>
                     </span>
                     <dialog
-                      className="w-1/3 py-2 px-4 overflow-hidden font-semibold flex flex-col gap-2 min-h-1/2 rounded-2xl heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100 open: "
+                      className="w-1/3 py-2 px-4 overflow-hidden font-semibold flex flex-col gap-2 rounded-2xl heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100"
                       ref={descRef}
                     >
                       <div
@@ -382,11 +382,11 @@ const ChannelOverview = () => {
 
                       <h2 className="text-2xl font-bold">Description</h2>
 
-                      <div className="p-2 bg-zinc-100/10 rounded-2xl backdrop-blur-sm">
+                      <div className="p-2 bg-zinc-100/10 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
                         {parse(findingLinks || "No Description Found")}
                       </div>
                       <h2 className="text-2xl font-bold">More Info</h2>
-                      <div className="grid gap-2 grid-cols-[24px,1fr] grid-auto-rows p-2 bg-zinc-100/5 rounded-2xl backdrop-blur-sm">
+                      <div className="grid gap-2 grid-cols-[24px,1fr] grid-auto-rows p-2 bg-zinc-100/5 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
                         <div className="grid col-start-1 col-end-2 row-start-1 row-end-2 place-items-center">
                           <PiMailboxFill
                             size={20}

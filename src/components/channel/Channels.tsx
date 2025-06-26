@@ -65,7 +65,7 @@ const Channels = () => {
           exit={{ opacity: 0, scale: 0.7 }}
           className="relative w-3/4 min-h-full mx-auto hideScrollbar rounded-xl"
         >
-          {channelsList.length < 1 ? (
+          {!channelsList ? (
             <FidgetSpinner
               visible={true}
               height="80"
