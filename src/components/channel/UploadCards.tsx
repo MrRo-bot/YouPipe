@@ -42,7 +42,7 @@ export const UploadCards = ({
   const videoParts = ["statistics", "snippet", "contentDetails"];
 
   const { isLoading, data: video } = useQuery<VideosListType>({
-    queryKey: ["videoStat", videoItem?.contentDetails?.videoId],
+    queryKey: ["uploadsVideoStat", videoItem?.contentDetails?.videoId],
     queryFn: async () => {
       const videoRes = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?id=${

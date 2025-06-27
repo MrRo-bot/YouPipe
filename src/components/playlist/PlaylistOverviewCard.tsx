@@ -35,7 +35,7 @@ const PlaylistOverviewCard = ({
   });
 
   const { data: videoStat, isLoading } = useQuery({
-    queryKey: ["videoStats", playlistItem?.contentDetails?.videoId],
+    queryKey: ["playlistVideoStats", playlistItem?.contentDetails?.videoId],
     queryFn: async () => {
       const resVideo = await fetch(
         `https://youtube.googleapis.com/youtube/v3/videos?id=${

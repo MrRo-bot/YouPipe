@@ -40,7 +40,7 @@ const ChannelsCard = ({ id }: { id: string }) => {
 
   return (
     <div className="p-2">
-      <SubscriptionCard stat={channelStats!} subId={id} />
+      <SubscriptionCard stat={channelStats!} subId={id} subRes={undefined} />
     </div>
   );
 };

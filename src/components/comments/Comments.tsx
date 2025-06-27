@@ -119,7 +119,7 @@ const Comments = ({
   //fetching comment author data if needed
   const parts = ["statistics", "snippet"];
   useQuery({
-    queryKey: ["authorProfile", fetchAuthorData],
+    queryKey: ["commentAuthorProfile", fetchAuthorData],
     queryFn: async () => {
       setTimeout(async () => {
         const res = await fetch(

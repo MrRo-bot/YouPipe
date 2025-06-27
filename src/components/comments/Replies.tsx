@@ -116,7 +116,7 @@ const Replies = ({
   //fetching comment author data if needed
   const parts = ["statistics", "snippet"];
   useQuery({
-    queryKey: ["authorProfile", fetchAuthorData],
+    queryKey: ["replyAuthorProfile", fetchAuthorData],
     queryFn: async () => {
       setTimeout(async () => {
         const res = await fetch(

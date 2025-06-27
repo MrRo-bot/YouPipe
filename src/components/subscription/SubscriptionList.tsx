@@ -14,7 +14,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
   const parts = ["statistics", "snippet"];
 
   useQuery({
-    queryKey: ["channelStats", id],
+    queryKey: ["subChannelStats", id],
     queryFn: async () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/channels?id=${

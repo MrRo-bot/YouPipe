@@ -112,7 +112,7 @@ const ChannelOverview = () => {
   });
 
   const { isLoading, data: isSubData } = useQuery({
-    queryKey: ["isSubscribed?", channelDetails?.items[0]?.id],
+    queryKey: ["channelOverviewSubCheck", channelDetails?.items[0]?.id],
     queryFn: async () => {
       const res = await fetch(
         `https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&forChannelId=${
