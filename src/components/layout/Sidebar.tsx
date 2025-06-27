@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import {
   PiListStarFill,
@@ -13,7 +14,11 @@ const Sidebar = () => {
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
   return (
-    <aside
+    <motion.aside
+      initial={{ x: -100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      key="sidebar"
       className={`flex flex-col mt-3 mb-2 h-max ${
         !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "w-[15vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
@@ -151,7 +156,7 @@ const Sidebar = () => {
           </div>
         </>
       )}
-    </aside>
+    </motion.aside>
   );
 };
 

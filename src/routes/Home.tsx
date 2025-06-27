@@ -3,7 +3,7 @@ import { VirtuosoGrid } from "react-virtuoso";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
@@ -41,7 +41,7 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore],
+    queryKey: ["home", fetchMore, profileData?.email],
     queryFn: async () => {
       try {
         const res = await fetch(
@@ -83,192 +83,190 @@ const Home = () => {
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore,
+    enabled: !!fetchMore || !!profileData?.email,
   });
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.7 }}
-        className={`relative mt-3 mx-2 ${
-          !isOpen ? "w-[85vw]" : "w-full"
-        }  overflow-y-auto hideScrollbar rounded-xl`}
-      >
-        {/* {profileData?.email && <Filters />} */}
+    <motion.div
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`relative mt-3 mx-2 ${
+        !isOpen ? "w-[85vw]" : "w-full"
+      }  overflow-y-auto hideScrollbar rounded-xl`}
+    >
+      {/* {profileData?.email && <Filters />} */}
 
-        {profileData?.email && (
-          <h1 className="m-4 text-4xl font-bold tracking-tight text-slate-200">
-            Region based videos
-          </h1>
-        )}
-        {!profileData?.email && (
-          <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
-            <strong className="block text-3xl tracking-wider">
-              <div
-                style={{ animationDelay: "0ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                L
-              </div>
-              <div
-                style={{ animationDelay: "50ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                o
-              </div>
-              <div
-                style={{ animationDelay: "100ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                g
-              </div>
-              <div
-                style={{ animationDelay: "150ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                i
-              </div>
-              <div
-                style={{ animationDelay: "200ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                n
-              </div>
-              <div className="inline-block">&nbsp;</div>
-              <div
-                style={{ animationDelay: "300ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                t
-              </div>
-              <div
-                style={{ animationDelay: "350ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                o
-              </div>
-              <div className="inline-block">&nbsp;</div>
-              <div
-                style={{ animationDelay: "450ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                g
-              </div>
-              <div
-                style={{ animationDelay: "500ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                e
-              </div>
-              <div
-                style={{ animationDelay: "550ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                t
-              </div>
-              <div className="inline-block">&nbsp;</div>
-              <div
-                style={{ animationDelay: "650ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                s
-              </div>
-              <div
-                style={{ animationDelay: "700ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                t
-              </div>
-              <div
-                style={{ animationDelay: "750ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                a
-              </div>
-              <div
-                style={{ animationDelay: "800ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                r
-              </div>
-              <div
-                style={{ animationDelay: "850ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                t
-              </div>
-              <div
-                style={{ animationDelay: "900ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                e
-              </div>
-              <div
-                style={{ animationDelay: "950ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                d
-              </div>
-              <div
-                style={{ animationDelay: "1000ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                .
-              </div>
-            </strong>
-            <i className="block pt-4">Start searching videos you love.</i>
-          </div>
-        )}
-
-        {homeData?.items?.length <= 1 ? (
-          profileData?.email && (
-            <div className="w-full">
-              <FidgetSpinner
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="fidget-spinner-loading"
-                wrapperStyle={{}}
-                wrapperClass="fidget-spinner-wrapper mx-auto"
-              />
+      {profileData?.email && (
+        <h1 className="m-4 text-4xl font-bold tracking-tight text-slate-200">
+          Most Popular Videos
+        </h1>
+      )}
+      {!profileData?.email && (
+        <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
+          <strong className="block text-3xl tracking-wider">
+            <div
+              style={{ animationDelay: "0ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              L
             </div>
-          )
-        ) : (
-          <VirtuosoGrid
-            className="!w-full !hideScrollbar"
-            listClassName="grid grid-flow-row min-h-[85vh] gap-2 2xl:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
-            data={homeData?.items}
-            totalCount={homeData?.pageInfo?.totalResults || 0}
-            endReached={() => setTimeout(() => setFetchMore(true), 1000)}
-            context={homeData}
-            components={{
-              Footer: ({ context: homeData }) => {
-                const total = homeData?.pageInfo?.totalResults || 0;
-                return homeData && homeData?.items?.length < total ? (
-                  <ThreeDots
-                    visible={true}
-                    height="50"
-                    width="50"
-                    color="#3bf6fcbf"
-                    radius="9"
-                    ariaLabel="three-dots-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="justify-center py-2"
-                  />
-                ) : (
-                  <div className="py-1 mx-auto text-lg italic font-bold w-max">
-                    That's All
-                  </div>
-                );
-              },
-            }}
-            itemContent={(_, homeItem) => <HomeCard video={homeItem} />}
-          />
-        )}
-      </motion.div>
-    </AnimatePresence>
+            <div
+              style={{ animationDelay: "50ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              o
+            </div>
+            <div
+              style={{ animationDelay: "100ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              g
+            </div>
+            <div
+              style={{ animationDelay: "150ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              i
+            </div>
+            <div
+              style={{ animationDelay: "200ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              n
+            </div>
+            <div className="inline-block">&nbsp;</div>
+            <div
+              style={{ animationDelay: "300ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              t
+            </div>
+            <div
+              style={{ animationDelay: "350ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              o
+            </div>
+            <div className="inline-block">&nbsp;</div>
+            <div
+              style={{ animationDelay: "450ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              g
+            </div>
+            <div
+              style={{ animationDelay: "500ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              e
+            </div>
+            <div
+              style={{ animationDelay: "550ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              t
+            </div>
+            <div className="inline-block">&nbsp;</div>
+            <div
+              style={{ animationDelay: "650ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              s
+            </div>
+            <div
+              style={{ animationDelay: "700ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              t
+            </div>
+            <div
+              style={{ animationDelay: "750ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              a
+            </div>
+            <div
+              style={{ animationDelay: "800ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              r
+            </div>
+            <div
+              style={{ animationDelay: "850ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              t
+            </div>
+            <div
+              style={{ animationDelay: "900ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              e
+            </div>
+            <div
+              style={{ animationDelay: "950ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              d
+            </div>
+            <div
+              style={{ animationDelay: "1000ms" }}
+              className="inline-block transition-all slideIn"
+            >
+              .
+            </div>
+          </strong>
+          <i className="block pt-4">Start searching videos you love.</i>
+        </div>
+      )}
+
+      {homeData?.items?.length <= 1 ? (
+        profileData?.email && (
+          <div className="w-full">
+            <FidgetSpinner
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="fidget-spinner-loading"
+              wrapperStyle={{}}
+              wrapperClass="fidget-spinner-wrapper mx-auto"
+            />
+          </div>
+        )
+      ) : (
+        <VirtuosoGrid
+          className="!w-full !hideScrollbar"
+          listClassName="grid grid-flow-row min-h-[85vh] gap-2 2xl:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
+          data={homeData?.items}
+          totalCount={homeData?.pageInfo?.totalResults || 0}
+          endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+          context={homeData}
+          components={{
+            Footer: ({ context: homeData }) => {
+              const total = homeData?.pageInfo?.totalResults || 0;
+              return homeData && homeData?.items?.length < total ? (
+                <ThreeDots
+                  visible={true}
+                  height="50"
+                  width="50"
+                  color="#3bf6fcbf"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="justify-center py-2"
+                />
+              ) : (
+                <div className="py-1 mx-auto text-lg italic font-bold w-max">
+                  That's All
+                </div>
+              );
+            },
+          }}
+          itemContent={(_, homeItem) => <HomeCard video={homeItem} />}
+        />
+      )}
+    </motion.div>
   );
 };
 

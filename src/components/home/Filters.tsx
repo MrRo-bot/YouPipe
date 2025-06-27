@@ -1,22 +1,20 @@
 import { useState, useRef, useEffect, UIEvent } from "react";
+import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
-import { useAppDispatch, useAppSelector } from "../../app/store";
+import { useAppSelector } from "../../app/store";
+
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+
 import { CategoryType, TokensType } from "../../types/types";
-import { addSearchString } from "../../features/searchSlice";
-import { useNavigate } from "react-router-dom";
 
 const Filters = () => {
-  const [scrollArrow, setScrollArrow] = useState({ left: false, right: true });
-  const [scroll, setScroll] = useState({ side: "" });
-
-  const navigate = useNavigate();
-
   const scrollProgressRef = useRef<HTMLUListElement>(null);
 
-  const dispatch = useAppDispatch();
+  const [scrollArrow, setScrollArrow] = useState({ left: false, right: true });
+  const [scroll, setScroll] = useState({ side: "" });
 
   const locationData = useAppSelector((state) => state.location);
 
@@ -75,7 +73,13 @@ const Filters = () => {
   };
 
   return (
-    <div className="relative w-full">
+    <motion.div
+      key="filters"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
+      className="relative w-full"
+    >
       <div
         onClick={() => handleFilterArrow({ side: "left" })}
         className={`${
@@ -95,10 +99,11 @@ const Filters = () => {
         {isSuccess ? (
           filters?.items?.map((filter: CategoryType) => (
             <li
-              onClick={() => (
-                dispatch(addSearchString(filter?.snippet?.title)),
-                navigate("/search")
-              )}
+              onClick={() =>
+                console.log(
+                  "finding video based on category using video api endpoint just like home page"
+                )
+              }
               key={filter?.id}
               className="relative z-0 overflow-hidden min-w-fit px-3 py-2 text-sm font-medium text-center transition bg-opacity-0 rounded-lg  outline outline-1 cursor-pointer outline-zinc-200/25 hover:bg-opacity-100 focus:bg-opacity-100 bg-zinc-100 text-nowrap max-h-10 hover:text-black focus:text-black glass before:content-[''] before:absolute before:transition-transform before:duration-100 before:ease-in-out before:inset-0 before:-z-10 before:bg-zinc-400 before:-translate-y-full active:before:-translate-y-1/2 after:content-[''] after:transition-transform after:duration-100 after:ease-in-out after:absolute after:inset-0 after:-z-10 after:bg-zinc-400 after:translate-y-full active:after:translate-y-1/2"
             >
@@ -120,7 +125,7 @@ const Filters = () => {
           <MdKeyboardArrowRight className="w-full h-full" />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

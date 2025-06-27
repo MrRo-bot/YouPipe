@@ -263,288 +263,277 @@ const ChannelOverview = () => {
       baseColor="rgba(255,255,255,0.1)"
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.7 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.7 }}
-          className={`relative mx-4 mb-2 mt-3 max-h-[90vh] overflow-y-auto hideScrollbar ${
-            !isOpen ? "w-[85vw]" : "w-full"
-          } `}
-        >
-          <div className="w-9/12 mx-auto">
-            {channelDetails?.items[0]?.brandingSettings?.image
-              ?.bannerExternalUrl ? (
-              isLoading ? (
-                <div className="h-[18vh] overflow-hidden rounded-2xl">
-                  <Skeleton className="object-cover w-full h-full pt-1" />
-                </div>
-              ) : (
-                <div className="h-[18vh] overflow-hidden rounded-2xl">
-                  <img
-                    referrerPolicy="no-referrer"
-                    className="object-cover w-full h-full"
-                    src={
-                      channelDetails?.items[0]?.brandingSettings?.image
-                        ?.bannerExternalUrl
-                    }
-                    alt=""
-                  />
-                </div>
-              )
-            ) : (
-              <div></div>
-            )}
-
-            <div className="flex items-center justify-start gap-4 py-4">
-              <div className="grid overflow-hidden rounded-full max-w-36 place-items-center">
-                {isLoading ? (
-                  <Skeleton className="!min-w-36 aspect-square -top-0.25 p-1" />
-                ) : (
-                  <img
-                    referrerPolicy="no-referrer"
-                    className=""
-                    src={
-                      channelDetails?.items[0]?.snippet?.thumbnails?.high?.url
-                    }
-                    alt=""
-                  />
-                )}
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className={`relative mx-4 mb-2 mt-3 max-h-[90vh] overflow-y-auto hideScrollbar ${
+          !isOpen ? "w-[85vw]" : "w-full"
+        } `}
+      >
+        <div className="w-9/12 mx-auto">
+          {channelDetails?.items[0]?.brandingSettings?.image
+            ?.bannerExternalUrl ? (
+            isLoading ? (
+              <div className="h-[18vh] overflow-hidden rounded-2xl">
+                <Skeleton className="object-cover w-full h-full pt-1" />
               </div>
-              <div className="flex flex-col min-w-64">
-                {isLoading ? (
-                  <Skeleton className="min-w-full mb-2 min-h-8" />
-                ) : (
-                  <h1 className="text-3xl font-extrabold">
-                    {channelDetails?.items[0]?.snippet?.title}
-                  </h1>
-                )}
+            ) : (
+              <div className="h-[18vh] overflow-hidden rounded-2xl">
+                <img
+                  referrerPolicy="no-referrer"
+                  className="object-cover w-full h-full"
+                  src={
+                    channelDetails?.items[0]?.brandingSettings?.image
+                      ?.bannerExternalUrl
+                  }
+                  alt=""
+                />
+              </div>
+            )
+          ) : (
+            <div></div>
+          )}
 
-                {isLoading ? (
-                  <Skeleton
-                    containerClassName="flex gap-2"
-                    className="w-10 h-4"
-                    count={3}
-                  />
-                ) : (
-                  <span className="flex items-center gap-1 text-zinc-50">
-                    <strong>
-                      {channelDetails?.items[0]?.snippet?.customUrl}
-                    </strong>
-                    •
-                    <span className="text-sm text-zinc-200">
-                      {channelDetails?.items[0]?.statistics &&
-                        rawViewsToString(
-                          channelDetails?.items[0]?.statistics?.subscriberCount
-                        )}{" "}
-                      subscribers •
-                    </span>
-                    <span className="text-sm text-zinc-200">
-                      {channelDetails?.items[0]?.statistics &&
-                        rawViewsToString(
-                          channelDetails?.items[0]?.statistics?.videoCount
-                        )}{" "}
-                      videos
-                    </span>
+          <div className="flex items-center justify-start gap-4 py-4">
+            <div className="grid overflow-hidden rounded-full max-w-36 place-items-center">
+              {isLoading ? (
+                <Skeleton className="!min-w-36 aspect-square -top-0.25 p-1" />
+              ) : (
+                <img
+                  referrerPolicy="no-referrer"
+                  className=""
+                  src={channelDetails?.items[0]?.snippet?.thumbnails?.high?.url}
+                  alt=""
+                />
+              )}
+            </div>
+            <div className="flex flex-col min-w-64">
+              {isLoading ? (
+                <Skeleton className="min-w-full mb-2 min-h-8" />
+              ) : (
+                <h1 className="text-3xl font-extrabold">
+                  {channelDetails?.items[0]?.snippet?.title}
+                </h1>
+              )}
+
+              {isLoading ? (
+                <Skeleton
+                  containerClassName="flex gap-2"
+                  className="w-10 h-4"
+                  count={3}
+                />
+              ) : (
+                <span className="flex items-center gap-1 text-zinc-50">
+                  <strong>
+                    {channelDetails?.items[0]?.snippet?.customUrl}
+                  </strong>
+                  •
+                  <span className="text-sm text-zinc-200">
+                    {channelDetails?.items[0]?.statistics &&
+                      rawViewsToString(
+                        channelDetails?.items[0]?.statistics?.subscriberCount
+                      )}{" "}
+                    subscribers •
                   </span>
-                )}
-                {isLoading ? (
-                  <Skeleton className="my-2 min-w-48" />
-                ) : (
-                  <>
-                    <span
+                  <span className="text-sm text-zinc-200">
+                    {channelDetails?.items[0]?.statistics &&
+                      rawViewsToString(
+                        channelDetails?.items[0]?.statistics?.videoCount
+                      )}{" "}
+                    videos
+                  </span>
+                </span>
+              )}
+              {isLoading ? (
+                <Skeleton className="my-2 min-w-48" />
+              ) : (
+                <>
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      descRef?.current?.showModal();
+                    }}
+                    className="flex justify-start cursor-pointer text-zinc-400"
+                  >
+                    <span className="w-[50%] line-clamp-1 my-2">
+                      {channelDetails?.items[0]?.snippet?.description}
+                    </span>
+                    <strong className="my-2 font-bold text-white">more</strong>
+                  </span>
+                  <dialog
+                    className="w-1/3 py-2 px-4 overflow-hidden font-semibold flex flex-col gap-2 rounded-2xl heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100"
+                    ref={descRef}
+                  >
+                    <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        descRef?.current?.showModal();
+                        descRef?.current?.close();
                       }}
-                      className="flex justify-start cursor-pointer text-zinc-400"
+                      className="absolute p-2 rounded-full cursor-pointer top-2 right-2 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
                     >
-                      <span className="w-[50%] line-clamp-1 my-2">
-                        {channelDetails?.items[0]?.snippet?.description}
-                      </span>
-                      <strong className="my-2 font-bold text-white">
-                        more
-                      </strong>
-                    </span>
-                    <dialog
-                      className="w-1/3 py-2 px-4 overflow-hidden font-semibold flex flex-col gap-2 rounded-2xl heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100"
-                      ref={descRef}
-                    >
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          descRef?.current?.close();
-                        }}
-                        className="absolute p-2 rounded-full cursor-pointer top-2 right-2 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
-                      >
-                        <PiPlusBold className="w-5 h-5 rotate-45 text-zinc-50" />
-                      </div>
+                      <PiPlusBold className="w-5 h-5 rotate-45 text-zinc-50" />
+                    </div>
 
-                      <h2 className="text-2xl font-bold">Description</h2>
+                    <h2 className="text-2xl font-bold">Description</h2>
 
-                      <div className="p-2 bg-zinc-100/10 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
-                        {parse(findingLinks || "No Description Found")}
+                    <div className="p-2 bg-zinc-100/10 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
+                      {parse(findingLinks || "No Description Found")}
+                    </div>
+                    <h2 className="text-2xl font-bold">More Info</h2>
+                    <div className="grid gap-2 grid-cols-[24px,1fr] grid-auto-rows p-2 bg-zinc-100/5 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
+                      <div className="grid col-start-1 col-end-2 row-start-1 row-end-2 place-items-center">
+                        <PiMailboxFill size={20} className="text-yellow-500" />
                       </div>
-                      <h2 className="text-2xl font-bold">More Info</h2>
-                      <div className="grid gap-2 grid-cols-[24px,1fr] grid-auto-rows p-2 bg-zinc-100/5 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
-                        <div className="grid col-start-1 col-end-2 row-start-1 row-end-2 place-items-center">
-                          <PiMailboxFill
-                            size={20}
-                            className="text-yellow-500"
-                          />
-                        </div>
-                        <div className="col-start-2 col-end-3 row-start-1 row-end-2 p-1">
-                          {email ? (
-                            <a
-                              className="text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
-                              href={`mailto://${email[0]}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {email[0]}
-                            </a>
-                          ) : (
-                            "No Email Found"
-                          )}
-                        </div>
-                        <div className="grid col-start-1 col-end-2 row-start-2 row-end-3 place-items-center">
-                          <PiGlobeFill size={20} className="text-yellow-500" />
-                        </div>
-                        <div className="col-start-2 col-end-3 row-start-2 row-end-3">
+                      <div className="col-start-2 col-end-3 row-start-1 row-end-2 p-1">
+                        {email ? (
                           <a
-                            className="p-1 text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
-                            href={`//www.youtube.com/${channelDetails?.items[0]?.snippet.customUrl}`}
+                            className="text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
+                            href={`mailto://${email[0]}`}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {`www.youtube.com/${channelDetails?.items[0]?.snippet.customUrl}`}
+                            {email[0]}
                           </a>
-                        </div>
-                        <div className="grid col-start-1 col-end-2 row-start-3 row-end-4 place-items-center">
-                          <PiInfoFill size={20} className="text-yellow-500" />
-                        </div>
-                        <div className="col-start-2 col-end-3 row-start-3 row-end-4 p-1">
-                          Joined{" "}
-                          {formatDate(
-                            channelDetails?.items[0]?.snippet?.publishedAt
-                          ) || "Channel Release Date Not Found"}
-                        </div>
-                        <div className="grid col-start-1 col-end-2 row-start-4 row-end-5 place-items-center">
-                          <PiUserListFill
-                            size={20}
-                            className="text-yellow-500"
-                          />
-                        </div>
-                        <div className="col-start-2 col-end-3 row-start-4 row-end-5 p-1">
-                          {rawViewsToString(
-                            channelDetails?.items[0]?.statistics
-                              ?.subscriberCount || "No Subscribers Found"
-                          )}{" "}
-                          subscribers
-                        </div>
-                        <div className="grid col-start-1 col-end-2 row-start-5 row-end-6 place-items-center">
-                          <PiVideoFill size={20} className="text-yellow-500" />
-                        </div>
-                        <div className="col-start-2 col-end-3 row-start-5 row-end-6 p-1">
-                          {rawVideoCount || "No Videos Found"} videos
-                        </div>
-                        <div className="grid col-start-1 col-end-2 row-start-6 row-end-7 place-items-center">
-                          <PiArrowBendRightUpFill
-                            size={20}
-                            className="text-yellow-500"
-                          />
-                        </div>
-                        <div className="col-start-2 col-end-3 row-start-6 row-end-7 p-1">
-                          {rawViews || "View Status Not Found"} views
-                        </div>
+                        ) : (
+                          "No Email Found"
+                        )}
                       </div>
-                    </dialog>
-                  </>
-                )}
-                {isLoading ? (
-                  <Skeleton className="px-3 py-2 !rounded-full !w-24" />
-                ) : (
-                  <AnimatePresence>
-                    <div
-                      onClick={() => setSub(!sub)}
-                      className={`grid px-3 py-2 w-max font-medium transition-all rounded-full cursor-pointer select-none ${
-                        sub ? "bg-zinc-800" : "bg-white text-black"
-                      } active:bg-zinc-600/70`}
-                    >
-                      {sub ? (
-                        <motion.span
-                          key="subscribed"
-                          initial={{ opacity: 0, x: -100, rotate: -45 }}
-                          animate={{ opacity: 1, x: 0, rotate: 0 }}
-                          transition={{ duration: 0.35, ease: "easeInOut" }}
-                          onClick={() =>
-                            isSubData?.pageInfo?.totalResults &&
-                            subDelMutation.mutate(isSubData?.items[0]?.id)
-                          }
+                      <div className="grid col-start-1 col-end-2 row-start-2 row-end-3 place-items-center">
+                        <PiGlobeFill size={20} className="text-yellow-500" />
+                      </div>
+                      <div className="col-start-2 col-end-3 row-start-2 row-end-3">
+                        <a
+                          className="p-1 text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
+                          href={`//www.youtube.com/${channelDetails?.items[0]?.snippet.customUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          Subscribed
-                        </motion.span>
-                      ) : (
-                        <motion.span
-                          key="subscribe"
-                          initial={{ opacity: 0, y: -100 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.25, ease: "easeInOut" }}
-                          onClick={() => {
-                            subAddMutation.mutate();
-                          }}
-                        >
-                          Subscribe
-                        </motion.span>
-                      )}
+                          {`www.youtube.com/${channelDetails?.items[0]?.snippet.customUrl}`}
+                        </a>
+                      </div>
+                      <div className="grid col-start-1 col-end-2 row-start-3 row-end-4 place-items-center">
+                        <PiInfoFill size={20} className="text-yellow-500" />
+                      </div>
+                      <div className="col-start-2 col-end-3 row-start-3 row-end-4 p-1">
+                        Joined{" "}
+                        {formatDate(
+                          channelDetails?.items[0]?.snippet?.publishedAt
+                        ) || "Channel Release Date Not Found"}
+                      </div>
+                      <div className="grid col-start-1 col-end-2 row-start-4 row-end-5 place-items-center">
+                        <PiUserListFill size={20} className="text-yellow-500" />
+                      </div>
+                      <div className="col-start-2 col-end-3 row-start-4 row-end-5 p-1">
+                        {rawViewsToString(
+                          channelDetails?.items[0]?.statistics
+                            ?.subscriberCount || "No Subscribers Found"
+                        )}{" "}
+                        subscribers
+                      </div>
+                      <div className="grid col-start-1 col-end-2 row-start-5 row-end-6 place-items-center">
+                        <PiVideoFill size={20} className="text-yellow-500" />
+                      </div>
+                      <div className="col-start-2 col-end-3 row-start-5 row-end-6 p-1">
+                        {rawVideoCount || "No Videos Found"} videos
+                      </div>
+                      <div className="grid col-start-1 col-end-2 row-start-6 row-end-7 place-items-center">
+                        <PiArrowBendRightUpFill
+                          size={20}
+                          className="text-yellow-500"
+                        />
+                      </div>
+                      <div className="col-start-2 col-end-3 row-start-6 row-end-7 p-1">
+                        {rawViews || "View Status Not Found"} views
+                      </div>
                     </div>
+                  </dialog>
+                </>
+              )}
+              {isLoading ? (
+                <Skeleton className="px-3 py-2 !rounded-full !w-24" />
+              ) : (
+                <div
+                  onClick={() => setSub(!sub)}
+                  className={`grid px-3 py-2 w-max font-medium transition-all rounded-full cursor-pointer select-none ${
+                    sub ? "bg-zinc-800" : "bg-white text-black"
+                  } active:bg-zinc-600/70`}
+                >
+                  <AnimatePresence>
+                    {sub ? (
+                      <motion.span
+                        key="subscribed"
+                        initial={{ opacity: 0, x: -100, rotate: -45 }}
+                        animate={{ opacity: 1, x: 0, rotate: 0 }}
+                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        onClick={() =>
+                          isSubData?.pageInfo?.totalResults &&
+                          subDelMutation.mutate(isSubData?.items[0]?.id)
+                        }
+                      >
+                        Subscribed
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="subscribe"
+                        initial={{ opacity: 0, y: -100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                        onClick={() => {
+                          subAddMutation.mutate();
+                        }}
+                      >
+                        Subscribe
+                      </motion.span>
+                    )}
                   </AnimatePresence>
-                )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="w-full mb-2 shadow-[0_1px_0_0_rgba(150,150,150,0.5)]">
+          <div className="flex items-center w-9/12 gap-3 pt-3 pb-2 mx-auto">
+            <NavLink
+              to=""
+              className={({ isActive }) =>
+                isActive ? "text-black bg-white rounded-md" : ""
+              }
+              end
+            >
+              <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+                Home
               </div>
-            </div>
+            </NavLink>
+            <NavLink
+              to="channels"
+              className={({ isActive }) =>
+                isActive ? "text-black bg-white rounded-md" : ""
+              }
+              end
+            >
+              <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+                Channels
+              </div>
+            </NavLink>
+            <NavLink
+              to="playlists"
+              className={({ isActive }) =>
+                isActive ? "text-black bg-white rounded-md" : ""
+              }
+              end
+            >
+              <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+                Playlists
+              </div>
+            </NavLink>
           </div>
-          <div className="w-full mb-2 shadow-[0_1px_0_0_rgba(150,150,150,0.5)]">
-            <div className="flex items-center w-9/12 gap-3 pt-3 pb-2 mx-auto">
-              <NavLink
-                to=""
-                className={({ isActive }) =>
-                  isActive ? "text-black bg-white rounded-md" : ""
-                }
-                end
-              >
-                <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
-                  Home
-                </div>
-              </NavLink>
-              <NavLink
-                to="channels"
-                className={({ isActive }) =>
-                  isActive ? "text-black bg-white rounded-md" : ""
-                }
-                end
-              >
-                <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
-                  Channels
-                </div>
-              </NavLink>
-              <NavLink
-                to="playlists"
-                className={({ isActive }) =>
-                  isActive ? "text-black bg-white rounded-md" : ""
-                }
-                end
-              >
-                <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
-                  Playlists
-                </div>
-              </NavLink>
-            </div>
-          </div>
-          <div className="w-9/12 mx-auto">
-            <Outlet />
-          </div>
-        </motion.div>
-      </AnimatePresence>
+        </div>
+
+        <div className="w-9/12 mx-auto">
+          <Outlet />
+        </div>
+      </motion.div>
     </SkeletonTheme>
   );
 };

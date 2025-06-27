@@ -47,6 +47,7 @@ export default function ErrorPage() {
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
         className="grid h-[90vh] place-items-center text-zinc-200"
       >
         <div className="flex flex-col w-full gap-12 text-center sm:w-1/2 md:w-1/3">

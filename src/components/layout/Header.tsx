@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -70,7 +70,7 @@ const Header = () => {
 
   //adding channelId to profile store object
   useQuery({
-    queryKey: ["channelId"],
+    queryKey: ["channelId", profileData?.email],
     queryFn: async () => {
       try {
         const res = await fetch(
@@ -102,7 +102,7 @@ const Header = () => {
         });
       }
     },
-    refetchOnWindowFocus: false,
+    enabled: !!profileData?.email,
   });
 
   //space separated list of scopes required for project itself
@@ -146,30 +146,8 @@ const Header = () => {
 
   useEffect(() => {
     googleLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchTokens]);
-
-  //========================================================================================================================================
-  //refresh token
-  // const waitTime = 350000;
-  // let executionTime;
-  // const initialTime = localStorage.getItem("initialTime");
-  // if (initialTime === null) {
-  //   localStorage.setItem("initialTime", new Date().getTime());
-  //   executionTime = waitTime;
-  // } else {
-  //   executionTime = parseInt(initialTime, 10) + waitTime - new Date().getTime();
-  //   if (executionTime < 0) executionTime = 0;
-  // }
-
-  // useEffect(() => {
-  //   setInterval(function () {
-  //     refetch();
-  //     // reset the timeout to start from waitTime on page reload
-  //     localStorage.removeItem("initialTime");
-  //   }, executionTime);
-  // }, []);
-
-  // ========================================================================================================================================
 
   const logout = () => {
     googleLogout();
@@ -256,6 +234,7 @@ const Header = () => {
         }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token?.access_token]);
 
   //effect for clearing redux store parts depending upon which route user currently is
@@ -275,10 +254,17 @@ const Header = () => {
     if (!location.pathname.includes("/likedvideos")) {
       dispatch(clearLikedVideos());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   return (
-    <header className="flex items-center justify-between px-3 py-1 glass">
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      key="header"
+      className="flex items-center justify-between px-3 py-1 glass"
+    >
       <div className="flex items-center justify-between gap-3">
         <div
           onClick={() => dispatch(toggle())}
@@ -372,7 +358,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

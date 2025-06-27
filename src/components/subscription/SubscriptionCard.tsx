@@ -195,17 +195,17 @@ const SubscriptionCard = ({
               )}
             </div>
           </div>
-          <AnimatePresence>
-            {stat ? (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSub(!sub);
-                }}
-                className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-all rounded-full cursor-pointer select-none
-                    ${sub ? "bg-zinc-800" : "bg-white text-black"}
-                    active:bg-zinc-600/70`}
-              >
+          {stat ? (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setSub(!sub);
+              }}
+              className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-all rounded-full cursor-pointer select-none
+                  ${sub ? "bg-zinc-800" : "bg-white text-black"}
+                  active:bg-zinc-600/70`}
+            >
+              <AnimatePresence>
                 {sub ? (
                   <motion.span
                     key="subscribed"
@@ -229,11 +229,11 @@ const SubscriptionCard = ({
                     Subscribe
                   </motion.span>
                 )}
-              </div>
-            ) : (
-              <Skeleton width={110} height={30} className="!rounded-full" />
-            )}
-          </AnimatePresence>
+              </AnimatePresence>
+            </div>
+          ) : (
+            <Skeleton width={110} height={30} className="!rounded-full" />
+          )}
         </div>
       </motion.div>
     </SkeletonTheme>

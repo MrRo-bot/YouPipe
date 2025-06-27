@@ -489,7 +489,12 @@ const Player = () => {
         <div className="flex w-[97%] h-full mx-auto">
           <div className="w-[75%] overflow-y-scroll hideScrollbar">
             <div className="relative">
-              <div className="w-full h-[70vh] overflow-hidden aspect-video rounded-3xl">
+              <motion.div
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-[70vh] overflow-hidden aspect-video rounded-3xl"
+              >
                 <ReactPlayer
                   ref={playerRef}
                   url={`https://www.youtube.com/watch?v=${videoId}`} //[] url array for playlist playback (create list of links from playlist first)
@@ -502,10 +507,15 @@ const Player = () => {
                   width={100 + "%"}
                   height={100 + "%"}
                 />
-              </div>
+              </motion.div>
 
               <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2">
-                <div className="flex items-center justify-between gap-2 px-2 py-1 rounded-3xl glass-dark">
+                <motion.div
+                  initial={{ y: 100, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.35, ease: "easeInOut", delay: 0.1 }}
+                  className="flex items-center justify-between gap-2 px-2 py-1 rounded-3xl glass-dark"
+                >
                   <div className="flex items-center justify-between gap-6">
                     <div className="flex items-center justify-between gap-2">
                       {isChannelProfLoading ? (
@@ -650,9 +660,13 @@ const Player = () => {
                       <strong className="text-violet-200">{date}</strong>
                     </div>
                   </div>
-                </div>
-
-                <pre className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark">
+                </motion.div>
+                <motion.pre
+                  initial={{ y: 100, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
+                  className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark"
+                >
                   <span ref={containerRef}>
                     {parse(modifiedDescription || "No Description Found")}
                   </span>
@@ -674,12 +688,17 @@ const Player = () => {
                       </>
                     ))}
                   </div>
-                </pre>
+                </motion.pre>
               </div>
             </div>
           </div>
 
-          <div className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar">
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar"
+          >
             <h2 className="py-1 text-2xl text-zinc-50">
               <strong>
                 {rawViewsToString(
@@ -785,7 +804,7 @@ const Player = () => {
                 </span>
               </span>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </SkeletonTheme>

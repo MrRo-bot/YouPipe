@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { FidgetSpinner } from "react-loader-spinner";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -72,32 +72,33 @@ const Playlist = () => {
   });
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className={`relative mb-2 mt-3 max-h-[90vh] rounded-xl mx-4 ${
-          !isOpen ? "w-[85vw]" : "w-full"
-        } overflow-y-auto hideScrollbar`}
-      >
-        <h1 className="px-2 text-4xl font-bold">My Custom Playlists</h1>
+    <motion.div
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`relative mb-2 mt-3 max-h-[90vh] rounded-xl mx-4 ${
+        !isOpen ? "w-[85vw]" : "w-full"
+      } overflow-y-auto hideScrollbar`}
+    >
+      <h1 className="px-2 text-4xl font-bold">My Custom Playlists</h1>
 
-        <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {playlistData?.items?.length <= 1 ? (
-            <FidgetSpinner
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="fidget-spinner-loading"
-              wrapperStyle={{}}
-              wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto -col-end-1"
-            />
-          ) : (
-            playlistData?.items?.map((playlist) => (
-              <PlaylistCard key={playlist.id} playlist={playlist} />
-            ))
-          )}
-        </div>
-      </motion.div>
-    </AnimatePresence>
+      <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {playlistData?.items?.length <= 1 ? (
+          <FidgetSpinner
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="fidget-spinner-loading"
+            wrapperStyle={{}}
+            wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto -col-end-1"
+          />
+        ) : (
+          playlistData?.items?.map((playlist) => (
+            <PlaylistCard key={playlist.id} playlist={playlist} />
+          ))
+        )}
+      </div>
+    </motion.div>
   );
 };
 

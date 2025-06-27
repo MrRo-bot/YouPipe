@@ -48,7 +48,7 @@ function App() {
           );
           const coordsDetails = await res.json();
           dispatch(getLocationData(coordsDetails));
-          toast("🧭 Location fetched!", {
+          toast("🧭 Location found!", {
             position: "bottom-left",
             autoClose: 3000,
             hideProgressBar: false,

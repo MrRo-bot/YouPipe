@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -75,71 +75,67 @@ const Search = () => {
   });
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.7 }}
-        className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] ${
-          !isOpen ? "w-[85vw]" : "w-full"
-        }  overflow-y-auto hideScrollbar rounded-xl`}
-      >
-        <div className="w-2/3 mx-auto">
-          {searchData?.items?.length <= 1 ? (
-            <FidgetSpinner
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="fidget-spinner-loading"
-              wrapperStyle={{}}
-              wrapperClass="fidget-spinner-wrapper mx-auto"
-            />
-          ) : (
-            <Virtuoso
-              className="!min-h-[90vh] !hideScrollbar"
-              increaseViewportBy={200}
-              data={searchData?.items}
-              totalCount={searchData?.pageInfo?.totalResults}
-              itemContent={(_, data) => (
-                <SearchCard
-                  key={
-                    data?.id?.videoId ||
-                    data?.id?.playlistId ||
-                    data?.id?.channelId
-                  }
-                  search={data}
-                />
-              )}
-              endReached={() =>
-                setTimeout(() => dispatch(fetchMore(true)), 1000)
-              }
-              context={searchData}
-              components={{
-                Footer: ({ context: searchData }) => {
-                  return searchData &&
-                    searchData?.items?.length <
-                      searchData?.pageInfo?.totalResults ? (
-                    <ThreeDots
-                      visible={true}
-                      height="50"
-                      width="50"
-                      color="#3bf6fcbf"
-                      radius="9"
-                      ariaLabel="three-dots-loading"
-                      wrapperClass="justify-center"
-                    />
-                  ) : (
-                    <div className="mx-auto text-lg italic font-bold w-max">
-                      End
-                    </div>
-                  );
-                },
-              }}
-            />
-          )}
-        </div>
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] ${
+        !isOpen ? "w-[85vw]" : "w-full"
+      }  overflow-y-auto hideScrollbar rounded-xl`}
+    >
+      <div className="w-2/3 mx-auto">
+        {searchData?.items?.length <= 1 ? (
+          <FidgetSpinner
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="fidget-spinner-loading"
+            wrapperStyle={{}}
+            wrapperClass="fidget-spinner-wrapper mx-auto"
+          />
+        ) : (
+          <Virtuoso
+            className="!min-h-[90vh] !hideScrollbar"
+            increaseViewportBy={200}
+            data={searchData?.items}
+            totalCount={searchData?.pageInfo?.totalResults}
+            itemContent={(_, data) => (
+              <SearchCard
+                key={
+                  data?.id?.videoId ||
+                  data?.id?.playlistId ||
+                  data?.id?.channelId
+                }
+                search={data}
+              />
+            )}
+            endReached={() => setTimeout(() => dispatch(fetchMore(true)), 1000)}
+            context={searchData}
+            components={{
+              Footer: ({ context: searchData }) => {
+                return searchData &&
+                  searchData?.items?.length <
+                    searchData?.pageInfo?.totalResults ? (
+                  <ThreeDots
+                    visible={true}
+                    height="50"
+                    width="50"
+                    color="#3bf6fcbf"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperClass="justify-center"
+                  />
+                ) : (
+                  <div className="mx-auto text-lg italic font-bold w-max">
+                    End
+                  </div>
+                );
+              },
+            }}
+          />
+        )}
+      </div>
+    </motion.div>
   );
 };
 

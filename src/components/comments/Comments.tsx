@@ -214,10 +214,17 @@ const Comments = ({
       text: string;
       isReply: boolean;
     }) => {
+      //check variables
+      const apiKey = import.meta.env.VITE_API_KEY;
+      if (!apiKey) {
+        throw new Error("API key is missing");
+      }
+      if (!token?.access_token) {
+        throw new Error("Authentication token is missing");
+      }
+
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/comments?id=${id}&part=snippet&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
+        `https://youtube.googleapis.com/youtube/v3/comments?part=snippet&key=${apiKey}`,
         {
           method: "PUT",
           headers: {
@@ -226,13 +233,20 @@ const Comments = ({
             Authorization: `Bearer ${token?.access_token}`,
           },
           body: JSON.stringify({
+            id,
             snippet: {
               textOriginal: text,
             },
           }),
         }
       );
-      if (!res.ok) throw new Error("Error updating");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          `Error updating: ${errorData.error?.message || res.statusText}`
+        );
+      }
+      //define type for return type
       const updatedData = await res.json();
       dispatch(
         isReply
@@ -243,6 +257,7 @@ const Comments = ({
     },
     onSuccess: () => {
       toast("💬 updated!", {
+        //id: `update-comment-${id}`, // Unique toast ID
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -255,6 +270,7 @@ const Comments = ({
     },
     onError: (e: Error) => {
       toast.error(`🤔 ${e.message}`, {
+        //id: `update-comment-${id}`, // Unique toast ID
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,

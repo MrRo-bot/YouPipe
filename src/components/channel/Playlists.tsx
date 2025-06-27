@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FidgetSpinner } from "react-loader-spinner";
 import { Bounce, toast } from "react-toastify";
@@ -81,33 +80,31 @@ const Playlists = () => {
   }, []);
 
   return (
-    <AnimatePresence>
-      <motion.div className="relative mb-2 mt-3 max-h-[90vh] min-h-[50vh] rounded-xl mx-4 w-full overflow-y-auto hideScrollbar">
-        {playlist?.length < 1 ? (
-          <FidgetSpinner
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="fidget-spinner-loading"
-            wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
-          />
-        ) : (
-          <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {playlist?.map(
-              (playlist) =>
-                playlist?.pageInfo?.totalResults !== 0 && (
-                  <PlaylistCard
-                    key={playlist?.etag}
-                    //@ts-expect-error its just PlaylistItemListType for PlaylistCard takes PlaylistType
-                    playlist={playlist?.items[0]}
-                  />
-                )
-            )}
-          </div>
-        )}
-      </motion.div>
-    </AnimatePresence>
+    <div className="relative mb-2 mt-3 max-h-[90vh] min-h-[50vh] rounded-xl mx-4 w-full overflow-y-auto hideScrollbar">
+      {playlist?.length < 1 ? (
+        <FidgetSpinner
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="fidget-spinner-loading"
+          wrapperStyle={{}}
+          wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+        />
+      ) : (
+        <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {playlist?.map(
+            (playlist) =>
+              playlist?.pageInfo?.totalResults !== 0 && (
+                <PlaylistCard
+                  key={playlist?.etag}
+                  //@ts-expect-error its just PlaylistItemListType for PlaylistCard takes PlaylistType
+                  playlist={playlist?.items[0]}
+                />
+              )
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -272,17 +272,17 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
               <Skeleton width={110} height={30} className="!rounded-full" />
             </div>
           ) : (
-            <AnimatePresence>
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSub(!sub);
-                }}
-                className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
-           ${
-             sub ? "bg-zinc-800" : "bg-white text-black"
-           } active:bg-zinc-600/70`}
-              >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setSub(!sub);
+              }}
+              className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
+                  ${
+                    sub ? "bg-zinc-800" : "bg-white text-black"
+                  } active:bg-zinc-600/70`}
+            >
+              <AnimatePresence>
                 {sub ? (
                   <motion.span
                     key="subscribed"
@@ -309,8 +309,8 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
                     Subscribe
                   </motion.span>
                 )}
-              </div>
-            </AnimatePresence>
+              </AnimatePresence>
+            </div>
           )}
         </motion.div>
       </SkeletonTheme>
