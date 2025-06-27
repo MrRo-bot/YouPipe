@@ -12,18 +12,12 @@ import {
   videoDuration,
 } from "../../utils/functions";
 
-import { ChannelInfoType, VideosListType } from "../../types/types";
+import { VideoType } from "../../types/types";
 
-const VideoCard = ({
-  video,
-  channel,
-}: {
-  video: VideosListType;
-  channel: ChannelInfoType;
-}) => {
+const HomeCard = ({ video }: { video: VideoType }) => {
   const navigate = useNavigate();
 
-  const date = new Date(video?.items[0]?.snippet?.publishedAt || "").getTime();
+  const date = new Date(video?.snippet?.publishedAt || "").getTime();
 
   return (
     <SkeletonTheme
@@ -37,7 +31,7 @@ const VideoCard = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        onClick={() => navigate(`/video/${video?.items[0]?.id}`)}
+        onClick={() => navigate(`/video/${video?.id}`)}
         className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-all cursor-pointer group hover:bg-indigo-600/20 focus:bg-indigo-600/20  glass rounded-2xl`}
       >
         <div className="flex flex-col gap-3">
@@ -52,15 +46,26 @@ const VideoCard = ({
               <>
                 <img
                   referrerPolicy="no-referrer"
-                  src={video?.items[0]?.snippet?.thumbnails?.high?.url || ""}
+                  src={video?.snippet?.thumbnails?.high?.url || ""}
                   alt=""
                   className="object-cover w-full h-full transition rounded-2xl group-hover:scale-110 group-focus:scale-110"
                 />
                 <div className="absolute z-50 p-1 text-sm text-white rounded-2xl bottom-1 right-1 glass-dark">
-                  {videoDuration(
-                    video?.items[0]?.contentDetails?.duration || "00:0"
-                  )}
+                  {videoDuration(video?.contentDetails?.duration || "00:0")}
                 </div>
+                {video?.snippet?.liveBroadcastContent !== "none" && (
+                  <div className="absolute z-50 p-1 text-sm text-white rounded-2xl bottom-1 left-1 glass-dark">
+                    {video?.snippet?.liveBroadcastContent === "live" ? (
+                      <span className="bg-red-600 text-zinc-100 px-1 py-0.5 rounded-2xl">
+                        LIVE
+                      </span>
+                    ) : (
+                      <span className="bg-zinc-600/30 text-zinc-100 px-1 py-0.5 rounded-2xl">
+                        UPCOMING
+                      </span>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -72,10 +77,7 @@ const VideoCard = ({
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (
                   <div className="text-sm tracking-wide text-zinc-400">
-                    {rawViewsToString(
-                      video?.items[0]?.statistics?.viewCount || ""
-                    )}{" "}
-                    views
+                    {rawViewsToString(video?.statistics?.viewCount || "")} views
                   </div>
                 )}
               </div>
@@ -84,14 +86,14 @@ const VideoCard = ({
                   <Skeleton width={20} className="rounded-2xl" />
                 ) : (
                   <div className="text-sm tracking-wide text-zinc-400">
-                    {video?.items[0]?.contentDetails?.definition === "hd" ? (
+                    {video?.contentDetails?.definition === "hd" ? (
                       <PiHighDefinitionFill className="w-6 h-6" />
                     ) : (
                       ""
                     )}
                   </div>
                 )}
-                {video?.items[0]?.contentDetails?.caption === "true" && (
+                {video?.contentDetails?.caption === "true" && (
                   <div className="text-sm tracking-wide text-zinc-400">
                     <PiClosedCaptioningFill className="w-6 h-6" />
                   </div>
@@ -112,40 +114,24 @@ const VideoCard = ({
               <Skeleton width={200} className="rounded-2xl" />
             ) : (
               <div className="text-ellipsis line-clamp-2">
-                {video?.items[0]?.snippet?.title || ""}
+                {video?.snippet?.localized?.title || ""}
               </div>
             )}
           </div>
         </div>
         <div className="flex items-center justify-start gap-1">
-          <div className="grid w-8 h-8 overflow-hidden rounded-full place-items-center">
-            {!channel ? (
-              <Skeleton width={24} height={24} circle className="-top-1" />
-            ) : (
-              <img
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/channel/${channel?.items[0]?.id}`);
-                }}
-                referrerPolicy="no-referrer"
-                className="w-full h-full rounded-full cursor-pointer hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]"
-                src={channel?.items[0]?.snippet?.thumbnails?.high?.url}
-                alt="T"
-              />
-            )}
-          </div>
-          {!channel ? (
+          {!video ? (
             <Skeleton width={100} className="rounded-2xl" />
           ) : (
             <>
               <div
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/channel/${channel?.items[0]?.id}`);
+                  navigate(`/channel/${video?.snippet?.channelId}`);
                 }}
-                className="text-sm tracking-wide fold-bold text-zinc-300 hover:text-zinc-400 focus:text-zinc-400 text-ellipsis"
+                className="text-sm tracking-wide hover:shadow-[0_0_1px_1px_rgb(245_127_56)] focus:shadow-[0_0_1px_1px_rgb(245_127_56)]  px-1 py-0.5 transition-colors rounded-2xl fold-bold bg-zinc-50 hover:bg-zinc-800/50 focus:bg-zinc-800/50 w-max text-zinc-900 hover:text-zinc-50 focus:text-zinc-50 text-ellipsis"
               >
-                {channel?.items[0]?.snippet?.title || ""}
+                {video?.snippet?.channelTitle || ""}
               </div>
             </>
           )}
@@ -155,4 +141,4 @@ const VideoCard = ({
   );
 };
 
-export default VideoCard;
+export default HomeCard;

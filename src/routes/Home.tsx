@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
@@ -10,19 +12,21 @@ import { addHomeVideos } from "../features/homeSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
 // import Filters from "../components/home/Filters";
-import VideoList from "../components/home/VideoList";
+import HomeCard from "../components/home/HomeCard";
 
 import { TokensType } from "../types/types";
 
 const Home = () => {
-  const [fetchMore, setFetchMore] = useState(true);
-
   const dispatch = useAppDispatch();
 
-  const isOpen = useAppSelector((state) => state.hamburger);
   const profileData = useAppSelector((state) => state.profile);
+  const isOpen = useAppSelector((state) => state.hamburger);
   const homeData = useAppSelector((state) => state.home);
   const location = useAppSelector((state) => state.location);
+
+  const [fetchMore, setFetchMore] = useState(() =>
+    profileData?.email ? true : false
+  );
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -33,33 +37,49 @@ const Home = () => {
     expiry_date: 0,
   });
 
-  const homeParts = ["contentDetails", "id", "snippet", "status"];
+  const homeParts = ["contentDetails", "id", "snippet", "status", "statistics"];
 
   //fetching videos based on region for home page
   useQuery({
     queryKey: ["home", fetchMore],
     queryFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
-          ","
-        )}&chart=mostPopular&maxResults=50&key=${
-          import.meta.env.VITE_API_KEY
-        }&regionCode=${location.address.country_code}&pageToken=${
-          fetchMore && homeData?.nextPageToken
-        }
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
+            ","
+          )}&chart=mostPopular&maxResults=50&key=${
+            import.meta.env.VITE_API_KEY
+          }&regionCode=${location.address.country_code}&pageToken=${
+            fetchMore ? homeData?.nextPageToken : ""
+          }
         `,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Host: "www.googleapis.com",
-            Authorization: `Bearer ${token?.access_token}`,
-          },
-        }
-      );
-      const channelVideos = await res.json();
-      dispatch(addHomeVideos(channelVideos));
-      setFetchMore(false);
-      return channelVideos;
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error fetching home page videos");
+        const channelVideos = await res.json();
+        dispatch(addHomeVideos(channelVideos));
+        setFetchMore(false);
+        return channelVideos;
+      } catch (error) {
+        //react toastify for location fetch errors
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -72,11 +92,17 @@ const Home = () => {
         initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.7 }}
-        className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] ${
+        className={`relative mt-3 mx-2 ${
           !isOpen ? "w-[85vw]" : "w-full"
         }  overflow-y-auto hideScrollbar rounded-xl`}
       >
         {/* {profileData?.email && <Filters />} */}
+
+        {profileData?.email && (
+          <h1 className="m-4 text-4xl font-bold tracking-tight text-slate-200">
+            Region based videos
+          </h1>
+        )}
         {!profileData?.email && (
           <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
             <strong className="block text-3xl tracking-wider">
@@ -196,10 +222,23 @@ const Home = () => {
           </div>
         )}
 
-        {homeData?.items?.length > 1 ? (
+        {homeData?.items?.length <= 1 ? (
+          profileData?.email && (
+            <div className="w-full">
+              <FidgetSpinner
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="fidget-spinner-loading"
+                wrapperStyle={{}}
+                wrapperClass="fidget-spinner-wrapper mx-auto"
+              />
+            </div>
+          )
+        ) : (
           <VirtuosoGrid
-            className="!w-full !max-h-[90vh] !hideScrollbar"
-            listClassName="grid grid-flow-row gap-2 2xl:gap-6  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
+            className="!w-full !hideScrollbar"
+            listClassName="grid grid-flow-row min-h-[85vh] gap-2 2xl:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
             data={homeData?.items}
             totalCount={homeData?.pageInfo?.totalResults || 0}
             endReached={() => setTimeout(() => setFetchMore(true), 1000)}
@@ -216,7 +255,7 @@ const Home = () => {
                     radius="9"
                     ariaLabel="three-dots-loading"
                     wrapperStyle={{}}
-                    wrapperClass="justify-center py-1 mt-auto"
+                    wrapperClass="justify-center py-2"
                   />
                 ) : (
                   <div className="py-1 mx-auto text-lg italic font-bold w-max">
@@ -225,19 +264,8 @@ const Home = () => {
                 );
               },
             }}
-            itemContent={(_, homeItem) => <VideoList video={homeItem} />}
+            itemContent={(_, homeItem) => <HomeCard video={homeItem} />}
           />
-        ) : (
-          <div className="w-full">
-            <FidgetSpinner
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="fidget-spinner-loading"
-              wrapperStyle={{}}
-              wrapperClass="fidget-spinner-wrapper mx-auto"
-            />
-          </div>
         )}
       </motion.div>
     </AnimatePresence>

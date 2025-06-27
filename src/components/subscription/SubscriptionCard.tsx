@@ -150,7 +150,7 @@ const SubscriptionCard = ({
               <img
                 referrerPolicy="no-referrer"
                 className="w-full h-full rounded-full"
-                src={stat?.items[0]?.snippet?.thumbnails?.high?.url}
+                src={stat?.items[0]?.snippet?.thumbnails?.default?.url}
                 alt=""
               />
             ) : (
