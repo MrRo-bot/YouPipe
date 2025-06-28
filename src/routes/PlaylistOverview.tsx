@@ -169,16 +169,16 @@ const PlaylistOverview = () => {
               <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             )}
           </div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-4xl font-bold">
             {playlistInfo?.items[0]?.snippet?.title || ""}
           </h1>
-          <h3 className="mt-2 text-sm font-semibold tracking-tighter">
+          <h3 className="mt-2 font-semibold tracking-tighter">
             {playlistInfo?.items[0]?.snippet?.channelTitle
               ? playlistInfo?.items[0]?.snippet?.channelTitle[0]?.toUpperCase() +
                 playlistInfo?.items[0]?.snippet?.channelTitle.slice(1)
               : ""}
           </h3>
-          <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter text-zinc-400">
+          <div className="flex gap-2 mt-2 font-medium tracking-tighter text-zinc-400">
             <span>
               {playlistInfo?.items[0]?.contentDetails?.itemCount || "..."}{" "}
               videos

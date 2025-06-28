@@ -81,11 +81,12 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           before:content-['']
           before:absolute
           before:inline-block
-          before:left-[10px]
+          before:w-[95%]
+          before:-translate-x-1/2
+          before:left-1/2
           before:h-10
           before:-z-10
-          before:-top-0.5
-          before:w-[93%]
+          before:-top-[1px]
           before:rounded-xl
           before:bg-[var(--bg)]
           before:opacity-50
@@ -94,11 +95,12 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           after:content-['']
           after:absolute
           after:inline-block
-          after:left-[14px]
+          after:w-[93%]
+          after:-translate-x-1/2
+          after:left-1/2
           after:h-10
           after:-z-20
-          after:-top-1.5
-          after:w-[90%]
+          after:-top-[5px]
           after:rounded-xl
           after:bg-[var(--bg)]
           after:opacity-25

@@ -11,8 +11,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
+
 import LikedVideosCard from "../components/likedVideos/LikedVideosCard";
+
 import { TokensType } from "../types/types";
 
 const LikedVideos = () => {
@@ -157,7 +160,7 @@ const LikedVideos = () => {
             )}
           </div>
           <h1 className="text-4xl font-bold">Liked videos</h1>
-          <h3 className="mt-5 font-semibold tracking-tighter">
+          <h3 className="mt-2 font-semibold tracking-tighter">
             Chhavimani Choubey
           </h3>
           <div className="flex gap-2 mt-2 font-medium tracking-tighter text-zinc-400">
