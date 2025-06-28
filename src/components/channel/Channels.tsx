@@ -57,6 +57,11 @@ const Channels = () => {
 
   return (
     <div className="hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] h-[50vh] w-full">
+      <h2 className="my-3 ml-2 text-3xl font-bold">
+        {channelSections[0]?.snippet?.title
+          ? channelSections[0]?.snippet?.title
+          : "Channels"}
+      </h2>
       <div className="relative w-3/4 min-h-full mx-auto hideScrollbar rounded-xl">
         {!channelsList ? (
           <FidgetSpinner

@@ -40,36 +40,46 @@ const Playlists = () => {
     "status",
   ];
 
+  const fetchFunc = async (id: string) => {
+    try {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/playlists?id=${id}&part=${parts.join(
+          ","
+        )}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error("Error in fetching channels playlists");
+      const playlist = await res.json();
+      setPlaylist((prev) => [...prev, playlist]);
+    } catch (error) {
+      toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "!toastGradientError !font-bold !text-zinc-50",
+        transition: Bounce,
+      });
+    }
+  };
+
   useEffect(() => {
     const getAllPlaylistSectionData = async () => {
       channelSections.map(async (x) => {
-        try {
-          const res = await fetch(
-            `https://www.googleapis.com/youtube/v3/playlists?id=${
-              x.contentDetails.playlists[0]
-            }&part=${parts.join(",")}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Host: "www.googleapis.com",
-                Authorization: `Bearer ${token?.access_token}`,
-              },
-            }
-          );
-          if (!res.ok) throw new Error("Error in fetching channels playlists");
-          const playlist = await res.json();
-          setPlaylist((prev) => [...prev, playlist]);
-        } catch (error) {
-          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
+        if (x.contentDetails.playlists.length === 1) {
+          fetchFunc(x.contentDetails.playlists[0]);
+        } else {
+          x.contentDetails.playlists.map((y: string) => {
+            fetchFunc(y);
           });
         }
       });
