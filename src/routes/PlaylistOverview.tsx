@@ -12,10 +12,14 @@ import { extractColors } from "extract-colors";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addPlayItems } from "../features/playlistOverviewSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
+
 import { elapsedTime } from "../utils/functions";
+
 import PlaylistOverviewCard from "../components/playlist/PlaylistOverviewCard";
-import { TokensType } from "../types/types";
+
+import { PlaylistListType, TokensType } from "../types/types";
 
 const PlaylistOverview = () => {
   const [fetchMore, setFetchMore] = useState(true);
@@ -39,11 +43,6 @@ const PlaylistOverview = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.hamburger);
   const playlistOverview = useAppSelector((state) => state.playlistOverview);
-  const currPlaylist = useAppSelector((state) =>
-    state.playlist.items.filter((list) => list.id === playlistId)
-  );
-
-  const date = new Date(currPlaylist[0]?.snippet?.publishedAt || "")?.getTime();
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -54,11 +53,23 @@ const PlaylistOverview = () => {
     expiry_date: 0,
   });
 
+  const playlistItem = ["contentDetails", "id", "snippet", "status"];
+  const playlist = [
+    "contentDetails",
+    "id",
+    "localizations",
+    "player",
+    "snippet",
+    "status",
+  ];
+
   useQuery({
     queryKey: ["playlistItems", fetchMore],
     queryFn: async () => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails,id,snippet,status&playlistId=${playlistId}&maxResults=50&key=${
+        `https://youtube.googleapis.com/youtube/v3/playlistItems?part=${playlistItem?.join(
+          ","
+        )}&playlistId=${playlistId}&maxResults=50&key=${
           import.meta.env.VITE_API_KEY
         }&pageToken=${fetchMore ? playlistOverview?.nextPageToken : ""}
         `,
@@ -78,9 +89,30 @@ const PlaylistOverview = () => {
     enabled: !!fetchMore,
   });
 
+  const { data: playlistInfo } = useQuery<PlaylistListType>({
+    queryKey: ["playlistInfo", playlistId],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/playlists?part=${playlist?.join(
+          ","
+        )}&id=${playlistId}&key=${import.meta.env.VITE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Host: "www.googleapis.com",
+            Authorization: `Bearer ${token?.access_token}`,
+          },
+        }
+      );
+      const playlistInfo = await res.json();
+      return playlistInfo;
+    },
+    enabled: !!playlistId,
+  });
+
   useEffect(() => {
-    if (currPlaylist[0]?.snippet?.thumbnails?.high?.url) {
-      extractColors(currPlaylist[0]?.snippet?.thumbnails?.high?.url, {
+    if (playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url) {
+      extractColors(playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url, {
         crossOrigin: "anonymous",
       })
         .then((data) => {
@@ -102,6 +134,10 @@ const PlaylistOverview = () => {
     }
   });
 
+  const date = new Date(
+    playlistInfo?.items[0]?.snippet?.publishedAt || ""
+  )?.getTime();
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -122,32 +158,37 @@ const PlaylistOverview = () => {
           className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
         >
           <div className="my-6 overflow-hidden rounded-2xl aspect-video">
-            {currPlaylist[0]?.snippet?.thumbnails?.high?.url ? (
+            {playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url ? (
               <img
                 referrerPolicy="no-referrer"
                 className="object-cover w-full h-full"
-                src={currPlaylist[0]?.snippet?.thumbnails?.high?.url}
+                src={playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url}
                 alt=""
               />
             ) : (
               <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
             )}
           </div>
-          <h1 className="text-2xl font-bold">
-            {currPlaylist[0]?.snippet?.localized?.title || ""}
+          <h1 className="text-3xl font-bold">
+            {playlistInfo?.items[0]?.snippet?.title || ""}
           </h1>
-          <h3 className="mt-5 text-sm font-semibold tracking-tighter">
-            {currPlaylist[0]?.snippet?.channelTitle || ""}
+          <h3 className="mt-2 text-sm font-semibold tracking-tighter">
+            {playlistInfo?.items[0]?.snippet?.channelTitle
+              ? playlistInfo?.items[0]?.snippet?.channelTitle[0]?.toUpperCase() +
+                playlistInfo?.items[0]?.snippet?.channelTitle.slice(1)
+              : ""}
           </h3>
           <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter text-zinc-400">
             <span>
-              {currPlaylist[0]?.contentDetails?.itemCount || "..."} videos
+              {playlistInfo?.items[0]?.contentDetails?.itemCount || "..."}{" "}
+              videos
             </span>
             •
             <span>
-              {`${
-                currPlaylist[0]?.status?.privacyStatus[0].toUpperCase() || ""
-              }${currPlaylist[0]?.status?.privacyStatus.slice(1) || ""}`}
+              {playlistInfo?.items[0]?.status?.privacyStatus
+                ? playlistInfo?.items[0]?.status?.privacyStatus[0].toUpperCase() +
+                  playlistInfo?.items[0]?.status?.privacyStatus.slice(1)
+                : ""}
             </span>
             •<span>{elapsedTime(date)} ago</span>
           </div>

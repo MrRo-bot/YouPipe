@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,9 +24,7 @@ const Home = () => {
   const homeData = useAppSelector((state) => state.home);
   const location = useAppSelector((state) => state.location);
 
-  const [fetchMore, setFetchMore] = useState(() =>
-    profileData?.email ? true : false
-  );
+  const [fetchMore, setFetchMore] = useState(false);
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -38,6 +36,10 @@ const Home = () => {
   });
 
   const homeParts = ["contentDetails", "id", "snippet", "status", "statistics"];
+
+  useEffect(() => {
+    setFetchMore(profileData?.email.length > 1 ? true : false);
+  }, [profileData?.email]);
 
   //fetching videos based on region for home page
   useQuery({
