@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
 import { addLikedVideo, removeLikedVideo } from "../features/likedVideosSlice";
 import { addTimestamp } from "../features/timestampSlice";
-import { addSearchString } from "../features/searchSlice";
+import { addSearchString, refetch } from "../features/searchSlice";
 
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
@@ -681,6 +681,7 @@ const Player = () => {
                           onClick={() => {
                             dispatch(addSearchString(tag.split(" ").join("_")));
                             navigate("/search");
+                            dispatch(refetch(true));
                           }}
                           key={tag}
                           className="px-2 py-1 font-bold transition-colors rounded-3xl bg-slate-500 cursor-crosshair text-slate-950 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-300/20 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
