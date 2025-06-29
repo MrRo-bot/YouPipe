@@ -263,12 +263,12 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
       key="header"
-      className="flex items-center justify-between px-3 py-1 glass"
+      className="flex items-center justify-between px-3 py-1 transition-colors glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
     >
       <div className="flex items-center justify-between gap-3">
         <div
           onClick={() => dispatch(toggle())}
-          className="grid w-10 h-10 transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+          className="grid w-10 h-10 transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <RxHamburgerMenu className="w-full h-full p-2.5" />
         </div>
@@ -280,7 +280,7 @@ const Header = () => {
               alt="youpipe"
             />
           </div>
-          <div className="ml-1.5 text-2xl font-bold  tracking-tighter">
+          <div className="ml-1.5 text-2xl text-zinc-50 font-bold tracking-tighter">
             YouPipe
           </div>
           <div className="self-start text-xs text-slate-400">
@@ -288,7 +288,7 @@ const Header = () => {
           </div>
         </NavLink>
       </div>
-      <div className="flex items-stretch w-1/3 overflow-hidden transition rounded-full glass-dark hover:outline focus:outline outline-1 outline-zinc-600">
+      <div className="flex items-stretch w-1/3 overflow-hidden transition-shadow rounded-full glass-dark hover:shadow-[0_0_0.5px_1px_#52525b] focus:shadow-[0_0_0.5px_1px_#52525b] active:shadow-[0_0_0.5px_1px_#52525b]">
         <input
           ref={searchRef}
           onChange={(e) => {
@@ -317,7 +317,7 @@ const Header = () => {
           }}
           className={`absolute ${
             !clearSearch ? "hidden" : "grid"
-          } transition -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
+          } transition-colors -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
         >
           <PiX className="w-7 h-7" />
         </div>
@@ -327,7 +327,7 @@ const Header = () => {
             navigate("search");
             dispatch(refetch(true));
           }}
-          className="grid w-20 transition bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+          className="grid w-20 transition-colors bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <MdOutlineSearch className="w-6 h-6" />
         </div>
@@ -336,13 +336,13 @@ const Header = () => {
         {profileData?.picture && (
           <div
             onClick={logout}
-            className="hover:bg-zinc-100 focus:bg-zinc-100 p-1.5 rounded-md transition tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-100 glass"
+            className="hover:bg-zinc-100 focus:bg-zinc-100 p-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-100 glass"
           >
             Logout
           </div>
         )}
         <div className="flex items-center gap-4 mx-2 min-h-12">
-          <div className="grid w-10 h-10 overflow-hidden transition bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
+          <div className="grid w-10 h-10 overflow-hidden transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
             {profileData?.picture ? (
               <img
                 referrerPolicy="no-referrer"

@@ -13,8 +13,11 @@ import {
   addSubscription,
   clearSubscription,
 } from "../features/subscriptionSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
+
 import SubscriptionList from "../components/subscription/SubscriptionList";
+
 import { TokensType } from "../types/types";
 
 const Subscription = () => {
@@ -97,9 +100,14 @@ const Subscription = () => {
     >
       <div className="relative w-1/2 min-h-full mx-auto hideScrollbar rounded-xl">
         <div className="flex flex-col items-start gap-5 px-2 py-3">
-          <h1 className="mx-4 text-4xl font-bold tracking-tight text-center text-slate-200">
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
+            className="mx-4 text-4xl font-bold tracking-tight text-center text-slate-200"
+          >
             All Subscriptions
-          </h1>
+          </motion.h1>
 
           <div className="block mx-4 mt-4 rounded-lg cursor-pointer">
             <div
@@ -127,21 +135,21 @@ const Subscription = () => {
               <div
                 data-sort="relevance"
                 onClick={(e) => handleSort(e)}
-                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
               >
                 Most relevant
               </div>
               <div
                 data-sort="unread"
                 onClick={(e) => handleSort(e)}
-                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
               >
                 New activity
               </div>
               <div
                 data-sort="alphabetical"
                 onClick={(e) => handleSort(e)}
-                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black"
+                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
               >
                 A-Z
               </div>

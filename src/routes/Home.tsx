@@ -93,19 +93,24 @@ const Home = () => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`relative mt-3 mx-2 ${
+      className={`relative ml-4 mt-3 mr-2 mb-2  ${
         !isOpen ? "w-[85vw]" : "w-full"
       }  overflow-y-auto hideScrollbar rounded-xl`}
     >
       {/* {profileData?.email && <Filters />} */}
 
       {profileData?.email && (
-        <h1 className="m-4 text-4xl font-bold tracking-tight text-slate-200">
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
+          className="m-4 text-4xl font-bold tracking-tight text-slate-200"
+        >
           Most Popular Videos
-        </h1>
+        </motion.h1>
       )}
       {!profileData?.email && (
-        <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
+        <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center transition-colors -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
           <strong className="block text-3xl tracking-wider">
             <div
               style={{ animationDelay: "0ms" }}

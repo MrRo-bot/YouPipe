@@ -384,7 +384,7 @@ const Comments = ({
         transition={{ type: "keyframes" }}
         initial={"hidden"}
         whileInView={"visible"}
-        className={`flex p-1 mx-1 rounded-xl glass-dark ${
+        className={`flex p-1 mx-1 rounded-xl glass-dark transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20  ${
           channelId ===
             comment?.snippet?.topLevelComment?.snippet?.authorChannelId
               ?.value && "bg-slate-950"
@@ -409,7 +409,9 @@ const Comments = ({
           className="flex flex-col gap-2 px-4 py-2 overflow-hidden font-semibold min-w-[33%] rounded-2xl heroGradient backdrop:backdrop-blur-sm text-zinc-100"
           ref={userRef}
         >
-          <h2 className="self-start text-2xl font-bold">Channel Info</h2>
+          <h2 className="self-start text-2xl font-bold text-zinc-50">
+            Channel Info
+          </h2>
           <div
             onClick={(e) => {
               e.stopPropagation();
@@ -441,7 +443,7 @@ const Comments = ({
                 {fetchAuthorData ? (
                   <Skeleton className="min-w-full mb-2 min-h-8" />
                 ) : (
-                  <div className="text-3xl font-black text-left text-zinc-50">
+                  <div className="text-3xl font-extrabold text-left text-zinc-50">
                     {authorProfile?.items[0]?.snippet?.localized?.title}
                   </div>
                 )}
@@ -461,7 +463,7 @@ const Comments = ({
                     count={4}
                   />
                 ) : (
-                  <div className="flex items-center justify-start gap-2 mt-1 font-medium text-zinc-300">
+                  <div className="flex items-center justify-start gap-2 mt-1 font-light text-zinc-300">
                     <div>
                       Joined <strong>{elapsedTime(date)}</strong> ago
                     </div>
@@ -504,7 +506,7 @@ const Comments = ({
               ) : (
                 <>
                   <div
-                    className="px-2 py-1 mt-6 rounded-full cursor-pointer w-max bg-zinc-50 text-zinc-800"
+                    className="px-2 py-1 mt-6 transition-colors rounded-full cursor-pointer w-max bg-zinc-50 text-zinc-800 hover:bg-zinc-800 focus:bg-zinc-800 active:bg-zinc-800 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
                     onClick={() =>
                       navigate(`/channel/${authorProfile?.items[0]?.id}`)
                     }
@@ -545,7 +547,7 @@ const Comments = ({
                 </div>
               )}
             </div>
-            <div className="font-medium text-left text-zinc-400">
+            <div className="text-sm font-medium text-left text-zinc-400">
               {comm?.publishedAt === comm?.updatedAt
                 ? elapsedTime(myPubDate) + " ago"
                 : elapsedTime(myUpdDate) + " ago" + " (edited)"}

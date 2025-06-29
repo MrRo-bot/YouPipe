@@ -67,7 +67,7 @@ const PlaylistOverviewCard = ({
       onClick={() =>
         navigate(`/video/${playlistItem?.contentDetails?.videoId}`)
       }
-      className="flex items-center justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 glass rounded-2xl"
+      className="flex items-center justify-between gap-1 p-2 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70 glass rounded-2xl"
     >
       <div className="flex">
         <div className="self-center mr-2">{index + 1}</div>
@@ -95,7 +95,7 @@ const PlaylistOverviewCard = ({
             {isLoading ? (
               <Skeleton width={300} height={27} className="top-2 rounded-2xl" />
             ) : (
-              <h3 className="text-lg text-ellipsis line-clamp-1">
+              <h3 className="text-lg text-ellipsis line-clamp-1 text-zinc-50">
                 {playlistItem?.snippet?.title}
               </h3>
             )}
@@ -112,7 +112,7 @@ const PlaylistOverviewCard = ({
                       `/channel/${playlistItem?.snippet?.videoOwnerChannelId}`
                     );
                   }}
-                  className="transition-all hover:text-slate-50 focus:text-slate-50"
+                  className="transition-colors hover:text-slate-50 focus:text-slate-50"
                 >
                   {playlistItem?.snippet?.videoOwnerChannelTitle || ""}
                 </span>

@@ -199,7 +199,7 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
           }}
           initial={"hidden"}
           whileInView={"visible"}
-          className="flex items-center justify-start p-3 transition-all rounded-full cursor-pointer hover:bg-zinc-800/70 glass"
+          className="flex items-center justify-start p-3 transition-colors rounded-full cursor-pointer glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
         >
           <div className="relative self-start h-40 mr-4 overflow-hidden rounded-full min-w-40">
             {channelLoading ? (
@@ -219,12 +219,12 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
             {channelLoading ? (
               <Skeleton width={300} height={27} className="top-2 rounded-2xl" />
             ) : (
-              <h3 className="w-full text-2xl font-semibold text-ellipsis line-clamp-2">
+              <h3 className="w-full text-2xl font-semibold text-ellipsis line-clamp-2 text-zinc-50">
                 {channelStats?.items[0]?.snippet?.title || ""}
               </h3>
             )}
 
-            <div className="flex items-center gap-2 pt-1 text-sm font-medium text-zinc-300">
+            <div className="flex items-center gap-2 pt-1 text-sm font-medium text-zinc-200">
               {channelLoading ? (
                 <Skeleton
                   width={150}
@@ -277,10 +277,12 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
                 e.stopPropagation();
                 setSub(!sub);
               }}
-              className={`grid px-3 py-2 mt-1 ml-auto font-medium transition-all rounded-full cursor-pointer select-none 
+              className={`grid place-items-center w-32 overflow-hidden px-3 py-2 mt-1 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none 
                   ${
-                    sub ? "bg-zinc-800" : "bg-white text-black"
-                  } active:bg-zinc-600/70`}
+                    sub
+                      ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
+                      : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
+                  } `}
             >
               <AnimatePresence>
                 {sub ? (

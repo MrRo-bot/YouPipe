@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { Link, useRouteError } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -61,8 +61,8 @@ export default function ErrorPage() {
             </span>
           </div>
           <Link
-            to=""
-            className="self-end px-3 py-2 mx-auto font-bold transition-all duration-300 ease-in-out rounded-full cursor-pointer hover:bg-zinc-50 hover:text-purple-900 hover:scale-105 bg-pink-500/50 text-zinc-50 w-max"
+            to="/"
+            className="self-end px-3 py-2 mx-auto font-bold transition-colors duration-300 ease-in-out rounded-full cursor-pointer hover:bg-zinc-50 hover:text-purple-900 hover:scale-105 bg-pink-500/50 text-zinc-50 w-max"
           >
             Back to Home
           </Link>

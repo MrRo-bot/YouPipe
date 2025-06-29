@@ -164,7 +164,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
   ).getTime();
   return (
     <div
-      className="py-4"
+      className="py-4 "
       onClick={() =>
         navigate(`/playlist/${playlist?.playlistStats?.items[0]?.id}`)
       }
@@ -180,7 +180,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
           }}
           initial={"hidden"}
           whileInView={"visible"}
-          className="flex items-center justify-between gap-1 p-3 transition-all cursor-pointer hover:bg-zinc-800/70 rounded-2xl"
+          className="flex items-center justify-between gap-1 p-3 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 rounded-2xl"
         >
           <div className="flex w-full">
             <div className="relative overflow-hidden self-start min-w-[26rem] rounded-2xl aspect-video">
@@ -217,7 +217,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
                   className="top-2 rounded-2xl"
                 />
               ) : (
-                <h3 className="w-full text-lg font-semibold text-ellipsis line-clamp-2">
+                <h3 className="w-full text-lg font-semibold text-ellipsis line-clamp-2 text-zinc-50">
                   {playlist?.playlistStats?.items[0]?.snippet?.title || ""}
                 </h3>
               )}
@@ -257,17 +257,20 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               ) : playlist?.itemsLoading ? (
                 <Skeleton count={2} height={10} className="my-1" />
               ) : (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 mt-2">
                   {playlist?.playlistItemsStats?.items?.map((item) => (
                     <div
                       onClick={() => navigate(`/video/${item?.id}`)}
                       className="w-full text-sm text-zinc-400"
                     >
-                      <div className="flex justify-start my-1" key={item?.etag}>
-                        <div className="w-9/12 text-ellipsis line-clamp-1">
+                      <div
+                        className="flex justify-start my-0.5"
+                        key={item?.etag}
+                      >
+                        <div className="min-w-[75%] text-ellipsis line-clamp-1">
                           {`${item?.snippet?.title}`}
                         </div>
-                        <div className="w-3/12">
+                        <div className="min-w-[25%] text-ellipsis line-clamp-1">
                           {` • ${item?.snippet?.videoOwnerChannelTitle}`}
                         </div>
                       </div>

@@ -77,7 +77,7 @@ export const UploadCards = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className={`z-0 my-1 flex flex-col justify-between h-full gap-1 p-1 transition-all cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl`}
+        className={`z-0 my-1 flex flex-col justify-between h-full gap-1 p-1 cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20`}
         onClick={() => navigate(`/video/${video?.items[0]?.id}`)}
       >
         <div className="flex flex-col gap-2">
@@ -94,7 +94,7 @@ export const UploadCards = ({
                   referrerPolicy="no-referrer"
                   src={video?.items[0]?.snippet?.thumbnails?.high?.url || ""}
                   alt=""
-                  className="object-cover w-full h-full transition rounded-2xl group-hover:scale-110 group-focus:scale-110"
+                  className="object-cover w-full h-full transition-transform rounded-2xl group-hover:scale-110 group-focus:scale-110"
                 />
                 {video?.items[0]?.contentDetails?.caption === "true" && (
                   <div className="absolute z-50 text-xs px-0.5 text-white rounded-none bottom-1 left-1 glass-dark">
@@ -114,7 +114,7 @@ export const UploadCards = ({
               <Skeleton width={200} className="rounded-2xl" />
             ) : (
               <div className="flex items-start justify-between">
-                <div className="w-10/12 text-ellipsis line-clamp-2">
+                <div className="w-10/12 text-ellipsis line-clamp-2 text-zinc-50">
                   {video?.items[0]?.snippet?.localized?.title || ""}
                 </div>
               </div>

@@ -6,8 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addPlaylists } from "../features/playlistsSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
+
 import PlaylistCard from "../components/playlist/PlaylistCard";
+
 import { TokensType } from "../types/types";
 
 const Playlist = () => {
@@ -80,7 +83,14 @@ const Playlist = () => {
         !isOpen ? "w-[85vw]" : "w-full"
       } overflow-y-auto hideScrollbar`}
     >
-      <h1 className="px-2 text-4xl font-bold">My Custom Playlists</h1>
+      <motion.h1
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
+        className="px-2 text-4xl font-bold tracking-tight text-slate-200"
+      >
+        My Custom Playlists
+      </motion.h1>
 
       <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {playlistData?.items?.length <= 1 ? (

@@ -87,7 +87,7 @@ const Uploads = () => {
         </div>
       ) : (
         <VirtuosoGrid
-          className="w-full min-h-[45vh] max-h-full !hideScrollbar"
+          className="w-full min-h-[50vh] max-h-full !hideScrollbar"
           listClassName="grid grid-flow-row gap-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 "
           data={channelUploads?.items}
           totalCount={channelUploads?.pageInfo?.totalResults || 0}
@@ -122,100 +122,6 @@ const Uploads = () => {
           )}
         />
       )}
-      {channelUploads?.pageInfo?.totalResults === null &&
-        channelUploads?.items.length < 1 && (
-          <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center -col-end-1 w-max glass">
-            <strong className="block text-3xl tracking-wider">
-              <div
-                style={{ animationDelay: "0ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                N
-              </div>
-              <div
-                style={{ animationDelay: "50ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                o
-              </div>
-              <div className="inline-block">&nbsp;</div>
-
-              <div
-                style={{ animationDelay: "150ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                V
-              </div>
-              <div
-                style={{ animationDelay: "200ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                i
-              </div>
-              <div
-                style={{ animationDelay: "300ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                d
-              </div>
-              <div
-                style={{ animationDelay: "350ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                e
-              </div>
-              <div
-                style={{ animationDelay: "450ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                o
-              </div>
-              <div
-                style={{ animationDelay: "500ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                s
-              </div>
-              <div className="inline-block">&nbsp;</div>
-              <div
-                style={{ animationDelay: "550ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                F
-              </div>
-              <div
-                style={{ animationDelay: "650ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                o
-              </div>
-              <div
-                style={{ animationDelay: "700ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                u
-              </div>
-              <div
-                style={{ animationDelay: "750ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                n
-              </div>
-              <div
-                style={{ animationDelay: "800ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                d
-              </div>
-              <div
-                style={{ animationDelay: "1000ms" }}
-                className="inline-block transition-all slideIn"
-              >
-                .
-              </div>
-            </strong>
-          </div>
-        )}
     </>
   );
 };

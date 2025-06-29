@@ -76,7 +76,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
   ).getTime();
   return (
     <div
-      className="py-4"
+      className="py-4 "
       onClick={() => navigate(`/video/${videoStats?.items[0]?.id}`)}
     >
       <SkeletonTheme
@@ -90,7 +90,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
           }}
           initial={"hidden"}
           whileInView={"visible"}
-          className="flex items-center justify-between gap-1 p-3 transition-all cursor-pointer glass hover:bg-zinc-800/70 rounded-2xl"
+          className="flex items-center justify-between gap-1 p-3 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 glass rounded-2xl"
         >
           <div className="flex w-full">
             <div className="relative self-start overflow-hidden rounded-2xl min-w-96 w-96 aspect-video">
@@ -129,7 +129,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
                   className="top-2 rounded-2xl"
                 />
               ) : (
-                <h3 className="w-full text-2xl font-semibold text-ellipsis line-clamp-2">
+                <h3 className="w-full text-2xl font-semibold text-ellipsis line-clamp-2 text-zinc-50">
                   {videoStats?.items[0]?.snippet?.title || ""}
                 </h3>
               )}
@@ -164,7 +164,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
                       `/channel/${videoStats?.items[0]?.snippet?.channelId}`
                     );
                   }}
-                  className="flex items-center gap-1 pt-1 text-xl font-bold tracking-wide transition-colors hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
+                  className="flex items-center gap-1 pt-1 text-lg font-semibold transition-colors hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
                 >
                   <span>
                     <PiUserFill className="text-yellow-200" />

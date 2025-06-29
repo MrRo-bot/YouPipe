@@ -509,12 +509,12 @@ const Player = () => {
                 />
               </motion.div>
 
-              <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2">
+              <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2 ">
                 <motion.div
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.35, ease: "easeInOut", delay: 0.1 }}
-                  className="flex items-center justify-between gap-2 px-2 py-1 rounded-3xl glass-dark"
+                  className="flex items-center justify-between gap-2 px-2 py-1 transition-colors rounded-3xl glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
                 >
                   <div className="flex items-center justify-between gap-6">
                     <div className="flex items-center justify-between gap-2">
@@ -544,7 +544,7 @@ const Player = () => {
                           </div>
                           <div>
                             <div
-                              className="text-xl font-bold cursor-pointer"
+                              className="text-xl font-bold cursor-pointer text-zinc-50"
                               onClick={() =>
                                 navigate(
                                   `/channel/${channelProfile?.items[0]?.id}`
@@ -553,7 +553,7 @@ const Player = () => {
                             >
                               {channelProfile?.items[0]?.snippet?.title}
                             </div>
-                            <div className="font-semibold text-zinc-400">
+                            <div className="text-sm font-medium text-zinc-400">
                               {rawViewsToString(
                                 channelProfile?.items[0]?.statistics
                                   ?.subscriberCount || ""
@@ -570,9 +570,11 @@ const Player = () => {
                       <AnimatePresence>
                         <div
                           onClick={(e) => (e.stopPropagation(), setSub(!sub))}
-                          className={`grid px-3 py-1.5 w-max font-medium transition-all rounded-3xl cursor-pointer select-none ${
-                            sub ? "bg-zinc-800" : "bg-white text-black"
-                          } active:bg-zinc-600/70`}
+                          className={`grid place-items-center overflow-hidden px-3 py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
+                            sub
+                              ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
+                              : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
+                          } `}
                         >
                           {sub ? (
                             <motion.span
@@ -605,7 +607,7 @@ const Player = () => {
                     )}
                   </div>
                   <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-zinc-50">
                       <strong className="text-violet-200">
                         {rawViewsToString(
                           video?.items[0]?.statistics?.viewCount || "0"
@@ -614,7 +616,7 @@ const Player = () => {
                       views
                     </div>
                     |
-                    <div className="flex items-center gap-2 transition-colors">
+                    <div className="flex items-center gap-2 text-zinc-50">
                       <div
                         id="like"
                         onClick={handleRating}
@@ -656,7 +658,7 @@ const Player = () => {
                       </div>
                     </div>
                     |
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-zinc-50">
                       <strong className="text-violet-200">{date}</strong>
                     </div>
                   </div>
@@ -665,7 +667,7 @@ const Player = () => {
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
-                  className="p-2 mt-2 text-purple-100 rounded-3xl text-wrap glass-dark"
+                  className="p-2 mt-2 text-purple-100 transition-colors rounded-3xl text-wrap glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
                 >
                   <span ref={containerRef}>
                     {parse(modifiedDescription || "No Description Found")}
@@ -681,7 +683,7 @@ const Player = () => {
                             navigate("/search");
                           }}
                           key={tag}
-                          className="px-2 py-1 font-bold rounded-3xl bg-slate-500 cursor-crosshair text-slate-950"
+                          className="px-2 py-1 font-bold transition-colors rounded-3xl bg-slate-500 cursor-crosshair text-slate-950 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-300/20 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
                         >
                           #{tag.split(" ").join("_")}
                         </span>{" "}
@@ -724,13 +726,13 @@ const Player = () => {
             <div className="flex gap-6 mx-auto">
               <button
                 onClick={() => setMyComment("")}
-                className="px-3 py-2 transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
+                className="px-3 py-2 transition-colors duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
               >
                 Cancel
               </button>
               <button
                 onClick={() => comMutation.mutate(videoId)}
-                className={`transition duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
+                className={`transition-colors duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
                   myComment.length > 0 && "bg-pink-500"
                 }`}
               >
@@ -793,7 +795,7 @@ const Player = () => {
               />
             )}
             {status === "error" && !data && (
-              <span className="flex flex-col py-1 my-auto text-2xl text-zinc-50">
+              <span className="flex flex-col py-1 my-auto text-2xl transition-colors text-zinc-50 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
                 OH NO!
                 <span className="text-4xl">😿</span>
                 <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-800 to-purple-500">

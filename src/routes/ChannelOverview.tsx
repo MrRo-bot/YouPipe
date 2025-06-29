@@ -190,8 +190,8 @@ const ChannelOverview = () => {
           body: JSON.stringify({
             snippet: {
               resourceId: {
-                kind: isSubData?.items[0]?.snippet?.resourceId?.kind,
-                channelId: isSubData?.items[0]?.snippet?.resourceId?.channelId,
+                kind: channelDetails?.items[0]?.kind,
+                channelId: channelDetails?.items[0]?.id,
               },
             },
           }),
@@ -279,7 +279,12 @@ const ChannelOverview = () => {
                 <Skeleton className="object-cover w-full h-full pt-1" />
               </div>
             ) : (
-              <div className="h-[18vh] overflow-hidden rounded-2xl">
+              <motion.div
+                initial={{ opacity: 0, scaleY: 0 }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
+                className="h-[18vh] overflow-hidden rounded-2xl"
+              >
                 <img
                   referrerPolicy="no-referrer"
                   className="object-cover w-full h-full"
@@ -289,10 +294,10 @@ const ChannelOverview = () => {
                   }
                   alt=""
                 />
-              </div>
+              </motion.div>
             )
           ) : (
-            <div></div>
+            <div>No Banner Image Found</div>
           )}
 
           <div className="flex items-center justify-start gap-4 py-4">
@@ -312,7 +317,7 @@ const ChannelOverview = () => {
               {isLoading ? (
                 <Skeleton className="min-w-full mb-2 min-h-8" />
               ) : (
-                <h1 className="text-3xl font-extrabold">
+                <h1 className="text-3xl font-extrabold text-zinc-50">
                   {channelDetails?.items[0]?.snippet?.title}
                 </h1>
               )}
@@ -375,13 +380,17 @@ const ChannelOverview = () => {
                       <PiPlusBold className="w-5 h-5 rotate-45 text-zinc-50" />
                     </div>
 
-                    <h2 className="text-2xl font-bold">Description</h2>
+                    <h2 className="text-2xl font-bold text-zinc-50">
+                      Description
+                    </h2>
 
-                    <div className="p-2 bg-zinc-100/10 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
+                    <div className="p-2 bg-zinc-100/10 rounded-2xl text-violet-200 backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
                       {parse(findingLinks || "No Description Found")}
                     </div>
-                    <h2 className="text-2xl font-bold">More Info</h2>
-                    <div className="grid gap-2 grid-cols-[24px,1fr] grid-auto-rows p-2 bg-zinc-100/5 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
+                    <h2 className="text-2xl font-bold text-zinc-50">
+                      More Info
+                    </h2>
+                    <div className="grid gap-2 grid-cols-[24px,1fr] grid-auto-rows text-indigo-200 p-2 bg-zinc-100/5 rounded-2xl backdrop-blur-3xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
                       <div className="grid col-start-1 col-end-2 row-start-1 row-end-2 place-items-center">
                         <PiMailboxFill size={20} className="text-yellow-500" />
                       </div>
@@ -455,36 +464,30 @@ const ChannelOverview = () => {
               ) : (
                 <div
                   onClick={() => setSub(!sub)}
-                  className={`grid px-3 py-2 w-max font-medium transition-all rounded-full cursor-pointer select-none ${
-                    sub ? "bg-zinc-800" : "bg-white text-black"
-                  } active:bg-zinc-600/70`}
+                  className={`grid place-items-center  overflow-hidden px-3 py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
+                    sub
+                      ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
+                      : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
+                  } `}
                 >
                   <AnimatePresence>
                     {sub ? (
-                      <motion.span
-                        key="subscribed"
-                        initial={{ opacity: 0, x: -100, rotate: -45 }}
-                        animate={{ opacity: 1, x: 0, rotate: 0 }}
-                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                      <span
                         onClick={() =>
                           isSubData?.pageInfo?.totalResults &&
                           subDelMutation.mutate(isSubData?.items[0]?.id)
                         }
                       >
                         Subscribed
-                      </motion.span>
+                      </span>
                     ) : (
-                      <motion.span
-                        key="subscribe"
-                        initial={{ opacity: 0, y: -100 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                      <span
                         onClick={() => {
                           subAddMutation.mutate();
                         }}
                       >
                         Subscribe
-                      </motion.span>
+                      </span>
                     )}
                   </AnimatePresence>
                 </div>

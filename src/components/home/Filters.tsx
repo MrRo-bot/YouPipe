@@ -86,7 +86,7 @@ const Filters = () => {
           scrollArrow.left ? "block" : "hidden"
         } absolute cursor-pointer transition-all top-0 left-0 z-50 h-full w-16 bg-filterGradient rounded-s-lg`}
       >
-        <div className="absolute left-0 p-1 transition -translate-y-1/2 rounded-full top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
+        <div className="absolute left-0 p-1 transition-colors -translate-y-1/2 rounded-full top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
           <MdKeyboardArrowLeft className="w-full h-full" />
         </div>
       </div>
@@ -105,7 +105,7 @@ const Filters = () => {
                 )
               }
               key={filter?.id}
-              className="relative z-0 overflow-hidden min-w-fit px-3 py-2 text-sm font-medium text-center transition bg-opacity-0 rounded-lg  outline outline-1 cursor-pointer outline-zinc-200/25 hover:bg-opacity-100 focus:bg-opacity-100 bg-zinc-100 text-nowrap max-h-10 hover:text-black focus:text-black glass before:content-[''] before:absolute before:transition-transform before:duration-100 before:ease-in-out before:inset-0 before:-z-10 before:bg-zinc-400 before:-translate-y-full active:before:-translate-y-1/2 after:content-[''] after:transition-transform after:duration-100 after:ease-in-out after:absolute after:inset-0 after:-z-10 after:bg-zinc-400 after:translate-y-full active:after:translate-y-1/2"
+              className="relative z-0 overflow-hidden min-w-fit px-3 py-2 text-sm font-medium text-center transition-colors bg-opacity-0 rounded-lg  outline outline-1 cursor-pointer outline-zinc-200/25 hover:bg-opacity-100 focus:bg-opacity-100 bg-zinc-100 text-nowrap max-h-10 hover:text-black focus:text-black glass before:content-[''] before:absolute before:transition-transform before:duration-100 before:ease-in-out before:inset-0 before:-z-10 before:bg-zinc-400 before:-translate-y-full active:before:-translate-y-1/2 after:content-[''] after:transition-transform after:duration-100 after:ease-in-out after:absolute after:inset-0 after:-z-10 after:bg-zinc-400 after:translate-y-full active:after:translate-y-1/2"
             >
               {filter?.snippet?.title}
             </li>
@@ -121,7 +121,7 @@ const Filters = () => {
           scrollArrow.right ? "block" : "hidden"
         } absolute  transition-all top-0 right-0 z-50 h-full w-16 bg-filterGradientRev rounded-e-lg`}
       >
-        <div className="absolute right-0 p-1 transition -translate-y-1/2 rounded-full cursor-pointer top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
+        <div className="absolute right-0 p-1 transition-colors -translate-y-1/2 rounded-full cursor-pointer top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
           <MdKeyboardArrowRight className="w-full h-full" />
         </div>
       </div>

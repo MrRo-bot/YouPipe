@@ -142,10 +142,10 @@ const SubscriptionCard = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="z-0 p-2 transition-all rounded-full cursor-pointer group glass"
+        className="z-0 p-2 transition-colors rounded-full cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group glass"
       >
         <div className="flex items-center justify-start gap-4">
-          <div className="transition w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             {stat ? (
               <img
                 referrerPolicy="no-referrer"
@@ -154,7 +154,7 @@ const SubscriptionCard = ({
                 alt=""
               />
             ) : (
-              <Skeleton circle width={135} height={135} className="-top-0.5" />
+              <Skeleton className="!w-36 !h-36 !rounded-full -top-2" />
             )}
           </div>
 
@@ -201,9 +201,13 @@ const SubscriptionCard = ({
                 e.stopPropagation();
                 setSub(!sub);
               }}
-              className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-all rounded-full cursor-pointer select-none
-                  ${sub ? "bg-zinc-800" : "bg-white text-black"}
-                  active:bg-zinc-600/70`}
+              className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
+                  ${
+                    sub
+                      ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
+                      : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
+                  }
+                  `}
             >
               <AnimatePresence>
                 {sub ? (

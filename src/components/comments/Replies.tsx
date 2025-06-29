@@ -179,7 +179,7 @@ const Replies = ({
       baseColor="rgba(255,255,255,0.1)"
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
-      <div key={comment?.etag} className="py-1">
+      <div key={comment?.etag} className="py-1 ">
         <div
           className={`flex p-1 mx-1 rounded-xl ${
             channelId === comment?.snippet?.authorChannelId?.value
@@ -207,7 +207,9 @@ const Replies = ({
             className="flex flex-col gap-2 px-4 py-2 overflow-hidden font-semibold min-w-[33%] rounded-2xl heroGradient backdrop:backdrop-blur-sm text-zinc-100"
             ref={userRef}
           >
-            <h2 className="self-start text-2xl font-bold">Channel Info</h2>
+            <h2 className="self-start text-2xl font-bold text-zinc-50">
+              Channel Info
+            </h2>
             <div
               onClick={(e) => {
                 e.stopPropagation();
@@ -239,7 +241,7 @@ const Replies = ({
                   {fetchAuthorData ? (
                     <Skeleton className="min-w-full mb-2 min-h-8" />
                   ) : (
-                    <div className="text-3xl font-black text-left text-zinc-50">
+                    <div className="text-3xl font-extrabold text-left text-zinc-50">
                       {authorProfile?.items[0]?.snippet?.localized?.title}
                     </div>
                   )}
@@ -259,7 +261,7 @@ const Replies = ({
                       count={4}
                     />
                   ) : (
-                    <div className="flex items-center justify-start gap-2 mt-1 font-medium text-zinc-300">
+                    <div className="flex items-center justify-start gap-2 mt-1 font-light text-zinc-300">
                       <div>
                         Joined <strong>{elapsedTime(date)}</strong> ago
                       </div>
@@ -302,7 +304,7 @@ const Replies = ({
                 ) : (
                   <>
                     <div
-                      className="px-2 py-1 mt-6 rounded-full cursor-pointer w-max bg-zinc-50 text-zinc-800"
+                      className="px-2 py-1 mt-6 transition-colors rounded-full cursor-pointer w-max bg-zinc-50 text-zinc-800 hover:bg-zinc-800 focus:bg-zinc-800 active:bg-zinc-800 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
                       onClick={() =>
                         navigate(`/channel/${authorProfile?.items[0]?.id}`)
                       }
@@ -345,7 +347,7 @@ const Replies = ({
                     </div>
                   )}
               </div>
-              <div className="font-medium text-left text-zinc-400">
+              <div className="text-sm font-medium text-left text-zinc-400">
                 {comment?.snippet?.publishedAt === comment?.snippet?.updatedAt
                   ? elapsedTime(publishedAt) + " ago"
                   : elapsedTime(updatedAt) + " ago" + " (edited)"}

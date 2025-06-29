@@ -159,8 +159,8 @@ const LikedVideos = () => {
               />
             )}
           </div>
-          <h1 className="text-4xl font-bold">Liked videos</h1>
-          <h3 className="mt-2 font-semibold tracking-tighter">
+          <h1 className="text-4xl font-bold text-zinc-50">Liked videos</h1>
+          <h3 className="mt-2 font-semibold tracking-tighter text-zinc-200">
             Chhavimani Choubey
           </h3>
           <div className="flex gap-2 mt-2 font-medium tracking-tighter text-zinc-400">

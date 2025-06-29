@@ -32,7 +32,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
         initial={"hidden"}
         whileInView={"visible"}
         onClick={() => navigate(`/video/${video?.id}`)}
-        className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-all cursor-pointer group hover:bg-indigo-600/20 focus:bg-indigo-600/20  glass rounded-2xl`}
+        className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-colors cursor-pointer group hover:bg-indigo-600/20 focus:bg-indigo-600/20  glass rounded-2xl`}
       >
         <div className="flex flex-col gap-3">
           <div className="relative overflow-hidden aspect-video rounded-2xl">
@@ -48,7 +48,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                   referrerPolicy="no-referrer"
                   src={video?.snippet?.thumbnails?.high?.url || ""}
                   alt=""
-                  className="object-cover w-full h-full transition rounded-2xl group-hover:scale-110 group-focus:scale-110"
+                  className="object-cover w-full h-full transition-transform rounded-2xl group-hover:scale-110 group-focus:scale-110"
                 />
                 <div className="absolute z-50 p-1 text-sm text-white rounded-2xl bottom-1 right-1 glass-dark">
                   {videoDuration(video?.contentDetails?.duration || "00:0")}
@@ -113,7 +113,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
             {!video ? (
               <Skeleton width={200} className="rounded-2xl" />
             ) : (
-              <div className="text-ellipsis line-clamp-2">
+              <div className="font-bold tracking-wide transition-colors text-ellipsis line-clamp-2 text-zinc-50 hover:text-zinc-400 focus:text-zinc-400 active:text-zinc-400">
                 {video?.snippet?.localized?.title || ""}
               </div>
             )}
@@ -129,7 +129,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                   e.stopPropagation();
                   navigate(`/channel/${video?.snippet?.channelId}`);
                 }}
-                className="text-sm tracking-wide hover:shadow-[0_0_1px_1px_rgb(245_127_56)] focus:shadow-[0_0_1px_1px_rgb(245_127_56)]  px-1 py-0.5 transition-colors rounded-2xl fold-bold bg-zinc-50 hover:bg-zinc-800/50 focus:bg-zinc-800/50 w-max text-zinc-900 hover:text-zinc-50 focus:text-zinc-50 text-ellipsis"
+                className="text-sm tracking-wide hover:shadow-[0_0_1px_1px_rgb(245_127_56)] focus:shadow-[0_0_1px_1px_rgb(245_127_56)]  px-1 py-0.5 transition-colors rounded-2xl fold-semibold bg-zinc-50 hover:bg-zinc-800/50 focus:bg-zinc-800/50 w-max text-zinc-900 hover:text-zinc-50 focus:text-zinc-50 text-ellipsis"
               >
                 {video?.snippet?.channelTitle || ""}
               </div>

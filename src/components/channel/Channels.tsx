@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Virtuoso } from "react-virtuoso";
 import { FidgetSpinner } from "react-loader-spinner";
+import { motion } from "framer-motion";
 
 import { useAppSelector } from "../../app/store";
 
@@ -57,11 +58,16 @@ const Channels = () => {
 
   return (
     <div className="hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] h-[50vh] w-full">
-      <h2 className="my-3 ml-2 text-3xl font-bold">
+      <motion.h2
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
+        className="my-3 ml-2 text-3xl font-bold text-slate-200"
+      >
         {channelSections[0]?.snippet?.title
           ? channelSections[0]?.snippet?.title
           : "Channels"}
-      </h2>
+      </motion.h2>
       <div className="relative w-3/4 min-h-full mx-auto hideScrollbar rounded-xl">
         {!channelsList ? (
           <FidgetSpinner

@@ -33,8 +33,8 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
   const date = new Date(playlist?.snippet?.publishedAt || "").getTime();
 
   useEffect(() => {
-    if (playlist?.snippet?.thumbnails?.maxres?.url) {
-      extractColors(playlist?.snippet?.thumbnails?.maxres?.url, {
+    if (playlist?.snippet?.thumbnails?.high?.url) {
+      extractColors(playlist?.snippet?.thumbnails?.high?.url, {
         crossOrigin: "anonymous",
       })
         .then((data) => {
@@ -54,7 +54,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           })
         );
     }
-  }, [playlist?.snippet?.thumbnails?.maxres?.url]);
+  }, [playlist?.snippet?.thumbnails?.high?.url]);
 
   return (
     <SkeletonTheme
@@ -68,7 +68,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className="z-0 p-1 transition-all cursor-pointer rounded-xl group max-w-96 active:bg-zinc-600/70"
+        className="z-0 p-1 transition-colors cursor-pointer rounded-xl group max-w-96 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70"
       >
         <div className="flex flex-col gap-2">
           <div
@@ -107,7 +107,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           after:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]
           `}
           >
-            <div className="relative object-fill overflow-hidden transition aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
+            <div className="relative object-fill overflow-hidden aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
               {!playlist?.snippet?.thumbnails?.maxres?.url ? (
                 <Skeleton
                   width={"100%"}
@@ -119,7 +119,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                   <img
                     referrerPolicy="no-referrer"
                     onLoad={() => setIsImgLoaded(!isImgLoaded)}
-                    className="w-full h-full transition group-hover:scale-110 group-focus:scale-110"
+                    className="w-full h-full transition-transform group-hover:scale-110 group-focus:scale-110"
                     src={playlist?.snippet?.thumbnails?.maxres?.url}
                     alt=""
                   />
@@ -137,7 +137,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               {!playlist?.snippet?.title ? (
                 <Skeleton width={200} height={15} className="rounded-2xl" />
               ) : (
-                <div className="text-lg font-medium text-ellipsis line-clamp-1">
+                <div className="text-lg font-medium text-ellipsis line-clamp-1 text-zinc-50">
                   {playlist?.snippet?.title}
                 </div>
               )}
@@ -167,7 +167,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             {isImgLoaded ? (
               <div
                 onClick={() => navigate(`/playlist/${playlist?.id}`)}
-                className="text-sm font-medium tracking-wide transition-colors text-zinc-300 hover:text-zinc-100 focus:text-zinc-100 "
+                className="text-sm font-medium tracking-wide transition-colors text-zinc-400 hover:text-zinc-50 focus:text-zinc-50"
               >
                 View full playlist
               </div>

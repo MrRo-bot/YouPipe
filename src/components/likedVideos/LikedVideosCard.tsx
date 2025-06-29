@@ -34,7 +34,7 @@ const LikedVideosCard = ({
         initial={"hidden"}
         whileInView={"visible"}
         onClick={() => navigate(`/video/${likedvideo?.id}`)}
-        className="flex items-start justify-between gap-1 p-2 transition-all cursor-pointer hover:bg-zinc-800/70 active:bg-zinc-600/70 rounded-2xl"
+        className="flex items-start justify-between gap-1 p-2 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70 rounded-2xl"
       >
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
@@ -61,7 +61,7 @@ const LikedVideosCard = ({
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
               {likedvideo?.snippet?.title ? (
-                <h3 className="w-full text-lg text-ellipsis line-clamp-1">
+                <h3 className="w-full text-lg text-ellipsis line-clamp-1 text-zinc-50">
                   {likedvideo?.snippet?.title || ""}
                 </h3>
               ) : (
@@ -81,7 +81,7 @@ const LikedVideosCard = ({
                       e.stopPropagation();
                       navigate(`/channel/${likedvideo?.snippet?.channelId}`);
                     }}
-                    className="transition-all hover:text-slate-50 focus:text-slate-50"
+                    className="transition-colors hover:text-slate-50 focus:text-slate-50"
                   >
                     {likedvideo?.snippet?.channelTitle || ""}
                   </span>
