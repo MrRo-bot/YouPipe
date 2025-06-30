@@ -122,9 +122,9 @@ const Subscription = () => {
                 ? "A-Z"
                 : ""}
               {expand ? (
-                <RiArrowUpWideFill className="w-4 h-4 transition-all" />
+                <RiArrowUpWideFill className="size-4 transition-all" />
               ) : (
-                <RiArrowDownWideFill className="w-4 h-4 transition-all" />
+                <RiArrowDownWideFill className="size-4 transition-all" />
               )}
             </div>
             <div

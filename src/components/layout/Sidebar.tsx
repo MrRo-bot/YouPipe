@@ -37,7 +37,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
-              <PiHouseFill className="w-4 h-4" />
+              <PiHouseFill className="size-4" />
               <div className="w-full">Home</div>
             </div>
           </NavLink>
@@ -52,7 +52,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
-              <PiMonitorPlayFill className="w-4 h-4" />
+              <PiMonitorPlayFill className="size-4" />
               <div className="w-full">Subs</div>
             </div>
           </NavLink>
@@ -67,7 +67,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
-              <PiListStarFill className="w-4 h-4" />
+              <PiListStarFill className="size-4" />
               <div className="w-full">PLists</div>
             </div>
           </NavLink>
@@ -82,7 +82,7 @@ const Sidebar = () => {
             }
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
-              <PiThumbsUpFill className="w-4 h-4" />
+              <PiThumbsUpFill className="size-4" />
               <div className="w-full">Liked</div>
             </div>
           </NavLink>
@@ -102,7 +102,7 @@ const Sidebar = () => {
               }
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
-                <PiHouseFill className="w-7 h-7" />
+                <PiHouseFill className="size-7" />
                 <div className="w-full">Home</div>
               </div>
             </NavLink>
@@ -117,7 +117,7 @@ const Sidebar = () => {
               to="subscriptions"
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
-                <PiMonitorPlayFill className="w-7 h-7" />
+                <PiMonitorPlayFill className="size-7" />
                 <div className="w-full">Subscriptions</div>
               </div>
             </NavLink>
@@ -133,7 +133,7 @@ const Sidebar = () => {
               to="playlists"
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
-                <PiListStarFill className="w-7 h-7" />
+                <PiListStarFill className="size-7" />
                 <div className="w-full">Playlists</div>
               </div>
             </NavLink>
@@ -149,7 +149,7 @@ const Sidebar = () => {
               to="likedvideos"
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
-                <PiThumbsUpFill className="w-7 h-7" />
+                <PiThumbsUpFill className="size-7" />
                 <div className="w-full">Liked Videos</div>
               </div>
             </NavLink>

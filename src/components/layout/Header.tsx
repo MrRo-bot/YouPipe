@@ -268,12 +268,12 @@ const Header = () => {
       <div className="flex items-center justify-between gap-3">
         <div
           onClick={() => dispatch(toggle())}
-          className="grid w-10 h-10 transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+          className="grid size-10 transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <RxHamburgerMenu className="w-full h-full p-2.5" />
         </div>
         <NavLink className="flex items-center min-h-10" to="/">
-          <div className="w-8 h-8">
+          <div className="size-8">
             <img
               className="text-nowrap indent-[100%] overflow-hidden"
               src="icon.svg"
@@ -319,7 +319,7 @@ const Header = () => {
             !clearSearch ? "hidden" : "grid"
           } transition-colors -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
         >
-          <PiX className="w-7 h-7" />
+          <PiX className="size-7" />
         </div>
         <div
           id="searchButton"
@@ -329,7 +329,7 @@ const Header = () => {
           }}
           className="grid w-20 transition-colors bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
-          <MdOutlineSearch className="w-6 h-6" />
+          <MdOutlineSearch className="size-6" />
         </div>
       </div>
       <div className="flex items-center justify-between gap-2">
@@ -342,7 +342,7 @@ const Header = () => {
           </div>
         )}
         <div className="flex items-center gap-4 mx-2 min-h-12">
-          <div className="grid w-10 h-10 overflow-hidden transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
+          <div className="grid size-10 overflow-hidden transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
             {profileData?.picture ? (
               <img
                 referrerPolicy="no-referrer"

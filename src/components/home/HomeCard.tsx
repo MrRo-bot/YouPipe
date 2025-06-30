@@ -72,7 +72,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
           <div className="flex flex-col gap-3 px-1">
             <div className="flex justify-between">
               <div className="flex items-center gap-1">
-                <FcStart className="w-6 h-6" />
+                <FcStart className="size-6" />
                 {!video ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (
@@ -87,7 +87,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                 ) : (
                   <div className="text-sm tracking-wide text-zinc-400">
                     {video?.contentDetails?.definition === "hd" ? (
-                      <PiHighDefinitionFill className="w-6 h-6" />
+                      <PiHighDefinitionFill className="size-6" />
                     ) : (
                       ""
                     )}
@@ -95,12 +95,12 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                 )}
                 {video?.contentDetails?.caption === "true" && (
                   <div className="text-sm tracking-wide text-zinc-400">
-                    <PiClosedCaptioningFill className="w-6 h-6" />
+                    <PiClosedCaptioningFill className="size-6" />
                   </div>
                 )}
               </div>
               <div className="flex items-center gap-1">
-                <FcClock color="black" className="w-6 h-6" />
+                <FcClock color="black" className="size-6" />
                 {!video ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (

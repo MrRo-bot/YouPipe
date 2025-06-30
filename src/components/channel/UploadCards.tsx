@@ -98,7 +98,7 @@ export const UploadCards = ({
                 />
                 {video?.items[0]?.contentDetails?.caption === "true" && (
                   <div className="absolute z-50 text-xs px-0.5 text-white rounded-none bottom-1 left-1 glass-dark">
-                    <PiClosedCaptioningFill className="w-5 h-5" />
+                    <PiClosedCaptioningFill className="size-5" />
                   </div>
                 )}
                 <div className="absolute z-50 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
@@ -121,7 +121,7 @@ export const UploadCards = ({
             )}
             <div className="flex justify-start gap-2">
               <div className="flex items-center">
-                <FcStart className="w-4 h-4 mr-0.5" />
+                <FcStart className="size-4 mr-0.5" />
                 {isLoading ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (
@@ -134,7 +134,7 @@ export const UploadCards = ({
               </div>
 
               <div className="flex items-center">
-                <FcClock color="black" className="w-4 h-4 mr-0.5" />
+                <FcClock color="black" className="size-4 mr-0.5" />
                 {isLoading ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (

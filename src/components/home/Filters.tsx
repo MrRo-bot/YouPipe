@@ -86,7 +86,7 @@ const Filters = () => {
           scrollArrow.left ? "block" : "hidden"
         } absolute cursor-pointer transition-all top-0 left-0 z-50 h-full w-16 bg-filterGradient rounded-s-lg`}
       >
-        <div className="absolute left-0 p-1 transition-colors -translate-y-1/2 rounded-full top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
+        <div className="absolute left-0 p-1 transition-colors -translate-y-1/2 rounded-full top-1/2 size-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
           <MdKeyboardArrowLeft className="w-full h-full" />
         </div>
       </div>
@@ -121,7 +121,7 @@ const Filters = () => {
           scrollArrow.right ? "block" : "hidden"
         } absolute  transition-all top-0 right-0 z-50 h-full w-16 bg-filterGradientRev rounded-e-lg`}
       >
-        <div className="absolute right-0 p-1 transition-colors -translate-y-1/2 rounded-full cursor-pointer top-1/2 w-9 h-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
+        <div className="absolute right-0 p-1 transition-colors -translate-y-1/2 rounded-full cursor-pointer top-1/2 size-9 hover:bg-zinc-400/25 focus:bg-zinc-400/25">
           <MdKeyboardArrowRight className="w-full h-full" />
         </div>
       </div>

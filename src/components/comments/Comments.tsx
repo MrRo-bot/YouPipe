@@ -148,13 +148,15 @@ const Comments = ({
     authorProfile?.items[0]?.snippet?.publishedAt || ""
   ).getTime();
 
+  const replyMutationPart = ["id", "snippet"];
+
   //adding a reply
   const replyMutation = useMutation({
     mutationFn: async (reply: string) => {
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/comments?part=id%2Csnippet&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
+        `https://youtube.googleapis.com/youtube/v3/comments?part=${replyMutationPart.join(
+          ","
+        )}&key=${import.meta.env.VITE_API_KEY}`,
         {
           method: "POST",
           headers: {
@@ -391,7 +393,7 @@ const Comments = ({
         }`}
       >
         <div className="w-[15%] p-1">
-          <div className="grid place-items-center relative rounded-full w-10 h-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
+          <div className="grid place-items-center relative rounded-full size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
             <img
               onClick={(e) => {
                 e.stopPropagation();
@@ -419,7 +421,7 @@ const Comments = ({
             }}
             className="absolute p-2 rounded-full cursor-pointer top-1 right-1 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
           >
-            <PiPlusBold className="w-5 h-5 rotate-45 text-zinc-50" />
+            <PiPlusBold className="rotate-45 size-5 text-zinc-50" />
           </div>
           <div className="p-2 bg-zinc-100/10 rounded-2xl flex gap-5 justify-start  backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
             <div>
@@ -538,11 +540,11 @@ const Comments = ({
                       handleDelete({ commentId: comment?.id, replyId: "" })
                     }
                   >
-                    <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                    <PiTrashBold className="cursor-pointer size-5 text-zinc-200" />
                   </div>
 
                   <div onClick={handleEditComment}>
-                    <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                    <PiPencilBold className="cursor-pointer size-5 text-zinc-200" />
                   </div>
                 </div>
               )}
@@ -595,19 +597,19 @@ const Comments = ({
               <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5  bg-pink-500 text-yellow-400 min-w-12 min-h-6">
                 {rawViewsToString(String(comm?.likeCount))}{" "}
                 {
-                  <PiThumbsUpFill className="w-4 h-4 text-yellow-400 -scale-x-100" />
+                  <PiThumbsUpFill className="text-yellow-400 size-4 -scale-x-100" />
                 }
               </div>
             ) : (
               <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
-                0 {<PiThumbsUpLight className="w-4 h-4 -scale-x-100" />}
+                0 {<PiThumbsUpLight className="size-4 -scale-x-100" />}
               </div>
             )}
             <div
               onClick={() => setToggleReply(!toggleReply)}
               className="px-3 py-2 cursor-pointer hover:bg-slate-500/20 rounded-3xl"
             >
-              <FaRegCommentAlt className="w-3 h-3 scale-x-100" />
+              <FaRegCommentAlt className="scale-x-100 size-3" />
             </div>
           </div>
           {toggleReply && (
@@ -654,9 +656,9 @@ const Comments = ({
                 } hover:bg-violet-950 active:bg-violet-900 focus:bg-violet-950 max-w-max`}
               >
                 {expand ? (
-                  <IoIosArrowDropupCircle className="w-5 h-5 transition-all" />
+                  <IoIosArrowDropupCircle className="transition-all size-5" />
                 ) : (
-                  <IoIosArrowDropdownCircle className="w-5 h-5 transition-all" />
+                  <IoIosArrowDropdownCircle className="transition-all size-5" />
                 )}{" "}
                 {replyCount} {replyCount === 1 ? "reply" : "replies"}
               </div>

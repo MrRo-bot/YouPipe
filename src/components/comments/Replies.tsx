@@ -188,7 +188,7 @@ const Replies = ({
           }`}
         >
           <div className="w-[15%] p-1">
-            <div className="grid place-items-center relative rounded-full w-10 h-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
+            <div className="grid place-items-center relative rounded-full size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
               <img
                 onClick={(e) => {
                   e.stopPropagation();
@@ -217,7 +217,7 @@ const Replies = ({
               }}
               className="absolute p-2 rounded-full cursor-pointer top-1 right-1 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
             >
-              <PiPlusBold className="w-5 h-5 rotate-45 text-zinc-50" />
+              <PiPlusBold className="size-5 rotate-45 text-zinc-50" />
             </div>
             <div className="p-2 bg-zinc-100/10 rounded-2xl flex gap-5 justify-start  backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
               <div>
@@ -339,10 +339,10 @@ const Replies = ({
                           deleteReply({ commentId: "", replyId: comment?.id })
                         }
                       >
-                        <PiTrashBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                        <PiTrashBold className="size-5 cursor-pointer text-zinc-200" />
                       </div>
                       <div onClick={handleEditReply}>
-                        <PiPencilBold className="w-5 h-5 cursor-pointer text-zinc-200" />
+                        <PiPencilBold className="size-5 cursor-pointer text-zinc-200" />
                       </div>
                     </div>
                   )}
@@ -394,11 +394,11 @@ const Replies = ({
             {comment?.snippet?.likeCount !== 0 ? (
               <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
                 {rawViewsToString(String(likeCount))}{" "}
-                {<PiThumbsUpFill className="w-4 h-4 -scale-x-100" />}
+                {<PiThumbsUpFill className="size-4 -scale-x-100" />}
               </div>
             ) : (
               <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
-                0 {<PiThumbsUpLight className="w-4 h-4 -scale-x-100" />}
+                0 {<PiThumbsUpLight className="size-4 -scale-x-100" />}
               </div>
             )}
           </div>

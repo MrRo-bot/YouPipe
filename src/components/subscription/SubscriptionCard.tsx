@@ -204,7 +204,7 @@ const SubscriptionCard = ({
               className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
                   ${
                     sub
-                      ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
+                      ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70"
                       : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
                   }
                   `}

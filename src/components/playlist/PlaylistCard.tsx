@@ -124,7 +124,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                     alt=""
                   />
                   <div className="absolute p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
-                    <MdOutlinePlaylistPlay className="w-4 h-4" />{" "}
+                    <MdOutlinePlaylistPlay className="size-4" />{" "}
                     {playlist?.contentDetails?.itemCount} videos
                   </div>
                 </>

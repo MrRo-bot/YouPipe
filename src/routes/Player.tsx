@@ -531,7 +531,7 @@ const Player = () => {
                                 `/channel/${channelProfile?.items[0]?.id}`
                               )
                             }
-                            className="grid place-items-center relative rounded-3xl w-10 h-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]"
+                            className="grid place-items-center relative rounded-3xl size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]"
                           >
                             <img
                               referrerPolicy="no-referrer"

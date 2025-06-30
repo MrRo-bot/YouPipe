@@ -377,7 +377,7 @@ const ChannelOverview = () => {
                       }}
                       className="absolute p-2 rounded-full cursor-pointer top-2 right-2 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
                     >
-                      <PiPlusBold className="w-5 h-5 rotate-45 text-zinc-50" />
+                      <PiPlusBold className="size-5 rotate-45 text-zinc-50" />
                     </div>
 
                     <h2 className="text-2xl font-bold text-zinc-50">
