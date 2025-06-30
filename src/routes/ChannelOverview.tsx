@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import {
   addChannelDetails,
   addChannelSections,
+  clearUploads,
 } from "../features/channelOverviewSlice";
 
 import { usePersistedState } from "../hooks/usePersistentStorage";
@@ -37,6 +38,7 @@ const ChannelOverview = () => {
   const [sub, setSub] = useState(false);
 
   const { channelId } = useParams();
+  const location = useLocation();
 
   const dispatch = useAppDispatch();
 
@@ -258,6 +260,11 @@ const ChannelOverview = () => {
     +channelDetails?.items[0]?.statistics?.videoCount
   );
 
+  useEffect(() => {
+    dispatch(clearUploads());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -377,7 +384,7 @@ const ChannelOverview = () => {
                       }}
                       className="absolute p-2 rounded-full cursor-pointer top-2 right-2 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
                     >
-                      <PiPlusBold className="size-5 rotate-45 text-zinc-50" />
+                      <PiPlusBold className="rotate-45 size-5 text-zinc-50" />
                     </div>
 
                     <h2 className="text-2xl font-bold text-zinc-50">

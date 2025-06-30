@@ -38,7 +38,14 @@ const Sidebar = () => {
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiHouseFill className="size-4" />
-              <div className="w-full">Home</div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full"
+              >
+                Home
+              </motion.div>
             </div>
           </NavLink>
           <NavLink
@@ -53,7 +60,14 @@ const Sidebar = () => {
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiMonitorPlayFill className="size-4" />
-              <div className="w-full">Subs</div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full"
+              >
+                Subs
+              </motion.div>
             </div>
           </NavLink>
           <NavLink
@@ -68,7 +82,14 @@ const Sidebar = () => {
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiListStarFill className="size-4" />
-              <div className="w-full">PLists</div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full"
+              >
+                PLists
+              </motion.div>
             </div>
           </NavLink>
           <NavLink
@@ -83,7 +104,14 @@ const Sidebar = () => {
           >
             <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiThumbsUpFill className="size-4" />
-              <div className="w-full">Liked</div>
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full"
+              >
+                Liked
+              </motion.div>
             </div>
           </NavLink>
         </>
@@ -103,7 +131,14 @@ const Sidebar = () => {
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiHouseFill className="size-7" />
-                <div className="w-full">Home</div>
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="w-full"
+                >
+                  Home
+                </motion.div>
               </div>
             </NavLink>
             <NavLink
@@ -118,7 +153,14 @@ const Sidebar = () => {
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiMonitorPlayFill className="size-7" />
-                <div className="w-full">Subscriptions</div>
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="w-full"
+                >
+                  Subscriptions
+                </motion.div>
               </div>
             </NavLink>
 
@@ -134,7 +176,14 @@ const Sidebar = () => {
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiListStarFill className="size-7" />
-                <div className="w-full">Playlists</div>
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="w-full"
+                >
+                  Playlists
+                </motion.div>
               </div>
             </NavLink>
 
@@ -150,7 +199,14 @@ const Sidebar = () => {
             >
               <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiThumbsUpFill className="size-7" />
-                <div className="w-full">Liked Videos</div>
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="w-full"
+                >
+                  Liked Videos
+                </motion.div>
               </div>
             </NavLink>
           </div>

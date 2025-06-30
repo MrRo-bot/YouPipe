@@ -12,7 +12,9 @@ import { ChannelInfoType } from "../../types/types";
 
 const ChannelsCard = ({ id }: { id: string }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
+
   const token = useAppSelector((state) => state.token);
+
   const parts = ["statistics", "snippet"];
 
   useQuery({
