@@ -428,6 +428,7 @@ const Player = () => {
       });
     },
   });
+
   const subAddMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch(
@@ -620,11 +621,32 @@ const Player = () => {
                       <div
                         id="like"
                         onClick={handleRating}
-                        className={`flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
+                        className={`relative flex items-center gap-1 cursor-pointer rounded-3xl hover:bg-zinc-200/10 focus:bg-zinc-200/10 active:bg-zinc-200/10 px-2 py-0.5 max-w-max ${
                           rating.items[0].rating === "like" && "text-yellow-400"
                         }
                     `}
                       >
+                        <AnimatePresence>
+                          {rating.items[0].rating === "like" && (
+                            <motion.div
+                              className="absolute z-50 pointer-events-none"
+                              animate={{
+                                scale: [1, 2, 4, 6, 8],
+                                rotate: [0, -20, -40, -10, 0],
+                                opacity: [0.25, 0.5, 1, 0.75, 0],
+                                y: [0, -20, -40, -60, -80],
+                              }}
+                              transition={{
+                                duration: 1,
+                                ease: "linear",
+                                times: [0, 0.25, 0.5, 0.75, 1],
+                              }}
+                            >
+                              <span className="text-4xl">👍</span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
                         {rating.items[0].rating === "like" ? (
                           <PiThumbsUpFill className="pointer-events-none" />
                         ) : (
@@ -650,6 +672,26 @@ const Player = () => {
                           "text-yellow-400"
                         }`}
                       >
+                        <AnimatePresence>
+                          {rating.items[0].rating === "dislike" && (
+                            <motion.div
+                              className="absolute z-50 pointer-events-none"
+                              animate={{
+                                scale: [1, 2, 4, 6, 8],
+                                rotate: [0, -20, -40, -10, 0],
+                                opacity: [0.25, 0.5, 1, 0.75, 0],
+                                y: [0, -20, -40, -60, -80],
+                              }}
+                              transition={{
+                                duration: 1,
+                                ease: "linear",
+                                times: [0, 0.25, 0.5, 0.75, 1],
+                              }}
+                            >
+                              <span className="text-4xl">👎</span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                         {rating.items[0].rating === "dislike" ? (
                           <PiThumbsDownFill />
                         ) : (
