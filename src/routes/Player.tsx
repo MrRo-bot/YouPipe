@@ -31,6 +31,7 @@ import Comments from "../components/comments/Comments";
 import { rawViewsToString } from "../utils/functions";
 
 import { RatingType, TokensType, VideosListType } from "../types/types";
+import { FcDislike, FcLike } from "react-icons/fc";
 
 const Player = () => {
   const [myComment, setMyComment] = useState("");
@@ -629,12 +630,12 @@ const Player = () => {
                         <AnimatePresence>
                           {rating.items[0].rating === "like" && (
                             <motion.div
-                              className="absolute z-50 pointer-events-none"
+                              className="absolute pointer-events-none"
                               animate={{
                                 scale: [1, 2, 4, 6, 8],
                                 rotate: [0, -20, -40, -10, 0],
                                 opacity: [0.25, 0.5, 1, 0.75, 0],
-                                y: [0, -20, -40, -60, -80],
+                                y: [0, -40, -80, -120, -160],
                               }}
                               transition={{
                                 duration: 1,
@@ -642,7 +643,9 @@ const Player = () => {
                                 times: [0, 0.25, 0.5, 0.75, 1],
                               }}
                             >
-                              <span className="text-4xl">👍</span>
+                              <span className="text-4xl">
+                                <FcLike />
+                              </span>
                             </motion.div>
                           )}
                         </AnimatePresence>
@@ -675,12 +678,12 @@ const Player = () => {
                         <AnimatePresence>
                           {rating.items[0].rating === "dislike" && (
                             <motion.div
-                              className="absolute z-50 pointer-events-none"
+                              className="absolute pointer-events-none"
                               animate={{
                                 scale: [1, 2, 4, 6, 8],
                                 rotate: [0, -20, -40, -10, 0],
                                 opacity: [0.25, 0.5, 1, 0.75, 0],
-                                y: [0, -20, -40, -60, -80],
+                                y: [0, -40, -80, -120, -160],
                               }}
                               transition={{
                                 duration: 1,
@@ -688,7 +691,9 @@ const Player = () => {
                                 times: [0, 0.25, 0.5, 0.75, 1],
                               }}
                             >
-                              <span className="text-4xl">👎</span>
+                              <span className="text-4xl">
+                                <FcDislike />
+                              </span>
                             </motion.div>
                           )}
                         </AnimatePresence>
