@@ -268,7 +268,7 @@ const Header = () => {
       <div className="flex items-center justify-between gap-3">
         <div
           onClick={() => dispatch(toggle())}
-          className="grid size-10 transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+          className="grid transition-colors bg-opacity-0 rounded-full cursor-pointer size-10 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
         >
           <RxHamburgerMenu className="w-full h-full p-2.5" />
         </div>

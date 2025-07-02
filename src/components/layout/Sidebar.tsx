@@ -12,6 +12,7 @@ import { useAppSelector } from "../../app/store";
 
 const Sidebar = () => {
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
+  const tokenData = useAppSelector((state) => state.token);
 
   return (
     <motion.aside
@@ -19,7 +20,9 @@ const Sidebar = () => {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
       key="sidebar"
-      className={`flex flex-col mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
+      className={`${
+        !tokenData?.access_token && "pointer-events-none"
+      } flex flex-col mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
         !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "w-[15vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
     >

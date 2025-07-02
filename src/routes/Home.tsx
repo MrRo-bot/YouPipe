@@ -9,31 +9,19 @@ import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addHomeVideos } from "../features/homeSlice";
 
-import { usePersistedState } from "../hooks/usePersistentStorage";
-
 // import Filters from "../components/home/Filters";
 import HomeCard from "../components/home/HomeCard";
-
-import { TokensType } from "../types/types";
 
 const Home = () => {
   const dispatch = useAppDispatch();
 
   const profileData = useAppSelector((state) => state.profile);
+  const tokenData = useAppSelector((state) => state.token);
   const isOpen = useAppSelector((state) => state.hamburger);
   const homeData = useAppSelector((state) => state.home);
   const location = useAppSelector((state) => state.location);
 
   const [fetchMore, setFetchMore] = useState(false);
-
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
 
   const homeParts = ["contentDetails", "id", "snippet", "status", "statistics"];
 
@@ -43,49 +31,51 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore, profileData?.email],
+    queryKey: ["home", fetchMore, tokenData?.access_token],
     queryFn: async () => {
-      try {
-        const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
-            ","
-          )}&chart=mostPopular&maxResults=50&key=${
-            import.meta.env.VITE_API_KEY
-          }&regionCode=${location.address.country_code}&pageToken=${
-            fetchMore ? homeData?.nextPageToken : ""
-          }
+      if (tokenData?.access_token) {
+        try {
+          const res = await fetch(
+            `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
+              ","
+            )}&chart=mostPopular&maxResults=50&key=${
+              import.meta.env.VITE_API_KEY
+            }&regionCode=${location.address.country_code}&pageToken=${
+              fetchMore ? homeData?.nextPageToken : ""
+            }
         `,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Host: "www.googleapis.com",
-              Authorization: `Bearer ${token?.access_token}`,
-            },
-          }
-        );
-        if (!res.ok) throw new Error("Error fetching home page videos");
-        const channelVideos = await res.json();
-        dispatch(addHomeVideos(channelVideos));
-        setFetchMore(false);
-        return channelVideos;
-      } catch (error) {
-        //react toastify for location fetch errors
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Host: "www.googleapis.com",
+                Authorization: `Bearer ${tokenData?.access_token}`,
+              },
+            }
+          );
+          if (!res.ok) throw new Error("Error fetching home page videos");
+          const channelVideos = await res.json();
+          dispatch(addHomeVideos(channelVideos));
+          setFetchMore(false);
+          return channelVideos;
+        } catch (error) {
+          //react toastify for location fetch errors
+          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            className: "!toastGradientError !font-bold !text-zinc-50",
+            transition: Bounce,
+          });
+        }
       }
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore || !!profileData?.email,
+    enabled: !!fetchMore || !!tokenData?.access_token,
   });
 
   return (
@@ -109,7 +99,7 @@ const Home = () => {
           Most Popular Videos
         </motion.h1>
       )}
-      {!profileData?.email && (
+      {!profileData?.email && !tokenData?.access_token && (
         <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center transition-colors -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
           <strong className="block text-3xl tracking-wider">
             <div

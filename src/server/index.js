@@ -64,22 +64,6 @@ app.post("/auth/google", async (req, res) => {
   }
 });
 
-//refresh tokens
-app.post("/auth/google/refresh-token", async (req, res) => {
-  try {
-    const user = new UserRefreshClient(
-      process.env.VITE_YOUPIPE_CLIENT_ID,
-      process.env.VITE_YOUPIPE_CLIENT_SECRET,
-      req.body.refreshToken
-    );
-    const { credentials } = await user.refreshAccessToken(); // optain new tokens
-    res.json(credentials);
-  } catch (error) {
-    console.error("Error refreshing token:", error);
-    res.status(500).json({ error: "Failed to refresh token" });
-  }
-});
-
 // app.listen(PORT, () => console.log(`server is running`));
 httpsServer.listen(PORT, () => {
   console.log("HTTPS server running on port: " + PORT);
