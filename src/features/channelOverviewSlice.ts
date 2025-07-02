@@ -238,10 +238,6 @@ export const ChannelOverview = createSlice({
     clearChannel: (state) => {
       Object.assign(state, initialState);
     },
-
-    clearUploads: (state) => {
-      Object.assign(state.channelUploads, initialState.channelUploads);
-    },
   },
 });
 
@@ -250,7 +246,6 @@ export const {
   addChannelUploads,
   addChannelSections,
   clearChannel,
-  clearUploads,
 } = ChannelOverview.actions;
 
 export const channelOverview = (state: RootState) => state.channelOverview;

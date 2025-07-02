@@ -276,7 +276,7 @@ const Header = () => {
           <div className="size-8">
             <img
               className="text-nowrap indent-[100%] overflow-hidden"
-              src="icon.svg"
+              src="/icon.svg"
               alt="youpipe"
             />
           </div>

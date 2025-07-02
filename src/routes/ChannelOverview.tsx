@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
+import { useRef, useState } from "react";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
@@ -23,7 +23,6 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import {
   addChannelDetails,
   addChannelSections,
-  clearUploads,
 } from "../features/channelOverviewSlice";
 
 import { usePersistedState } from "../hooks/usePersistentStorage";
@@ -38,7 +37,6 @@ const ChannelOverview = () => {
   const [sub, setSub] = useState(false);
 
   const { channelId } = useParams();
-  const location = useLocation();
 
   const dispatch = useAppDispatch();
 
@@ -260,10 +258,14 @@ const ChannelOverview = () => {
     +channelDetails?.items[0]?.statistics?.videoCount
   );
 
-  useEffect(() => {
-    dispatch(clearUploads());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  const handleDelSub = () => {
+    if (window.confirm("Are you sure you want to unsubscribe 😿?")) {
+      if (isSubData?.pageInfo?.totalResults) {
+        subDelMutation.mutate(isSubData?.items[0]?.id);
+        setSub(false);
+      }
+    }
+  };
 
   return (
     <SkeletonTheme
@@ -470,7 +472,6 @@ const ChannelOverview = () => {
                 <Skeleton className="px-3 py-2 !rounded-full !w-24" />
               ) : (
                 <div
-                  onClick={() => setSub(!sub)}
                   className={`grid place-items-center  overflow-hidden px-3 py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
                     sub
                       ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
@@ -479,17 +480,11 @@ const ChannelOverview = () => {
                 >
                   <AnimatePresence>
                     {sub ? (
-                      <span
-                        onClick={() =>
-                          isSubData?.pageInfo?.totalResults &&
-                          subDelMutation.mutate(isSubData?.items[0]?.id)
-                        }
-                      >
-                        Subscribed
-                      </span>
+                      <span onClick={handleDelSub}>Subscribed</span>
                     ) : (
                       <span
                         onClick={() => {
+                          setSub(true);
                           subAddMutation.mutate();
                         }}
                       >

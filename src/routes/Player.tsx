@@ -482,6 +482,15 @@ const Player = () => {
     },
   });
 
+  const handleDelSub = () => {
+    if (window.confirm("Are you sure you want to unsubscribe 😿?")) {
+      if (isSubData?.pageInfo?.totalResults) {
+        subDelMutation.mutate(isSubData?.items[0]?.id);
+        setSub(false);
+      }
+    }
+  };
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -571,7 +580,7 @@ const Player = () => {
                     ) : (
                       <AnimatePresence>
                         <div
-                          onClick={(e) => (e.stopPropagation(), setSub(!sub))}
+                          onClick={(e) => e.stopPropagation()}
                           className={`grid place-items-center overflow-hidden px-3 py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
                             sub
                               ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
@@ -584,10 +593,7 @@ const Player = () => {
                               initial={{ opacity: 0, x: -100, rotate: -45 }}
                               animate={{ opacity: 1, x: 0, rotate: 0 }}
                               transition={{ duration: 0.35, ease: "easeInOut" }}
-                              onClick={() =>
-                                isSubData?.pageInfo?.totalResults &&
-                                subDelMutation.mutate(isSubData?.items[0]?.id)
-                              }
+                              onClick={handleDelSub}
                             >
                               Subscribed
                             </motion.span>
@@ -598,6 +604,7 @@ const Player = () => {
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.25, ease: "easeInOut" }}
                               onClick={() => {
+                                setSub(true);
                                 subAddMutation.mutate();
                               }}
                             >

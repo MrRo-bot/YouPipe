@@ -183,6 +183,15 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search?.id?.channelId]);
 
+  const handleDelSub = () => {
+    if (window.confirm("Are you sure you want to unsubscribe 😿?")) {
+      if (isSubData?.pageInfo?.totalResults) {
+        subDelMutation.mutate(isSubData?.items[0]?.id);
+        setSub(false);
+      }
+    }
+  };
+
   return (
     <div
       className="py-4"
@@ -275,9 +284,8 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setSub(!sub);
               }}
-              className={`grid place-items-center w-32 overflow-hidden px-3 py-2 mt-1 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none 
+              className={`grid place-items-center min-w-32 overflow-hidden px-3 py-2 mt-1 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none 
                   ${
                     sub
                       ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
@@ -291,10 +299,7 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
                     initial={{ opacity: 0, x: -100, rotate: -45 }}
                     animate={{ opacity: 1, x: 0, rotate: 0 }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
-                    onClick={() =>
-                      isSubData?.pageInfo?.totalResults &&
-                      subDelMutation.mutate(isSubData?.items[0]?.id)
-                    }
+                    onClick={handleDelSub}
                   >
                     Subscribed
                   </motion.span>
@@ -305,6 +310,7 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, ease: "easeInOut" }}
                     onClick={() => {
+                      setSub(true);
                       subAddMutation.mutate();
                     }}
                   >

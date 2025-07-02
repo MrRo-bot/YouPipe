@@ -129,6 +129,13 @@ const SubscriptionCard = ({
     },
   });
 
+  const handleDelSub = () => {
+    if (window.confirm("Are you sure you want to unsubscribe 😿?")) {
+      subDelMutation.mutate(subId);
+      setSub(false);
+    }
+  };
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
@@ -199,7 +206,6 @@ const SubscriptionCard = ({
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setSub(!sub);
               }}
               className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
                   ${
@@ -216,7 +222,7 @@ const SubscriptionCard = ({
                     initial={{ opacity: 0, x: -100, rotate: -45 }}
                     animate={{ opacity: 1, x: 0, rotate: 0 }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
-                    onClick={() => subDelMutation.mutate(subId)}
+                    onClick={handleDelSub}
                   >
                     Subscribed
                   </motion.span>
@@ -227,6 +233,7 @@ const SubscriptionCard = ({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, ease: "easeInOut" }}
                     onClick={() => {
+                      setSub(true);
                       subAddMutation.mutate();
                     }}
                   >
