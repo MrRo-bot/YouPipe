@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Virtuoso } from "react-virtuoso";
 import { FidgetSpinner } from "react-loader-spinner";
@@ -6,12 +11,11 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useAppSelector } from "../../app/store";
 
-import { ChannelInfoType, TokensType } from "../../types/types";
-import { useNavigate } from "react-router-dom";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
-import { Bounce, toast } from "react-toastify";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
 import { rawViewsToString } from "../../utils/functions";
+
+import { ChannelInfoType, TokensType } from "../../types/types";
 
 const ChannelsCard = ({ id }: { id: string }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();

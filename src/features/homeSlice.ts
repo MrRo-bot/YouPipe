@@ -218,15 +218,10 @@ export const homeSlice = createSlice({
         ],
       });
     },
-
-    //clear home page list
-    clearHomeVideos: (state) => {
-      Object.assign(state, initialState);
-    },
   },
 });
 
-export const { addHomeVideos, clearHomeVideos } = homeSlice.actions;
+export const { addHomeVideos } = homeSlice.actions;
 
 export const home = (state: RootState) => state.home;
 

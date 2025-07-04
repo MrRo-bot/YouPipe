@@ -9,11 +9,15 @@ import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addHomeVideos } from "../features/homeSlice";
 
+import { usePersistedState } from "../hooks/usePersistentStorage";
+
 // import Filters from "../components/home/Filters";
 import HomeCard from "../components/home/HomeCard";
 
+import { TokensType } from "../types/types";
+
 const Home = () => {
-  const dispatch = useAppDispatch();
+  const [fetchMore, setFetchMore] = useState(false);
 
   const profileData = useAppSelector((state) => state.profile);
   const tokenData = useAppSelector((state) => state.token);
@@ -21,7 +25,16 @@ const Home = () => {
   const homeData = useAppSelector((state) => state.home);
   const location = useAppSelector((state) => state.location);
 
-  const [fetchMore, setFetchMore] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
 
   const homeParts = ["contentDetails", "id", "snippet", "status", "statistics"];
 
@@ -31,7 +44,7 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore, tokenData?.access_token],
+    queryKey: ["home", fetchMore, token?.access_token],
     queryFn: async () => {
       if (tokenData?.access_token) {
         try {
@@ -75,7 +88,7 @@ const Home = () => {
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore || !!tokenData?.access_token,
+    enabled: !!fetchMore || !!token?.access_token,
   });
 
   return (
@@ -94,7 +107,7 @@ const Home = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-          className="m-4 text-4xl font-bold tracking-tight text-slate-200"
+          className="m-1 text-lg font-bold tracking-tight md:m-2 md:text-2xl xl:text-4xl xl:m-4 text-slate-200"
         >
           Most Popular Videos
         </motion.h1>

@@ -25,7 +25,6 @@ import {
 } from "../../features/searchSlice";
 
 import { clearCommentsThread } from "../../features/commentsThreadSlice";
-import { clearHomeVideos } from "../../features/homeSlice";
 import { removeTimestamp } from "../../features/timestampSlice";
 import { clearPlayItems } from "../../features/playlistOverviewSlice";
 import { clearLikedVideos } from "../../features/likedVideosSlice";
@@ -192,54 +191,54 @@ const Header = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (token?.access_token) {
-      (async () => {
-        try {
-          const response = await fetch(
-            `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token?.access_token}`
-          );
-          if (!response.ok) {
-            throw new Error("❌ No access token");
-          }
-          const profile = await response.json();
-          dispatch(addProfile(profile));
-          setProfile(profile); //setting it on localStorage
-          //react toastify notification for welcoming user
-          if (profile?.name?.length > 1) {
-            toast(`Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`, {
-              position: "bottom-left",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              draggable: true,
-              progress: undefined,
-              className: "!toastGradient !font-bold !text-zinc-50",
-              transition: Bounce,
-            });
-          }
-        } catch (error) {
-          //react toastify notification for access token error
-          toast.error(`${error instanceof Error ? error.message : error}!`, {
+  //using access token to get youtubers profile data
+  useQuery({
+    queryKey: ["userProfile", token?.access_token],
+    queryFn: async () => {
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token?.access_token}`
+        );
+        if (!res.ok) {
+          throw new Error("❌ No access token");
+        }
+        const profile = await res.json();
+        dispatch(addProfile(profile));
+        setProfile(profile); //setting it on localStorage
+        //react toastify notification for welcoming user
+        if (profile?.name?.length > 1) {
+          toast(`Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`, {
             position: "bottom-left",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
-            pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
+            className: "!toastGradient !font-bold !text-zinc-50",
             transition: Bounce,
           });
         }
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token?.access_token]);
+      } catch (error) {
+        //react toastify notification for access token error
+        toast.error(`${error instanceof Error ? error.message : error}!`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
+      }
+    },
+    enabled: !!token?.access_token,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
-  //effect for clearing redux store parts depending upon which route user currently is
   useEffect(() => {
-    if (location.pathname !== "/home") dispatch(clearHomeVideos());
     if (location.pathname !== "/search") dispatch(clearSubscription());
     if (location.pathname.includes("/video")) dispatch(collapse());
     if (location.pathname !== "playlist") dispatch(clearPlayItems());

@@ -19,7 +19,7 @@ const Sidebar = () => {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
       key="sidebar"
-      className={`flex flex-col mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
+      className={`flex flex-col  mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
         !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "w-[15vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
     >
@@ -32,11 +32,11 @@ const Sidebar = () => {
               isPending
                 ? ""
                 : isActive
-                ? "rounded-md text-black bg-white font-bold"
+                ? "bg-white rounded-xl text-black font-bold"
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-xl transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiHouseFill className="size-4" />
               <motion.div
                 initial={{ y: 10, opacity: 0 }}
@@ -54,11 +54,11 @@ const Sidebar = () => {
               isPending
                 ? ""
                 : isActive
-                ? "bg-white rounded-md text-black font-bold"
+                ? "bg-white rounded-xl text-black font-bold"
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-xl transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiMonitorPlayFill className="size-4" />
               <motion.div
                 initial={{ y: 10, opacity: 0 }}
@@ -76,11 +76,11 @@ const Sidebar = () => {
               isPending
                 ? ""
                 : isActive
-                ? "bg-white rounded-md text-black font-bold"
+                ? "bg-white rounded-xl text-black font-bold"
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-xl transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiListStarFill className="size-4" />
               <motion.div
                 initial={{ y: 10, opacity: 0 }}
@@ -98,11 +98,11 @@ const Sidebar = () => {
               isPending
                 ? ""
                 : isActive
-                ? "bg-white rounded-md text-black font-bold"
+                ? "bg-white rounded-xl text-black font-bold"
                 : ""
             }
           >
-            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-md transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
+            <div className="flex flex-col items-center gap-1 hover:bg-zinc-400 focus:bg-zinc-400 py-1.5 rounded-xl transition-colors tracking-tighter text-xs text-center hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-400">
               <PiThumbsUpFill className="size-4" />
               <motion.div
                 initial={{ y: 10, opacity: 0 }}
@@ -129,7 +129,7 @@ const Sidebar = () => {
                   : ""
               }
             >
-              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiHouseFill className="size-7" />
                 <motion.div
                   initial={{ y: 10, opacity: 0 }}
@@ -151,7 +151,7 @@ const Sidebar = () => {
               }
               to="subscriptions"
             >
-              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiMonitorPlayFill className="size-7" />
                 <motion.div
                   initial={{ y: 10, opacity: 0 }}
@@ -174,7 +174,7 @@ const Sidebar = () => {
               }
               to="playlists"
             >
-              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiListStarFill className="size-7" />
                 <motion.div
                   initial={{ y: 10, opacity: 0 }}
@@ -197,7 +197,7 @@ const Sidebar = () => {
               }
               to="likedvideos"
             >
-              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-2xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
+              <div className="flex items-center gap-5 hover:bg-zinc-400 focus:bg-zinc-400 px-2.5 py-1.5 rounded-xl transition-colors tracking-tight  hover:text-black focus:text-black cursor-pointer active:text-zinc-900 active:bg-zinc-200">
                 <PiThumbsUpFill className="size-7" />
                 <motion.div
                   initial={{ y: 10, opacity: 0 }}
