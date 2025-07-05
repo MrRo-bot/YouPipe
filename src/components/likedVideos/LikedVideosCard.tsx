@@ -37,7 +37,10 @@ const LikedVideosCard = ({
         className="flex items-start justify-between gap-1 p-2 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70 rounded-2xl"
       >
         <div className="flex">
-          <div className="self-center mr-1 text-center">{index + 1}</div>
+          <div className="self-center mr-1 text-center text:sm lg:text-base">
+            {index + 1}
+          </div>
+
           <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
             {!likedvideo?.snippet?.thumbnails?.high?.url ? (
               <Skeleton className="absolute inset-0 h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl" />

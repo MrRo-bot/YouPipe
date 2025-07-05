@@ -132,7 +132,7 @@ const LikedVideos = () => {
       <div
         className={`mb-2 mt-3 max-h-[90vh] rounded-2xl mx-4 ${
           !isOpen ? "w-[85vw]" : "w-full"
-        }  flex flex-col lg:flex-row`}
+        }  flex flex-col lg:flex-row md:mx-10`}
       >
         <motion.div
           initial={{ x: 100, opacity: 0 }}

@@ -70,15 +70,19 @@ const PlaylistOverviewCard = ({
       className="flex items-center justify-between gap-1 p-2 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70 glass rounded-2xl"
     >
       <div className="flex">
-        <div className="self-center mr-2">{index + 1}</div>
-        <div className="relative overflow-hidden w-52 aspect-video rounded-2xl">
+        <div className="self-center mr-2 text-sm md:text-base">{index + 1}</div>
+
+        <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
           {isLoading ? (
-            <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
+            <Skeleton
+              height={"100%"}
+              className="absolute inset-0 h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl"
+            />
           ) : (
             <>
               <img
                 referrerPolicy="no-referrer"
-                className="object-cover w-full h-full"
+                className="absolute inset-0 object-cover h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video"
                 src={playlistItem?.snippet?.thumbnails?.high?.url}
                 alt=""
               />
@@ -90,12 +94,13 @@ const PlaylistOverviewCard = ({
             </>
           )}
         </div>
+
         <div className="flex flex-col ml-3 flex-start">
           <div className="relative flex items-start justify-between gap-1">
             {isLoading ? (
               <Skeleton width={300} height={27} className="top-2 rounded-2xl" />
             ) : (
-              <h3 className="text-lg text-ellipsis line-clamp-1 text-zinc-50">
+              <h3 className="w-full lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
                 {playlistItem?.snippet?.title}
               </h3>
             )}
@@ -112,19 +117,21 @@ const PlaylistOverviewCard = ({
                       `/channel/${playlistItem?.snippet?.videoOwnerChannelId}`
                     );
                   }}
-                  className="transition-colors hover:text-slate-50 focus:text-slate-50"
+                  className="transition-colors text-ellipsis line-clamp-1 md:line-clamp-none hover:text-slate-50 focus:text-slate-50"
                 >
                   {playlistItem?.snippet?.videoOwnerChannelTitle || ""}
                 </span>
-                <span>
-                  {`• ${rawViewsToString(
-                    videoStat?.items[0]?.statistics?.viewCount || ""
-                  )} views • ${rawViewsToString(
-                    videoStat?.items[0]?.statistics?.likeCount || ""
-                  )} likes • ${rawViewsToString(
-                    videoStat?.items[0]?.statistics?.commentCount || ""
-                  )} comments • ${elapsedTime(date) || ""} ago`}
-                </span>
+                {window.innerWidth > 640 && (
+                  <span className="text-xs md:text-base ">
+                    {`• ${rawViewsToString(
+                      videoStat?.items[0]?.statistics?.viewCount || ""
+                    )} views • ${rawViewsToString(
+                      videoStat?.items[0]?.statistics?.likeCount || ""
+                    )} likes • ${rawViewsToString(
+                      videoStat?.items[0]?.statistics?.commentCount || ""
+                    )} comments • ${elapsedTime(date) || ""} ago`}
+                  </span>
+                )}
               </>
             )}
           </div>

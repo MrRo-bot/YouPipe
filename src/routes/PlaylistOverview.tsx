@@ -146,7 +146,7 @@ const PlaylistOverview = () => {
       <div
         className={`mb-2 mt-3 max-h-[90vh] rounded-2xl mx-4 ${
           !isOpen ? "w-[85vw]" : "w-full"
-        }  flex`}
+        }  flex flex-col md:mx-10 lg:flex-row`}
       >
         <motion.div
           initial={{ x: 100, opacity: 0 }}
@@ -155,9 +155,9 @@ const PlaylistOverview = () => {
           style={{
             background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
           }}
-          className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
+          className="flex flex-col md:flex-row lg:flex-col px-2 sm:px-8 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1 lg:px-2 xl:px-6"
         >
-          <div className="my-6 overflow-hidden rounded-2xl aspect-video">
+          <div className="my-2 overflow-hidden lg:flex-col rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
             {playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url ? (
               <img
                 referrerPolicy="no-referrer"
@@ -166,34 +166,39 @@ const PlaylistOverview = () => {
                 alt=""
               />
             ) : (
-              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
+              <Skeleton
+                height={"100%"}
+                className="md:!w-[50vw] -top-1 rounded-2xl"
+              />
             )}
           </div>
-          <h1 className="text-4xl font-bold text-zinc-50">
-            {playlistInfo?.items[0]?.snippet?.title || ""}
-          </h1>
-          <h3 className="mt-2 font-semibold tracking-tighter text-zinc-200">
-            {playlistInfo?.items[0]?.snippet?.channelTitle
-              ? playlistInfo?.items[0]?.snippet?.channelTitle[0]?.toUpperCase() +
-                playlistInfo?.items[0]?.snippet?.channelTitle.slice(1)
-              : ""}
-          </h3>
-          <div className="flex gap-2 mt-2 font-medium tracking-tighter text-zinc-400">
-            <span>
-              {playlistInfo?.items[0]?.contentDetails?.itemCount || "..."}{" "}
-              videos
-            </span>
-            •
-            <span>
-              {playlistInfo?.items[0]?.status?.privacyStatus
-                ? playlistInfo?.items[0]?.status?.privacyStatus[0].toUpperCase() +
-                  playlistInfo?.items[0]?.status?.privacyStatus.slice(1)
+          <div className="md:mt-1 md:pl-2">
+            <h1 className="text-2xl font-bold md:text-3xl xl:text-4xl text-zinc-50">
+              {playlistInfo?.items[0]?.snippet?.title || ""}
+            </h1>
+            <h3 className="mt-2 text-sm font-semibold tracking-tighter lg:text-base text-zinc-200">
+              {playlistInfo?.items[0]?.snippet?.channelTitle
+                ? playlistInfo?.items[0]?.snippet?.channelTitle[0]?.toUpperCase() +
+                  playlistInfo?.items[0]?.snippet?.channelTitle.slice(1)
                 : ""}
-            </span>
-            •<span>{elapsedTime(date)} ago</span>
+            </h3>
+            <div className="flex gap-0.5 mt-2 text-sm md:text-base font-medium tracking-tighter text-zinc-400 md:justify-start md:gap-1 xl:gap-2">
+              <span>
+                {playlistInfo?.items[0]?.contentDetails?.itemCount || "..."}{" "}
+                videos
+              </span>
+              •
+              <span>
+                {playlistInfo?.items[0]?.status?.privacyStatus
+                  ? playlistInfo?.items[0]?.status?.privacyStatus[0].toUpperCase() +
+                    playlistInfo?.items[0]?.status?.privacyStatus.slice(1)
+                  : ""}
+              </span>
+              •<span>{elapsedTime(date)} ago</span>
+            </div>
           </div>
         </motion.div>
-        <div className="z-0 flex flex-col w-9/12 gap-2 mx-2 my-1 overflow-y-auto hideScrollbar">
+        <div className="z-0 flex flex-col gap-2 mx-2 my-1 overflow-y-auto lg:w-9/12 hideScrollbar">
           {playlistOverview?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}

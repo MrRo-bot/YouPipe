@@ -44,7 +44,7 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore, tokenData?.access_token],
+    queryKey: ["home", fetchMore, token],
     queryFn: async () => {
       if (tokenData?.access_token) {
         try {
@@ -86,9 +86,9 @@ const Home = () => {
         }
       }
     },
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore || !!tokenData?.access_token,
+    enabled: !!fetchMore || !!token,
   });
 
   return (
