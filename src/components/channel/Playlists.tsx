@@ -90,7 +90,7 @@ const Playlists = () => {
   }, []);
 
   return (
-    <div className="relative mb-2 mt-3 max-h-[90vh] min-h-[50vh] rounded-xl mx-4 w-full overflow-y-auto hideScrollbar">
+    <div className="relative mb-2 mt-3 max-h-[90vh] min-h-[50vh] rounded-xl lg:mx-4 w-full overflow-y-auto hideScrollbar">
       {playlist?.length < 1 ? (
         <FidgetSpinner
           visible={true}

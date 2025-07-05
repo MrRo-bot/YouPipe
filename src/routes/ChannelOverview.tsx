@@ -280,11 +280,11 @@ const ChannelOverview = () => {
           !isOpen ? "w-[85vw]" : "w-full"
         } `}
       >
-        <div className="w-9/12 mx-auto">
+        <div className="mx-auto lg:w-9/12">
           {channelDetails?.items[0]?.brandingSettings?.image
             ?.bannerExternalUrl ? (
             isLoading ? (
-              <div className="h-[18vh] overflow-hidden rounded-2xl">
+              <div className="h-[10vh] md:h-[14vh] lg:h-[18vh] overflow-hidden rounded-2xl">
                 <Skeleton className="object-cover w-full h-full pt-1" />
               </div>
             ) : (
@@ -292,7 +292,7 @@ const ChannelOverview = () => {
                 initial={{ opacity: 0, scaleY: 0 }}
                 animate={{ opacity: 1, scaleY: 1 }}
                 transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
-                className="h-[18vh] overflow-hidden rounded-2xl"
+                className="h-[10vh] md:h-[14vh] lg:h-[18vh] overflow-hidden rounded-2xl"
               >
                 <img
                   referrerPolicy="no-referrer"
@@ -310,7 +310,7 @@ const ChannelOverview = () => {
           )}
 
           <div className="flex items-center justify-start gap-4 py-4">
-            <div className="grid overflow-hidden rounded-full max-w-36 place-items-center">
+            <div className="grid overflow-hidden rounded-full max-w-20 md:max-w-28 xl:max-w-36 place-items-center">
               {isLoading ? (
                 <Skeleton className="!min-w-36 aspect-square -top-0.25 p-1" />
               ) : (
@@ -326,7 +326,7 @@ const ChannelOverview = () => {
               {isLoading ? (
                 <Skeleton className="min-w-full mb-2 min-h-8" />
               ) : (
-                <h1 className="text-3xl font-extrabold text-zinc-50">
+                <h1 className="text-xl font-extrabold md:text-2xl xl:text-3xl text-zinc-50">
                   {channelDetails?.items[0]?.snippet?.title}
                 </h1>
               )}
@@ -338,19 +338,19 @@ const ChannelOverview = () => {
                   count={3}
                 />
               ) : (
-                <span className="flex items-center gap-1 text-zinc-50">
+                <span className="flex items-center gap-1 text-xs md:text-base text-zinc-50">
                   <strong>
                     {channelDetails?.items[0]?.snippet?.customUrl}
                   </strong>
                   •
-                  <span className="text-sm text-zinc-200">
+                  <span className="text-zinc-200">
                     {channelDetails?.items[0]?.statistics &&
                       rawViewsToString(
                         channelDetails?.items[0]?.statistics?.subscriberCount
                       )}{" "}
                     subscribers •
                   </span>
-                  <span className="text-sm text-zinc-200">
+                  <span className="text-zinc-200">
                     {channelDetails?.items[0]?.statistics &&
                       rawViewsToString(
                         channelDetails?.items[0]?.statistics?.videoCount
@@ -370,7 +370,7 @@ const ChannelOverview = () => {
                     }}
                     className="flex justify-start cursor-pointer text-zinc-400"
                   >
-                    <span className="w-[50%] line-clamp-1 my-2">
+                    <span className="w-full my-2 md:w-3/4 xl:w-1/2 line-clamp-1">
                       {channelDetails?.items[0]?.snippet?.description}
                     </span>
                     <strong className="my-2 font-bold text-white">more</strong>
@@ -472,7 +472,7 @@ const ChannelOverview = () => {
                 <Skeleton className="px-3 py-2 !rounded-full !w-24" />
               ) : (
                 <div
-                  className={`grid place-items-center  overflow-hidden px-3 py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
+                  className={`grid place-items-center overflow-hidden px-1 py-0.5 md:py-1 md:px-2 xl:px-3 xl:py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
                     sub
                       ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
                       : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
@@ -498,7 +498,7 @@ const ChannelOverview = () => {
           </div>
         </div>
         <div className="w-full mb-2 shadow-[0_1px_0_0_rgba(150,150,150,0.5)]">
-          <div className="flex items-center w-9/12 gap-3 pt-3 pb-2 mx-auto">
+          <div className="flex items-center w-full gap-3 pt-3 pb-2 mx-auto lg:w-9/12">
             <NavLink
               to=""
               className={({ isActive }) =>
@@ -506,7 +506,7 @@ const ChannelOverview = () => {
               }
               end
             >
-              <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+              <div className="text-sm md:text-base flex flex-col items-center gap-1 px-1 py-0.5 md:px-2 md:py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
                 Home
               </div>
             </NavLink>
@@ -517,7 +517,7 @@ const ChannelOverview = () => {
               }
               end
             >
-              <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+              <div className="text-sm md:text-base flex flex-col items-center gap-1 px-1 py-0.5 md:px-2 md:py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
                 Channels
               </div>
             </NavLink>
@@ -528,14 +528,14 @@ const ChannelOverview = () => {
               }
               end
             >
-              <div className="flex flex-col items-center gap-1 px-2 py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
+              <div className="text-sm md:text-base flex flex-col items-center gap-1 px-1 py-0.5 md:px-2 md:py-1 text-center transition-colors ease-in-out rounded-md cursor-pointer hover:bg-zinc-400 focus:bg-zinc-400 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400">
                 Playlists
               </div>
             </NavLink>
           </div>
         </div>
 
-        <div className="w-9/12 mx-auto">
+        <div className="w-full mx-auto lg:w-9/12">
           <Outlet />
         </div>
       </motion.div>

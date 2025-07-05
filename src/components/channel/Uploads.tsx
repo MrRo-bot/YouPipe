@@ -83,7 +83,7 @@ const UploadCards = ({
         }}
         initial={"hidden"}
         whileInView={"visible"}
-        className={`z-0 my-1 flex flex-col justify-between h-full gap-1 p-1 cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20`}
+        className={`z-0 my-1 flex flex-col justify-between h-full mx-auto gap-1 p-1 cursor-pointer group max-w-96 active:bg-zinc-600/70 glass rounded-2xl transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20`}
         onClick={() => navigate(`/video/${video?.items[0]?.id}`)}
       >
         <div className="flex flex-col gap-2">
@@ -233,8 +233,8 @@ const Uploads = () => {
         </div>
       ) : (
         <VirtuosoGrid
-          className="w-full min-h-[50vh] max-h-full !hideScrollbar"
-          listClassName="grid grid-flow-row gap-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 "
+          className="w-full min-h-[70vh] lg:min-h-[50vh] max-h-full !hideScrollbar"
+          listClassName="grid grid-flow-row gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           data={channelUploads?.items}
           totalCount={channelUploads?.pageInfo?.totalResults || 0}
           endReached={() => setTimeout(() => setFetchMore(true), 1000)}
