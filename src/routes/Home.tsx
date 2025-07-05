@@ -44,7 +44,7 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore, token?.access_token],
+    queryKey: ["home", fetchMore, tokenData?.access_token],
     queryFn: async () => {
       if (tokenData?.access_token) {
         try {
@@ -61,7 +61,7 @@ const Home = () => {
               headers: {
                 "Content-Type": "application/json",
                 Host: "www.googleapis.com",
-                Authorization: `Bearer ${tokenData?.access_token}`,
+                Authorization: `Bearer ${token?.access_token}`,
               },
             }
           );
@@ -86,9 +86,9 @@ const Home = () => {
         }
       }
     },
-    refetchOnMount: true,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore || !!token?.access_token,
+    enabled: !!fetchMore || !!tokenData?.access_token,
   });
 
   return (
@@ -113,8 +113,8 @@ const Home = () => {
         </motion.h1>
       )}
       {!profileData?.email && !tokenData?.access_token && (
-        <div className="col-start-1 px-20 pt-5 pb-3 mx-auto text-center transition-colors -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-          <strong className="block text-3xl tracking-wider">
+        <div className="col-start-1 px-6 pt-5 pb-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+          <strong className="block text-xl tracking-wider md:text-2xl 2xl:text-3xl">
             <div
               style={{ animationDelay: "0ms" }}
               className="inline-block transition-all slideIn"

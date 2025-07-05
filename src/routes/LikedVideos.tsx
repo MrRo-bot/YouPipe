@@ -132,7 +132,7 @@ const LikedVideos = () => {
       <div
         className={`mb-2 mt-3 max-h-[90vh] rounded-2xl mx-4 ${
           !isOpen ? "w-[85vw]" : "w-full"
-        }  flex`}
+        }  flex flex-col lg:flex-row`}
       >
         <motion.div
           initial={{ x: 100, opacity: 0 }}
@@ -141,11 +141,14 @@ const LikedVideos = () => {
           style={{
             background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
           }}
-          className="flex flex-col w-3/12 h-[87vh] rounded-2xl my-1 px-6"
+          className="flex flex-col md:flex-row lg:flex-col px-2 sm:px-8 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1 lg:px-2 xl:px-6"
         >
-          <div className="my-6 overflow-hidden rounded-2xl aspect-video">
+          <div className="my-2 overflow-hidden lg:my-6 rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
             {!likedVideos?.items[0]?.snippet?.thumbnails?.high?.url ? (
-              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
+              <Skeleton
+                height={"100%"}
+                className="md:!w-[50vw] -top-1 rounded-2xl"
+              />
             ) : (
               <img
                 referrerPolicy="no-referrer"
@@ -159,17 +162,21 @@ const LikedVideos = () => {
               />
             )}
           </div>
-          <h1 className="text-4xl font-bold text-zinc-50">Liked videos</h1>
-          <h3 className="mt-2 font-semibold tracking-tighter text-zinc-200">
-            Chhavimani Choubey
-          </h3>
-          <div className="flex gap-2 mt-2 font-medium tracking-tighter text-zinc-400">
-            <span>
-              {likedVideos?.items?.length
-                ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +
-                  " videos"
-                : "0 videos"}
-            </span>
+          <div className="md:mt-1 md:pl-2">
+            <h1 className="text-2xl font-bold md:text-3xl xl:text-4xl text-zinc-50">
+              Liked videos
+            </h1>
+            <h3 className="mt-2 text-sm font-semibold tracking-tighter lg:text-base text-zinc-200">
+              Chhavimani Choubey
+            </h3>
+            <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter lg:text-base text-zinc-400">
+              <span>
+                {likedVideos?.items?.length
+                  ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +
+                    " videos"
+                  : "0 videos"}
+              </span>
+            </div>
           </div>
         </motion.div>
 
@@ -184,7 +191,7 @@ const LikedVideos = () => {
           />
         ) : (
           <Virtuoso
-            className="!w-9/12 !min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl !mx-2 !my-1"
+            className="lg:!w-9/12 lg:!min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl lg:!mx-2 !my-1"
             increaseViewportBy={100}
             data={likedVideos?.items}
             totalCount={likedVideos?.pageInfo?.totalResults}

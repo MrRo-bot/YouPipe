@@ -38,14 +38,14 @@ const LikedVideosCard = ({
       >
         <div className="flex">
           <div className="self-center mr-1 text-center">{index + 1}</div>
-          <div className="relative h-32 overflow-hidden w-52 selection:aspect-video rounded-2xl">
+          <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
             {!likedvideo?.snippet?.thumbnails?.high?.url ? (
-              <Skeleton height={"100%"} className="-top-1 rounded-2xl" />
+              <Skeleton className="absolute inset-0 h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl" />
             ) : (
               <>
                 <img
                   referrerPolicy="no-referrer"
-                  className="object-cover w-full h-full"
+                  className="absolute inset-0 object-cover h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video"
                   src={likedvideo?.snippet?.thumbnails?.high?.url}
                   alt=""
                 />
@@ -61,7 +61,7 @@ const LikedVideosCard = ({
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
               {likedvideo?.snippet?.title ? (
-                <h3 className="w-full text-lg text-ellipsis line-clamp-1 text-zinc-50">
+                <h3 className="w-full lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
                   {likedvideo?.snippet?.title || ""}
                 </h3>
               ) : (
@@ -81,13 +81,14 @@ const LikedVideosCard = ({
                       e.stopPropagation();
                       navigate(`/channel/${likedvideo?.snippet?.channelId}`);
                     }}
-                    className="transition-colors hover:text-slate-50 focus:text-slate-50"
+                    className="transition-colors hover:text-slate-50 focus:text-slate-50 text-ellipsis line-clamp-1"
                   >
                     {likedvideo?.snippet?.channelTitle || ""}
                   </span>
-                  {`• ${rawViewsToString(
-                    likedvideo?.statistics?.viewCount || ""
-                  )} views • ${elapsedTime(date) || ""} ago`}
+                  {window.innerWidth > 640 &&
+                    `• ${rawViewsToString(
+                      likedvideo?.statistics?.viewCount || ""
+                    )} views • ${elapsedTime(date) || ""} ago`}
                 </>
               ) : (
                 <Skeleton
