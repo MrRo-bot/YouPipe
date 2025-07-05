@@ -107,7 +107,7 @@ const Home = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-          className="m-1 text-lg font-bold tracking-tight md:m-2 md:text-2xl xl:text-4xl xl:m-4 text-slate-200"
+          className="m-1 text-xl font-bold tracking-tight md:m-2 md:text-2xl xl:text-4xl xl:m-4 text-slate-200"
         >
           Most Popular Videos
         </motion.h1>

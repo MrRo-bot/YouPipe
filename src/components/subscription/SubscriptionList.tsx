@@ -35,7 +35,7 @@ const SubscriptionList = ({ sub }: { sub: SubscriptionType }) => {
   });
 
   return (
-    <div className="p-2">
+    <div className="p-1 md:p-2">
       {<SubscriptionCard stat={channelStats!} subId={sub.id} subRes={id!} />}
     </div>
   );

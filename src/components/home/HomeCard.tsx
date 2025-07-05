@@ -83,26 +83,31 @@ const HomeCard = ({ video }: { video: VideoType }) => {
               </div>
               <div className="flex items-center gap-1 md:gap-3">
                 {!video ? (
-                  <Skeleton width={20} className="rounded-2xl" />
+                  <div className="flex gap-2">
+                    <Skeleton width={20} className="rounded-2xl" />
+                    <Skeleton width={20} className="rounded-2xl" />
+                  </div>
                 ) : (
-                  <div className="text-xs tracking-wide md:text-sm text-zinc-400">
-                    {video?.contentDetails?.definition === "hd" ? (
-                      <PiHighDefinitionFill className="size-4 md:size-6" />
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                )}
-                {video?.contentDetails?.caption === "true" && (
-                  <div className="text-xs tracking-wide md:text-sm text-zinc-400">
-                    <PiClosedCaptioningFill className="size-4 md:size-6" />
-                  </div>
+                  <>
+                    <div className="text-xs tracking-wide md:text-sm text-zinc-400">
+                      {video?.contentDetails?.definition === "hd" ? (
+                        <PiHighDefinitionFill className="size-4 md:size-6" />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div className="text-xs tracking-wide md:text-sm text-zinc-400">
+                      {video?.contentDetails?.caption === "true" && (
+                        <PiClosedCaptioningFill className="size-4 md:size-6" />
+                      )}
+                    </div>
+                  </>
                 )}
               </div>
               <div className="flex items-center gap-1">
                 <FcClock color="black" className="size-4 md:size-6" />
                 {!video ? (
-                  <Skeleton width={100} className="rounded-2xl" />
+                  <Skeleton width={70} className="rounded-2xl" />
                 ) : (
                   <div className="text-xs tracking-wide md:text-sm text-zinc-400">
                     {elapsedTime(date)} ago
@@ -111,7 +116,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
               </div>
             </div>
             {!video ? (
-              <Skeleton width={200} className="rounded-2xl" />
+              <Skeleton width={200} height={18} className="rounded-2xl" />
             ) : (
               <div className="text-sm font-bold transition-colors md:tracking-wide md:text-base text-ellipsis line-clamp-2 text-zinc-50 hover:text-zinc-400 focus:text-zinc-400 active:text-zinc-400">
                 {video?.snippet?.localized?.title || ""}
@@ -121,7 +126,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
         </div>
         <div className="flex items-center justify-start gap-1">
           {!video ? (
-            <Skeleton width={100} className="rounded-2xl" />
+            <Skeleton width={100} className="!ml-1 rounded-2xl" />
           ) : (
             <>
               <div

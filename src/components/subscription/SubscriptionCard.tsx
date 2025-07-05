@@ -152,7 +152,7 @@ const SubscriptionCard = ({
         className="z-0 p-2 transition-colors rounded-full cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group glass"
       >
         <div className="flex items-center justify-start gap-4">
-          <div className="w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="min-w-12 sm:min-w-16 md:min-w-24 lg:min-w-28 xl:min-w-32 2xl:min-w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
             {stat ? (
               <img
                 referrerPolicy="no-referrer"
@@ -161,23 +161,23 @@ const SubscriptionCard = ({
                 alt=""
               />
             ) : (
-              <Skeleton className="!w-36 !h-36 !rounded-full -top-2" />
+              <Skeleton className="!min-w-12 sm:!min-w-16 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-12 sm:!min-h-16 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36  !rounded-full -top-1" />
             )}
           </div>
 
           <div className="flex flex-col items-start w-9/12 px-1">
             <div className="flex items-center gap-1">
               {stat ? (
-                <div className="text-xl text-ellipsis line-clamp-2">
+                <div className="font-semibold md:font-bold md:text-lg xl:text-xl text-ellipsis line-clamp-1 lg:line-clamp-2">
                   {stat?.items[0]?.snippet?.title}
                 </div>
               ) : (
-                <Skeleton width={100} height={20} className="rounded-2xl" />
+                <Skeleton height={16} className="!w-[30vw] rounded-2xl" />
               )}
             </div>
 
             <div className="flex items-center justify-start gap-1 mt-2">
-              <div className="text-xs tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
+              <div className="text-xs tracking-tight lg:tracking-wide line-clamp-2 text-zinc-200 text-ellipsis">
                 {stat ? (
                   `${stat?.items[0]?.snippet?.customUrl} • ${rawViewsToString(
                     stat?.items[0]?.statistics?.subscriberCount || ""
@@ -187,63 +187,67 @@ const SubscriptionCard = ({
                     stat?.items[0]?.statistics?.videoCount || ""
                   )} videos`
                 ) : (
-                  <Skeleton width={300} height={10} className="rounded-2xl" />
+                  <Skeleton height={10} className="!w-[20vw] rounded-2xl" />
                 )}
               </div>
             </div>
 
-            <div className="w-11/12 mt-1 line-clamp-2 text-ellipsis">
+            <div className="w-11/12 mt-1 tracking-tight line-clamp-2 lg:tracking-normal text-ellipsis">
               {stat ? (
                 <p className="text-xs text-zinc-400">
                   {stat?.items[0]?.snippet?.description}
                 </p>
               ) : (
-                <Skeleton width={400} height={20} className="rounded-2xl" />
+                <Skeleton height={20} className="!max-w-[80%] rounded-2xl" />
               )}
             </div>
           </div>
-          {stat ? (
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
+          {window.outerWidth > 640 && (
+            <>
+              {stat ? (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 text-sm md:text-base  w-28 md:w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
                   ${
                     sub
                       ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70"
                       : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
                   }
                   `}
-            >
-              <AnimatePresence>
-                {sub ? (
-                  <motion.span
-                    key="subscribed"
-                    initial={{ opacity: 0, x: -100, rotate: -45 }}
-                    animate={{ opacity: 1, x: 0, rotate: 0 }}
-                    transition={{ duration: 0.35, ease: "easeInOut" }}
-                    onClick={handleDelSub}
-                  >
-                    Subscribed
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="subscribe"
-                    initial={{ opacity: 0, y: -100 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25, ease: "easeInOut" }}
-                    onClick={() => {
-                      setSub(true);
-                      subAddMutation.mutate();
-                    }}
-                  >
-                    Subscribe
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </div>
-          ) : (
-            <Skeleton width={110} height={30} className="!rounded-full" />
+                >
+                  <AnimatePresence>
+                    {sub ? (
+                      <motion.span
+                        key="subscribed"
+                        initial={{ opacity: 0, x: -100, rotate: -45 }}
+                        animate={{ opacity: 1, x: 0, rotate: 0 }}
+                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        onClick={handleDelSub}
+                      >
+                        Subscribed
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="subscribe"
+                        initial={{ opacity: 0, y: -100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                        onClick={() => {
+                          setSub(true);
+                          subAddMutation.mutate();
+                        }}
+                      >
+                        Subscribe
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Skeleton width={110} height={30} className="!rounded-full" />
+              )}
+            </>
           )}
         </div>
       </motion.div>

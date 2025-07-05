@@ -98,13 +98,13 @@ const Subscription = () => {
         !isOpen ? "w-[85vw]" : "w-full"
       }`}
     >
-      <div className="relative w-1/2 min-h-full mx-auto hideScrollbar rounded-xl">
+      <div className="relative min-h-full mx-auto 2xl:w-1/2 xl:w-2/3 lg:w-3/4 hideScrollbar rounded-xl">
         <div className="flex flex-col items-start gap-5 px-2 py-3">
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-            className="mx-4 text-4xl font-bold tracking-tight text-center text-slate-200"
+            className="mx-1 text-lg font-bold tracking-tight text-center md:mx-2 xl:mx-4 sm:text-2xl lg:text-3xl xl:text-4xl text-slate-200"
           >
             All Subscriptions
           </motion.h1>
@@ -112,7 +112,7 @@ const Subscription = () => {
           <div className="block mx-4 mt-4 rounded-lg cursor-pointer">
             <div
               onClick={() => setExpand(!expand)}
-              className="p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
+              className="p-1 md:p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
             >
               {sortBy === "relevance"
                 ? "Most relevant"
@@ -122,9 +122,9 @@ const Subscription = () => {
                 ? "A-Z"
                 : ""}
               {expand ? (
-                <RiArrowUpWideFill className="size-4 transition-all" />
+                <RiArrowUpWideFill className="transition-all size-2 md:size-4" />
               ) : (
-                <RiArrowDownWideFill className="size-4 transition-all" />
+                <RiArrowDownWideFill className="transition-all size-2 md:size-4" />
               )}
             </div>
             <div
@@ -135,21 +135,21 @@ const Subscription = () => {
               <div
                 data-sort="relevance"
                 onClick={(e) => handleSort(e)}
-                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
               >
                 Most relevant
               </div>
               <div
                 data-sort="unread"
                 onClick={(e) => handleSort(e)}
-                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
               >
                 New activity
               </div>
               <div
                 data-sort="alphabetical"
                 onClick={(e) => handleSort(e)}
-                className="p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
               >
                 A-Z
               </div>
