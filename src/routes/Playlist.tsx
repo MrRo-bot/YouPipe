@@ -87,12 +87,12 @@ const Playlist = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-        className="px-2 text-4xl font-bold tracking-tight text-slate-200"
+        className="px-2.5 text-xl font-bold tracking-tight md:px-2 md:text-2xl xl:text-4xl text-slate-200"
       >
         My Custom Playlists
       </motion.h1>
 
-      <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-flow-row p-2 mt-5 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6 xl:gap-x-6 xl:gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {playlistData?.items?.length <= 1 ? (
           <FidgetSpinner
             visible={true}

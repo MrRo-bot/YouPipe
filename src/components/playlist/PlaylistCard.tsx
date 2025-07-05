@@ -77,7 +77,9 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                 "--bg": `rgb(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue})`,
               } as React.CSSProperties
             }
-            className={`
+            className={
+              playlist?.snippet?.thumbnails?.maxres?.url
+                ? `
           before:content-['']
           before:absolute
           before:inline-block
@@ -105,7 +107,9 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           after:bg-[var(--bg)]
           after:opacity-25
           after:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]
-          `}
+          `
+                : ""
+            }
           >
             <div className="relative object-fill overflow-hidden aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
               {!playlist?.snippet?.thumbnails?.maxres?.url ? (
@@ -123,8 +127,8 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                     src={playlist?.snippet?.thumbnails?.maxres?.url}
                     alt=""
                   />
-                  <div className="absolute p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
-                    <MdOutlinePlaylistPlay className="size-4" />{" "}
+                  <div className="absolute px-1 py-0.5 md:p-1 gap-0.5 text-xs text-white rounded-xl bottom-1 right-1 glass-dark flex items-center">
+                    <MdOutlinePlaylistPlay className="size-3 md:size-4" />{" "}
                     {playlist?.contentDetails?.itemCount} videos
                   </div>
                 </>
@@ -137,7 +141,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               {!playlist?.snippet?.title ? (
                 <Skeleton width={200} height={15} className="rounded-2xl" />
               ) : (
-                <div className="text-lg font-medium text-ellipsis line-clamp-1 text-zinc-50">
+                <div className="text-lg font-bold md:font-extrabold text-ellipsis line-clamp-1 text-zinc-50">
                   {playlist?.snippet?.title}
                 </div>
               )}
