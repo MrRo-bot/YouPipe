@@ -44,51 +44,47 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore, token],
+    queryKey: ["home", fetchMore],
     queryFn: async () => {
-      if (tokenData?.access_token) {
-        try {
-          const res = await fetch(
-            `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
-              ","
-            )}&chart=mostPopular&maxResults=50&key=${
-              import.meta.env.VITE_API_KEY
-            }&regionCode=${location.address.country_code}&pageToken=${
-              fetchMore ? homeData?.nextPageToken : ""
-            }
+      try {
+        const res = await fetch(
+          `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
+            ","
+          )}&chart=mostPopular&maxResults=50&key=${
+            import.meta.env.VITE_API_KEY
+          }&regionCode=${location.address.country_code}&pageToken=${
+            fetchMore ? homeData?.nextPageToken : ""
+          }
         `,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Host: "www.googleapis.com",
-                Authorization: `Bearer ${token?.access_token}`,
-              },
-            }
-          );
-          if (!res.ok) throw new Error("Error fetching home page videos");
-          const channelVideos = await res.json();
-          dispatch(addHomeVideos(channelVideos));
-          setFetchMore(false);
-          return channelVideos;
-        } catch (error) {
-          //react toastify for location fetch errors
-          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          });
-        }
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Host: "www.googleapis.com",
+              Authorization: `Bearer ${token?.access_token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Error fetching home page videos");
+        const channelVideos = await res.json();
+        dispatch(addHomeVideos(channelVideos));
+        setFetchMore(false);
+        return channelVideos;
+      } catch (error) {
+        //react toastify for location fetch errors
+        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "!toastGradientError !font-bold !text-zinc-50",
+          transition: Bounce,
+        });
       }
     },
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    enabled: !!fetchMore || !!token,
+    enabled: !!fetchMore,
   });
 
   return (

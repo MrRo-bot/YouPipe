@@ -32,7 +32,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
         initial={"hidden"}
         whileInView={"visible"}
         onClick={() => navigate(`/video/${video?.id}`)}
-        className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-colors cursor-pointer group hover:bg-indigo-600/20 focus:bg-indigo-600/20  glass rounded-2xl`}
+        className={`z-0 flex flex-col justify-between h-full gap-1 p-2 transition-colors cursor-pointer group hover:bg-indigo-600/20 focus:bg-indigo-600/20 glass rounded-2xl`}
       >
         <div className="flex flex-col gap-3">
           <div className="relative overflow-hidden aspect-video rounded-2xl">
@@ -56,11 +56,11 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                 {video?.snippet?.liveBroadcastContent !== "none" && (
                   <div className="absolute z-50 p-1 text-xs text-white md:text-sm rounded-2xl bottom-1 left-1 glass-dark">
                     {video?.snippet?.liveBroadcastContent === "live" ? (
-                      <span className="bg-red-600 text-zinc-100 px-1 py-0.5 rounded-2xl">
+                      <span className="bg-red-600 text-zinc-100 text-xs md:text-sm px-1 py-0.5 rounded-2xl">
                         LIVE
                       </span>
                     ) : (
-                      <span className="bg-zinc-600/30 text-zinc-100 px-1 py-0.5 rounded-2xl">
+                      <span className="bg-zinc-600/30 text-zinc-100 text-xs md:text-sm px-1 py-0.5 rounded-2xl">
                         UPCOMING
                       </span>
                     )}
@@ -76,12 +76,12 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                 {!video ? (
                   <Skeleton width={100} className="rounded-2xl" />
                 ) : (
-                  <div className="text-xs tracking-wide md:text-sm text-zinc-400">
+                  <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                     {rawViewsToString(video?.statistics?.viewCount || "")} views
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-1 md:gap-3">
+              <div className="flex items-center justify-center gap-1 md:gap-3">
                 {!video ? (
                   <div className="flex gap-2">
                     <Skeleton width={20} className="rounded-2xl" />
@@ -89,14 +89,14 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                   </div>
                 ) : (
                   <>
-                    <div className="text-xs tracking-wide md:text-sm text-zinc-400">
+                    <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                       {video?.contentDetails?.definition === "hd" ? (
                         <PiHighDefinitionFill className="size-4 md:size-6" />
                       ) : (
                         ""
                       )}
                     </div>
-                    <div className="text-xs tracking-wide md:text-sm text-zinc-400">
+                    <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                       {video?.contentDetails?.caption === "true" && (
                         <PiClosedCaptioningFill className="size-4 md:size-6" />
                       )}
@@ -109,7 +109,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                 {!video ? (
                   <Skeleton width={70} className="rounded-2xl" />
                 ) : (
-                  <div className="text-xs tracking-wide md:text-sm text-zinc-400">
+                  <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                     {elapsedTime(date)} ago
                   </div>
                 )}
@@ -118,7 +118,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
             {!video ? (
               <Skeleton width={200} height={18} className="rounded-2xl" />
             ) : (
-              <div className="text-sm font-bold transition-colors md:tracking-wide md:text-base text-ellipsis line-clamp-2 text-zinc-50 hover:text-zinc-400 focus:text-zinc-400 active:text-zinc-400">
+              <div className="font-bold transition-colors md:tracking-wide md:text-lg md:font-semibold text-ellipsis line-clamp-2 text-zinc-50 hover:text-zinc-400 focus:text-zinc-400 active:text-zinc-400">
                 {video?.snippet?.localized?.title || ""}
               </div>
             )}
@@ -134,7 +134,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                   e.stopPropagation();
                   navigate(`/channel/${video?.snippet?.channelId}`);
                 }}
-                className="text-xs md:text-sm md:tracking-wide hover:shadow-[0_0_1px_1px_rgb(245_127_56)] focus:shadow-[0_0_1px_1px_rgb(245_127_56)]  px-1 py-0.5 transition-colors rounded-2xl fold-semibold bg-zinc-50 hover:bg-zinc-800/50 focus:bg-zinc-800/50 w-max text-zinc-900 hover:text-zinc-50 focus:text-zinc-50 text-ellipsis"
+                className="text-xs tracking-wide sm:text-sm md:text-base md:tracking-tight hover:shadow-[0_0_1px_1px_rgb(245_127_56)] focus:shadow-[0_0_1px_1px_rgb(245_127_56)]  px-1 py-0.5 transition-colors rounded-2xl fold-semibold bg-zinc-50/80 hover:bg-zinc-800/50 focus:bg-zinc-800/50 w-max text-zinc-900 hover:text-zinc-50 focus:text-zinc-50 text-ellipsis"
               >
                 {video?.snippet?.channelTitle || ""}
               </div>
