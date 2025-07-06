@@ -42,9 +42,7 @@ const LikedVideosCard = ({
           </div>
 
           <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
-            {!likedvideo?.snippet?.thumbnails?.high?.url ? (
-              <Skeleton className="absolute inset-0 h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl" />
-            ) : (
+            {likedvideo?.snippet?.thumbnails?.high?.url ? (
               <>
                 <img
                   referrerPolicy="no-referrer"
@@ -58,13 +56,15 @@ const LikedVideosCard = ({
                   )}
                 </div>
               </>
+            ) : (
+              <Skeleton className="absolute inset-0 h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl" />
             )}
           </div>
 
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
               {likedvideo?.snippet?.title ? (
-                <h3 className="w-full lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
+                <h3 className="w-full text-base lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
                   {likedvideo?.snippet?.title || ""}
                 </h3>
               ) : (

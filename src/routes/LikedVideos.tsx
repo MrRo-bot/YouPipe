@@ -144,12 +144,7 @@ const LikedVideos = () => {
           className="flex flex-col md:flex-row lg:flex-col px-2 sm:px-8 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1 lg:px-2 xl:px-6"
         >
           <div className="my-2 overflow-hidden lg:my-6 rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
-            {!likedVideos?.items[0]?.snippet?.thumbnails?.high?.url ? (
-              <Skeleton
-                height={"100%"}
-                className="md:!w-[50vw] -top-1 rounded-2xl"
-              />
-            ) : (
+            {likedVideos?.items[0]?.snippet?.thumbnails?.high?.url ? (
               <img
                 referrerPolicy="no-referrer"
                 className="object-cover w-full h-full"
@@ -159,6 +154,11 @@ const LikedVideos = () => {
                     : ""
                 }
                 alt=""
+              />
+            ) : (
+              <Skeleton
+                height={"100%"}
+                className="md:!w-[50vw] -top-1 rounded-2xl"
               />
             )}
           </div>
