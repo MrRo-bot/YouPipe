@@ -161,7 +161,7 @@ const SubscriptionCard = ({
                 alt=""
               />
             ) : (
-              <Skeleton className="!min-w-12 sm:!min-w-16 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-12 sm:!min-h-16 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36  !rounded-full -top-1" />
+              <Skeleton className="!min-w-12 sm:!min-w-16 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-12 sm:!min-h-16 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36 !rounded-full -top-1" />
             )}
           </div>
 

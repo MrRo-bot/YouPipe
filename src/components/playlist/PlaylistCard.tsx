@@ -78,7 +78,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               } as React.CSSProperties
             }
             className={
-              playlist?.snippet?.thumbnails?.maxres?.url
+              !playlist?.snippet?.thumbnails?.maxres?.url
                 ? `
           before:content-['']
           before:absolute
@@ -111,14 +111,8 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                 : ""
             }
           >
-            <div className="relative object-fill overflow-hidden aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
-              {!playlist?.snippet?.thumbnails?.maxres?.url ? (
-                <Skeleton
-                  width={"100%"}
-                  height={"100%"}
-                  className="rounded-2xl -top-1"
-                />
-              ) : (
+            <div className="relative overflow-hidden aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
+              {playlist?.snippet?.thumbnails?.maxres?.url ? (
                 <>
                   <img
                     referrerPolicy="no-referrer"
@@ -132,55 +126,61 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                     {playlist?.contentDetails?.itemCount} videos
                   </div>
                 </>
+              ) : (
+                <Skeleton
+                  width={"100%"}
+                  height={"100%"}
+                  className="!rounded-2xl -top-1"
+                />
               )}
             </div>
           </div>
 
           <div className="flex flex-col gap-1 px-2">
             <div className="flex justify-between">
-              {!playlist?.snippet?.title ? (
-                <Skeleton width={200} height={15} className="rounded-2xl" />
-              ) : (
+              {playlist?.snippet?.title ? (
                 <div className="text-lg font-bold md:font-extrabold text-ellipsis line-clamp-1 text-zinc-50">
                   {playlist?.snippet?.title}
                 </div>
+              ) : (
+                <Skeleton width={200} height={15} className="rounded-2xl" />
               )}
             </div>
 
             <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-300">
-              {!playlist?.status?.privacyStatus ? (
-                <Skeleton width={100} className="rounded-2xl" />
-              ) : (
+              {playlist?.status?.privacyStatus ? (
                 `${
                   playlist?.status?.privacyStatus.slice(0, 1).toUpperCase() +
                   playlist?.status?.privacyStatus.slice(1)
                 } • Playlist`
+              ) : (
+                <Skeleton width={100} className="rounded-2xl" />
               )}
             </div>
             {isImgLoaded ? (
-              <div className="text-xs tracking-wide text-zinc-300">
-                {elapsedTime(date)} ago
-              </div>
-            ) : (
               <Skeleton
                 width={150}
                 height={10}
                 className="rounded-2xl -top-1"
               />
+            ) : (
+              <div className="text-xs tracking-wide text-zinc-300">
+                {elapsedTime(date)} ago
+              </div>
             )}
             {isImgLoaded ? (
+              <Skeleton
+                width={120}
+                height={10}
+                className="rounded-2xl -top-3"
+              />
+            ) : (
               <div
                 onClick={() => navigate(`/playlist/${playlist?.id}`)}
                 className="text-sm font-medium tracking-wide transition-colors text-zinc-400 hover:text-zinc-50 focus:text-zinc-50"
               >
                 View full playlist
               </div>
-            ) : (
-              <Skeleton
-                width={120}
-                height={10}
-                className="rounded-2xl -top-3"
-              />
             )}
           </div>
         </div>
