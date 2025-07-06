@@ -158,29 +158,29 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               )}
             </div>
             {isImgLoaded ? (
+              <div className="text-xs tracking-wide text-zinc-300">
+                {elapsedTime(date)} ago
+              </div>
+            ) : (
               <Skeleton
                 width={150}
                 height={10}
                 className="rounded-2xl -top-1"
               />
-            ) : (
-              <div className="text-xs tracking-wide text-zinc-300">
-                {elapsedTime(date)} ago
-              </div>
             )}
             {isImgLoaded ? (
-              <Skeleton
-                width={120}
-                height={10}
-                className="rounded-2xl -top-3"
-              />
-            ) : (
               <div
                 onClick={() => navigate(`/playlist/${playlist?.id}`)}
                 className="text-sm font-medium tracking-wide transition-colors text-zinc-400 hover:text-zinc-50 focus:text-zinc-50"
               >
                 View full playlist
               </div>
+            ) : (
+              <Skeleton
+                width={120}
+                height={10}
+                className="rounded-2xl -top-3"
+              />
             )}
           </div>
         </div>

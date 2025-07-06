@@ -310,13 +310,13 @@ const ChannelOverview = () => {
           )}
 
           <div className="flex items-center justify-start gap-4 py-4">
-            <div className="grid overflow-hidden rounded-full max-w-20 md:max-w-28 xl:max-w-36 place-items-center">
+            <div className="grid overflow-hidden rounded-full min-w-16 sm:min-w-20 md:min-w-24 lg:min-w-28 xl:min-w-32 2xl:min-w-36 place-items-center">
               {isLoading ? (
-                <Skeleton className="!min-w-36 aspect-square -top-0.25 p-1" />
+                <Skeleton className="!min-w-16 sm:!min-w-20 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-16 sm:!min-h-20 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36 aspect-square -top-0.25 p-1" />
               ) : (
                 <img
                   referrerPolicy="no-referrer"
-                  className=""
+                  className="w-full h-full rounded-full"
                   src={channelDetails?.items[0]?.snippet?.thumbnails?.high?.url}
                   alt=""
                 />
@@ -324,7 +324,7 @@ const ChannelOverview = () => {
             </div>
             <div className="flex flex-col min-w-64">
               {isLoading ? (
-                <Skeleton className="min-w-full mb-2 min-h-8" />
+                <Skeleton className="!w-[70%] mb-2 min-h-4" />
               ) : (
                 <h1 className="text-xl font-extrabold md:text-2xl xl:text-3xl text-zinc-50">
                   {channelDetails?.items[0]?.snippet?.title}
@@ -360,7 +360,7 @@ const ChannelOverview = () => {
                 </span>
               )}
               {isLoading ? (
-                <Skeleton className="my-2 min-w-48" />
+                <Skeleton className="my-2 !min-w-48 md:w-3/4 xl:w-1/2" />
               ) : (
                 <>
                   <span
@@ -370,10 +370,12 @@ const ChannelOverview = () => {
                     }}
                     className="flex justify-start cursor-pointer text-zinc-400"
                   >
-                    <span className="w-full my-2 md:w-3/4 xl:w-1/2 line-clamp-1">
+                    <span className="w-full my-2 text-sm md:w-3/4 xl:w-1/2 md:text-base line-clamp-1">
                       {channelDetails?.items[0]?.snippet?.description}
                     </span>
-                    <strong className="my-2 font-bold text-white">more</strong>
+                    <strong className="my-2 text-sm font-bold text-white md:text-base">
+                      more
+                    </strong>
                   </span>
                   <dialog
                     className="w-1/3 py-2 px-4 overflow-hidden font-semibold flex flex-col gap-2 rounded-2xl heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100"
