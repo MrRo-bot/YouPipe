@@ -99,17 +99,17 @@ const Subscription = () => {
       }`}
     >
       <div className="relative min-h-full mx-auto 2xl:w-1/2 xl:w-2/3 lg:w-3/4 hideScrollbar rounded-xl">
-        <div className="flex flex-col items-start gap-5 px-2 py-3">
+        <div className="flex flex-col items-start gap-1 px-2 py-3 sm:gap-2 md:gap-5">
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-            className="mx-1 text-lg font-bold tracking-tight text-center md:mx-2 xl:mx-4 sm:text-2xl lg:text-3xl xl:text-4xl text-slate-200"
+            className="mx-1 text-xl font-bold tracking-tight text-center md:mx-2 xl:mx-4 sm:text-2xl md:text-3xl lg:text-4xl text-slate-200"
           >
             All Subscriptions
           </motion.h1>
 
-          <div className="block mx-4 mt-4 rounded-lg cursor-pointer">
+          <div className="block mt-4 rounded-lg cursor-pointer md:mx-4">
             <div
               onClick={() => setExpand(!expand)}
               className="p-1 md:p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
@@ -168,7 +168,7 @@ const Subscription = () => {
           />
         ) : (
           <Virtuoso
-            className="!flex !flex-col !overflow-y-auto !min-h-[75vh] !hideScrollbar"
+            className="!flex !flex-col !overflow-y-auto !min-h-[80vh] lg:!min-h-[75vh] !hideScrollbar"
             increaseViewportBy={100}
             data={subData.items}
             totalCount={subData.pageInfo.totalResults}
