@@ -79,7 +79,7 @@ const Playlist = () => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`relative mb-2 mt-3 max-h-[90vh] rounded-xl mx-4 ${
+      className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] rounded-xl ${
         !isOpen ? "w-[85vw]" : "w-full"
       } overflow-y-auto hideScrollbar`}
     >

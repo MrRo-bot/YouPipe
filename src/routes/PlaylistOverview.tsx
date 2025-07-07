@@ -132,7 +132,8 @@ const PlaylistOverview = () => {
           })
         );
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url]);
 
   const date = new Date(
     playlistInfo?.items[0]?.snippet?.publishedAt || ""
@@ -144,9 +145,9 @@ const PlaylistOverview = () => {
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
       <div
-        className={`mb-2 mt-3 max-h-[90vh] rounded-2xl mx-4 ${
+        className={`ml-4 mt-3 mr-2 mb-2 max-h-[90vh] rounded-2xl ${
           !isOpen ? "w-[85vw]" : "w-full"
-        }  flex flex-col md:mx-10 lg:flex-row`}
+        }  flex flex-col lg:flex-row`}
       >
         <motion.div
           initial={{ x: 100, opacity: 0 }}
@@ -155,7 +156,7 @@ const PlaylistOverview = () => {
           style={{
             background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
           }}
-          className="flex flex-col md:flex-row lg:flex-col px-2 sm:px-8 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1 lg:px-2 xl:px-6"
+          className="flex flex-col md:flex-row lg:flex-col lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1 px-2"
         >
           <div className="my-2 overflow-hidden lg:flex-col rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
             {playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url ? (

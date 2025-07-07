@@ -179,9 +179,9 @@ const Replies = ({
       baseColor="rgba(255,255,255,0.1)"
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
-      <div key={comment?.etag} className="py-1 ">
+      <div key={comment?.etag} className="py-1">
         <div
-          className={`flex p-1 mx-1 rounded-xl ${
+          className={`flex p-1  rounded-xl ${
             channelId === comment?.snippet?.authorChannelId?.value
               ? "bg-black/50"
               : "glass-dark"
@@ -217,7 +217,7 @@ const Replies = ({
               }}
               className="absolute p-2 rounded-full cursor-pointer top-1 right-1 hover:backdrop-blur-sm hover:bg-zinc-50/20 active:bg-zinc-50/20"
             >
-              <PiPlusBold className="size-5 rotate-45 text-zinc-50" />
+              <PiPlusBold className="rotate-45 size-5 text-zinc-50" />
             </div>
             <div className="p-2 bg-zinc-100/10 rounded-2xl flex gap-5 justify-start  backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
               <div>
@@ -339,10 +339,10 @@ const Replies = ({
                           deleteReply({ commentId: "", replyId: comment?.id })
                         }
                       >
-                        <PiTrashBold className="size-5 cursor-pointer text-zinc-200" />
+                        <PiTrashBold className="cursor-pointer size-5 text-zinc-200" />
                       </div>
                       <div onClick={handleEditReply}>
-                        <PiPencilBold className="size-5 cursor-pointer text-zinc-200" />
+                        <PiPencilBold className="cursor-pointer size-5 text-zinc-200" />
                       </div>
                     </div>
                   )}

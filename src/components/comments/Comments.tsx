@@ -386,7 +386,7 @@ const Comments = ({
         transition={{ type: "keyframes" }}
         initial={"hidden"}
         whileInView={"visible"}
-        className={`flex p-1 mx-1 rounded-xl glass-dark transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20  ${
+        className={`flex p-1  rounded-xl glass-dark transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20  ${
           channelId ===
             comment?.snippet?.topLevelComment?.snippet?.authorChannelId
               ?.value && "bg-slate-950"
