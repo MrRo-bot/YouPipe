@@ -200,18 +200,23 @@ const ChannelsCard = ({ id }: { id: string }) => {
           className="z-0 p-2 transition-colors rounded-full cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group glass"
         >
           <div className="flex items-center justify-start gap-4">
-            <div className="min-w-12 sm:min-w-16 md:min-w-24 lg:min-w-28 xl:min-w-32 2xl:min-w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+            <div className="relative overflow-hidden rounded-full min-w-24 lg:min-w-28 min-h-24 lg:min-h-28">
               {channelStats ? (
                 <img
                   referrerPolicy="no-referrer"
-                  className="w-full h-full rounded-full"
+                  className="absolute inset-0 object-cover w-full h-full rounded-full"
                   src={
                     channelStats?.items[0]?.snippet?.thumbnails?.default?.url
                   }
                   alt=""
                 />
               ) : (
-                <Skeleton className="!min-w-12 sm:!min-w-16 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-12 sm:!min-h-16 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36  !rounded-full -top-1" />
+                <Skeleton
+                  className="absolute inset-0 w-full h-full"
+                  circle={true}
+                  height="100%"
+                  containerClassName="absolute inset-0"
+                />
               )}
             </div>
 
@@ -261,7 +266,7 @@ const ChannelsCard = ({ id }: { id: string }) => {
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 text-sm md:text-base  w-28 md:w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
+                    className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 text-sm md:text-base w-28 md:w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
                       ${
                         sub
                           ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70"
@@ -321,7 +326,7 @@ const Channels = () => {
 
   return (
     <div className="hideScrollbar overflow-y-auto rounded-xl mb-2 mt-3 max-h-[90vh] h-[70vh] lg:h-[50vh] w-full">
-      <div className="relative min-h-full mx-auto lg:w-3/4 hideScrollbar rounded-xl">
+      <div className="relative min-h-full mx-auto lg:w-3/4 xl:w-1/2 hideScrollbar rounded-xl">
         <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

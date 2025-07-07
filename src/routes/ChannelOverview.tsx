@@ -308,20 +308,27 @@ const ChannelOverview = () => {
           ) : (
             <div>No Banner Image Found</div>
           )}
-
           <div className="flex items-center justify-start gap-4 py-4">
-            <div className="grid overflow-hidden rounded-full min-w-16 sm:min-w-20 md:min-w-24 lg:min-w-28 xl:min-w-32 2xl:min-w-36 place-items-center">
+            <div className="relative overflow-hidden rounded-full min-w-28 min-h-28 lg:min-w-32 lg:min-h-32 xl:min-w-36 xl:min-h-36 2xl:min-w-40 2xl:min-h-40">
               {isLoading ? (
-                <Skeleton className="!min-w-16 sm:!min-w-20 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-16 sm:!min-h-20 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36 aspect-square -top-0.25 p-1" />
+                <Skeleton
+                  className="absolute inset-0 w-full h-full"
+                  circle={true}
+                  height="100%"
+                  containerClassName="absolute inset-0"
+                />
               ) : (
                 <img
                   referrerPolicy="no-referrer"
-                  className="w-full h-full rounded-full"
-                  src={channelDetails?.items[0]?.snippet?.thumbnails?.high?.url}
+                  className="absolute inset-0 object-cover w-full h-full rounded-full"
+                  src={
+                    channelDetails?.items[0]?.snippet?.thumbnails?.default?.url
+                  }
                   alt=""
                 />
               )}
             </div>
+
             <div className="flex flex-col min-w-64">
               {isLoading ? (
                 <Skeleton className="!w-[70%] mb-2 min-h-4" />
@@ -370,7 +377,7 @@ const ChannelOverview = () => {
                     }}
                     className="flex justify-start cursor-pointer text-zinc-400"
                   >
-                    <span className="w-full my-2 text-sm md:w-3/4 xl:w-1/2 md:text-base line-clamp-1">
+                    <span className="w-1/2 my-2 text-sm md:w-3/4 xl:w-1/2 md:text-base line-clamp-1">
                       {channelDetails?.items[0]?.snippet?.description}
                     </span>
                     <strong className="my-2 text-sm font-bold text-white md:text-base">

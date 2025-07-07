@@ -152,16 +152,21 @@ const SubscriptionCard = ({
         className="z-0 p-2 transition-colors rounded-full cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group glass"
       >
         <div className="flex items-center justify-start gap-4">
-          <div className="min-w-12 sm:min-w-16 md:min-w-24 lg:min-w-28 xl:min-w-32 2xl:min-w-36 grid object-cover aspect-square rounded-full overflow-hidden cursor-pointer place-items-center outline outline-[1px] outline-zinc-600">
+          <div className="relative overflow-hidden rounded-full min-w-24 lg:min-w-28 xl:min-w-32 min-h-24 lg:min-h-28 xl:min-h-32">
             {stat ? (
               <img
                 referrerPolicy="no-referrer"
-                className="w-full h-full rounded-full"
+                className="absolute inset-0 object-cover w-full h-full rounded-full"
                 src={stat?.items[0]?.snippet?.thumbnails?.default?.url}
                 alt=""
               />
             ) : (
-              <Skeleton className="!min-w-12 sm:!min-w-16 md:!min-w-24 lg:!min-w-28 xl:!min-w-32 2xl:!min-w-36 !min-h-12 sm:!min-h-16 md:!min-h-24 lg:!min-h-28 xl:!min-h-32 2xl:!min-h-36 !rounded-full -top-1" />
+              <Skeleton
+                className="absolute inset-0 w-full h-full"
+                circle={true}
+                height="100%"
+                containerClassName="absolute inset-0"
+              />
             )}
           </div>
 

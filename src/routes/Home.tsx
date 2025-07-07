@@ -44,7 +44,7 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore],
+    queryKey: ["home", fetchMore, token?.access_token],
     queryFn: async () => {
       try {
         const res = await fetch(
@@ -53,9 +53,9 @@ const Home = () => {
           )}&chart=mostPopular&maxResults=50&key=${
             import.meta.env.VITE_API_KEY
           }&regionCode=${location.address.country_code}&pageToken=${
-            fetchMore ? homeData?.nextPageToken : ""
+            fetchMore && homeData?.nextPageToken ? homeData.nextPageToken : ""
           }
-        `,
+          `,
           {
             headers: {
               "Content-Type": "application/json",
@@ -84,7 +84,9 @@ const Home = () => {
         });
       }
     },
-    enabled: !!fetchMore,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    enabled: !!fetchMore || !!token?.access_token,
   });
 
   return (
