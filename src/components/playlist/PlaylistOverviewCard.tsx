@@ -67,10 +67,12 @@ const PlaylistOverviewCard = ({
       onClick={() =>
         navigate(`/video/${playlistItem?.contentDetails?.videoId}`)
       }
-      className="flex items-center justify-between gap-1 p-2 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70 glass rounded-2xl"
+      className="flex items-center justify-between gap-1 p-1 transition-colors cursor-pointer md:p-2 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70 glass rounded-2xl"
     >
       <div className="flex">
-        <div className="self-center mr-2 text-sm md:text-base">{index + 1}</div>
+        <div className="self-center mr-1 text-sm md:mr-2 md:text-base">
+          {index + 1}
+        </div>
 
         <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
           {isLoading ? (

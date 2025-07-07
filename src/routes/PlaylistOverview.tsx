@@ -211,7 +211,7 @@ const PlaylistOverview = () => {
             />
           ) : (
             <Virtuoso
-              className="!min-h-[80vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl !mx-2"
+              className="!min-h-[80vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl md:!mx-2"
               increaseViewportBy={100}
               data={playlistOverview?.items}
               totalCount={playlistOverview?.pageInfo?.totalResults}

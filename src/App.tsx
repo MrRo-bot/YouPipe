@@ -85,7 +85,7 @@ function App() {
           <Header />
         </div>
         <main className="relative flex min-h-[93vh]">
-          <Sidebar />
+          {/* <Sidebar /> */}
           <Outlet />
           <ScrollRestoration />
         </main>
