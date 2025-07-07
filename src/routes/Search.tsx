@@ -83,7 +83,7 @@ const Search = () => {
         !isOpen ? "w-[85vw]" : "w-full"
       }  overflow-y-auto hideScrollbar rounded-xl`}
     >
-      <div className="w-2/3 mx-auto">
+      <div className="mx-auto xl:w-2/3 2xl:w-3/4">
         {searchData?.items?.length <= 1 ? (
           <FidgetSpinner
             visible={true}

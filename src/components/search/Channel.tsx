@@ -194,7 +194,7 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
 
   return (
     <div
-      className="py-4"
+      className="py-2"
       onClick={() => navigate(`/channel/${channelStats?.items[0]?.id}`)}
     >
       <SkeletonTheme
@@ -208,39 +208,38 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
           }}
           initial={"hidden"}
           whileInView={"visible"}
-          className="flex items-center justify-start p-3 transition-colors rounded-full cursor-pointer glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
+          className="flex items-center justify-start p-1 transition-colors rounded-full cursor-pointer md:p-3 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
         >
-          <div className="relative self-start h-40 mr-4 overflow-hidden rounded-full min-w-40">
+          <div className="relative mr-2 overflow-hidden rounded-full md:mr-4 min-w-24 lg:min-w-28 xl:min-w-32 min-h-24 lg:min-h-28 xl:min-h-32">
             {channelLoading ? (
-              <Skeleton height={"100%"} className="-top-1" />
+              <Skeleton
+                circle={true}
+                height="100%"
+                containerClassName="absolute inset-0 -top-1"
+              />
             ) : (
-              <>
-                <img
-                  referrerPolicy="no-referrer"
-                  className="object-cover w-full h-full"
-                  src={channelStats?.items[0]?.snippet?.thumbnails?.high?.url}
-                  alt=""
-                />
-              </>
+              <img
+                referrerPolicy="no-referrer"
+                className="absolute inset-0 object-cover w-full h-full rounded-full"
+                src={channelStats?.items[0]?.snippet?.thumbnails?.default?.url}
+                alt=""
+              />
             )}
           </div>
-          <div className="flex flex-col mr-4 flex-start">
+
+          <div className="flex flex-col mr-2 md:mr-4 flex-start">
             {channelLoading ? (
-              <Skeleton width={300} height={27} className="top-2 rounded-2xl" />
+              <Skeleton className="h-5 !w-[30vw] rounded-2xl" />
             ) : (
-              <h3 className="w-full text-2xl font-semibold text-ellipsis line-clamp-2 text-zinc-50">
+              <h3 className="w-full text-lg font-semibold lg:text-xl xl:text-2xl text-ellipsis line-clamp-2 text-zinc-50">
                 {channelStats?.items[0]?.snippet?.title || ""}
               </h3>
             )}
 
-            <div className="flex items-center gap-2 pt-1 text-sm font-medium text-zinc-200">
+            <div className="flex items-center gap-2 pt-1 text-xs font-medium md:text-sm text-zinc-200">
               {channelLoading ? (
-                <Skeleton
-                  width={150}
-                  height={20}
-                  className="top-5 rounded-2xl"
-                />
-              ) : (
+                <Skeleton className="rounded-2xl h-6 !w-[6vw]" />
+              ) : window.innerWidth > 540 ? (
                 `${
                   channelStats?.items
                     ? channelStats?.items[0]?.snippet?.customUrl
@@ -265,27 +264,44 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
                       )
                     : "unknown"
                 } videos`
+              ) : (
+                `${
+                  channelStats?.items
+                    ? channelStats?.items[0]?.snippet?.customUrl
+                    : ""
+                } ${
+                  channelStats?.items
+                    ? rawViewsToString(
+                        channelStats?.items[0]?.statistics?.subscriberCount ||
+                          ""
+                      )
+                    : "unknown"
+                } subs`
               )}
             </div>
 
-            {channelLoading ? (
-              <Skeleton width={150} height={20} className="top-5 rounded-2xl" />
-            ) : (
-              <div className="w-11/12 pt-2 text-sm text-ellipsis line-clamp-2 text-zinc-400">
-                {channelStats?.items[0]?.snippet?.description}
-              </div>
+            {window.innerWidth > 540 && (
+              <>
+                {channelLoading ? (
+                  <Skeleton className="h-8 !w-[20vw] rounded-2xl" />
+                ) : (
+                  <div className="w-11/12 pt-2 text-sm text-ellipsis line-clamp-2 text-zinc-400">
+                    {channelStats?.items[0]?.snippet?.description}
+                  </div>
+                )}
+              </>
             )}
           </div>
           {channelLoading ? (
             <div className="ml-auto">
-              <Skeleton width={110} height={30} className="!rounded-full" />
+              <Skeleton className="h-8 !w-[6vw] !rounded-full" />
             </div>
           ) : (
             <div
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              className={`grid place-items-center min-w-32 overflow-hidden px-3 py-2 mt-1 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none 
+              className={`flex justify-center min-w-24 sm:min-w-28 text-sm md:text-base overflow-hidden p-1 md:px-3 md:py-2 mt-1 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none 
                   ${
                     sub
                       ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "

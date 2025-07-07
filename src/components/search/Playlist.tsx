@@ -182,10 +182,10 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
           whileInView={"visible"}
           className="flex items-center justify-between gap-1 p-3 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 rounded-2xl"
         >
-          <div className="flex w-full">
-            <div className="relative overflow-hidden self-start min-w-[26rem] rounded-2xl aspect-video">
+          <div className="flex flex-col w-full sm:flex-row">
+            <div className="relative self-start overflow-hidden min-w-40 sm:max-w-64 md:max-w-72 lg:max-w-min-w-80 xl:max-w-96 rounded-2xl aspect-video">
               {playlist?.statsLoading ? (
-                <Skeleton className="w-full h-full -top-1" />
+                <Skeleton className="absolute inset-0 min-w-40 sm:min-w-64 md:min-w-72 lg:min-w-min-w-80 xl:min-w-96 aspect-video -top-1" />
               ) : (
                 <>
                   <img
@@ -209,13 +209,10 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
                 </>
               )}
             </div>
-            <div className="flex flex-col w-2/3 ml-3 flex-start">
+
+            <div className="flex flex-col sm:w-2/3 sm:ml-3 flex-start">
               {playlist?.statsLoading ? (
-                <Skeleton
-                  width={300}
-                  height={27}
-                  className="top-2 rounded-2xl"
-                />
+                <Skeleton width={300} height={27} className="rounded-2xl" />
               ) : (
                 <h3 className="w-full text-lg font-semibold text-ellipsis line-clamp-2 text-zinc-50">
                   {playlist?.playlistStats?.items[0]?.snippet?.title || ""}
@@ -223,11 +220,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               )}
 
               {playlist?.statsLoading ? (
-                <Skeleton
-                  width={150}
-                  height={20}
-                  className="top-5 rounded-2xl"
-                />
+                <Skeleton width={150} height={20} className="rounded-2xl" />
               ) : (
                 <div className="flex items-center gap-2 text-sm font-medium text-zinc-300">
                   {
@@ -249,13 +242,9 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               )}
 
               {playlist?.statsLoading ? (
-                <Skeleton
-                  width={150}
-                  height={20}
-                  className="top-5 rounded-2xl"
-                />
+                <Skeleton width={150} height={20} className="rounded-2xl" />
               ) : playlist?.itemsLoading ? (
-                <Skeleton count={2} height={10} className="my-1" />
+                <Skeleton count={2} height={10} width={24} className="my-1" />
               ) : (
                 <div className="flex flex-col gap-1 mt-2">
                   {playlist?.playlistItemsStats?.items?.map((item) => (

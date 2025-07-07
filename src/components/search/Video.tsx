@@ -76,7 +76,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
   ).getTime();
   return (
     <div
-      className="py-4 "
+      className="py-2"
       onClick={() => navigate(`/video/${videoStats?.items[0]?.id}`)}
     >
       <SkeletonTheme
@@ -90,23 +90,24 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
           }}
           initial={"hidden"}
           whileInView={"visible"}
-          className="flex items-center justify-between gap-1 p-3 transition-colors cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 glass rounded-2xl"
+          className="flex items-center justify-between gap-1 p-1 overflow-hidden transition-colors cursor-pointer md:p-3 hover:bg-indigo-600/20 focus:bg-indigo-600/20 glass rounded-2xl"
         >
           <div className="flex w-full">
-            <div className="relative self-start overflow-hidden rounded-2xl min-w-96 w-96 aspect-video">
+            <div className="relative self-start overflow-hidden min-w-40 sm:max-w-64 md:max-w-72 lg:max-w-min-w-80 xl:max-w-96 aspect-video rounded-2xl">
               {videoLoading ? (
-                <Skeleton height={"100%"} className="-top-1" />
+                <Skeleton className="absolute inset-0 min-w-40 sm:min-w-64 md:min-w-72 lg:min-w-min-w-80 xl:min-w-96 aspect-video -top-1" />
               ) : (
                 <>
                   <img
                     referrerPolicy="no-referrer"
                     className="object-cover w-full h-full"
-                    src={videoStats?.items[0]?.snippet?.thumbnails?.high?.url}
+                    src={
+                      videoStats?.items[0]?.snippet?.thumbnails?.high?.url || ""
+                    }
                     alt=""
                   />
-
                   <div
-                    className={`absolute z-50 p-1 text-xs text-white bottom-1 right-1 glass-dark ${
+                    className={`absolute z-50 md:p-1 p-0.5 text-xs text-white bottom-1 right-1 glass-dark ${
                       videoStats?.items[0]?.contentDetails?.duration ===
                         "P0D" && "animate-pulse"
                     }`}
@@ -121,41 +122,36 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
                 </>
               )}
             </div>
-            <div className="flex flex-col w-2/3 ml-3 flex-start">
+
+            <div className="flex flex-col w-full ml-1 min-w-[66%] md:ml-3 flex-start">
               {videoLoading ? (
-                <Skeleton
-                  width={300}
-                  height={27}
-                  className="top-2 rounded-2xl"
-                />
+                <Skeleton className="max-w-[40vw] rounded-2xl" />
               ) : (
-                <h3 className="w-full text-2xl font-semibold text-ellipsis line-clamp-2 text-zinc-50">
+                <h3 className="w-full font-semibold sm:text-lg md:text-xl lg:text-2xl text-ellipsis line-clamp-1 lg:line-clamp-2 text-zinc-50">
                   {videoStats?.items[0]?.snippet?.title || ""}
                 </h3>
               )}
 
-              <div className="flex items-center gap-2 pt-1 text-sm font-medium text-zinc-300">
-                {videoLoading ? (
-                  <Skeleton
-                    width={150}
-                    height={20}
-                    className="top-5 rounded-2xl"
-                  />
-                ) : (
-                  `${rawViewsToString(
-                    videoStats?.items[0]?.statistics?.viewCount || ""
-                  )} views • ${
-                    elapsedTime(date) || ""
-                  } ago • ${rawViewsToString(
-                    videoStats?.items[0]?.statistics?.likeCount || ""
-                  )} likes • ${rawViewsToString(
-                    videoStats?.items[0]?.statistics?.commentCount || ""
-                  )} comments`
-                )}
-              </div>
+              {window.innerWidth > 640 && (
+                <div className="flex items-center gap-2 pt-1 text-sm font-medium text-zinc-300 line-clamp-1 text-ellipsis">
+                  {videoLoading ? (
+                    <Skeleton className="min-w-[20vw] rounded-2xl" />
+                  ) : (
+                    `${rawViewsToString(
+                      videoStats?.items[0]?.statistics?.viewCount || ""
+                    )} views • ${
+                      elapsedTime(date) || ""
+                    } ago • ${rawViewsToString(
+                      videoStats?.items[0]?.statistics?.likeCount || ""
+                    )} likes • ${rawViewsToString(
+                      videoStats?.items[0]?.statistics?.commentCount || ""
+                    )} comments`
+                  )}
+                </div>
+              )}
 
               {videoLoading ? (
-                <Skeleton width={100} className="rounded-2xl top-5" />
+                <Skeleton className="max-w-[10vw] rounded-2xl" />
               ) : (
                 <div
                   onClick={(e) => {
@@ -164,7 +160,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
                       `/channel/${videoStats?.items[0]?.snippet?.channelId}`
                     );
                   }}
-                  className="flex items-center gap-1 pt-1 text-lg font-semibold transition-colors hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
+                  className="flex items-center gap-1 pt-1 text-sm font-semibold transition-colors md:text-lg hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
                 >
                   <span>
                     <PiUserFill className="text-yellow-200" />
@@ -174,13 +170,9 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
               )}
 
               {videoLoading ? (
-                <Skeleton
-                  width={150}
-                  height={20}
-                  className="top-5 rounded-2xl"
-                />
+                <Skeleton className="max-w-[30vw] rounded-2xl" />
               ) : (
-                <div className="w-full my-2 text-sm text-zinc-400 line-clamp-3 text-ellipsis">
+                <div className="w-full my-2 text-sm text-zinc-400 line-clamp-1 sm:line-clamp-2 md:line-clamp-3 text-ellipsis">
                   {videoStats?.items[0]?.snippet?.description}
                 </div>
               )}
