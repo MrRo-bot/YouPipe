@@ -147,7 +147,7 @@ const Header = () => {
   });
 
   useEffect(() => {
-    // googleLogin();
+    googleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchTokens]);
 
@@ -269,13 +269,13 @@ const Header = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    const handleClick = (e: { target: HTMLDialogElement | null }) => {
+    const handleClick = (e: MouseEvent) => {
       if (e.target === searchPopupRef.current) {
         setIsOpen(false);
       }
     };
 
-    const handleKeyDown = (e: { key: string }) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsOpen(false);
       }

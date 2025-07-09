@@ -13,12 +13,103 @@ import { useAppSelector } from "../../app/store";
 const Sidebar = () => {
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
-  return (
+  return window.innerWidth < 768 ? (
+    <motion.aside
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="absolute bottom-0 z-50 flex gap-2 p-1 transition-colors -translate-x-1/2 glass active:bg-indigo-600/20 left-1/2"
+    >
+      <NavLink
+        to="/"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? ""
+            : isActive
+            ? "bg-white rounded-xl text-black font-bold"
+            : ""
+        }
+      >
+        <div className="px-2 py-1 transition-colors cursor-pointer rounded-xl active:text-zinc-900 active:bg-zinc-400">
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
+            className="w-full"
+          >
+            <PiHouseFill className="size-5" />
+          </motion.div>
+        </div>
+      </NavLink>
+      <NavLink
+        to="subscriptions"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? ""
+            : isActive
+            ? "bg-white rounded-xl text-black font-bold"
+            : ""
+        }
+      >
+        <div className="px-2 py-1 transition-colors cursor-pointer rounded-xl active:text-zinc-900 active:bg-zinc-400">
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
+            className="w-full"
+          >
+            <PiMonitorPlayFill className="size-5" />
+          </motion.div>
+        </div>
+      </NavLink>
+      <NavLink
+        to="playlists"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? ""
+            : isActive
+            ? "bg-white rounded-xl text-black font-bold"
+            : ""
+        }
+      >
+        <div className="px-2 py-1 transition-colors cursor-pointer rounded-xl active:text-zinc-900 active:bg-zinc-400">
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut", delay: 0.4 }}
+            className="w-full"
+          >
+            <PiListStarFill className="size-5" />
+          </motion.div>
+        </div>
+      </NavLink>
+      <NavLink
+        to="likedvideos"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? ""
+            : isActive
+            ? "bg-white rounded-xl text-black font-bold"
+            : ""
+        }
+      >
+        <div className="px-2 py-1 transition-colors cursor-pointer rounded-xl active:text-zinc-900 active:bg-zinc-400">
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
+            className="w-full"
+          >
+            <PiThumbsUpFill className="size-5" />
+          </motion.div>
+        </div>
+      </NavLink>
+    </motion.aside>
+  ) : (
     <motion.aside
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      key="sidebar"
       className={`flex flex-col  mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
         !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "w-[15vw] pr-3"
       } overflow-y-scroll hideScrollbar glass`}
