@@ -37,6 +37,9 @@ import { ProfileType, TokensType } from "../../types/types";
 
 const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
+  const searchPopupRef = useRef<HTMLDialogElement>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
   const [clearSearch, setClearSearch] = useState(false);
   const [fetchTokens, setFetchTokens] = useState(false);
 
@@ -144,7 +147,7 @@ const Header = () => {
   });
 
   useEffect(() => {
-    googleLogin();
+    // googleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchTokens]);
 
@@ -256,30 +259,67 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
+  useEffect(() => {
+    const dialog = searchPopupRef.current;
+    if (isOpen) {
+      dialog?.showModal();
+    } else {
+      dialog?.close();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleClick = (e: { target: HTMLDialogElement | null }) => {
+      if (e.target === searchPopupRef.current) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleKeyDown = (e: { key: string }) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    const dialog = searchPopupRef.current;
+    dialog?.addEventListener("click", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      dialog?.removeEventListener("click", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
       key="header"
-      className="flex items-center justify-between px-3 py-1 transition-colors glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
+      className="flex items-center justify-between px-1 py-0.5 md:px-2 lg:px-3 md:py-1 transition-colors glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
     >
-      <div className="flex items-center justify-between gap-3">
-        <div
-          onClick={() => dispatch(toggle())}
-          className="grid transition-colors bg-opacity-0 rounded-full cursor-pointer size-10 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+      <div className="flex items-center justify-between order-2 gap-3 md:order-none">
+        {window.innerWidth > 768 && (
+          <div
+            onClick={() => dispatch(toggle())}
+            className="grid transition-colors bg-opacity-0 rounded-full cursor-pointer size-10 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+          >
+            <RxHamburgerMenu className="w-full h-full p-2.5" />
+          </div>
+        )}
+        <NavLink
+          className="flex items-center min-h-6 md:min-h-8 lg:min-h-10"
+          to="/"
         >
-          <RxHamburgerMenu className="w-full h-full p-2.5" />
-        </div>
-        <NavLink className="flex items-center min-h-10" to="/">
-          <div className="size-8">
+          <div className="size-6 md:size-7 lg:size-8">
             <img
               className="text-nowrap indent-[100%] overflow-hidden"
               src="/icon.svg"
               alt="youpipe"
             />
           </div>
-          <div className="ml-1.5 text-2xl text-zinc-50 font-bold tracking-tighter">
+          <div className="ml-1.5 text-lg font-black md:text-xl lg:text-2xl text-zinc-50 md:font-bold tracking-tighter">
             YouPipe
           </div>
           <div className="self-start text-xs text-slate-400">
@@ -287,51 +327,120 @@ const Header = () => {
           </div>
         </NavLink>
       </div>
-      <div className="flex items-stretch w-1/3 overflow-hidden transition-shadow rounded-full glass-dark hover:shadow-[0_0_0.5px_1px_#52525b] focus:shadow-[0_0_0.5px_1px_#52525b] active:shadow-[0_0_0.5px_1px_#52525b]">
-        <input
-          ref={searchRef}
-          onChange={(e) => {
-            setClearSearch(e.target.value !== "" ? true : false);
-            dispatch(addSearchString(e?.target?.value));
-            if (e?.target?.value === "") dispatch(clearSearchList());
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
+
+      {window.innerWidth > 768 ? (
+        <div className="flex items-stretch w-1/3 overflow-hidden transition-shadow rounded-full glass-dark hover:shadow-[0_0_0.5px_1px_#52525b] focus:shadow-[0_0_0.5px_1px_#52525b] active:shadow-[0_0_0.5px_1px_#52525b]">
+          <input
+            ref={searchRef}
+            onChange={(e) => {
+              setClearSearch(e.target.value !== "" ? true : false);
+              dispatch(addSearchString(e?.target?.value));
+              if (e?.target?.value === "") dispatch(clearSearchList());
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate("search");
+                dispatch(refetch(true));
+              }
+            }}
+            type="text"
+            name="search"
+            id="search"
+            value={searchState}
+            placeholder="ctrl + k to focus"
+            className="w-full h-full py-2 pl-4 pr-12 font-semibold bg-transparent"
+          />
+
+          <div
+            onClick={() => {
+              dispatch(clearSearchList());
+              setClearSearch(false);
+            }}
+            className={`absolute ${
+              !clearSearch ? "hidden" : "grid"
+            } transition-colors -translate-y-1/2 rounded-full cursor-pointer right-14 min-h-6 min-w-6 md:right-16 lg:right-20 top-1/2 md:min-h-7 md:min-w-7 lg:min-w-8 lg:min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
+          >
+            <PiX className="size-7" />
+          </div>
+          <div
+            id="searchButton"
+            onClick={() => {
               navigate("search");
               dispatch(refetch(true));
-            }
-          }}
-          type="text"
-          name="search"
-          id="search"
-          value={searchState}
-          placeholder="Search anything... | ctrl + k to focus"
-          className="w-full h-full py-2 pl-4 pr-12 font-semibold bg-transparent"
-        />
+            }}
+            className="grid w-20 transition-colors bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+          >
+            <MdOutlineSearch className="size-6" />
+          </div>
+        </div>
+      ) : (
+        <>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(true);
+            }}
+            className="grid order-1 transition-colors bg-opacity-0 rounded-full cursor-pointer size-9 place-items-center glass bg-zinc-200 active:bg-opacity-100 active:text-zinc-900 active:bg-zinc-400"
+          >
+            <MdOutlineSearch className="size-6" />
+          </div>
+          <dialog
+            className="w-full p-2 overflow-hidden font-semibold flex flex-col gap-2 rounded-full heroGradient backdrop:backdrop-blur-[1px] backdrop:bg-zinc-800/20 text-zinc-100"
+            ref={searchPopupRef}
+          >
+            <div className="flex items-stretch overflow-hidden transition-shadow rounded-full glass-dark hover:shadow-[0_0_0.5px_1px_#52525b] focus:shadow-[0_0_0.5px_1px_#52525b] active:shadow-[0_0_0.5px_1px_#52525b]">
+              <input
+                ref={searchRef}
+                onChange={(e) => {
+                  setClearSearch(e.target.value !== "" ? true : false);
+                  dispatch(addSearchString(e?.target?.value));
+                  if (e?.target?.value === "") dispatch(clearSearchList());
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.stopPropagation();
+                    navigate("search");
+                    dispatch(refetch(true));
+                    setIsOpen(false);
+                  }
+                }}
+                type="text"
+                name="search"
+                id="search"
+                value={searchState}
+                placeholder="ctrl + k to focus"
+                className="w-full h-full p-2 pr-6 text-sm font-semibold bg-transparent"
+              />
 
-        <div
-          onClick={() => {
-            dispatch(clearSearchList());
-            setClearSearch(false);
-          }}
-          className={`absolute ${
-            !clearSearch ? "hidden" : "grid"
-          } transition-colors -translate-y-1/2 rounded-full cursor-pointer right-20 top-1/2 min-w-8 min-h-8 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
-        >
-          <PiX className="size-7" />
-        </div>
-        <div
-          id="searchButton"
-          onClick={() => {
-            navigate("search");
-            dispatch(refetch(true));
-          }}
-          className="grid w-20 transition-colors bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
-        >
-          <MdOutlineSearch className="size-6" />
-        </div>
-      </div>
-      <div className="flex items-center justify-between gap-2">
+              <div
+                onClick={() => {
+                  dispatch(clearSearchList());
+                  setClearSearch(false);
+                }}
+                className={`absolute ${
+                  !clearSearch ? "hidden" : "grid"
+                } transition-colors -translate-y-1/2 rounded-full cursor-pointer right-9 min-h-6 min-w-6 top-1/2 aspect-square place-items-center hover:bg-zinc-500/50 focus:bg-zinc-500/50`}
+              >
+                <PiX className="size-5" />
+              </div>
+              <div
+                id="searchButton"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("search");
+                  dispatch(refetch(true));
+                  setIsOpen(false);
+                }}
+                className="grid w-10 transition-colors bg-opacity-0 border-l rounded-none cursor-pointer place-items-center glass border-l-zinc-600 bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
+              >
+                <MdOutlineSearch className="size-5" />
+              </div>
+            </div>
+          </dialog>
+        </>
+      )}
+
+      <div className="flex items-center justify-between order-3 gap-1 md:gap-2">
         {profileData?.picture && (
           <div
             onClick={logout}
@@ -340,7 +449,7 @@ const Header = () => {
             Logout
           </div>
         )}
-        <div className="flex items-center gap-4 mx-2 min-h-12">
+        <div className="flex items-center mx-0.5 min-h-8  md:mx-1 md:min-h-10 gap-4 lg:mx-2 lg:min-h-12">
           <div className="grid size-10 overflow-hidden transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
             {profileData?.picture ? (
               <img
