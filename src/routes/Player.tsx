@@ -496,15 +496,15 @@ const Player = () => {
       baseColor="rgba(255,255,255,0.1)"
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
-      <div className="w-full h-[90vh] pt-5">
-        <div className="flex w-[97%] h-full mx-auto">
-          <div className="w-[75%] overflow-y-scroll hideScrollbar">
+      <div className="w-full h-[93vh] pt-5 overflow-hidden">
+        <div className="flex w-[97%] h-full mx-auto flex-col lg:flex-row">
+          <div className="w-full lg:w-[75%] overflow-y-scroll hideScrollbar h-[60vh] lg:h-auto">
             <div className="relative">
               <motion.div
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="w-full h-[70vh] overflow-hidden aspect-video rounded-3xl"
+                className="w-full h-[30vh] lg:h-[70vh] overflow-hidden aspect-video rounded-3xl"
               >
                 <ReactPlayer
                   ref={playerRef}
@@ -520,14 +520,14 @@ const Player = () => {
                 />
               </motion.div>
 
-              <div className="absolute w-full px-3 py-2 mt-2 -translate-x-1/2 rounded-3xl glass left-1/2 ">
+              <div className="absolute w-full p-1 mt-2 -translate-x-1/2 lg:px-3 lg:py-2 rounded-3xl glass left-1/2">
                 <motion.div
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.35, ease: "easeInOut", delay: 0.1 }}
-                  className="flex items-center justify-between gap-2 px-2 py-1 transition-colors rounded-3xl glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
+                  className="flex flex-col items-center justify-between gap-2 p-1 transition-colors lg:flex-row lg:px-2 lg:py-1 rounded-3xl glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
                 >
-                  <div className="flex items-center justify-between gap-6">
+                  <div className="flex items-center justify-between gap-2 lg:gap-6">
                     <div className="flex items-center justify-between gap-2">
                       {isChannelProfLoading ? (
                         <>
@@ -542,7 +542,7 @@ const Player = () => {
                                 `/channel/${channelProfile?.items[0]?.id}`
                               )
                             }
-                            className="grid place-items-center relative rounded-3xl size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]"
+                            className="grid place-items-center relative rounded-3xl size-6 lg:size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]"
                           >
                             <img
                               referrerPolicy="no-referrer"
@@ -555,7 +555,7 @@ const Player = () => {
                           </div>
                           <div>
                             <div
-                              className="text-xl font-bold cursor-pointer text-zinc-50"
+                              className="font-bold cursor-pointer lg:text-xl text-zinc-50"
                               onClick={() =>
                                 navigate(
                                   `/channel/${channelProfile?.items[0]?.id}`
@@ -564,7 +564,7 @@ const Player = () => {
                             >
                               {channelProfile?.items[0]?.snippet?.title}
                             </div>
-                            <div className="text-sm font-medium text-zinc-400">
+                            <div className="text-xs font-medium lg:text-sm text-zinc-400">
                               {rawViewsToString(
                                 channelProfile?.items[0]?.statistics
                                   ?.subscriberCount || ""
@@ -581,7 +581,7 @@ const Player = () => {
                       <AnimatePresence>
                         <div
                           onClick={(e) => e.stopPropagation()}
-                          className={`grid place-items-center overflow-hidden px-3 py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
+                          className={`grid place-items-center overflow-hidden text-xs lg:text-base px-1 py-0.5 lg:px-3 lg:py-1.5 w-max font-medium transition-colors rounded-full cursor-pointer select-none ${
                             sub
                               ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70 "
                               : "bg-white text-black hover:bg-zinc-200/70 focus:bg-zinc-200/70 active:bg-zinc-200/70"
@@ -615,8 +615,8 @@ const Player = () => {
                       </AnimatePresence>
                     )}
                   </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 text-zinc-50">
+                  <div className="flex items-center justify-between gap-1 lg:gap-3">
+                    <div className="flex items-center gap-2 text-xs lg:text-base text-zinc-50">
                       <strong className="text-violet-200">
                         {rawViewsToString(
                           video?.items[0]?.statistics?.viewCount || "0"
@@ -625,7 +625,7 @@ const Player = () => {
                       views
                     </div>
                     |
-                    <div className="flex items-center gap-2 text-zinc-50">
+                    <div className="flex items-center gap-1 text-xs lg:gap-2 lg:text-base text-zinc-50">
                       <div
                         id="like"
                         onClick={handleRating}
@@ -712,7 +712,7 @@ const Player = () => {
                       </div>
                     </div>
                     |
-                    <div className="flex items-center gap-2 text-zinc-50">
+                    <div className="flex items-center gap-2 text-xs text-zinc-50 lg:text-base">
                       <strong className="text-violet-200">{date}</strong>
                     </div>
                   </div>
@@ -721,7 +721,7 @@ const Player = () => {
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
-                  className="p-2 mt-2 text-purple-100 transition-colors rounded-3xl text-wrap glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
+                  className="p-1 mt-2 text-sm text-purple-100 transition-colors lg:p-2 lg:text-base rounded-3xl text-wrap glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
                 >
                   <span ref={containerRef}>
                     {parse(modifiedDescription || "No Description Found")}
@@ -738,7 +738,7 @@ const Player = () => {
                             dispatch(refetch(true));
                           }}
                           key={tag}
-                          className="px-2 py-1 font-bold transition-colors rounded-3xl bg-slate-500 cursor-crosshair text-slate-950 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-300/20 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
+                          className="px-1 py-0.5 lg:px-2 lg:py-1 font-bold text-xs lg:text-base transition-colors rounded-3xl bg-slate-500 cursor-crosshair text-slate-950 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-300/20 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
                         >
                           #{tag.split(" ").join("_")}
                         </span>{" "}
@@ -754,9 +754,9 @@ const Player = () => {
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="w-[25%] text-center ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar"
+            className="w-full lg:w-[25%] text-center mt-2 lg:ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar"
           >
-            <h2 className="py-1 text-2xl text-zinc-50">
+            <h2 className="py-0.5 lg:py-1 text-base lg:text-2xl text-zinc-50">
               <strong>
                 {rawViewsToString(
                   video?.items[0]?.statistics?.commentCount || "0"
@@ -770,7 +770,7 @@ const Player = () => {
                 {myComment}
               </div>{" "}
               <textarea
-                className="hideScrollbar absolute p-2 py-3 text-zinc-100  bg-transparent focus:bg-slate-700/50 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                className="hideScrollbar absolute text-sm lg:text-base p-2 py-3 text-zinc-100 bg-transparent focus:bg-slate-700/50 sm:right-5 sm:left-5 md:right-10 md:left-10 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
                 value={myComment}
                 placeholder="Describe your vibe 📝"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -778,16 +778,16 @@ const Player = () => {
                 }
               />
             </div>
-            <div className="flex gap-6 mx-auto">
+            <div className="flex gap-2 mx-auto lg:gap-6">
               <button
                 onClick={() => setMyComment("")}
-                className="px-3 py-2 transition-colors duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
+                className="lg:px-3 lg:py-2 px-1.5 py-1 text-sm lg:text-base transition-colors duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
               >
                 Cancel
               </button>
               <button
                 onClick={() => comMutation.mutate(videoId)}
-                className={`transition-colors duration-300 ease-in-out delay-50 px-3 py-2 rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
+                className={`transition-colors duration-300 ease-in-out delay-50 lg:px-3 lg:py-2 px-1.5 py-1 text-sm lg:text-base rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
                   myComment.length > 0 && "bg-pink-500"
                 }`}
               >
@@ -813,7 +813,7 @@ const Player = () => {
                   video?.items[0]?.statistics?.commentCount || 0
                 )}
                 itemContent={(_, data) => (
-                  <div className="pt-3">
+                  <div className="pt-1 lg:pt-3">
                     <Comments
                       key={data?.etag}
                       comment={data}

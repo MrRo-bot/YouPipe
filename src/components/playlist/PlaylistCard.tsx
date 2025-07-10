@@ -78,7 +78,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               } as React.CSSProperties
             }
             className={
-              !playlist?.snippet?.thumbnails?.maxres?.url
+              playlist?.snippet?.thumbnails?.maxres?.url
                 ? `
           before:content-['']
           before:absolute

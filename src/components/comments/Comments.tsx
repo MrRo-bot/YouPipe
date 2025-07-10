@@ -386,14 +386,14 @@ const Comments = ({
         transition={{ type: "keyframes" }}
         initial={"hidden"}
         whileInView={"visible"}
-        className={`flex p-1  rounded-xl glass-dark transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20  ${
+        className={`flex p-1 rounded-xl glass-dark transition-colors hover:bg-indigo-600/20 focus:bg-indigo-600/20  ${
           channelId ===
             comment?.snippet?.topLevelComment?.snippet?.authorChannelId
               ?.value && "bg-slate-950"
         }`}
       >
         <div className="w-[15%] p-1">
-          <div className="grid place-items-center relative rounded-full size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
+          <div className="grid place-items-center relative rounded-full size-6 lg:size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
             <img
               onClick={(e) => {
                 e.stopPropagation();
@@ -411,7 +411,7 @@ const Comments = ({
           className="flex flex-col gap-2 px-4 py-2 overflow-hidden font-semibold min-w-[33%] rounded-2xl heroGradient backdrop:backdrop-blur-sm text-zinc-100"
           ref={userRef}
         >
-          <h2 className="self-start text-2xl font-bold text-zinc-50">
+          <h2 className="self-start text-base font-bold lg:text-2xl text-zinc-50">
             Channel Info
           </h2>
           <div
@@ -423,18 +423,26 @@ const Comments = ({
           >
             <PiPlusBold className="rotate-45 size-5 text-zinc-50" />
           </div>
-          <div className="p-2 bg-zinc-100/10 rounded-2xl flex gap-5 justify-start  backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
+          <div className="p-2 bg-zinc-100/10 rounded-2xl flex flex-col lg:flex-row gap-2 lg:gap-5 justify-start backdrop-blur-2xl shadow-[0_0_0_1px_rgb(255,255,255,0.15)]">
             <div>
-              <div className="grid place-items-center rounded-full w-max h-max overflow-hidden mx-auto shadow-[0_0_0_1px_rgb(250_204_21)]">
+              <div
+                className="grid place-items-center w-max h-max mx-auto shadow-[0_0_0_1px_rgb(250_204_21)]
+              relative overflow-hidden rounded-full min-w-24 lg:min-w-28 xl:min-w-32 min-h-24 lg:min-h-28 xl:min-h-32"
+              >
                 {fetchAuthorData ? (
-                  <Skeleton className="!w-32 !h-32 -top-0.25 p-1" />
+                  <Skeleton
+                    circle={true}
+                    height="100%"
+                    containerClassName="absolute inset-0"
+                    className="absolute inset-0 w-full h-full -top-0.5"
+                  />
                 ) : (
                   <img
                     referrerPolicy="no-referrer"
                     src={
                       authorProfile?.items[0]?.snippet?.thumbnails?.default?.url
                     }
-                    className="w-32 h-32 rounded-full"
+                    className="absolute inset-0 object-cover w-full h-full rounded-full"
                     alt={authorProfile?.items[0]?.snippet?.title[0]}
                   />
                 )}
@@ -445,7 +453,7 @@ const Comments = ({
                 {fetchAuthorData ? (
                   <Skeleton className="min-w-full mb-2 min-h-8" />
                 ) : (
-                  <div className="text-3xl font-extrabold text-left text-zinc-50">
+                  <div className="text-xl font-extrabold text-left lg:text-3xl text-zinc-50">
                     {authorProfile?.items[0]?.snippet?.localized?.title}
                   </div>
                 )}
@@ -453,7 +461,7 @@ const Comments = ({
                 {fetchAuthorData ? (
                   <Skeleton className="min-w-full mb-2 min-h-8" />
                 ) : (
-                  <div className="font-bold text-left text-yellow-500">
+                  <div className="text-sm font-bold text-left text-yellow-500 lg:text-base">
                     {authorProfile?.items[0]?.snippet?.customUrl}
                   </div>
                 )}
@@ -465,12 +473,11 @@ const Comments = ({
                     count={4}
                   />
                 ) : (
-                  <div className="flex items-center justify-start gap-2 mt-1 font-light text-zinc-300">
+                  <div className="flex items-center justify-start gap-2 mt-1 text-sm font-light lg:text-base text-zinc-300">
                     <div>
                       Joined <strong>{elapsedTime(date)}</strong> ago
                     </div>
                     <div>
-                      •{" "}
                       <strong>
                         {rawViewsToString(
                           authorProfile?.items[0]?.statistics
@@ -480,7 +487,6 @@ const Comments = ({
                       subscribers
                     </div>
                     <div>
-                      •{" "}
                       <strong>
                         {rawViewsToString(
                           authorProfile?.items[0]?.statistics?.viewCount || ""
@@ -489,7 +495,6 @@ const Comments = ({
                       views
                     </div>
                     <div>
-                      •{" "}
                       <strong>
                         {rawViewsToString(
                           authorProfile?.items[0]?.statistics?.videoCount || ""
@@ -508,7 +513,7 @@ const Comments = ({
               ) : (
                 <>
                   <div
-                    className="px-2 py-1 mt-6 transition-colors rounded-full cursor-pointer w-max bg-zinc-50 text-zinc-800 hover:bg-zinc-800 focus:bg-zinc-800 active:bg-zinc-800 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
+                    className="py-0.5 px-1 mt-6 transition-colors rounded-full cursor-pointer lg:px-2 lg:py-1 w-max bg-zinc-50 text-zinc-800 hover:bg-zinc-800 focus:bg-zinc-800 active:bg-zinc-800 hover:text-zinc-50 focus:text-zinc-50 active:text-zinc-50"
                     onClick={() =>
                       navigate(`/channel/${authorProfile?.items[0]?.id}`)
                     }
@@ -522,7 +527,7 @@ const Comments = ({
         </dialog>
         <div className="w-[85%] flex flex-col gap-2">
           <div>
-            <div className="flex justify-between font-medium text-left text-yellow-400">
+            <div className="flex justify-between text-sm font-medium text-left text-yellow-400 lg:text-base">
               <span
                 className="transition-colors cursor-pointer hover:text-yellow-200 focus:text-yellow-200"
                 onClick={(e) => {
@@ -534,35 +539,35 @@ const Comments = ({
                 {comm?.authorDisplayName}
               </span>
               {comm && comm?.authorChannelId.value === profileChannelId && (
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-1 lg:gap-2">
                   <div
                     onClick={() =>
                       handleDelete({ commentId: comment?.id, replyId: "" })
                     }
                   >
-                    <PiTrashBold className="cursor-pointer size-5 text-zinc-200" />
+                    <PiTrashBold className="cursor-pointer size-4 lg:size-5 text-zinc-200" />
                   </div>
 
                   <div onClick={handleEditComment}>
-                    <PiPencilBold className="cursor-pointer size-5 text-zinc-200" />
+                    <PiPencilBold className="cursor-pointer size-4 lg:size-5 text-zinc-200" />
                   </div>
                 </div>
               )}
             </div>
-            <div className="text-sm font-medium text-left text-zinc-400">
+            <div className="text-xs font-medium text-left lg:text-sm text-zinc-400">
               {comm?.publishedAt === comm?.updatedAt
                 ? elapsedTime(myPubDate) + " ago"
                 : elapsedTime(myUpdDate) + " ago" + " (edited)"}
             </div>
           </div>
           {isEditingComment ? (
-            <div className="my-2">
+            <div className="my-1 lg:my-2">
               <div className="relative w-full">
                 <div className="overflow-y-hidden min-h-10 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
                   {editedComment}
                 </div>
                 <textarea
-                  className="hideScrollbar absolute p-2 text-zinc-100 bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                  className="hideScrollbar text-xs lg:text-base absolute p-1 lg:p-2 text-zinc-100 bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
                   value={editedComment}
                   autoFocus={true}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -570,16 +575,16 @@ const Comments = ({
                   }
                 />
               </div>
-              <div className="flex gap-6 mx-auto mt-2">
+              <div className="flex gap-2 mx-auto mt-1 lg:gap-6 lg:mt-2">
                 <button
                   onClick={handleCancelEdit}
-                  className="px-2 py-1 text-sm transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
+                  className="px-1 py-0.5 lg:px-2 lg:py-1 text-xs lg:text-sm transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveComment}
-                  className={`transition delay-50 duration-300 ease-in-out px-2 py-1 text-sm rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
+                  className={`transition delay-50 duration-300 ease-in-out px-1 py-0.5 lg:px-2 lg:py-1 text-xs lg:text-sm rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
                     editedComment.length > 0 && "bg-pink-500"
                   }`}
                 >
@@ -588,38 +593,39 @@ const Comments = ({
               </div>
             </div>
           ) : (
-            <div className="text-left text-zinc-100">
+            <div className="text-xs text-left lg:text-base text-zinc-100">
               <span ref={containerRef}>{parse(modifiedComment || "")}</span>
             </div>
           )}
-          <div className="flex items-center justify-start w-1/2 gap-6">
+          <div className="flex items-center justify-start w-1/2 gap-4 lg:gap-6">
             {comm?.likeCount !== 0 ? (
-              <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5  bg-pink-500 text-yellow-400 min-w-12 min-h-6">
+              <div className="flex text-xs lg:text-sm items-center justify-center gap-1 lg:gap-2 max-w-max rounded-3xl px-1 lg:px-2 py-0.5 bg-pink-500 text-yellow-400 min-w-10 lg:min-w-12 min-h-6">
                 {rawViewsToString(String(comm?.likeCount))}{" "}
                 {
-                  <PiThumbsUpFill className="text-yellow-400 size-4 -scale-x-100" />
+                  <PiThumbsUpFill className="text-yellow-400 size-3 lg:size-4 -scale-x-100" />
                 }
               </div>
             ) : (
-              <div className="flex text-sm items-center gap-2 max-w-max rounded-3xl px-2 py-0.5 bg-slate-500/20 min-w-12 min-h-6">
-                0 {<PiThumbsUpLight className="size-4 -scale-x-100" />}
+              <div className="flex text-sm items-center justify-center gap-1 lg:gap-2 max-w-max rounded-3xl px-1 lg:px-2 py-0.5 bg-slate-500/20 min-w-10 lg:min-w-12 min-h-6">
+                0{" "}
+                {<PiThumbsUpLight className="size-3 lg:size-4 -scale-x-100" />}
               </div>
             )}
             <div
               onClick={() => setToggleReply(!toggleReply)}
-              className="px-3 py-2 cursor-pointer hover:bg-slate-500/20 rounded-3xl"
+              className="px-1.5 py-1 lg:px-3 lg:py-2 cursor-pointer hover:bg-slate-500/20 rounded-3xl"
             >
               <FaRegCommentAlt className="scale-x-100 size-3" />
             </div>
           </div>
           {toggleReply && (
-            <div className="my-2">
+            <div className="my-1 lg:my-2">
               <div className="relative w-full">
                 <div className="overflow-y-hidden min-h-10 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
                   {myReply}
                 </div>{" "}
                 <textarea
-                  className="hideScrollbar absolute p-2 text-zinc-100  bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                  className="hideScrollbar text-sm lg:text-base absolute p-1 lg:p-2 text-zinc-100 bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
                   value={myReply}
                   placeholder="Add your reply..."
                   autoFocus={true}
@@ -628,16 +634,16 @@ const Comments = ({
                   }
                 />
               </div>
-              <div className="flex gap-6 mx-auto mt-2">
+              <div className="flex gap-4 mx-auto mt-2 lg:gap-6">
                 <button
                   onClick={() => setToggleReply(false)}
-                  className="px-2 py-1 text-sm transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
+                  className="py-0.5 px-1 lg:px-2 lg:py-1 text-xs lg:text-sm transition duration-300 ease-in-out rounded-full cursor-pointer delay-50 hover:bg-gray-500/50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => replyMutation.mutate(myReply)}
-                  className={`transition delay-50 duration-300 ease-in-out px-2 py-1 text-sm rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
+                  className={`transition delay-50 duration-300 ease-in-out py-0.5 px-1 lg:px-2 lg:py-1 text-xs lg:text-sm rounded-full cursor-pointer bg-gray-500/50 hover:bg-pink-400 ${
                     myReply.length > 0 && "bg-pink-500"
                   }`}
                 >
@@ -651,14 +657,14 @@ const Comments = ({
             <>
               <div
                 onClick={() => setExpand(!expand)}
-                className={`flex items-center gap-2 px-2 py-1 my-1 text-yellow-400 transition-colors rounded-full cursor-pointer ${
+                className={`flex text-xs lg:text-base items-center gap-1 lg:gap-2 lg:px-2 px-1 lg:py-1 py-0.5 my-1 text-yellow-400 transition-colors rounded-full cursor-pointer ${
                   expand ? "bg-indigo-950" : "bg-purple-950"
                 } hover:bg-violet-950 active:bg-violet-900 focus:bg-violet-950 max-w-max`}
               >
                 {expand ? (
-                  <IoIosArrowDropupCircle className="transition-all size-5" />
+                  <IoIosArrowDropupCircle className="transition-all size-4 lg:size-5" />
                 ) : (
-                  <IoIosArrowDropdownCircle className="transition-all size-5" />
+                  <IoIosArrowDropdownCircle className="transition-all size-4 lg:size-5" />
                 )}{" "}
                 {replyCount} {replyCount === 1 ? "reply" : "replies"}
               </div>

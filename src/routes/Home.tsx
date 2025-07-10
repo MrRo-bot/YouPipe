@@ -84,11 +84,11 @@ const Home = () => {
             transition: Bounce,
           });
         }
-      }, 1000);
+      }, 3000);
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore && !!token?.access_token,
+    enabled: !!fetchMore || !!token?.access_token,
   });
 
   return (
