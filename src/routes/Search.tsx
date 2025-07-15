@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Virtuoso } from "react-virtuoso";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addSearch, fetchMore } from "../features/searchSlice";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
+
+import customToastFunction from "../utils/Toastify";
+
 import SearchCard from "../components/search/SearchCard";
+
 import { TokensType } from "../types/types";
 
 const Search = () => {
@@ -56,17 +59,10 @@ const Search = () => {
         dispatch(fetchMore(false));
         return search;
       } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction(
+          `❌ ${error instanceof Error ? error.message : error}`,
+          "error"
+        );
       }
     },
     enabled: !!refetchMore || !!fetchMoreSearchItems,

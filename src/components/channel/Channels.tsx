@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -13,6 +11,7 @@ import { useAppSelector } from "../../app/store";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 
+import customToastFunction from "../../utils/Toastify";
 import { rawViewsToString } from "../../utils/functions";
 
 import { ChannelInfoType, TokensType } from "../../types/types";
@@ -71,29 +70,10 @@ const ChannelsCard = ({ id }: { id: string }) => {
       if (!res.ok) throw new Error("Error removing subscriber");
     },
     onSuccess: async () => {
-      toast("🥲 Unsubscribed!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("🥲 Unsubscribed!");
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 
@@ -123,29 +103,10 @@ const ChannelsCard = ({ id }: { id: string }) => {
       if (!res.ok) throw new Error("Error subscribing to user");
     },
     onSuccess: async () => {
-      toast("🥳 Subscribed!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("🥳 Subscribed!");
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 

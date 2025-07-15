@@ -7,8 +7,6 @@ import { Virtuoso } from "react-virtuoso";
 import ReactPlayer from "react-player/youtube";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
 
 import {
@@ -32,6 +30,7 @@ import { rawViewsToString } from "../utils/functions";
 
 import { RatingType, TokensType, VideosListType } from "../types/types";
 import { FcDislike, FcLike } from "react-icons/fc";
+import customToastFunction from "../utils/Toastify";
 
 const Player = () => {
   const [myComment, setMyComment] = useState("");
@@ -272,16 +271,7 @@ const Player = () => {
           ...prev,
           items: [{ videoId: prev.items[0].videoId, rating: "like" }],
         }));
-        toast("💖 LIKEd!", {
-          position: "bottom-left",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradient !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction("💖 LIKEd!");
       }
     }
     if (e.currentTarget.id === "dislike") {
@@ -298,16 +288,7 @@ const Player = () => {
           ...prev,
           items: [{ videoId: prev.items[0].videoId, rating: "dislike" }],
         }));
-        toast("💔 DISLIKEd!", {
-          position: "bottom-left",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradient !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction("💔 DISLIKEd!");
       }
     }
   };
@@ -340,29 +321,10 @@ const Player = () => {
     },
     onSuccess: () => {
       setMyComment("");
-      toast("💬 Comment added!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("💬 Comment added!");
     },
     onError: (e) => {
-      toast.error(`🤔 ${e}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e}`, "error");
     },
   });
 
@@ -404,29 +366,10 @@ const Player = () => {
       if (!res.ok) throw new Error("Error removing subscriber");
     },
     onSuccess: async () => {
-      toast("🥲 Unsubscribed!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("🥲 Unsubscribed!");
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 
@@ -456,29 +399,10 @@ const Player = () => {
       if (!res.ok) throw new Error("Error subscribing to user");
     },
     onSuccess: async () => {
-      toast("🥳 Subscribed!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("🥳 Subscribed!");
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 

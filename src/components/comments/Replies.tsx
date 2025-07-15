@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useQuery, UseMutationResult } from "@tanstack/react-query";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
 
 import {
@@ -21,6 +19,7 @@ import { addTimestamp } from "../../features/timestampSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 
 import { elapsedTime, rawViewsToString } from "../../utils/functions";
+import customToastFunction from "../../utils/Toastify";
 
 import {
   ChannelInfoType,
@@ -160,12 +159,7 @@ const Replies = ({
       });
       setIsEditingReply(false);
     } else {
-      toast.error("Reply cannot be empty!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("Reply cannot be empty!", "error");
     }
   };
 

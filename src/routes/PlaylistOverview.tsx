@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
@@ -16,6 +14,7 @@ import { addPlayItems } from "../features/playlistOverviewSlice";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
 import { elapsedTime } from "../utils/functions";
+import customToastFunction from "../utils/Toastify";
 
 import PlaylistOverviewCard from "../components/playlist/PlaylistOverviewCard";
 
@@ -119,17 +118,10 @@ const PlaylistOverview = () => {
           setExtractedColors(data);
         })
         .catch((error) =>
-          toast.error(`${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          })
+          customToastFunction(
+            `${error instanceof Error ? error.message : error}`,
+            "error"
+          )
         );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

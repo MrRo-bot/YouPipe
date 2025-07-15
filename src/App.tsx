@@ -1,8 +1,7 @@
 import "./App.css";
 import { useEffect, useLayoutEffect, useRef } from "react";
+import { ToastContainer } from "react-toastify";
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -10,6 +9,7 @@ import { getLocationData } from "../src/features/locationSlice";
 
 import { useNavigatorOnLine } from "./hooks/useNavigatorOnline";
 import useCurrentLocation from "../src/hooks/useCurrentLocation";
+import customToastFunction from "./utils/Toastify";
 
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
@@ -25,16 +25,7 @@ function App() {
       firstUpdate.current = false;
       return;
     }
-    toast(isOnline ? "We're back Online 🛜✔️" : "Offline 🛜❌", {
-      position: "bottom-left",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true,
-      progress: undefined,
-      className: "!toastGradient !font-bold !text-zinc-50",
-      transition: Bounce,
-    });
+    customToastFunction(isOnline ? "We're back Online 🛜✔️" : "Offline 🛜❌");
   }, [isOnline]);
   const dispatch = useAppDispatch();
   const locationCoords = useCurrentLocation();
@@ -51,18 +42,10 @@ function App() {
           return coordsDetails;
         }
       } catch (error) {
-        //react toastify for location fetch errors
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction(
+          `❌ ${error instanceof Error ? error.message : error}`,
+          "error"
+        );
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -7,8 +7,6 @@ import {
   googleLogout,
   CodeResponse,
 } from "@react-oauth/google";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { PiUserCirclePlusFill, PiX } from "react-icons/pi";
 import { MdOutlineSearch } from "react-icons/md";
@@ -34,6 +32,7 @@ import { clearSubscription } from "../../features/subscriptionSlice";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 
 import { ProfileType, TokensType } from "../../types/types";
+import customToastFunction from "../../utils/Toastify";
 
 const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
@@ -91,17 +90,10 @@ const Header = () => {
         dispatch(addChannelId(channelId.items[0].id));
         return channelId;
       } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction(
+          `❌ ${error instanceof Error ? error.message : error}`,
+          "error"
+        );
       }
     },
     enabled: !!profileData?.email,
@@ -124,16 +116,7 @@ const Header = () => {
     const tokens = await response.json();
     dispatch(addToken(tokens));
 
-    toast("🪙 Access token received!", {
-      position: "bottom-left",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true,
-      progress: undefined,
-      className: "!toastGradient !font-bold !text-zinc-50",
-      transition: Bounce,
-    });
+    customToastFunction("🪙 Access token received!");
     setToken(tokens);
   };
 
@@ -210,30 +193,16 @@ const Header = () => {
         setProfile(profile); //setting it on localStorage
         //react toastify notification for welcoming user
         if (profile?.name?.length > 1) {
-          toast(`Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradient !font-bold !text-zinc-50",
-            transition: Bounce,
-          });
+          customToastFunction(
+            `Welcome ${profile?.name?.split(" ")[0]} 🥳 enjoy!!`
+          );
         }
       } catch (error) {
         //react toastify notification for access token error
-        toast.error(`${error instanceof Error ? error.message : error}!`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction(
+          `${error instanceof Error ? error.message : error}!`,
+          "error"
+        );
       }
     },
     enabled: !!token?.access_token,

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import { PiUserFill } from "react-icons/pi";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import {
@@ -12,8 +12,9 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../../utils/functions";
+import customToastFunction from "../../utils/Toastify";
+
 import { SearchType, TokensType, VideosListType } from "../../types/types";
-import { PiUserFill } from "react-icons/pi";
 
 const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
   const [videoStats, setVideoStats] = useState<VideosListType>();
@@ -54,17 +55,10 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
           setVideoLoading(false);
         } catch (error) {
           setVideoLoading(true);
-          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          });
+          customToastFunction(
+            `❌ ${error instanceof Error ? error.message : error}`,
+            "error"
+          );
         }
       }
     })();

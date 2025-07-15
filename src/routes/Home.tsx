@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
@@ -10,6 +8,8 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import { addHomeVideos } from "../features/homeSlice";
 
 import { usePersistedState } from "../hooks/usePersistentStorage";
+
+import customToastFunction from "../utils/Toastify";
 
 // import Filters from "../components/home/Filters";
 import HomeCard from "../components/home/HomeCard";
@@ -72,17 +72,10 @@ const Home = () => {
           return channelVideos;
         } catch (error) {
           //react toastify for location fetch errors
-          toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          });
+          customToastFunction(
+            `❌ ${error instanceof Error ? error.message : error}`,
+            "error"
+          );
         }
       }, 3000);
     },

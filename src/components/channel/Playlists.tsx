@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { FidgetSpinner } from "react-loader-spinner";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { useAppSelector } from "../../app/store";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+
+import customToastFunction from "../../utils/Toastify";
 
 import PlaylistCard from "../playlist/PlaylistCard";
 
@@ -58,17 +58,10 @@ const Playlists = () => {
       const playlist = await res.json();
       setPlaylist((prev) => [...prev, playlist]);
     } catch (error) {
-      toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(
+        `❌ ${error instanceof Error ? error.message : error}`,
+        "error"
+      );
     }
   };
 

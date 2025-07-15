@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { PiListPlus, PiUserFill } from "react-icons/pi";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { elapsedTime } from "../../utils/functions";
+import customToastFunction from "../../utils/Toastify";
+
 import {
   PlaylistItemListType,
   PlaylistListType,
@@ -94,17 +94,10 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
             ...prev,
             statsLoading: true,
           }));
-          toast.error(`${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          });
+          customToastFunction(
+            `${error instanceof Error ? error.message : error}`,
+            "error"
+          );
         }
       }
     })();
@@ -142,17 +135,10 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
             ...prev,
             itemsLoading: true,
           }));
-          toast.error(`${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          });
+          customToastFunction(
+            `${error instanceof Error ? error.message : error}`,
+            "error"
+          );
         }
       }
     })();

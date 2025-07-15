@@ -1,42 +1,28 @@
 //custom hook for storing fetched information in localStorage
 
 import { useEffect, useState } from "react";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import customToastFunction from "../utils/Toastify";
 
 const getItem = (key: string) => {
   try {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : undefined;
   } catch (error) {
-    toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-      position: "bottom-left",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      className: "!toastGradientError !font-bold !text-zinc-50",
-      transition: Bounce,
-    });
+    customToastFunction(
+      `❌ ${error instanceof Error ? error.message : error}`,
+      "error"
+    );
   }
 };
 const setItem = (key: string, value: unknown) => {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-      position: "bottom-left",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      className: "!toastGradientError !font-bold !text-zinc-50",
-      transition: Bounce,
-    });
+    customToastFunction(
+      `❌ ${error instanceof Error ? error.message : error}`,
+      "error"
+    );
   }
 };
 

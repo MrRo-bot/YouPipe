@@ -3,8 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { RiArrowDownWideFill, RiArrowUpWideFill } from "react-icons/ri";
 
@@ -19,6 +17,7 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 import SubscriptionList from "../components/subscription/SubscriptionList";
 
 import { TokensType } from "../types/types";
+import customToastFunction from "../utils/Toastify";
 
 const Subscription = () => {
   const [sortBy, setSortBy] = useState("relevance");
@@ -64,17 +63,10 @@ const Subscription = () => {
         setFetchMore(false);
         return subscription;
       } catch (error) {
-        toast.error(`❌ ${error instanceof Error ? error.message : error}`, {
-          position: "bottom-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "!toastGradientError !font-bold !text-zinc-50",
-          transition: Bounce,
-        });
+        customToastFunction(
+          `❌ ${error instanceof Error ? error.message : error}`,
+          "error"
+        );
       }
     },
     enabled: !!sortBy && !!fetchMore,

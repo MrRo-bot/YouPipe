@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Link, useRouteError } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import customToastFunction from "../utils/Toastify";
+import { toast } from "react-toastify";
 
 export type ErrorType =
   | {
@@ -25,18 +25,7 @@ export default function ErrorPage() {
   useEffect(() => {
     const toastId = "error-toast";
     if (!toast.isActive(toastId)) {
-      toast.error(`❌ ${errorMessage}`, {
-        toastId,
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`❌ ${errorMessage}`, "error");
     }
   }, [errorMessage]);
 

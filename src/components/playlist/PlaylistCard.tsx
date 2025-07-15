@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { extractColors } from "extract-colors";
 
 import { MdOutlinePlaylistPlay } from "react-icons/md";
@@ -36,23 +34,9 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
     if (playlist?.snippet?.thumbnails?.high?.url) {
       extractColors(playlist?.snippet?.thumbnails?.high?.url, {
         crossOrigin: "anonymous",
-      })
-        .then((data) => {
-          setExtractedColors(data);
-        })
-        .catch((error) =>
-          toast.error(` ${error instanceof Error ? error.message : error}`, {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            className: "!toastGradientError !font-bold !text-zinc-50",
-            transition: Bounce,
-          })
-        );
+      }).then((data) => {
+        setExtractedColors(data);
+      });
     }
   }, [playlist?.snippet?.thumbnails?.high?.url]);
 

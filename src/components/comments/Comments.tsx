@@ -4,8 +4,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Bounce, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import parse from "html-react-parser";
 
 import {
@@ -32,6 +30,7 @@ import {
 import { addTimestamp } from "../../features/timestampSlice";
 
 import { elapsedTime, rawViewsToString } from "../../utils/functions";
+import customToastFunction from "../../utils/Toastify";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 
@@ -179,29 +178,10 @@ const Comments = ({
     onSuccess: () => {
       setMyReply("");
       setToggleReply(false);
-      toast("💬 reply added!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("💬 reply added!");
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 
@@ -258,31 +238,10 @@ const Comments = ({
       return updatedData;
     },
     onSuccess: () => {
-      toast("💬 updated!", {
-        //id: `update-comment-${id}`, // Unique toast ID
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("💬 updated!");
     },
     onError: (e: Error) => {
-      toast.error(`🤔 ${e.message}`, {
-        //id: `update-comment-${id}`, // Unique toast ID
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 
@@ -310,29 +269,10 @@ const Comments = ({
       );
     },
     onSuccess: () => {
-      toast(`💬 deleted!`, {
-        position: "bottom-left",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradient !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`💬 deleted!`);
     },
     onError: (e) => {
-      toast.error(`🤔 ${e.message}`, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction(`🤔 ${e.message}`, "error");
     },
   });
 
@@ -358,12 +298,7 @@ const Comments = ({
       });
       setIsEditingComment(false);
     } else {
-      toast.error("Comment cannot be empty!", {
-        position: "bottom-left",
-        autoClose: 3000,
-        className: "!toastGradientError !font-bold !text-zinc-50",
-        transition: Bounce,
-      });
+      customToastFunction("Comment cannot be empty!", "error");
     }
   };
 
