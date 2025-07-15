@@ -103,7 +103,7 @@ const SubscriptionCard = ({
       if (!res.ok) throw new Error("Error subscribing to user");
     },
     onSuccess: async () => {
-      toast("🥳 Subscribed", {
+      toast("🥳 Subscribed!", {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,

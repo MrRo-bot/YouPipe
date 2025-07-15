@@ -48,16 +48,6 @@ function App() {
           );
           const coordsDetails = await res.json();
           dispatch(getLocationData(coordsDetails));
-          toast("🧭 Location found!", {
-            position: "bottom-left",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            draggable: true,
-            progress: undefined,
-            transition: Bounce,
-            className: "!toastGradient !font-bold !text-zinc-50",
-          });
           return coordsDetails;
         }
       } catch (error) {
