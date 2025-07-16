@@ -13,12 +13,15 @@ import customToastFunction from "./utils/Toastify";
 
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
-import { useAppDispatch } from "./app/store";
+import { useAppDispatch, useAppSelector } from "./app/store";
 
 function App() {
   const firstUpdate = useRef(true);
 
   const isOnline = useNavigatorOnLine();
+
+  const profileData = useAppSelector((state) => state.profile);
+  const tokenData = useAppSelector((state) => state.token);
 
   useLayoutEffect(() => {
     if (firstUpdate.current) {
@@ -58,7 +61,7 @@ function App() {
           <Header />
         </div>
         <main className="relative flex min-h-[93vh]">
-          <Sidebar />
+          {profileData?.email && tokenData?.access_token && <Sidebar />}
           <Outlet />
           <ScrollRestoration />
         </main>

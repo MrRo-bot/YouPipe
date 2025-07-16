@@ -42,7 +42,7 @@ const LikedVideosCard = ({
           </div>
 
           <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
-            {likedvideo?.snippet?.thumbnails?.high?.url ? (
+            {likedvideo ? (
               <>
                 <img
                   referrerPolicy="no-referrer"
@@ -63,7 +63,7 @@ const LikedVideosCard = ({
 
           <div className="flex flex-col ml-3 flex-start">
             <div className="relative flex items-start justify-between gap-1">
-              {likedvideo?.snippet?.title ? (
+              {likedvideo ? (
                 <h3 className="w-full text-base lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
                   {likedvideo?.snippet?.title || ""}
                 </h3>
@@ -76,8 +76,7 @@ const LikedVideosCard = ({
               )}
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
-              {likedvideo?.snippet?.channelTitle &&
-              likedvideo?.statistics?.viewCount ? (
+              {likedvideo && likedvideo?.statistics?.viewCount ? (
                 <>
                   <span
                     onClick={(e) => {

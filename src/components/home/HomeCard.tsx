@@ -36,13 +36,7 @@ const HomeCard = ({ video }: { video: VideoType }) => {
       >
         <div className="flex flex-col gap-3">
           <div className="relative overflow-hidden aspect-video rounded-2xl">
-            {!video ? (
-              <Skeleton
-                width={"100%"}
-                height={"100%"}
-                className="-top-1 rounded-2xl"
-              />
-            ) : (
+            {video ? (
               <>
                 <img
                   referrerPolicy="no-referrer"
@@ -67,27 +61,28 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                   </div>
                 )}
               </>
+            ) : (
+              <Skeleton
+                width={"100%"}
+                height={"100%"}
+                className="-top-1 rounded-2xl"
+              />
             )}
           </div>
           <div className="flex flex-col gap-3 px-1">
             <div className="flex justify-between">
               <div className="flex items-center gap-1">
                 <FcStart className="size-4 md:size-6" />
-                {!video ? (
-                  <Skeleton width={100} className="rounded-2xl" />
-                ) : (
+                {video ? (
                   <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                     {rawViewsToString(video?.statistics?.viewCount || "")} views
                   </div>
+                ) : (
+                  <Skeleton width={100} className="rounded-2xl" />
                 )}
               </div>
               <div className="flex items-center justify-center gap-1 md:gap-3">
-                {!video ? (
-                  <div className="flex gap-2">
-                    <Skeleton width={20} className="rounded-2xl" />
-                    <Skeleton width={20} className="rounded-2xl" />
-                  </div>
-                ) : (
+                {video ? (
                   <>
                     <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                       {video?.contentDetails?.definition === "hd" ? (
@@ -102,32 +97,35 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                       )}
                     </div>
                   </>
+                ) : (
+                  <div className="flex gap-2">
+                    <Skeleton width={20} className="rounded-2xl" />
+                    <Skeleton width={20} className="rounded-2xl" />
+                  </div>
                 )}
               </div>
               <div className="flex items-center gap-1">
                 <FcClock color="black" className="size-4 md:size-6" />
-                {!video ? (
-                  <Skeleton width={70} className="rounded-2xl" />
-                ) : (
+                {video ? (
                   <div className="text-xs tracking-wide sm:text-sm md:text-base text-zinc-400">
                     {elapsedTime(date)} ago
                   </div>
+                ) : (
+                  <Skeleton width={70} className="rounded-2xl" />
                 )}
               </div>
             </div>
-            {!video ? (
-              <Skeleton width={200} height={18} className="rounded-2xl" />
-            ) : (
+            {video ? (
               <div className="font-bold transition-colors md:tracking-wide md:text-lg md:font-semibold text-ellipsis line-clamp-2 text-zinc-50 hover:text-zinc-400 focus:text-zinc-400 active:text-zinc-400">
                 {video?.snippet?.localized?.title || ""}
               </div>
+            ) : (
+              <Skeleton width={200} height={18} className="rounded-2xl" />
             )}
           </div>
         </div>
         <div className="flex items-center justify-start gap-1">
-          {!video ? (
-            <Skeleton width={100} className="!ml-1 rounded-2xl" />
-          ) : (
+          {video ? (
             <>
               <div
                 onClick={(e) => {
@@ -139,6 +137,8 @@ const HomeCard = ({ video }: { video: VideoType }) => {
                 {video?.snippet?.channelTitle || ""}
               </div>
             </>
+          ) : (
+            <Skeleton width={100} className="!ml-1 rounded-2xl" />
           )}
         </div>
       </motion.div>

@@ -114,6 +114,7 @@ const SubscriptionCard = ({
       >
         <div className="flex items-center justify-start gap-4">
           <div className="relative overflow-hidden rounded-full min-w-24 lg:min-w-28 xl:min-w-32 min-h-24 lg:min-h-28 xl:min-h-32">
+            !{" "}
             {stat ? (
               <img
                 referrerPolicy="no-referrer"
@@ -138,7 +139,7 @@ const SubscriptionCard = ({
                   {stat?.items[0]?.snippet?.title}
                 </div>
               ) : (
-                <Skeleton height={16} className="!w-[30vw] rounded-2xl" />
+                <Skeleton height={16} className="!w-[20vw] rounded-2xl" />
               )}
             </div>
 
@@ -153,7 +154,7 @@ const SubscriptionCard = ({
                     stat?.items[0]?.statistics?.videoCount || ""
                   )} videos`
                 ) : (
-                  <Skeleton height={10} className="!w-[20vw] rounded-2xl" />
+                  <Skeleton height={10} className="!w-[15vw] rounded-2xl" />
                 )}
               </div>
             </div>
@@ -164,7 +165,7 @@ const SubscriptionCard = ({
                   {stat?.items[0]?.snippet?.description}
                 </p>
               ) : (
-                <Skeleton height={20} className="!max-w-[80%] rounded-2xl" />
+                <Skeleton height={20} className="!w-[17vw] rounded-2xl" />
               )}
             </div>
           </div>
@@ -175,7 +176,7 @@ const SubscriptionCard = ({
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 text-sm md:text-base  w-28 md:w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
+                  className={`grid place-items-center overflow-hidden px-3 py-2 mt-1 text-sm md:text-base w-28 md:w-32 h-10 ml-auto font-medium transition-colors rounded-full cursor-pointer select-none
                   ${
                     sub
                       ? "bg-zinc-800 hover:bg-zinc-600/70 focus:bg-zinc-600/70 active:bg-zinc-600/70"

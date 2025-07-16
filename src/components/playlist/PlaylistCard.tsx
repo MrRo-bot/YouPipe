@@ -11,7 +11,6 @@ import { elapsedTime } from "../../utils/functions";
 import { PlaylistType } from "../../types/types";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
   const [extractedColors, setExtractedColors] = useState([
     {
       hex: "",
@@ -75,7 +74,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           before:-top-[1px]
           before:rounded-xl
           before:bg-[var(--bg)]
-          before:opacity-50
+          before:opacity-40
           before:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]
           
           after:content-['']
@@ -96,11 +95,10 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
             }
           >
             <div className="relative overflow-hidden aspect-video rounded-xl before:absolute shadow-[0px_0px_0px_1px_rgba(255,255,255,0.4)]">
-              {playlist?.snippet?.thumbnails?.maxres?.url ? (
+              {playlist ? (
                 <>
                   <img
                     referrerPolicy="no-referrer"
-                    onLoad={() => setIsImgLoaded(!isImgLoaded)}
                     className="w-full h-full transition-transform group-hover:scale-110 group-focus:scale-110"
                     src={playlist?.snippet?.thumbnails?.maxres?.url}
                     alt=""
@@ -122,7 +120,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
 
           <div className="flex flex-col gap-1 px-2">
             <div className="flex justify-between">
-              {playlist?.snippet?.title ? (
+              {playlist ? (
                 <div className="text-lg font-bold md:font-extrabold text-ellipsis line-clamp-1 text-zinc-50">
                   {playlist?.snippet?.title}
                 </div>
@@ -131,17 +129,16 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
               )}
             </div>
 
-            <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-300">
-              {playlist?.status?.privacyStatus ? (
-                `${
-                  playlist?.status?.privacyStatus.slice(0, 1).toUpperCase() +
-                  playlist?.status?.privacyStatus.slice(1)
-                } • Playlist`
-              ) : (
-                <Skeleton width={100} className="rounded-2xl" />
-              )}
-            </div>
-            {isImgLoaded ? (
+            {playlist.status ? (
+              <div className="flex items-center gap-1 text-xs tracking-wide text-zinc-300">
+                {playlist.status.privacyStatus.slice(0, 1).toUpperCase() +
+                  playlist.status.privacyStatus.slice(1)}{" "}
+                • Playlist
+              </div>
+            ) : (
+              <Skeleton width={100} className="rounded-2xl" />
+            )}
+            {playlist ? (
               <div className="text-xs tracking-wide text-zinc-300">
                 {elapsedTime(date)} ago
               </div>
@@ -152,7 +149,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                 className="rounded-2xl -top-1"
               />
             )}
-            {isImgLoaded ? (
+            {playlist ? (
               <div
                 onClick={() => navigate(`/playlist/${playlist?.id}`)}
                 className="text-sm font-medium tracking-wide transition-colors text-zinc-400 hover:text-zinc-50 focus:text-zinc-50"

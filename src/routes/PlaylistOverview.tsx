@@ -151,7 +151,7 @@ const PlaylistOverview = () => {
           className="flex flex-col md:flex-row lg:flex-col lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1 px-2"
         >
           <div className="my-2 overflow-hidden lg:flex-col rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
-            {playlistInfo?.items[0]?.snippet?.thumbnails?.high?.url ? (
+            {playlistInfo ? (
               <img
                 referrerPolicy="no-referrer"
                 className="object-cover w-full h-full"
@@ -170,7 +170,7 @@ const PlaylistOverview = () => {
               {playlistInfo?.items[0]?.snippet?.title || ""}
             </h1>
             <h3 className="mt-2 text-sm font-semibold tracking-tighter lg:text-base text-zinc-200">
-              {playlistInfo?.items[0]?.snippet?.channelTitle
+              {playlistInfo?.items[0]?.snippet
                 ? playlistInfo?.items[0]?.snippet?.channelTitle[0]?.toUpperCase() +
                   playlistInfo?.items[0]?.snippet?.channelTitle.slice(1)
                 : ""}
@@ -182,7 +182,7 @@ const PlaylistOverview = () => {
               </span>
               •
               <span>
-                {playlistInfo?.items[0]?.status?.privacyStatus
+                {playlistInfo?.items[0]?.status
                   ? playlistInfo?.items[0]?.status?.privacyStatus[0].toUpperCase() +
                     playlistInfo?.items[0]?.status?.privacyStatus.slice(1)
                   : ""}
