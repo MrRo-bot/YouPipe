@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, UIEvent } from "react";
-import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -11,10 +11,10 @@ import { usePersistedState } from "../../hooks/usePersistentStorage";
 import { CategoryType, TokensType } from "../../types/types";
 
 const Filters = () => {
-  const scrollProgressRef = useRef<HTMLUListElement>(null);
-
   const [scrollArrow, setScrollArrow] = useState({ left: false, right: true });
   const [scroll, setScroll] = useState({ side: "" });
+
+  const scrollProgressRef = useRef<HTMLUListElement>(null);
 
   const locationData = useAppSelector((state) => state.location);
 

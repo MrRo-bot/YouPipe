@@ -1,5 +1,3 @@
-//custom hook for storing fetched information in localStorage
-
 import { useEffect, useState } from "react";
 
 import customToastFunction from "../utils/Toastify";

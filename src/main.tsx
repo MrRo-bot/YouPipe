@@ -1,11 +1,14 @@
 import { createRoot } from "react-dom/client";
-
+import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 import App from "./App.tsx";
 import ErrorPage from "./routes/ErrorPage.tsx";
 import Home from "./routes/Home.tsx";
@@ -20,13 +23,9 @@ import Uploads from "./components/channel/Uploads.tsx";
 import Channels from "./components/channel/Channels.tsx";
 import Playlists from "./components/channel/Playlists.tsx";
 
-import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
-
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

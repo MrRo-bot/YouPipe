@@ -15,6 +15,15 @@ import SearchCard from "../components/search/SearchCard";
 import { TokensType } from "../types/types";
 
 const Search = () => {
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
+
   const dispatch = useAppDispatch();
   const searchStr = useAppSelector((state) => state.search.searchString);
   const location = useAppSelector((state) => state.location);
@@ -24,15 +33,6 @@ const Search = () => {
   );
   const isOpen = useAppSelector((state) => state.hamburger);
   const searchData = useAppSelector((state) => state.search);
-
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
 
   useQuery({
     queryKey: ["search", refetchMore, fetchMoreSearchItems],

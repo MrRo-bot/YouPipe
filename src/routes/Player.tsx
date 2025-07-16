@@ -5,9 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import { Virtuoso } from "react-virtuoso";
 import ReactPlayer from "react-player/youtube";
+import parse from "html-react-parser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import parse from "html-react-parser";
 
 import {
   PiThumbsDownBold,
@@ -15,6 +15,7 @@ import {
   PiThumbsUpBold,
   PiThumbsUpFill,
 } from "react-icons/pi";
+import { FcDislike, FcLike } from "react-icons/fc";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addComment, addCommentsThread } from "../features/commentsThreadSlice";
@@ -28,11 +29,10 @@ import { usePersistedState } from "../hooks/usePersistentStorage";
 
 import Comments from "../components/comments/Comments";
 
+import customToastFunction from "../utils/Toastify";
 import { rawViewsToString } from "../utils/functions";
 
 import { RatingType, TokensType, VideosListType } from "../types/types";
-import { FcDislike, FcLike } from "react-icons/fc";
-import customToastFunction from "../utils/Toastify";
 
 const Player = () => {
   const [myComment, setMyComment] = useState("");
@@ -56,8 +56,8 @@ const Player = () => {
   const { videoId } = useParams();
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
+  const dispatch = useAppDispatch();
   const timestamp = useAppSelector((state) => state.timestamp.value);
   const comments = useAppSelector((state) => state.commentsThread);
 

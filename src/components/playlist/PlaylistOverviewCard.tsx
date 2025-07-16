@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -8,9 +9,10 @@ import {
   rawViewsToString,
   videoDuration,
 } from "../../utils/functions";
+
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+
 import { PlaylistItemType, TokensType } from "../../types/types";
-import { useQuery } from "@tanstack/react-query";
 
 const PlaylistOverviewCard = ({
   playlistItem,

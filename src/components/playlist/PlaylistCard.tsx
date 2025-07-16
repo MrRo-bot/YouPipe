@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { extractColors } from "extract-colors";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { extractColors } from "extract-colors";
 
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { elapsedTime } from "../../utils/functions";
+
 import { PlaylistType } from "../../types/types";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {

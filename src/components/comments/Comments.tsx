@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import parse from "html-react-parser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import parse from "html-react-parser";
 
 import {
   IoIosArrowDropdownCircle,
@@ -45,9 +45,6 @@ const Comments = ({
   comment: CommentType;
   channelId: string;
 }) => {
-  const containerRef = useRef<HTMLSpanElement>(null);
-  const userRef = useRef<HTMLDialogElement>(null);
-
   const [expand, setExpand] = useState(false);
   const [toggleReply, setToggleReply] = useState(false);
   const [authorProfile, setAuthorProfile] = useState<ChannelInfoType>();
@@ -57,6 +54,9 @@ const Comments = ({
   const [editedComment, setEditedComment] = useState(
     comment?.snippet?.topLevelComment?.snippet?.textOriginal || ""
   );
+
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const userRef = useRef<HTMLDialogElement>(null);
 
   const navigate = useNavigate();
 
@@ -77,7 +77,6 @@ const Comments = ({
   const replyCount = replies?.length || 0;
   const myPubDate = new Date(comm?.publishedAt || "").getTime();
   const myUpdDate = new Date(comm?.updatedAt || "").getTime();
-
   const timestampRegex = /\b(?=[0-5]?\d)(?:[0-5]?\d)(?::[0-5]?\d){1,2}\b/gm;
 
   const handleTimestamp = (e: { currentTarget: { innerText: string } }) => {
@@ -196,17 +195,10 @@ const Comments = ({
       text: string;
       isReply: boolean;
     }) => {
-      //check variables
-      const apiKey = import.meta.env.VITE_API_KEY;
-      if (!apiKey) {
-        throw new Error("API key is missing");
-      }
-      if (!token?.access_token) {
-        throw new Error("Authentication token is missing");
-      }
-
       const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/comments?part=snippet&key=${apiKey}`,
+        `https://youtube.googleapis.com/youtube/v3/comments?part=snippet&key=${
+          import.meta.env.VITE_API_KEY
+        }`,
         {
           method: "PUT",
           headers: {
@@ -222,13 +214,6 @@ const Comments = ({
           }),
         }
       );
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(
-          `Error updating: ${errorData.error?.message || res.statusText}`
-        );
-      }
-      //define type for return type
       const updatedData = await res.json();
       dispatch(
         isReply

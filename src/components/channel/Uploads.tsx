@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { VirtuosoGrid } from "react-virtuoso";
 import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import { PiClosedCaptioningFill } from "react-icons/pi";
 import { FcClock, FcStart } from "react-icons/fc";

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -19,10 +19,9 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
   const [channelLoading, setChannelLoading] = useState<boolean>(true);
   const [sub, setSub] = useState(false);
 
-  const subDelMutation = useDelSubscriberMutation();
-
   const navigate = useNavigate();
 
+  const subDelMutation = useDelSubscriberMutation();
   const subAddMutation = useAddSubscriberMutation({
     kind: search?.id?.kind,
     id: search?.id?.channelId,

@@ -12,12 +12,13 @@ import {
   clearSubscription,
 } from "../features/subscriptionSlice";
 
+import customToastFunction from "../utils/Toastify";
+
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
 import SubscriptionList from "../components/subscription/SubscriptionList";
 
 import { TokensType } from "../types/types";
-import customToastFunction from "../utils/Toastify";
 
 const Subscription = () => {
   const [sortBy, setSortBy] = useState("relevance");

@@ -21,7 +21,6 @@ import {
   clearSearchList,
   refetch,
 } from "../../features/searchSlice";
-
 import { clearCommentsThread } from "../../features/commentsThreadSlice";
 import { removeTimestamp } from "../../features/timestampSlice";
 import { clearPlayItems } from "../../features/playlistOverviewSlice";
@@ -31,16 +30,17 @@ import { clearSubscription } from "../../features/subscriptionSlice";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 
-import { ProfileType, TokensType } from "../../types/types";
 import customToastFunction from "../../utils/Toastify";
 
-const Header = () => {
-  const searchRef = useRef<HTMLInputElement>(null);
-  const searchPopupRef = useRef<HTMLDialogElement>(null);
+import { ProfileType, TokensType } from "../../types/types";
 
+const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clearSearch, setClearSearch] = useState(false);
   const [fetchTokens, setFetchTokens] = useState(false);
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  const searchPopupRef = useRef<HTMLDialogElement>(null);
 
   const location = useLocation();
   const navigate = useNavigate();

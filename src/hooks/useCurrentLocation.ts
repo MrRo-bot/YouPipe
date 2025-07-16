@@ -1,4 +1,3 @@
-//custom hook for getting location coordinates
 import { useEffect, useState } from "react";
 
 import customToastFunction from "../utils/Toastify";

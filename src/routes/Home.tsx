@@ -19,13 +19,12 @@ import { TokensType } from "../types/types";
 const Home = () => {
   const [fetchMore, setFetchMore] = useState(false);
 
+  const dispatch = useAppDispatch();
   const profileData = useAppSelector((state) => state.profile);
   const tokenData = useAppSelector((state) => state.token);
   const isOpen = useAppSelector((state) => state.hamburger);
   const homeData = useAppSelector((state) => state.home);
   const location = useAppSelector((state) => state.location);
-
-  const dispatch = useAppDispatch();
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",

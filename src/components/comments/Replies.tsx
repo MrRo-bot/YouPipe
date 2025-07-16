@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, UseMutationResult } from "@tanstack/react-query";
+import parse from "html-react-parser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import parse from "html-react-parser";
 
 import {
   PiPencilBold,
@@ -18,8 +18,8 @@ import { addTimestamp } from "../../features/timestampSlice";
 
 import { usePersistedState } from "../../hooks/usePersistentStorage";
 
-import { elapsedTime, rawViewsToString } from "../../utils/functions";
 import customToastFunction from "../../utils/Toastify";
+import { elapsedTime, rawViewsToString } from "../../utils/functions";
 
 import {
   ChannelInfoType,
@@ -47,15 +47,15 @@ const Replies = ({
   deleteReply,
   likeCount,
 }: RepliesType) => {
-  const replyRef = useRef<HTMLSpanElement>(null);
-  const userRef = useRef<HTMLDialogElement>(null);
-
   const [isEditingReply, setIsEditingReply] = useState(false);
   const [editedReply, setEditedReply] = useState(
     comment?.snippet?.textOriginal || ""
   );
   const [authorProfile, setAuthorProfile] = useState<ChannelInfoType>();
   const [fetchAuthorData, setFetchAuthorData] = useState(false);
+
+  const replyRef = useRef<HTMLSpanElement>(null);
+  const userRef = useRef<HTMLDialogElement>(null);
 
   const navigate = useNavigate();
 

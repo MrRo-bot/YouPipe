@@ -3,19 +3,20 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Virtuoso } from "react-virtuoso";
 import { extractColors } from "extract-colors";
+import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FidgetSpinner, ThreeDots } from "react-loader-spinner";
 
 import { useAppDispatch, useAppSelector } from "../app/store";
 import { addLikedVideos } from "../features/likedVideosSlice";
 
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
+import customToastFunction from "../utils/Toastify";
+
 import LikedVideosCard from "../components/likedVideos/LikedVideosCard";
 
 import { TokensType } from "../types/types";
-import customToastFunction from "../utils/Toastify";
 
 const LikedVideos = () => {
   const [fetchMore, setFetchMore] = useState(true);

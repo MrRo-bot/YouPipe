@@ -1,9 +1,9 @@
-import "./App.css";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import { Outlet, ScrollRestoration } from "react-router-dom";
-
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import "./App.css";
 
 import { getLocationData } from "../src/features/locationSlice";
 
@@ -13,6 +13,7 @@ import customToastFunction from "./utils/Toastify";
 
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
+
 import { useAppDispatch, useAppSelector } from "./app/store";
 
 function App() {

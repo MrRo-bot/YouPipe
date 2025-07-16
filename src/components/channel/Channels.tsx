@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Virtuoso } from "react-virtuoso";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { FidgetSpinner } from "react-loader-spinner";
-import { AnimatePresence, motion } from "framer-motion";
 
 import { useAppSelector } from "../../app/store";
 
@@ -19,15 +19,16 @@ import { ChannelInfoType, TokensType } from "../../types/types";
 
 const ChannelsCard = ({ id }: { id: string }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
+  const [sub, setSub] = useState<boolean>();
+
+  const navigate = useNavigate();
 
   const subAddMutation = useAddSubscriberMutation({
     kind: channelStats?.items[0]?.kind,
     id: channelStats?.items[0]?.id,
   });
 
-  const [sub, setSub] = useState<boolean>();
-
-  const navigate = useNavigate();
+  const subDelMutation = useDelSubscriberMutation();
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -58,8 +59,6 @@ const ChannelsCard = ({ id }: { id: string }) => {
     },
     enabled: !!channelStats?.items[0]?.id,
   });
-
-  const subDelMutation = useDelSubscriberMutation();
 
   const handleDelSub = () => {
     if (window.confirm("Are you sure you want to unsubscribe 😿?")) {

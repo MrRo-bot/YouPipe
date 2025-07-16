@@ -32,11 +32,20 @@ import { formatDate, rawViewsToString } from "../utils/functions";
 import { TokensType } from "../types/types";
 
 const ChannelOverview = () => {
-  const descRef = useRef<HTMLDialogElement>(null);
-
   const [sub, setSub] = useState(false);
 
+  const descRef = useRef<HTMLDialogElement>(null);
+
   const { channelId } = useParams();
+
+  const [token] = usePersistedState<TokensType>("token", {
+    access_token: "",
+    refresh_token: "",
+    scope: "",
+    token_type: "",
+    id_token: "",
+    expiry_date: 0,
+  });
 
   const dispatch = useAppDispatch();
 
@@ -51,15 +60,6 @@ const ChannelOverview = () => {
   });
 
   const subDelMutation = useDelSubscriberMutation();
-
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
-  });
 
   const sectionParts = ["contentDetails", "id", "snippet"];
 
