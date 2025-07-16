@@ -1,21 +1,32 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
+import useAddSubscriberMutation from "../../hooks/useAddSubscriberMutation";
+import useDelSubscriberMutation from "../../hooks/useDelSubscriberMutation";
 import { usePersistedState } from "../../hooks/usePersistentStorage";
+
 import { rawViewsToString } from "../../utils/functions";
-import { ChannelInfoType, SearchType, TokensType } from "../../types/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import customToastFunction from "../../utils/Toastify";
+
+import { ChannelInfoType, SearchType, TokensType } from "../../types/types";
 
 const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
   const [channelStats, setChannelStats] = useState<ChannelInfoType>();
   const [channelLoading, setChannelLoading] = useState<boolean>(true);
   const [sub, setSub] = useState(false);
 
+  const subDelMutation = useDelSubscriberMutation();
+
   const navigate = useNavigate();
+
+  const subAddMutation = useAddSubscriberMutation({
+    kind: search?.id?.kind,
+    id: search?.id?.channelId,
+  });
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -47,62 +58,6 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
       return isSubscribed;
     },
     enabled: !!channelStats?.items[0]?.id,
-  });
-
-  const subDelMutation = useMutation({
-    mutationFn: async (id: string | undefined) => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-        }
-      );
-      if (!res.ok) throw new Error("Error removing subscriber");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥲 Unsubscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
-  });
-  const subAddMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-          body: JSON.stringify({
-            snippet: {
-              resourceId: {
-                kind: search?.id?.kind,
-                channelId: search?.id?.channelId,
-              },
-            },
-          }),
-        }
-      );
-      if (!res.ok) throw new Error("Error subscribing to user");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥳 Subscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
   });
 
   useEffect(() => {

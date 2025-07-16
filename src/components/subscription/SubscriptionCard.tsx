@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import { usePersistedState } from "../../hooks/usePersistentStorage";
+import useAddSubscriberMutation from "../../hooks/useAddSubscriberMutation";
 
 import { rawViewsToString } from "../../utils/functions";
 
-import { ChannelInfoType, TokensType } from "../../types/types";
-import customToastFunction from "../../utils/Toastify";
+import { ChannelInfoType } from "../../types/types";
+import useDelSubscriberMutation from "../../hooks/useDelSubscriberMutation";
 
 const SubscriptionCard = ({
   stat,
@@ -25,70 +24,12 @@ const SubscriptionCard = ({
 
   const navigate = useNavigate();
 
-  const [token] = usePersistedState<TokensType>("token", {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    id_token: "",
-    expiry_date: 0,
+  const subAddMutation = useAddSubscriberMutation({
+    kind: subRes?.kind,
+    id: subRes?.channelId,
   });
 
-  const subDelMutation = useMutation({
-    mutationFn: async (id: string | undefined) => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-        }
-      );
-      if (!res.ok) throw new Error("Error removing subscriber");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥲 Unsubscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
-  });
-  const subAddMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-          body: JSON.stringify({
-            snippet: {
-              resourceId: {
-                kind: subRes?.kind,
-                channelId: subRes?.channelId,
-              },
-            },
-          }),
-        }
-      );
-      if (!res.ok) throw new Error("Error subscribing to user");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥳 Subscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
-  });
+  const subDelMutation = useDelSubscriberMutation();
 
   const handleDelSub = () => {
     if (window.confirm("Are you sure you want to unsubscribe 😿?")) {

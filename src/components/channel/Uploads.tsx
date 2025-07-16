@@ -211,7 +211,7 @@ const Uploads = () => {
         return channelVideos;
       }, 1000);
     },
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     refetchOnMount: true,
     enabled:
       !!channelDetails?.items[0]?.contentDetails?.relatedPlaylists?.uploads &&

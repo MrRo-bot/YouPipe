@@ -22,6 +22,8 @@ import { addLikedVideo, removeLikedVideo } from "../features/likedVideosSlice";
 import { addTimestamp } from "../features/timestampSlice";
 import { addSearchString, refetch } from "../features/searchSlice";
 
+import useAddSubscriberMutation from "../hooks/useAddSubscriberMutation";
+import useDelSubscriberMutation from "../hooks/useDelSubscriberMutation";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
 import Comments from "../components/comments/Comments";
@@ -58,6 +60,8 @@ const Player = () => {
 
   const timestamp = useAppSelector((state) => state.timestamp.value);
   const comments = useAppSelector((state) => state.commentsThread);
+
+  const subDelMutation = useDelSubscriberMutation();
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -100,10 +104,6 @@ const Player = () => {
     enabled: !!videoId,
   });
 
-  const date = new Date(
-    video?.items[0]?.snippet?.publishedAt || ""
-  ).toLocaleDateString();
-
   //fetching video author data
   const { data: channelProfile, isLoading: isChannelProfLoading } = useQuery({
     queryKey: ["channelProfile", video?.items[0]?.snippet?.channelId],
@@ -127,6 +127,15 @@ const Player = () => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+
+  const subAddMutation = useAddSubscriberMutation({
+    kind: channelProfile?.items[0]?.kind,
+    id: channelProfile?.items[0]?.id,
+  });
+
+  const date = new Date(
+    video?.items[0]?.snippet?.publishedAt || ""
+  ).toLocaleDateString();
 
   const { status, data, isLoading } = useQuery({
     queryKey: ["playingVideoComments", videoId, fetchMore],
@@ -347,63 +356,6 @@ const Player = () => {
       return isSubscribed;
     },
     enabled: !!video?.items[0]?.snippet?.channelId,
-  });
-
-  const subDelMutation = useMutation({
-    mutationFn: async (id: string | undefined) => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-        }
-      );
-      if (!res.ok) throw new Error("Error removing subscriber");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥲 Unsubscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
-  });
-
-  const subAddMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-          body: JSON.stringify({
-            snippet: {
-              resourceId: {
-                kind: channelProfile?.items[0]?.kind,
-                channelId: channelProfile?.items[0]?.id,
-              },
-            },
-          }),
-        }
-      );
-      if (!res.ok) throw new Error("Error subscribing to user");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥳 Subscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
   });
 
   const handleDelSub = () => {

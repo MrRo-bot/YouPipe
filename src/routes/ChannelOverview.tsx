@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import parse from "html-react-parser";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -23,10 +23,11 @@ import {
   addChannelSections,
 } from "../features/channelOverviewSlice";
 
+import useAddSubscriberMutation from "../hooks/useAddSubscriberMutation";
+import useDelSubscriberMutation from "../hooks/useDelSubscriberMutation";
 import { usePersistedState } from "../hooks/usePersistentStorage";
 
 import { formatDate, rawViewsToString } from "../utils/functions";
-import customToastFunction from "../utils/Toastify";
 
 import { TokensType } from "../types/types";
 
@@ -43,6 +44,13 @@ const ChannelOverview = () => {
   const channelDetails = useAppSelector(
     (state) => state.channelOverview.channelDetails
   );
+
+  const subAddMutation = useAddSubscriberMutation({
+    kind: channelDetails?.items[0]?.kind,
+    id: channelDetails?.items[0]?.id,
+  });
+
+  const subDelMutation = useDelSubscriberMutation();
 
   const [token] = usePersistedState<TokensType>("token", {
     access_token: "",
@@ -129,62 +137,6 @@ const ChannelOverview = () => {
       return isSubscribed;
     },
     enabled: !!channelDetails?.items[0]?.id,
-  });
-
-  const subDelMutation = useMutation({
-    mutationFn: async (id: string | undefined) => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?id=${id}&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-        }
-      );
-      if (!res.ok) throw new Error("Error removing subscriber");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥲 Unsubscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
-  });
-  const subAddMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&key=${
-          import.meta.env.VITE_API_KEY
-        }`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token.access_token}`,
-          },
-          body: JSON.stringify({
-            snippet: {
-              resourceId: {
-                kind: channelDetails?.items[0]?.kind,
-                channelId: channelDetails?.items[0]?.id,
-              },
-            },
-          }),
-        }
-      );
-      if (!res.ok) throw new Error("Error subscribing to user");
-    },
-    onSuccess: async () => {
-      customToastFunction("🥳 Subscribed!");
-    },
-    onError: (e) => {
-      customToastFunction(`🤔 ${e.message}`, "error");
-    },
   });
 
   const mailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}/g;
