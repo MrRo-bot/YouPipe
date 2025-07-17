@@ -1,7 +1,7 @@
 import express, { json } from "express"; //express package
 import fs from "fs"; //reading files
 import https from "https"; //creating https server
-import { OAuth2Client, UserRefreshClient } from "google-auth-library"; //google auth library for easy authentication
+import { OAuth2Client } from "google-auth-library"; //google auth library for easy authentication
 import cors from "cors"; //removing cors errors
 import dotenv from "dotenv"; //for managing env related things
 import morgan from "morgan"; //for logs
@@ -58,9 +58,31 @@ app.post("/auth/google", async (req, res) => {
   try {
     const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
     res.json(tokens);
+
+    console.log(`authGoogle: ${JSON.stringify(tokens.expiry_date)}`);
   } catch (error) {
     console.error("Error exchanging code for tokens:", error);
     res.status(500).json({ error: "Failed to exchange code for tokens" });
+  }
+});
+
+// New endpoint to refresh access token
+app.post("/auth/refresh-token", async (req, res) => {
+  try {
+    const refreshToken = req.body.refresh_token;
+    if (!refreshToken) {
+      return res.status(400).json({ error: "Refresh token is required" });
+    }
+
+    oAuth2Client.setCredentials({ refresh_token: refreshToken });
+
+    const { credentials } = await oAuth2Client.refreshAccessToken();
+    res.json(credentials);
+
+    console.log(`refreshed: ${JSON.stringify(credentials.expiry_date)}`);
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+    res.status(500).json({ error: "Failed to refresh access token" });
   }
 });
 

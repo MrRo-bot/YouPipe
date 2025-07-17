@@ -115,7 +115,6 @@ const Header = () => {
     });
     const tokens = await response.json();
     dispatch(addToken(tokens));
-
     customToastFunction("🪙 Access token received!");
     setToken(tokens);
   };
@@ -259,6 +258,69 @@ const Header = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  const isTokenNearExpiry = (expiryDate: string | number) => {
+    const now = Date.now();
+    const expiry = new Date(expiryDate).getTime();
+    return expiry - now <= EXPIRY_THRESHOLD;
+  };
+
+  const REFRESH_CHECK_INTERVAL = 60 * 1000;
+  const EXPIRY_THRESHOLD = 5 * 60 * 1000;
+
+  //refresh token using refresh token and expiry date
+  useQuery({
+    queryKey: ["refreshToken"],
+
+    queryFn: async () => {
+      try {
+        const res = await fetch("https://localhost:8089/auth/refresh-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh_token: token?.refresh_token }),
+        });
+        if (!res.ok) {
+          throw new Error("Failed to refresh token");
+        }
+        const newTokens = await res.json();
+
+        dispatch(addToken(newTokens));
+        customToastFunction("🪙 New access token received!");
+        setToken(newTokens);
+        return newTokens;
+      } catch (error) {
+        customToastFunction(
+          `${error instanceof Error ? error.message : error}!`,
+          "error"
+        );
+        throw error;
+      }
+    },
+
+    enabled:
+      !!token &&
+      !!token.refresh_token &&
+      !!token.expiry_date &&
+      isTokenNearExpiry(token.expiry_date),
+
+    refetchInterval: () => {
+      if (!token || !token.expiry_date) return false;
+      const timeUntilExpiry =
+        new Date(token.expiry_date).getTime() - Date.now();
+      //console.log("Time until expiry:", timeUntilExpiry / 1000 / 60, "minutes");
+      //console.log(timeUntilExpiry);
+      return timeUntilExpiry <= EXPIRY_THRESHOLD
+        ? REFRESH_CHECK_INTERVAL
+        : false;
+    },
+
+    staleTime: Infinity,
+    retry: 1,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <motion.header
