@@ -110,11 +110,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
                   </div>
                 </>
               ) : (
-                <Skeleton
-                  width={"100%"}
-                  height={"100%"}
-                  className="!rounded-2xl -top-1"
-                />
+                <Skeleton className="!w-[15vw] !h-[15vw]  !rounded-2xl -top-1" />
               )}
             </div>
           </div>

@@ -309,7 +309,7 @@ const Header = () => {
       if (!token || !token.expiry_date) return false;
       const timeUntilExpiry =
         new Date(token.expiry_date).getTime() - Date.now();
-      //console.log("Time until expiry:", timeUntilExpiry / 1000 / 60, "minutes");
+      console.log("Time until expiry:", timeUntilExpiry / 1000 / 60, "minutes");
       //console.log(timeUntilExpiry);
       return timeUntilExpiry <= EXPIRY_THRESHOLD
         ? REFRESH_CHECK_INTERVAL
