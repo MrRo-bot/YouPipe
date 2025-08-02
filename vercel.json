@@ -7,8 +7,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/auth/google", "destination": "index.ts" },
-    { "source": "/auth/refresh-token", "destination": "index.ts" }
+    { "source": "/auth/google", "destination": "index.js" },
+    { "source": "/auth/refresh-token", "destination": "index.js" }
   ],
   "headers": [
     {
