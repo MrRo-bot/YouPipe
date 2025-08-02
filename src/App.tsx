@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "./App.css";
 
@@ -64,7 +64,7 @@ function App() {
           <ScrollRestoration />
         </main>
       </div>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ToastContainer />
     </>
   );

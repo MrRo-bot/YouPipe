@@ -22,8 +22,8 @@ const app = express();
 const PORT = process.env.PORT || 8089;
 
 //loading SSL certificate and private key created by choco mkcert package "mkcert localhost"
-const privateKey = fs.readFileSync("./src/server/localhost-key.pem", "utf8");
-const certificate = fs.readFileSync("./src/server/localhost.pem", "utf8");
+const privateKey = fs.readFileSync("./server/localhost-key.pem", "utf8");
+const certificate = fs.readFileSync("./server/localhost.pem", "utf8");
 const passphrase = "youpipe";
 const credentials = { key: privateKey, passphrase, cert: certificate };
 
@@ -36,7 +36,7 @@ dotenv.config();
 app.use(morgan("combined")); //for logs
 app.use(
   cors({
-    origin: "https://localhost:5173", //define frontend domains here
+    origin: [process.env.VITE_FRONT_URL_PROD, process.env.VITE_FRONT_URL_DEV], //define frontend domains here
   })
 );
 app.use(json({ limit: "10kb" })); //setting reasonable payload limit to not overwhelm the server
