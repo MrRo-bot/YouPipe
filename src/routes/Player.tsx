@@ -175,10 +175,10 @@ const Player = () => {
     linkRegex,
     (match: string) => {
       const url = replacer(match);
-      // Basic sanitization to prevent XSS (use a library like DOMPurify in production)
+      // Basic sanitization to prevent XSS
       const sanitizedUrl = url.replace(/javascript:/gi, "");
       const sanitizedMatch = match.replace(/javascript:/gi, "");
-      return `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="//${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${sanitizedMatch}</a>`;
+      return `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-linen-400 transition-colors" href="//${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${sanitizedMatch}</a>`;
     }
   );
 
@@ -201,7 +201,7 @@ const Player = () => {
   const modifiedDescription = findingLinks?.replace(
     timestampRegex,
     (match) =>
-      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
+      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-linen-400 transition-colors">${match}</code>`
   );
 
   //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps

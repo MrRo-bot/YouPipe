@@ -154,10 +154,10 @@ const ChannelOverview = () => {
       linkRegex,
       (match: string) => {
         const url = replacer(match);
-        // Basic sanitization to prevent XSS (use a library like DOMPurify in production)
+        // Basic sanitization to prevent XSS
         const sanitizedUrl = url.replace(/javascript:/gi, "");
         const sanitizedMatch = match.replace(/javascript:/gi, "");
-        return `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors" href="//${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${sanitizedMatch}</a>`;
+        return `<a className="rounded-full px-1 py-0.5 glass-dark text-sky-400 hover:text-linen-400 transition-colors" href="//${sanitizedUrl}" target="_blank" rel="noopener noreferrer">${sanitizedMatch}</a>`;
       }
     );
 
@@ -330,7 +330,7 @@ const ChannelOverview = () => {
                       <div className="col-start-2 col-end-3 row-start-1 row-end-2 p-1">
                         {email ? (
                           <a
-                            className="text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
+                            className="transition-colors rounded-full text-linen-400 hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
                             href={`mailto://${email[0]}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -346,7 +346,7 @@ const ChannelOverview = () => {
                       </div>
                       <div className="col-start-2 col-end-3 row-start-2 row-end-3">
                         <a
-                          className="p-1 text-teal-400 transition-colors rounded-full hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
+                          className="p-1 transition-colors rounded-full text-linen-400 hover:text-sky-400 hover:bg-slate-800 focus:text-sky-400 focus:bg-slate-800"
                           href={`//www.youtube.com/${channelDetails?.items[0]?.snippet.customUrl}`}
                           target="_blank"
                           rel="noopener noreferrer"

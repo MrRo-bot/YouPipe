@@ -98,7 +98,7 @@ const Comments = ({
   const modifiedComment = comm?.textOriginal.replace(
     timestampRegex,
     (match: string) =>
-      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
+      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-linen-400 transition-colors">${match}</code>`
   );
 
   //attaching handleTimestamp function in code tags inside the paragraph that contains timestamps

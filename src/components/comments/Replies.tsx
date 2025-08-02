@@ -81,7 +81,7 @@ const Replies = ({
   const modifiedReply = comment?.snippet?.textOriginal.replace(
     /(\d*:?\d{1,2}:\d{1,2})/gm,
     (match: string) =>
-      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-teal-400 transition-colors">${match}</code>`
+      `<code className="cursor-pointer rounded-md px-1 py-0.5 glass-dark text-sky-400 hover:text-linen-400 transition-colors">${match}</code>`
   );
   const handleTimestamp = (e: { currentTarget: { innerText: string } }) => {
     const timestampArr = e.currentTarget.innerText.split(":");
