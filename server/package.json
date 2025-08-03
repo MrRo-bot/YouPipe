@@ -7,7 +7,8 @@
     "node": "22.x"
   },
   "scripts": {
-    "start": "node --env-file=.env index.js"
+    "start": "node --env-file=.env index.js",
+    "dev": "nodemon index.ts"
   },
   "dependencies": {
     "google-auth-library": "^9.14.2",
