@@ -4,6 +4,10 @@ import cors from "cors"; //removing cors errors
 import dotenv from "dotenv"; //for managing env related things
 import morgan from "morgan"; //for logs
 
+//loading env vars
+dotenv.config();
+
+//validating required env vars
 const requiredEnvVars = [
   "VITE_YOUPIPE_CLIENT_ID",
   "VITE_YOUPIPE_CLIENT_SECRET",
@@ -16,20 +20,27 @@ requiredEnvVars.forEach((varName) => {
   }
 });
 
+//Initializing the express app
 const app = express();
-const PORT = process.env.PORT || 8089;
-
-dotenv.config();
 
 //making express app use these things
 app.use(morgan("combined")); //for logs
 app.use(
   cors({
     origin: [process.env.VITE_FRONT_URL_PROD, process.env.VITE_FRONT_URL_DEV], //define frontend domains here
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
 app.use(json({ limit: "10kb" })); //setting reasonable payload limit to not overwhelm the server
+
+//global error handler middleware
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Internal server error" });
+});
 
 //creating auth client with client id and secret
 const oAuth2Client = new OAuth2Client(
@@ -76,16 +87,18 @@ app.post("/auth/refresh-token", async (req, res) => {
   }
 });
 
-// app.listen(PORT, () => console.log(`server is running`));
-app.listen(PORT, () => {
-  console.log("HTTPS server running on port: " + PORT);
+// Handle unmatched routes
+app.use((req, res) => {
+  res.status(404).json({ error: "Not found" });
 });
 
-//global error handler middleware
-app.use((err, req, res, next) => {
-  console.error("Unhandled error:", err);
-  res.status(500).json({ error: "Internal server error" });
-});
+// Optional: Start server for local development
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 8089;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 //Graceful shutdown
 process.on("SIGTERM", () => {
