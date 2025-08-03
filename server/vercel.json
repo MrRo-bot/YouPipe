@@ -6,9 +6,6 @@
       "maxDuration": 10
     }
   },
-  "scripts": {
-    "start": "node --env-file=.env index.js"
-  },
   "routes": [
     {
       "src": "/auth/google",
