@@ -1,5 +1,4 @@
 import express, { json } from "express"; //express package
-import fs from "fs"; //reading files
 import https from "https"; //creating https server
 import { OAuth2Client } from "google-auth-library"; //google auth library for easy authentication
 import cors from "cors"; //removing cors errors
@@ -20,12 +19,6 @@ requiredEnvVars.forEach((varName) => {
 
 const app = express();
 const PORT = process.env.PORT || 8089;
-
-//loading SSL certificate and private key created by choco mkcert package "mkcert localhost"
-const privateKey = fs.readFileSync("./server/localhost-key.pem", "utf8");
-const certificate = fs.readFileSync("./server/localhost.pem", "utf8");
-const passphrase = "youpipe";
-const credentials = { key: privateKey, passphrase, cert: certificate };
 
 //creating an HTTPS server with my express app
 const httpsServer = https.createServer(credentials, app);
