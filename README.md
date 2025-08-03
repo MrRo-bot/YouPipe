@@ -1,31 +1,31 @@
 <!-- PROJECT SHIELDS -->
 
 <p align="center">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/MrRo-bot/YouPipe?style=for-the-badge">
-<img alt="GitHub License" src="https://img.shields.io/github/license/MrRo-bot/YouPipe?style=for-the-badge">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mrro-bot/youpipe?style=for-the-badge">
+<img alt="GitHub License" src="https://img.shields.io/github/license/MrRo-bot/youpipe?style=for-the-badge">
 <a href="https://linkedin.com/in/cm-ch">
 <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555">
 </a>
-<a href="https://YouPipe-frontend.vercel.app">
-<img src="https://deploy-badge.vercel.app/vercel/YouPipe-frontend?style=for-the-badge" alt="Vercel Deploy"/>
+<a href="https://youpipe-frontend.vercel.app">
+<img src="https://deploy-badge.vercel.app/vercel/youpipe-frontend?style=for-the-badge" alt="Vercel Deploy"/>
 </a>
 </p>
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/MrRo-bot/YouPipe">
-    <img src="public/icon.svg" alt="Logo" width="120" height="120">
+  <a href="https://github.com/MrRo-bot/youpipe">
+    <img src="frontend/public/icon.svg" alt="Logo" width="120" height="120">
   </a>
 
   <h1 align="center">YouPipe</h3>
 
   <p align="center">
-    <a href="https://YouPipe-frontend.vercel.app/">View Demo</a>
+    <a href="https://youpipe-frontend.vercel.app/">View Demo</a>
     &middot;
-    <a href="https://github.com/MrRo-bot/YouPipe/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/MrRo-bot/youpipe/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/MrRo-bot/YouPipe/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/MrRo-bot/youpipe/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -53,7 +53,7 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 
 | Login                                                                    |
 | ------------------------------------------------------------------------ |
-| ![](https://github.com/MrRo-bot/YouPipe/blob/main/screenshots/login.png) |
+| ![](https://github.com/MrRo-bot/youpipe/blob/main/screenshots/login.png) |
 
 <!-- BUILT WITH -->
 
@@ -92,13 +92,13 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 - [ ] Accessibility
 - [ ] Search issue when re-edited search string
 
-See the [open issues](https://github.com/MrRo-bot/YouPipe/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/MrRo-bot/youpipe/issues) for a full list of proposed features (and known issues).
 
 <!-- LICENSE -->
 
 # License 🪪
 
-Distributed under the Unlicense License. See `LICENSE.txt` for more information.
+Distributed under the Unlicense License. See `LICENSE.md` for more information.
 
 <!-- CONTACT -->
 
@@ -108,7 +108,7 @@ Outlook Mail - [chhavimanichoubey.outlook.in](mailto://chhavimanichoubey.outlook
 
 Discord: [Mr.RO130T](https://discordapp.com/users/434001308484239381)
 
-Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/YouPipe)
+Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/youpipe)
 
 <!-- ACKNOWLEDGMENT -->
 
@@ -125,10 +125,10 @@ Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[stars]: https://img.shields.io/github/stars/MrRo-bot/YouPipe?style=for-the-badge
-[stars-url]: https://github.com/MrRo-bot/YouPipe
-[license-shield]: https://img.shields.io/github/license/MrRo-bot/YouPipe.svg?style=for-the-badge
-[license-url]: https://github.com/MrRo-bot/YouPipe/blob/main/LICENSE.txt
+[stars]: https://img.shields.io/github/stars/MrRo-bot/youpipe?style=for-the-badge
+[stars-url]: https://github.com/MrRo-bot/youpipe
+[license-shield]: https://img.shields.io/github/license/MrRo-bot/youpipe.svg?style=for-the-badge
+[license-url]: https://github.com/MrRo-bot/youpipe/blob/main/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/cm-ch
 [product-screenshot]: images/screenshot.png
