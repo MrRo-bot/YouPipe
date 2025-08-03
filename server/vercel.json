@@ -4,15 +4,15 @@
   "routes": [
     {
       "src": "/auth/google",
-      "dest": "api/index.js"
+      "dest": "index.js"
     },
     {
       "src": "/auth/refresh-token",
-      "dest": "api/index.js"
+      "dest": "index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "api/index.js"
+      "dest": "index.js"
     }
   ]
 }
