@@ -22,8 +22,8 @@ const app = express();
 const PORT = process.env.PORT || 8089;
 
 //loading SSL certificate and private key created by choco mkcert package "mkcert localhost"
-const privateKey = fs.readFileSync("localhost-key.pem", "utf8");
-const certificate = fs.readFileSync("localhost.pem", "utf8");
+const privateKey = fs.readFileSync("/localhost-key.pem", "utf8");
+const certificate = fs.readFileSync("/localhost.pem", "utf8");
 const passphrase = "youpipe";
 const credentials = { key: privateKey, passphrase, cert: certificate };
 
