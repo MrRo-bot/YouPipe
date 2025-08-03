@@ -12,5 +12,19 @@
         "distDir": "frontend/dist"
       }
     }
+  ],
+  "routes": [
+    {
+      "src": "/auth/(google|refresh-token)",
+      "dest": "/server/index.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/dist/index.html"
+    }
   ]
 }

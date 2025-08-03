@@ -34,11 +34,17 @@ dotenv.config();
 
 //making express app use these things
 app.use(morgan("combined")); //for logs
+
+// Configuring CORS to allow all origins in development, restrict in production
 app.use(
   cors({
-    origin: [process.env.VITE_FRONT_URL_PROD, process.env.VITE_FRONT_URL_DEV], //define frontend domains here
+    origin:
+      process.env.NODE_ENV === "production"
+        ? [process.env.VITE_FRONT_URL_PROD]
+        : "*",
   })
 );
+
 app.use(json({ limit: "10kb" })); //setting reasonable payload limit to not overwhelm the server
 
 //creating auth client with client id and secret
