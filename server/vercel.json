@@ -9,10 +9,6 @@
     {
       "src": "/auth/refresh-token",
       "dest": "index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "index.js"
     }
   ]
 }
