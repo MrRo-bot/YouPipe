@@ -24,6 +24,10 @@
       "status": 404
     },
     {
+      "src": "/.*\\.js",
+      "status": 404
+    },
+    {
       "src": "/(.*)",
       "dest": "/frontend/dist/index.html"
     }
