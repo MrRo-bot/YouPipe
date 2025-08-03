@@ -10,10 +10,6 @@
     {
       "src": "/auth/(.*)",
       "dest": "/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.js"
     }
   ],
   "env": {
