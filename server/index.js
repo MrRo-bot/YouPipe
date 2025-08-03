@@ -88,9 +88,9 @@ app.post("/auth/refresh-token", async (req, res) => {
 });
 
 // Handle unmatched routes
-app.use((req, res) => {
-  res.status(404).json({ error: "Not found" });
-});
+// app.use((req, res) => {
+//   res.status(404).json({ error: "Not found" });
+// });
 
 // Optional: Start server for local development
 if (process.env.NODE_ENV !== "production") {
