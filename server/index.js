@@ -1,5 +1,4 @@
 import express, { json } from "express"; //express package
-import https from "https"; //creating https server
 import { OAuth2Client } from "google-auth-library"; //google auth library for easy authentication
 import cors from "cors"; //removing cors errors
 import dotenv from "dotenv"; //for managing env related things
@@ -19,9 +18,6 @@ requiredEnvVars.forEach((varName) => {
 
 const app = express();
 const PORT = process.env.PORT || 8089;
-
-//creating an HTTPS server with my express app
-const httpsServer = https.createServer(credentials, app);
 
 dotenv.config();
 
@@ -81,7 +77,7 @@ app.post("/auth/refresh-token", async (req, res) => {
 });
 
 // app.listen(PORT, () => console.log(`server is running`));
-httpsServer.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log("HTTPS server running on port: " + PORT);
 });
 
@@ -94,7 +90,7 @@ app.use((err, req, res, next) => {
 //Graceful shutdown
 process.on("SIGTERM", () => {
   console.log("SIGTERM received. Closing HTTPS server...");
-  httpsServer.close(() => {
+  app.close(() => {
     console.log("HTTPS server closed.");
     process.exit(0);
   });
