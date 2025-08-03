@@ -2,50 +2,30 @@
   "version": 2,
   "builds": [
     {
-      "src": "./server/index.js",
+      "src": "server/index.js",
       "use": "@vercel/node"
-    }
-  ],
-  "rewrites": [
-    { "source": "/auth/google", "destination": "index.js" },
-    { "source": "/auth/refresh-token", "destination": "index.js" }
-  ],
-  "headers": [
-    {
-      "source": "/auth/google",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://despesa-frontend.vercel.app"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
-      ]
     },
     {
-      "source": "/auth/refresh-token",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://despesa-frontend.vercel.app"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
-      ]
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist"
+      }
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/auth/google",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/auth/refresh-token",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/dist/index.html"
+    }
+  ],
+  "buildCommand": "npm install --prefix server && npm install --prefix frontend && npm run build --prefix frontend"
 }
