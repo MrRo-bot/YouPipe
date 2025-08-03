@@ -34,14 +34,9 @@ dotenv.config();
 
 //making express app use these things
 app.use(morgan("combined")); //for logs
-
-// Configuring CORS to allow all origins in development, restrict in production
 app.use(
   cors({
-    origin: [process.env.NODE_ENV, process.env.VITE_FRONT_URL_PROD],
-    credentials: true, // Allow cookies/credentials
-    methods: ["GET", "POST", "PUT", "DELETE"], // Explicitly allow methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow common headers
+    origin: [process.env.VITE_FRONT_URL_PROD, process.env.VITE_FRONT_URL_DEV], //define frontend domains here
   })
 );
 
