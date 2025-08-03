@@ -159,7 +159,11 @@ const Header = () => {
       id_token: "",
       expiry_date: 0,
     });
-    navigate("/");
+    window.location.href = `${
+      process.env.NODE_ENV === "production"
+        ? import.meta.env.VITE_BACK_URL_PROD
+        : import.meta.env.VITE_BACK_URL_DEV
+    }`;
   };
 
   //focus on search bar using cmd / ctrl + k
