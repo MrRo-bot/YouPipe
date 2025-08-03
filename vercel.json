@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "framework": null,
+  "functions": {
+    "server/index.js": {
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/auth/google",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/auth/refresh-token",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/",
+      "dest": "frontend/dist/index.html"
+    }
+  ]
+}
