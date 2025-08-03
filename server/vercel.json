@@ -1,14 +1,22 @@
 {
   "version": 2,
-  "framework": null,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
-      "src": "/auth/google",
-      "dest": "index.js"
+      "src": "/auth/(.*)",
+      "dest": "/index.js"
     },
     {
-      "src": "/auth/refresh-token",
-      "dest": "index.js"
+      "src": "/(.*)",
+      "dest": "/index.js"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
