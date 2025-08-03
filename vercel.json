@@ -15,16 +15,17 @@
   ],
   "routes": [
     {
-      "src": "/auth/google",
+      "src": "/auth/(google|refresh-token)",
       "dest": "server/index.js"
     },
     {
-      "src": "/auth/refresh-token",
-      "dest": "server/index.js"
+      "src": "/server/(.*)",
+      "status": 404
     },
     {
       "src": "/(.*)",
       "dest": "/frontend/dist/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true
 }
