@@ -159,7 +159,7 @@ const Header = () => {
       id_token: "",
       expiry_date: 0,
     });
-    window.location.reload();
+    navigate("/");
   };
 
   //focus on search bar using cmd / ctrl + k
