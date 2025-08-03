@@ -54,7 +54,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         whileInView={"visible"}
         className="z-0 p-1 mx-auto transition-colors cursor-pointer rounded-xl group max-w-96 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70"
       >
-        <div className="flex flex-col gap-2">
+        <div className="relative flex flex-col gap-2">
           <div
             style={
               {
