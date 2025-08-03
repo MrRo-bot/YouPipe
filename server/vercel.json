@@ -1,11 +1,6 @@
 {
   "version": 2,
   "framework": null,
-  "functions": {
-    "index.js": {
-      "maxDuration": 10
-    }
-  },
   "routes": [
     {
       "src": "/auth/google",
