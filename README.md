@@ -1,8 +1,6 @@
-<!-- PROJECT SHIELDS -->
-
 <p align="center">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mrro-bot/youpipe?style=for-the-badge">
-<img alt="GitHub License" src="https://img.shields.io/github/license/MrRo-bot/youpipe?style=for-the-badge">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/MrRo-bot/YouPipe?style=for-the-badge">
+<img alt="GitHub License" src="https://img.shields.io/github/license/MrRo-bot/YouPipe?style=for-the-badge">
 <a href="https://linkedin.com/in/cm-ch">
 <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555">
 </a>
@@ -14,8 +12,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/MrRo-bot/youpipe">
-    <img src="frontend/public/icon.svg" alt="Logo" width="120" height="120">
+  <a href="https://github.com/MrRo-bot/YouPipe">
+    <img src="./frontend/public/icon.svg" alt="Logo" width="120" height="120">
   </a>
 
   <h1 align="center">YouPipe</h3>
@@ -23,9 +21,9 @@
   <p align="center">
     <a href="https://youpipe-frontend.vercel.app/">View Demo</a>
     &middot;
-    <a href="https://github.com/MrRo-bot/youpipe/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/MrRo-bot/YouPipe/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/MrRo-bot/youpipe/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/MrRo-bot/YouPipe/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -37,7 +35,9 @@ A Simple `YOUTUBE CLONE` 👥▶️ with not so simple glass like layout called 
 I am a software developer with a keen interest in both creating projects and managing personal finances (My only not so social app that I use a lot is YouTube so I thought why not a youtube clone).
 There were limitations in the API which posed several issues but I've managed to incorporate as many features as possible.
 
-### Features
+<!-- MAIN FEATURES -->
+
+### Main Features
 
 - Includes everything that youtube provides except some costly API calls like for eg. inserting video, playlist edits, and excluding many features that are not available in api itself like podcasts, shorts,watch later, saved playlists, etc.
 - `@React-oauth/google` and `google-auth-library` for easy google login,
@@ -46,14 +46,6 @@ There were limitations in the API which posed several issues but I've managed to
 - `React-router` for managing multi-page layouts,
 
 _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
-
-<!-- SCREENSHOTS -->
-
-# Screenshots 📺
-
-| Login                                                                    |
-| ------------------------------------------------------------------------ |
-| ![](https://github.com/MrRo-bot/youpipe/blob/main/screenshots/login.png) |
 
 <!-- BUILT WITH -->
 
@@ -81,18 +73,18 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 
 # Roadmap 🛣️
 
-- [x] HOSTING
+- [x] Hosting in vercel using monorepo architecture
 - [x] Remember to remove developer related tools in final project
 - [ ] Issues with channel overview not clearing items when new channel overview comes (BIG ISSUE unable to solve)
 - [ ] Playing all playlists at once [using url array (create url array from playlist items first)] (need to sort how to get beyond 50 results in queue as well)
 - [ ] Undo action in react toastify
 - [ ] Sort option in commentSection, playlistOverview
 - [ ] Category search (requires video(videoCategoryId))
-- [ ] Tooltip
-- [ ] Accessibility
+- [ ] Tooltips
+- [ ] Accessibility checks
 - [ ] Search issue when re-edited search string
 
-See the [open issues](https://github.com/MrRo-bot/youpipe/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/MrRo-bot/YouPipe/issues) for a full list of proposed features (and known issues).
 
 <!-- LICENSE -->
 
@@ -108,7 +100,7 @@ Outlook Mail - [chhavimanichoubey.outlook.in](mailto://chhavimanichoubey.outlook
 
 Discord: [Mr.RO130T](https://discordapp.com/users/434001308484239381)
 
-Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/youpipe)
+Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/YouPipe)
 
 <!-- ACKNOWLEDGMENT -->
 
@@ -125,13 +117,6 @@ Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[stars]: https://img.shields.io/github/stars/MrRo-bot/youpipe?style=for-the-badge
-[stars-url]: https://github.com/MrRo-bot/youpipe
-[license-shield]: https://img.shields.io/github/license/MrRo-bot/youpipe.svg?style=for-the-badge
-[license-url]: https://github.com/MrRo-bot/youpipe/blob/main/LICENSE.md
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/cm-ch
-[product-screenshot]: images/screenshot.png
 [Express]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
 [Express-url]: https://expressjs.com/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
@@ -163,8 +148,6 @@ Project Link: [https://github.com/MrRo-bot/YouPipe](https://github.com/MrRo-bot/
 [Medium-url]: https://medium.com/
 [YoutubeDataApiv3]: https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white
 [YoutubeDataApiv3-url]: https://developers.google.com/youtube/v3/
-[GoogleCloud]: https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white
-[GoogleCloud-url]: https://console.google.com/
 [GoogleCloud]: https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white
 [GoogleCloud-url]: https://console.google.com/
 [ReactRedux]: https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=fff
