@@ -161,8 +161,8 @@ const Header = () => {
     });
     window.location.href = `${
       process.env.NODE_ENV === "production"
-        ? import.meta.env.VITE_BACK_URL_PROD
-        : import.meta.env.VITE_BACK_URL_DEV
+        ? import.meta.env.VITE_FRONT_URL_PROD
+        : import.meta.env.VITE_FRONT_URL_DEV
     }`;
   };
 
