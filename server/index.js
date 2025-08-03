@@ -28,8 +28,6 @@ app.use(morgan("combined")); //for logs
 app.use(
   cors({
     origin: [process.env.VITE_FRONT_URL_PROD, process.env.VITE_FRONT_URL_DEV], //define frontend domains here
-    // methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    // allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );

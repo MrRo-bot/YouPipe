@@ -161,8 +161,9 @@ const Header = () => {
     });
     window.location.href = `${
       process.env.NODE_ENV === "production"
-        ? import.meta.env.VITE_FRONT_URL_PROD
-        : import.meta.env.VITE_FRONT_URL_DEV
+        ? import.meta.env.VITE_FRONT_URL_PROD ||
+          "https://youpipe-frontend.vercel.app"
+        : import.meta.env.VITE_FRONT_URL_DEV || "https://localhost:5173"
     }`;
   };
 
