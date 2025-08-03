@@ -12,26 +12,5 @@
         "distDir": "frontend/dist"
       }
     }
-  ],
-  "routes": [
-    {
-      "src": "/auth/(google|refresh-token)",
-      "dest": "server/index.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    },
-    {
-      "src": "/server/.*",
-      "status": 404
-    },
-    {
-      "src": "/.*\\.js",
-      "status": 404
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/dist/index.html"
-    }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
