@@ -101,10 +101,14 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 //Graceful shutdown
-process.on("SIGTERM", () => {
-  console.log("SIGTERM received. Closing HTTPS server...");
-  app.close(() => {
-    console.log("HTTPS server closed.");
-    process.exit(0);
+if (process.env.NODE_ENV !== "production") {
+  process.on("SIGTERM", () => {
+    console.log("SIGTERM received. Closing HTTPS server...");
+    app.close(() => {
+      console.log("HTTPS server closed.");
+      process.exit(0);
+    });
   });
-});
+}
+
+export default app;
