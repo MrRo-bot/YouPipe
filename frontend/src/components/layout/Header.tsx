@@ -497,8 +497,8 @@ const Header = () => {
             isPending
               ? ""
               : isActive
-              ? "text-zinc-200 font-bold"
-              : "text-zinc-500"
+              ? "text-zinc-200 text-xs font-bold"
+              : "text-zinc-500 text-xs"
           }
         >
           read privacy policy
