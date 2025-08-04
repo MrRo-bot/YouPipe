@@ -135,14 +135,3 @@ export const unixToTimeString = (unix_timestamp: number) => {
 
   return formattedTime;
 };
-
-//list of all youtube scopes
-export const youtubeScopes = {
-  youtube: "https://www.googleapis.com/auth/youtube",
-  member: "https://www.googleapis.com/auth/youtube.channel-memberships.creator",
-  ssl: "https://www.googleapis.com/auth/youtube.force-ssl",
-  readOnly: "https://www.googleapis.com/auth/youtube.readonly",
-  upload: "https://www.googleapis.com/auth/youtube.upload",
-  parter: "https://www.googleapis.com/auth/youtubepartner",
-  partnerAudit: "https://www.googleapis.com/auth/youtubepartner-channel-audit",
-};
