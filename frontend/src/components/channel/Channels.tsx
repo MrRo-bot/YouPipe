@@ -253,7 +253,7 @@ const Channels = () => {
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 mx-auto translate-y-1/2 -top-1/2"
+            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-16 md:h-16 xl:w-18 xl:h-18 mx-auto translate-y-1/2 -top-1/2"
           />
         ) : (
           <Virtuoso
