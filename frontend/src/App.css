@@ -276,7 +276,7 @@
         var(--c-4) var(--s-start-4),
         transparent var(--s-end-4)
       );
-    /* animation: hero-gradient-animation 55s linear infinite alternate; */
+    animation: hero-gradient-animation 25s linear infinite alternate;
     background-blend-mode: hard-light, hard-light, hard-light, hard-light,
       hard-light;
   }

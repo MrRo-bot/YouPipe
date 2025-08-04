@@ -87,11 +87,9 @@ const Playlists = () => {
       {playlist?.length < 1 ? (
         <FidgetSpinner
           visible={true}
-          height="80"
-          width="80"
           ariaLabel="fidget-spinner-loading"
           wrapperStyle={{}}
-          wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+          wrapperClass="fidget-spinner-wrapper mx-auto w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 translate-y-1/2 -top-1/2"
         />
       ) : (
         <div className="grid grid-flow-row p-2 mt-5 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

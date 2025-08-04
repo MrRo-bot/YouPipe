@@ -97,7 +97,7 @@ const Subscription = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-            className="mx-1 text-xl font-bold tracking-tight text-center md:mx-2 xl:mx-4 sm:text-2xl md:text-3xl lg:text-4xl text-slate-200"
+            className="m-1 text-2xl font-bold tracking-tight md:m-2 md:text-3xl xl:text-4xl xl:m-4 text-slate-200"
           >
             All Subscriptions
           </motion.h1>
@@ -153,15 +153,13 @@ const Subscription = () => {
         {subData.items.length <= 1 ? (
           <FidgetSpinner
             visible={true}
-            height="80"
-            width="80"
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 mx-auto translate-y-1/2 -top-1/2"
           />
         ) : (
           <Virtuoso
-            className="!flex !flex-col !overflow-y-auto !min-h-[80vh] lg:!min-h-[75vh] !hideScrollbar"
+            className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
             increaseViewportBy={100}
             data={subData.items}
             totalCount={subData.pageInfo.totalResults}

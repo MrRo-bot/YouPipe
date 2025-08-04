@@ -53,8 +53,8 @@ const SubscriptionCard = ({
         whileInView={"visible"}
         className="z-0 p-2 transition-colors rounded-full cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group glass"
       >
-        <div className="flex items-center justify-start gap-4">
-          <div className="relative overflow-hidden rounded-full min-w-24 lg:min-w-28 xl:min-w-32 min-h-24 lg:min-h-28 xl:min-h-32">
+        <div className="flex items-center justify-start gap-2 md:gap-4">
+          <div className="relative overflow-hidden rounded-full min-w-20 lg:min-w-28 xl:min-w-32 min-h-20 lg:min-h-28 xl:min-h-32">
             !{" "}
             {stat ? (
               <img

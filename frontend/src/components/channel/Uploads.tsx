@@ -224,16 +224,14 @@ const Uploads = () => {
         <div className="w-full">
           <FidgetSpinner
             visible={true}
-            height="80"
-            width="80"
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper mx-auto"
+            wrapperClass="fidget-spinner-wrapper mx-auto w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32"
           />
         </div>
       ) : (
         <VirtuosoGrid
-          className="w-full min-h-[70vh] lg:min-h-[50vh] max-h-full !hideScrollbar"
+          className="w-full !min-h-[70vh] lg:!min-h-[50vh] max-h-full !hideScrollbar"
           listClassName="grid grid-flow-row gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           data={channelUploads?.items}
           totalCount={channelUploads?.pageInfo?.totalResults || 0}

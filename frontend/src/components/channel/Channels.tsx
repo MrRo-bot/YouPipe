@@ -110,8 +110,8 @@ const ChannelsCard = ({ id }: { id: string }) => {
           whileInView={"visible"}
           className="z-0 p-2 transition-colors rounded-full cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group glass"
         >
-          <div className="flex items-center justify-start gap-4">
-            <div className="relative overflow-hidden rounded-full min-w-24 lg:min-w-28 min-h-24 lg:min-h-28">
+          <div className="flex items-center justify-start gap-2 md:gap-4">
+            <div className="relative overflow-hidden rounded-full min-w-20 lg:min-w-28 min-h-20 lg:min-h-28">
               {channelStats ? (
                 <img
                   referrerPolicy="no-referrer"
@@ -251,11 +251,9 @@ const Channels = () => {
         {!channelsList ? (
           <FidgetSpinner
             visible={true}
-            height="80"
-            width="80"
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper mx-auto translate-y-1/2 -top-1/2"
+            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 mx-auto translate-y-1/2 -top-1/2"
           />
         ) : (
           <Virtuoso

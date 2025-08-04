@@ -369,18 +369,18 @@ const Player = () => {
 
   return (
     <SkeletonTheme
-      baseColor="rgba(255,255,255,0.1)"
+      baseColor="rgba(255, 255, 255, 0.45)"
       customHighlightBackground="linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(242,0,41,0.2) 15%, rgba(255,2,245,0.3) 40%, rgba(0,26,249,0.3) 60%, rgba(255,149,0,0.2) 85%, rgba(255,255,255,0) 100%)"
     >
       <div className="w-full h-[93vh] pt-5 overflow-hidden">
-        <div className="flex w-[97%] h-full mx-auto flex-col lg:flex-row">
-          <div className="w-full lg:w-[75%] overflow-y-scroll hideScrollbar h-[60vh] lg:h-auto">
+        <div className="flex flex-col h-full mx-1 lg:w-[97%] lg:mx-auto lg:flex-row">
+          <div className="w-full lg:w-[70%] xl:w-[75%] overflow-y-scroll hideScrollbar h-[80vh] lg:h-auto">
             <div className="relative">
               <motion.div
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="w-full h-[30vh] lg:h-[70vh] overflow-hidden aspect-video rounded-3xl"
+                className="w-full h-[30vh] lg:h-[70vh] overflow-hidden aspect-video rounded-xl lg:rounded-3xl"
               >
                 <ReactPlayer
                   ref={playerRef}
@@ -396,12 +396,12 @@ const Player = () => {
                 />
               </motion.div>
 
-              <div className="absolute w-full p-1 mt-2 -translate-x-1/2 lg:px-3 lg:py-2 rounded-3xl glass left-1/2">
+              <div className="absolute w-full p-1 mt-2 -translate-x-1/2 lg:px-3 lg:py-2 rounded-xl lg:rounded-3xl glass left-1/2">
                 <motion.div
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.35, ease: "easeInOut", delay: 0.1 }}
-                  className="flex flex-col items-center justify-between gap-2 p-1 transition-colors lg:flex-row lg:px-2 lg:py-1 rounded-3xl glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
+                  className="flex flex-col items-center justify-between gap-2 p-1 transition-colors sm:flex-row lg:px-2 lg:py-1 rounded-xl lg:rounded-3xl glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
                 >
                   <div className="flex items-center justify-between gap-2 lg:gap-6">
                     <div className="flex items-center justify-between gap-2">
@@ -597,7 +597,7 @@ const Player = () => {
                   initial={{ y: 100, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
-                  className="p-1 mt-2 text-sm text-purple-100 transition-colors lg:p-2 lg:text-base rounded-3xl text-wrap glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
+                  className="p-1 mt-2 text-sm text-purple-100 transition-colors lg:p-2 lg:text-base rounded-xl lg:rounded-3xl text-wrap glass-dark hover:bg-indigo-600/20 focus:bg-indigo-600/20"
                 >
                   <span ref={containerRef}>
                     {parse(modifiedDescription || "No Description Found")}
@@ -630,7 +630,7 @@ const Player = () => {
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="w-full lg:w-[25%] text-center mt-2 lg:ml-5 h-full flex flex-col gap-3 overflow-y-scroll hideScrollbar"
+            className="w-full md:w-3/4 md:mx-auto lg:w-[30%] xl:w-[25%] text-center mt-2 lg:ml-5 h-full flex flex-col gap-1 lg:gap-3 overflow-y-scroll hideScrollbar"
           >
             <h2 className="py-0.5 lg:py-1 text-base lg:text-2xl text-zinc-50">
               <strong>
@@ -642,11 +642,11 @@ const Player = () => {
             </h2>
 
             <div className="relative w-full">
-              <div className="overflow-y-hidden min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
+              <div className="overflow-y-hidden min-h-8 lg:min-h-12 whitespace-pre-wrap break-words w-full invisible leading-[24px]">
                 {myComment}
               </div>{" "}
               <textarea
-                className="hideScrollbar absolute text-sm lg:text-base p-2 py-3 text-zinc-100 bg-transparent focus:bg-slate-700/50 sm:right-5 sm:left-5 md:right-10 md:left-10 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                className="hideScrollbar absolute text-sm lg:text-base p-1 lg:p-2 lg:py-3 text-zinc-100 bg-transparent focus:bg-slate-700/50 sm:right-5 sm:left-5 md:right-10 md:left-10 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
                 value={myComment}
                 placeholder="Describe your vibe 📝"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -673,11 +673,9 @@ const Player = () => {
             {status === "pending" && isLoading && (
               <FidgetSpinner
                 visible={true}
-                height="80"
-                width="80"
                 ariaLabel="fidget-spinner-loading"
                 wrapperStyle={{}}
-                wrapperClass="fidget-spinner-wrapper mx-auto"
+                wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 mx-auto"
               />
             )}
             {!isLoading && comments?.items?.length > 1 && (

@@ -13,12 +13,12 @@ import { useAppSelector } from "../../app/store";
 const Sidebar = () => {
   const isOpen = useAppSelector((state) => state.hamburger.isOpen);
 
-  return window.innerWidth < 768 ? (
+  return window.innerWidth < 1024 ? (
     <motion.aside
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="absolute bottom-0 z-50 flex gap-2 p-1 transition-colors -translate-x-1/2 glass active:bg-indigo-600/20 left-1/2"
+      className="absolute z-50 flex gap-2 p-1 transition-colors -translate-x-1/2 bottom-4 glass active:bg-indigo-600/20 left-1/2"
     >
       <NavLink
         to="/"
@@ -37,7 +37,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
             className="w-full"
           >
-            <PiHouseFill className="size-5" />
+            <PiHouseFill className="size-5 md:size-7 lg:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -58,7 +58,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
             className="w-full"
           >
-            <PiMonitorPlayFill className="size-5" />
+            <PiMonitorPlayFill className="size-5 md:size-7 lg:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -79,7 +79,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.4 }}
             className="w-full"
           >
-            <PiListStarFill className="size-5" />
+            <PiListStarFill className="size-5 sm:size-7 md:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -100,7 +100,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
             className="w-full"
           >
-            <PiThumbsUpFill className="size-5" />
+            <PiThumbsUpFill className="size-5 md:size-7 lg:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -110,11 +110,11 @@ const Sidebar = () => {
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`flex flex-col  mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
-        !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "w-[15vw] pr-3"
+      className={`flex flex-col mt-3 mb-2 h-max hover:bg-indigo-600/20 focus:bg-indigo-600/20 transition-colors ${
+        !isOpen ? "!w-[4.5rem] h-max gap-1 px-1 py-2" : "w-[15vw] 2xl:pr-3"
       } overflow-y-scroll hideScrollbar glass`}
     >
-      {!isOpen ? (
+      {!isOpen || window.innerWidth < 1536 ? (
         <>
           {/* Shrinked sidebar section =================================================================================================*/}
           <NavLink
@@ -209,7 +209,7 @@ const Sidebar = () => {
       ) : (
         <>
           {/* Expaned siderbar section =================================================================================================*/}
-          <div className="flex flex-col gap-1 py-3 pl-3 pr-0 ">
+          <div className="flex flex-col gap-1 py-3 pl-3 pr-0">
             <NavLink
               to="/"
               className={({ isActive, isPending }) =>

@@ -76,21 +76,21 @@ const PlaylistOverviewCard = ({
           {index + 1}
         </div>
 
-        <div className="relative overflow-hidden min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
+        <div className="relative overflow-hidden min-w-36 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video rounded-2xl">
           {isLoading ? (
             <Skeleton
               height={"100%"}
-              className="absolute inset-0 h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl"
+              className="absolute inset-0 h-full min-w-36 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video -top-1 rounded-2xl"
             />
           ) : (
             <>
               <img
                 referrerPolicy="no-referrer"
-                className="absolute inset-0 object-cover h-full min-w-40 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video"
+                className="absolute inset-0 object-cover h-full min-w-36 md:min-w-44 lg:min-w-48 xl:min-w-52 2xl:min-w-56 aspect-video"
                 src={playlistItem?.snippet?.thumbnails?.high?.url}
                 alt=""
               />
-              <div className="absolute z-50 p-1 text-xs text-white rounded-2xl bottom-1 right-1 glass-dark">
+              <div className="absolute z-50 py-0.5 px-1 text-[10px] md:p-1 md:text-xs text-white rounded-xl md:rounded-2xl bottom-1 right-1 glass-dark">
                 {videoDuration(
                   videoStat?.items[0]?.contentDetails?.duration || "00:0"
                 )}
@@ -104,7 +104,7 @@ const PlaylistOverviewCard = ({
             {isLoading ? (
               <Skeleton width={300} height={27} className="top-2 rounded-2xl" />
             ) : (
-              <h3 className="w-full lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
+              <h3 className="w-full text-base lg:text-lg xl:text-xl text-ellipsis line-clamp-1 text-zinc-50">
                 {playlistItem?.snippet?.title}
               </h3>
             )}

@@ -138,7 +138,9 @@ const PlaylistOverview = () => {
     >
       <div
         className={`ml-4 mt-3 mr-2 mb-2 max-h-[90vh] rounded-2xl ${
-          !isOpen ? "w-[85vw]" : "w-full"
+          !isOpen
+            ? "md:w-[70vw] lg:w-[75vw] xl:w-[80vw] 2xl:w-[85vw] "
+            : "w-full"
         }  flex flex-col lg:flex-row`}
       >
         <motion.div
@@ -195,11 +197,9 @@ const PlaylistOverview = () => {
           {playlistOverview?.items?.length <= 1 ? (
             <FidgetSpinner
               visible={true}
-              height="80"
-              width="80"
               ariaLabel="fidget-spinner-loading"
               wrapperStyle={{}}
-              wrapperClass="fidget-spinner-wrapper mx-auto"
+              wrapperClass="fidget-spinner-wrapper mx-auto w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32"
             />
           ) : (
             <Virtuoso

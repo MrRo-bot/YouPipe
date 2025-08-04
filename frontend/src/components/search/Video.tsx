@@ -88,9 +88,9 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
           className="flex items-center justify-between gap-1 p-1 overflow-hidden transition-colors cursor-pointer md:p-3 hover:bg-indigo-600/20 focus:bg-indigo-600/20 glass rounded-2xl"
         >
           <div className="flex w-full">
-            <div className="relative self-start overflow-hidden min-w-40 sm:max-w-64 md:max-w-72 lg:max-w-min-w-80 xl:max-w-96 aspect-video rounded-2xl">
+            <div className="relative self-start overflow-hidden min-w-36 sm:max-w-64 md:max-w-72 lg:max-w-min-w-80 xl:max-w-96 aspect-video rounded-2xl">
               {videoLoading ? (
-                <Skeleton className="absolute inset-0 min-w-40 sm:min-w-64 md:min-w-72 lg:min-w-min-w-80 xl:min-w-96 aspect-video -top-1" />
+                <Skeleton className="absolute inset-0 min-w-36 sm:min-w-64 md:min-w-72 lg:min-w-min-w-80 xl:min-w-96 aspect-video -top-1" />
               ) : (
                 <>
                   <img
@@ -122,7 +122,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
               {videoLoading ? (
                 <Skeleton className="max-w-[40vw] rounded-2xl" />
               ) : (
-                <h3 className="w-full font-semibold sm:text-lg md:text-xl lg:text-2xl text-ellipsis line-clamp-1 lg:line-clamp-2 text-zinc-50">
+                <h3 className="w-full text-sm font-semibold sm:text-lg md:text-xl lg:text-2xl text-ellipsis line-clamp-1 lg:line-clamp-2 text-zinc-50">
                   {videoStats?.items[0]?.snippet?.title || ""}
                 </h3>
               )}
@@ -155,7 +155,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
                       `/channel/${videoStats?.items[0]?.snippet?.channelId}`
                     );
                   }}
-                  className="flex items-center gap-1 pt-1 text-sm font-semibold transition-colors md:text-lg hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
+                  className="flex items-center gap-1 pt-1 text-xs font-semibold transition-colors sm:text-sm md:text-lg hover:text-slate-500 focus:text-slate-500 text-zinc-300 text-ellipsis"
                 >
                   <span>
                     <PiUserFill className="text-yellow-200" />
@@ -167,7 +167,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
               {videoLoading ? (
                 <Skeleton className="max-w-[30vw] rounded-2xl" />
               ) : (
-                <div className="w-full my-2 text-sm text-zinc-400 line-clamp-1 sm:line-clamp-2 md:line-clamp-3 text-ellipsis">
+                <div className="w-full my-2 text-xs sm:text-sm text-zinc-400 line-clamp-1 sm:line-clamp-2 md:line-clamp-3 text-ellipsis">
                   {videoStats?.items[0]?.snippet?.description}
                 </div>
               )}

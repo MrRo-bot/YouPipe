@@ -105,21 +105,14 @@ const Header = () => {
 
   // sending code to backend to fetch and decrypt tokens
   const validateCode = async (res: CodeResponse) => {
-    const response = await fetch(
-      `${
-        process.env.NODE_ENV === "production"
-          ? import.meta.env.VITE_BACK_URL_PROD
-          : import.meta.env.VITE_BACK_URL_DEV
-      }/auth/google`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify(res),
-      }
-    );
+    const response = await fetch("https://localhost:8089/auth/google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(res),
+    });
     const tokens = await response.json();
     dispatch(addToken(tokens));
     customToastFunction("🪙 Access token received!");
@@ -159,12 +152,7 @@ const Header = () => {
       id_token: "",
       expiry_date: 0,
     });
-    window.location.href = `${
-      process.env.NODE_ENV === "production"
-        ? import.meta.env.VITE_FRONT_URL_PROD ||
-          "https://youpipe-frontend.vercel.app"
-        : import.meta.env.VITE_FRONT_URL_DEV || "https://localhost:5173"
-    }`;
+    window.location.reload();
   };
 
   //focus on search bar using cmd / ctrl + k
@@ -286,20 +274,13 @@ const Header = () => {
 
     queryFn: async () => {
       try {
-        const res = await fetch(
-          `${
-            process.env.NODE_ENV === "production"
-              ? import.meta.env.VITE_BACK_URL_PROD
-              : import.meta.env.VITE_BACK_URL_DEV
-          }/auth/refresh-token`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ refresh_token: token?.refresh_token }),
-          }
-        );
+        const res = await fetch("https://localhost:8089/auth/refresh-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh_token: token?.refresh_token }),
+        });
         if (!res.ok) {
           throw new Error("Failed to refresh token");
         }
@@ -350,7 +331,7 @@ const Header = () => {
       className="flex items-center justify-between px-1 py-0.5 md:px-2 lg:px-3 md:py-1 transition-colors glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
     >
       <div className="flex items-center justify-between order-2 gap-3 md:order-none">
-        {window.innerWidth > 768 && (
+        {window.innerWidth > 1024 && (
           <div
             onClick={() => dispatch(toggle())}
             className="grid transition-colors bg-opacity-0 rounded-full cursor-pointer size-10 place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black active:text-zinc-900 active:bg-zinc-400"
@@ -378,7 +359,7 @@ const Header = () => {
         </NavLink>
       </div>
 
-      {window.innerWidth > 768 ? (
+      {window.innerWidth > 1024 ? (
         <div className="flex items-stretch w-1/3 overflow-hidden transition-shadow rounded-full glass-dark hover:shadow-[0_0_0.5px_1px_#52525b] focus:shadow-[0_0_0.5px_1px_#52525b] active:shadow-[0_0_0.5px_1px_#52525b]">
           <input
             ref={searchRef}
@@ -430,7 +411,7 @@ const Header = () => {
               e.stopPropagation();
               setIsOpen(true);
             }}
-            className="grid order-1 transition-colors bg-opacity-0 rounded-full cursor-pointer size-9 place-items-center glass bg-zinc-200 active:bg-opacity-100 active:text-zinc-900 active:bg-zinc-400"
+            className="grid order-1 transition-colors bg-opacity-0 cursor-pointer rounded-xl size-9 place-items-center glass bg-zinc-200 active:bg-opacity-100 active:text-zinc-900 active:bg-zinc-400"
           >
             <MdOutlineSearch className="size-6" />
           </div>
@@ -499,8 +480,8 @@ const Header = () => {
             Logout
           </div>
         )}
-        <div className="flex items-center mx-0.5 min-h-8  md:mx-1 md:min-h-10 gap-4 lg:mx-2 lg:min-h-12">
-          <div className="grid size-10 overflow-hidden transition-colors bg-opacity-0 rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.1px] outline-zinc-700">
+        <div className="flex items-center mx-0.5 min-h-9 md:mx-1 md:min-h-10 gap-4 lg:mx-2 lg:min-h-12">
+          <div className="grid size-8 md:size-10 overflow-hidden transition-colors bg-opacity-0 rounded-xl md:rounded-full cursor-pointer place-items-center bg-zinc-200 hover:bg-opacity-100 focus:bg-opacity-100 hover:text-black focus:text-black outline outline-[0.5px] outline-zinc-700">
             {profileData?.picture ? (
               <img
                 referrerPolicy="no-referrer"

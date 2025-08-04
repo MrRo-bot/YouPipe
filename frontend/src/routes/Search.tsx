@@ -83,11 +83,9 @@ const Search = () => {
         {searchData?.items?.length <= 1 ? (
           <FidgetSpinner
             visible={true}
-            height="80"
-            width="80"
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper mx-auto"
+            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 mx-auto"
           />
         ) : (
           <Virtuoso

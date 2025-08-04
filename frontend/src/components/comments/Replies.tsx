@@ -181,8 +181,8 @@ const Replies = ({
               : "glass-dark"
           }`}
         >
-          <div className="w-[15%] p-1">
-            <div className="grid place-items-center relative rounded-full size-6 lg:size-10 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
+          <div className="w-[12%] xs:w-[11%] sm:w-[10%] md:w-[9%] lg:w-[15%] p-1">
+            <div className="grid place-items-center relative rounded-full size-6 xs:size-7 sm:size-8 md:size-9 lg:size-8 xl:size-9 overflow-hidden transition-shadow cursor-pointer mx-auto shadow-[0_0_0_2px_rgb(250_204_21)] hover:shadow-[0_0_0_3px_rgb(250_204_50)] focus:shadow-[0_0_0_3px_rgb(250_204_50)]">
               <img
                 onClick={(e) => {
                   e.stopPropagation();
@@ -196,7 +196,6 @@ const Replies = ({
               />
             </div>
           </div>
-
           <dialog
             className="flex flex-col gap-2 px-4 py-2 overflow-hidden font-semibold min-w-[33%] rounded-2xl heroGradient backdrop:backdrop-blur-sm text-zinc-100"
             ref={userRef}
@@ -317,7 +316,7 @@ const Replies = ({
           </dialog>
           <div className="w-[85%] flex flex-col gap-2">
             <div>
-              <div className="flex justify-between text-sm font-medium text-left text-yellow-400 lg:text-base">
+              <div className="flex justify-between text-xs font-medium text-left text-yellow-400 md:text-sm lg:text-base">
                 <span
                   className="transition-colors cursor-pointer hover:text-yellow-200 focus:text-yellow-200"
                   onClick={(e) => {
@@ -360,7 +359,7 @@ const Replies = ({
                       {editedReply}
                     </div>
                     <textarea
-                      className="hideScrollbar text-xs lg:text-base absolute p-1 lg:p-2 text-zinc-100 bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
+                      className="hideScrollbar text-xs md:text-sm lg:text-base absolute p-1 lg:p-2 text-zinc-100 bg-transparent focus:bg-slate-700/20 right-0 top-0 bottom-0 left-0 resize-none leading-[24px] border-b-2 border-b-slate-500 focus:border-b-white ring-0 border-0 outline-none"
                       value={editedReply}
                       autoFocus={true}
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -386,7 +385,7 @@ const Replies = ({
                   </div>
                 </div>
               ) : (
-                <div className="text-xs text-left lg:text-base text-zinc-100">
+                <div className="text-xs text-left md:text-sm lg:text-base text-zinc-100">
                   <span ref={replyRef}>{parse(modifiedReply)}</span>
                 </div>
               )}

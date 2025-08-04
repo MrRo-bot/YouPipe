@@ -43,9 +43,9 @@ const Home = () => {
 
   //fetching videos based on region for home page
   useQuery({
-    queryKey: ["home", fetchMore, token?.access_token],
-    queryFn: () => {
-      setTimeout(async () => {
+    queryKey: ["home", fetchMore],
+    queryFn: async () => {
+      if (homeData?.items?.length < 200) {
         try {
           const res = await fetch(
             `https://youtube.googleapis.com/youtube/v3/videos?part=${homeParts.join(
@@ -53,7 +53,7 @@ const Home = () => {
             )}&chart=mostPopular&maxResults=50&key=${
               import.meta.env.VITE_API_KEY
             }&regionCode=${location.address.country_code}&pageToken=${
-              fetchMore ? homeData.nextPageToken : ""
+              homeData && fetchMore ? homeData?.nextPageToken : ""
             }
           `,
             {
@@ -76,11 +76,11 @@ const Home = () => {
             "error"
           );
         }
-      }, 3000);
+      }
     },
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: !!fetchMore || !!token?.access_token,
+    enabled: !!fetchMore,
   });
 
   return (
@@ -88,7 +88,7 @@ const Home = () => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`relative ml-4 mt-3 mr-2 mb-2  ${
+      className={`relative mx-1 md:ml-4 mt-3 md:mr-2 mb-2 ${
         !isOpen ? "w-[85vw]" : "w-full"
       }  overflow-y-auto hideScrollbar rounded-xl`}
     >
@@ -99,13 +99,13 @@ const Home = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-          className="m-1 text-xl font-bold tracking-tight md:m-2 md:text-2xl xl:text-4xl xl:m-4 text-slate-200"
+          className="m-1 text-2xl font-bold tracking-tight md:m-2 md:text-3xl xl:text-4xl xl:m-4 text-slate-200"
         >
           Most Popular Videos
         </motion.h1>
       )}
       {!profileData?.email && !tokenData?.access_token && (
-        <div className="col-start-1 px-6 pt-5 pb-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+        <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
           <strong className="block text-xl tracking-wider md:text-2xl 2xl:text-3xl">
             <div
               style={{ animationDelay: "0ms" }}
@@ -219,7 +219,9 @@ const Home = () => {
               .
             </div>
           </strong>
-          <i className="block pt-4">Start searching videos you love.</i>
+          <i className="block pt-4 text-xs md:text-sm xl:text-base">
+            Start searching videos you love.
+          </i>
         </div>
       )}
 
@@ -228,26 +230,29 @@ const Home = () => {
           <div className="w-full">
             <FidgetSpinner
               visible={true}
-              height="80"
-              width="80"
               ariaLabel="fidget-spinner-loading"
               wrapperStyle={{}}
-              wrapperClass="fidget-spinner-wrapper mx-auto"
+              wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 mx-auto"
             />
           </div>
         )
       ) : (
         <VirtuosoGrid
-          className="!w-full !hideScrollbar"
-          listClassName="grid grid-flow-row min-h-[85vh] gap-2 2xl:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
+          className="w-full !hideScrollbar !min-h-[85vh] lg:!min-h-[75vh]"
+          listClassName="grid grid-flow-row gap-2 2xl:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3"
           data={homeData?.items}
           totalCount={homeData?.pageInfo?.totalResults || 0}
-          endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+          endReached={() =>
+            setTimeout(
+              () => homeData?.items?.length < 200 && setFetchMore(true),
+              1000
+            )
+          } //because only gonna get 200 items
           context={homeData}
           components={{
             Footer: ({ context: homeData }) => {
-              const total = homeData?.pageInfo?.totalResults || 0;
-              return homeData && homeData?.items?.length < total ? (
+              return homeData &&
+                homeData?.items?.length < homeData?.pageInfo?.totalResults ? (
                 <ThreeDots
                   visible={true}
                   height="50"

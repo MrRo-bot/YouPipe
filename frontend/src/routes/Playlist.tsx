@@ -72,7 +72,7 @@ const Playlist = () => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`relative ml-4 mt-3 mr-2 mb-2 max-h-[90vh] rounded-xl ${
+      className={`relative mx-1 md:ml-4 md:mr-2 mt-3 mb-2 max-h-[90vh] rounded-xl ${
         !isOpen ? "w-[85vw]" : "w-full"
       } overflow-y-auto hideScrollbar`}
     >
@@ -80,7 +80,7 @@ const Playlist = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
-        className="text-xl font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl text-slate-200"
+        className="m-1 text-2xl font-bold tracking-tight md:m-2 md:text-3xl xl:text-4xl xl:m-4 text-slate-200"
       >
         My Custom Playlists
       </motion.h1>
@@ -89,11 +89,9 @@ const Playlist = () => {
         {playlistData?.items?.length <= 1 ? (
           <FidgetSpinner
             visible={true}
-            height="80"
-            width="80"
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto -col-end-1"
+            wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto w-14 h-14 md:w-24 md:h-24 xl:w-32 xl:h-32 -col-end-1"
           />
         ) : (
           playlistData?.items?.map((playlist) => (

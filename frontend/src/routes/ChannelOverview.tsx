@@ -222,7 +222,7 @@ const ChannelOverview = () => {
             <div>No Banner Image Found</div>
           )}
           <div className="flex items-center justify-start gap-4 py-4">
-            <div className="relative overflow-hidden rounded-full min-w-28 min-h-28 lg:min-w-32 lg:min-h-32 xl:min-w-36 xl:min-h-36 2xl:min-w-40 2xl:min-h-40">
+            <div className="relative overflow-hidden rounded-full min-w-24 min-h-24 lg:min-w-32 lg:min-h-32 xl:min-w-36 xl:min-h-36 2xl:min-w-40 2xl:min-h-40">
               {isLoading ? (
                 <Skeleton
                   className="absolute inset-0 w-full h-full"
@@ -260,9 +260,8 @@ const ChannelOverview = () => {
               ) : (
                 <span className="flex items-center gap-1 text-xs md:text-base text-zinc-50">
                   <strong>
-                    {channelDetails?.items[0]?.snippet?.customUrl}
+                    {channelDetails?.items[0]?.snippet?.customUrl} •
                   </strong>
-                  •
                   <span className="text-zinc-200">
                     {channelDetails?.items[0]?.statistics &&
                       rawViewsToString(
