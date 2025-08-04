@@ -54,7 +54,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
         whileInView={"visible"}
         className="z-0 p-1 mx-auto transition-colors cursor-pointer rounded-xl group max-w-96 hover:bg-indigo-600/20 focus:bg-indigo-600/20 active:bg-zinc-600/70"
       >
-        <div className="flex flex-col gap-2">
+        <div className="relative flex flex-col gap-2">
           <div
             style={
               {
@@ -67,12 +67,12 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           before:content-['']
           before:absolute
           before:inline-block
-          before:w-[95%]
+          before:w-[97%]
           before:-translate-x-1/2
           before:left-1/2
           before:h-10
           before:-z-10
-          before:-top-[1px]
+          before:-top-[5px]
           before:rounded-xl
           before:bg-[var(--bg)]
           before:opacity-40
@@ -86,7 +86,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           after:left-1/2
           after:h-10
           after:-z-20
-          after:-top-[5px]
+          after:-top-[10px]
           after:rounded-xl
           after:bg-[var(--bg)]
           after:opacity-25
