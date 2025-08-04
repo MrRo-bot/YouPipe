@@ -491,20 +491,18 @@ const Header = () => {
       )}
 
       <div className="flex items-center justify-between order-3 gap-1 md:gap-2">
-        <span className="text-xs">
-          <NavLink
-            to="privacy"
-            className={({ isActive, isPending }) =>
-              isPending
-                ? ""
-                : isActive
-                ? "bg-white rounded-xl text-black font-bold"
-                : ""
-            }
-          >
-            read privacy policy
-          </NavLink>
-        </span>
+        <NavLink
+          to="privacy"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? ""
+              : isActive
+              ? "text-zinc-200 font-bold"
+              : "text-zinc-500"
+          }
+        >
+          read privacy policy
+        </NavLink>
         {profileData?.picture && (
           <div
             onClick={logout}
