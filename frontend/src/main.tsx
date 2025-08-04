@@ -22,6 +22,7 @@ import ChannelOverview from "./routes/ChannelOverview.tsx";
 import Uploads from "./components/channel/Uploads.tsx";
 import Channels from "./components/channel/Channels.tsx";
 import Playlists from "./components/channel/Playlists.tsx";
+import PrivacyPolicy from "./routes/PrivacyPolicy.tsx";
 
 import { store } from "./app/store.ts";
 
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} errorElement={<ErrorPage />}>
       <Route index element={<Home />} />
+      <Route path="privacy" element={<PrivacyPolicy />} />
       <Route path="subscriptions" element={<Subscription />} />
       <Route path="playlists" element={<Playlist />} />
       <Route path="likedvideos" element={<LikedVideos />} />
