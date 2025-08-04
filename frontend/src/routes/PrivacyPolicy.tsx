@@ -10,11 +10,11 @@ const PrivacyPolicy = () => {
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`relative mx-1 md:ml-4 mt-3 md:mr-2 mb-2 ${
+      className={`relative mx-1 md:ml-4 mt-3 md:mr-2 mb-2 max-h-[93vh] ${
         !isOpen ? "w-[85vw]" : "w-full"
       }  overflow-y-auto hideScrollbar rounded-xl`}
     >
-      <div className="w-full max-w-4xl p-8 mx-4 glass md:p-12">
+      <div className="w-full p-8 mx-auto glass md:p-12">
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
