@@ -105,14 +105,21 @@ const Header = () => {
 
   // sending code to backend to fetch and decrypt tokens
   const validateCode = async (res: CodeResponse) => {
-    const response = await fetch("https://localhost:8089/auth/google", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(res),
-    });
+    const response = await fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? import.meta.env.VITE_BACK_URL_PROD
+          : import.meta.env.VITE_BACK_URL_DEV
+      }/auth/google`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(res),
+      }
+    );
     const tokens = await response.json();
     dispatch(addToken(tokens));
     customToastFunction("🪙 Access token received!");
@@ -152,7 +159,12 @@ const Header = () => {
       id_token: "",
       expiry_date: 0,
     });
-    window.location.reload();
+    window.location.href = `${
+      process.env.NODE_ENV === "production"
+        ? import.meta.env.VITE_FRONT_URL_PROD ||
+          "https://youpipe-frontend.vercel.app"
+        : import.meta.env.VITE_FRONT_URL_DEV || "https://localhost:5173"
+    }`;
   };
 
   //focus on search bar using cmd / ctrl + k
@@ -274,13 +286,20 @@ const Header = () => {
 
     queryFn: async () => {
       try {
-        const res = await fetch("https://localhost:8089/auth/refresh-token", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ refresh_token: token?.refresh_token }),
-        });
+        const res = await fetch(
+          `${
+            process.env.NODE_ENV === "production"
+              ? import.meta.env.VITE_BACK_URL_PROD
+              : import.meta.env.VITE_BACK_URL_DEV
+          }/auth/refresh-token`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ refresh_token: token?.refresh_token }),
+          }
+        );
         if (!res.ok) {
           throw new Error("Failed to refresh token");
         }
