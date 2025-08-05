@@ -54,11 +54,11 @@ function App() {
 
   return (
     <>
-      <div className="relative h-screen p-1 text-slate-200 font-text">
+      <div className="relative p-1 h-dvh text-slate-200 font-text">
         <div className="w-full">
           <Header />
         </div>
-        <main className="relative flex min-h-[93vh]">
+        <main className="relative flex min-h-[calc(100%-40px)] md:min-h-[93vh]">
           <Sidebar />
           <Outlet />
           <ScrollRestoration />
