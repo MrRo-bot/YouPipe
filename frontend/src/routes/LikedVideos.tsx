@@ -187,7 +187,14 @@ const LikedVideos = () => {
             itemContent={(index, data) => (
               <LikedVideosCard key={data?.id} likedvideo={data} index={index} />
             )}
-            endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+            endReached={() =>
+              setTimeout(
+                () =>
+                  likedVideos?.items?.length <
+                    likedVideos?.pageInfo?.totalResults && setFetchMore(true),
+                1000
+              )
+            }
             context={likedVideos}
             components={{
               Footer: ({ context: likedVideos }) => {

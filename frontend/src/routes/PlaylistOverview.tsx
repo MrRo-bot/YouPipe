@@ -220,7 +220,15 @@ const PlaylistOverview = () => {
                   />
                 </div>
               )}
-              endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+              endReached={() =>
+                setTimeout(
+                  () =>
+                    playlistOverview?.items?.length <
+                      playlistOverview?.pageInfo?.totalResults &&
+                    setFetchMore(true),
+                  1000
+                )
+              }
               context={playlistOverview}
               components={{
                 Footer: ({ context: playlistOverview }) => {

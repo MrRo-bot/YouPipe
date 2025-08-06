@@ -237,7 +237,16 @@ const Uploads = () => {
           listClassName="grid grid-flow-row gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           data={channelUploads?.items}
           totalCount={channelUploads?.pageInfo?.totalResults || 0}
-          endReached={() => setTimeout(() => setFetchMore(true), 1000)}
+          endReached={() =>
+            setTimeout(
+              () =>
+                channelUploads?.pageInfo?.totalResults &&
+                channelUploads?.items?.length <
+                  channelUploads?.pageInfo?.totalResults &&
+                setFetchMore(true),
+              1000
+            )
+          }
           context={channelUploads}
           components={{
             Footer: ({ context: channelUploads }) => {
