@@ -328,7 +328,7 @@ const Header = () => {
       if (!token || !token.expiry_date) return false;
       const timeUntilExpiry =
         new Date(token.expiry_date).getTime() - Date.now();
-      console.log("Time until expiry:", timeUntilExpiry / 1000 / 60, "minutes");
+      // console.log("Time until expiry:", timeUntilExpiry / 1000 / 60, "minutes");
       //console.log(timeUntilExpiry);
       return timeUntilExpiry <= EXPIRY_THRESHOLD
         ? REFRESH_CHECK_INTERVAL
@@ -349,7 +349,7 @@ const Header = () => {
       key="header"
       className="flex items-center justify-between px-1 py-0.5 md:px-2 lg:px-3 md:py-1 transition-colors glass hover:bg-indigo-600/20 focus:bg-indigo-600/20"
     >
-      <div className="flex items-center justify-between order-2 gap-3 md:order-none">
+      <div className="flex items-center justify-between order-2 gap-3 lg:order-none">
         {window.innerWidth > 1024 && (
           <div
             onClick={() => dispatch(toggle())}

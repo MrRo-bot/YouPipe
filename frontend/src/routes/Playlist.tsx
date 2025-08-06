@@ -91,7 +91,7 @@ const Playlist = () => {
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto w-14 h-14 md:w-20 md:h-20 xl:w-28 xl:h-28 -col-end-1"
+            wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto w-16 h-16 md:w-20 md:h-20 xl:w-24 xl:h-24 -col-end-1"
           />
         ) : (
           playlistData?.items?.map((playlist) => (
