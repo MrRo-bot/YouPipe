@@ -32,7 +32,7 @@ export const store = configureStore({
     channelOverview: channelOverviewSlice,
     commentsThread: commentsThreadSlice,
   },
-  devTools: false, //because production build will expose redux store if someone uses extension in their browser
+  //devTools: false, //because production build will expose redux store if someone uses extension in their browser
 });
 
 // Inferring the `RootState` and `AppDispatch` types from the store itself
