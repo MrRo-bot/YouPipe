@@ -50,7 +50,8 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok) throw new Error("Oh no! didn't get video data");
+          if (!res.ok)
+            throw new Error(`Error ${res.status} in getting video data`);
           const video = await res.json();
           setVideoStats(video);
           setVideoLoading(false);

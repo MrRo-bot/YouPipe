@@ -78,7 +78,8 @@ const LikedVideos = () => {
             },
           }
         );
-        if (!res.ok) throw new Error("Error in fetching liked videos");
+        if (!res.ok)
+          throw new Error(`Error ${res.status} in fetching liked videos`);
         const likedVideosList = await res.json();
         dispatch(addLikedVideos(likedVideosList));
         setFetchMore(false);

@@ -30,7 +30,8 @@ const useDelSubscriberMutation = () => {
           },
         }
       );
-      if (!res.ok) throw new Error("Error removing subscriber");
+      if (!res.ok)
+        throw new Error(`Error ${res.status} in removing subscriber`);
     },
     onSuccess: async () => {
       customToastFunction("🥲 Unsubscribed!");

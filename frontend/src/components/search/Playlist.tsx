@@ -82,7 +82,8 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok) throw new Error("Oh no! didn't get playlist data");
+          if (!res.ok)
+            throw new Error(`Error ${res.status} in getting playlist data`);
           const playlist = await res.json();
           setPlaylist((prev) => ({
             ...prev,
@@ -123,7 +124,10 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok) throw new Error("Oh no! didn't get playlist items data");
+          if (!res.ok)
+            throw new Error(
+              `Error ${res.status} in getting playlist items data`
+            );
           const playlistItems = await res.json();
           setPlaylist((prev) => ({
             ...prev,

@@ -42,7 +42,8 @@ const useAddSubscriberMutation = (variableObj: {
           }),
         }
       );
-      if (!res.ok) throw new Error("Error subscribing to user");
+      if (!res.ok)
+        throw new Error(`Error ${res.status} in subscribing to user`);
       return res.json();
     },
     onSuccess: async () => {

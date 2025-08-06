@@ -54,7 +54,8 @@ const Playlists = () => {
           },
         }
       );
-      if (!res.ok) throw new Error("Error in fetching channels playlists");
+      if (!res.ok)
+        throw new Error(`Error ${res.status} in fetching channels playlists`);
       const playlist = await res.json();
       setPlaylist((prev) => [...prev, playlist]);
     } catch (error) {

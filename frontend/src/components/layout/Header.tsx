@@ -87,7 +87,7 @@ const Header = () => {
         const channelId = await res.json();
 
         if (!res.ok || channelId.items[0]?.id)
-          throw new Error("Error in fetching channel ID or not found");
+          throw new Error(`Error ${res.status} in fetching channel ID`);
 
         dispatch(addChannelId(channelId.items[0].id));
         return channelId;
@@ -200,7 +200,7 @@ const Header = () => {
           `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token?.access_token}`
         );
         if (!res.ok) {
-          throw new Error("❌ No access token");
+          throw new Error(`❌ Error ${res.status} : No access token`);
         }
         const profile = await res.json();
         dispatch(addProfile(profile));
@@ -304,7 +304,7 @@ const Header = () => {
           }
         );
         if (!res.ok) {
-          throw new Error("Failed to refresh token");
+          throw new Error(`Error ${res.status} in refreshing token`);
         }
         const newTokens = await res.json();
 

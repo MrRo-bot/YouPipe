@@ -170,7 +170,7 @@ const Comments = ({
           }),
         }
       );
-      if (!res.ok) throw new Error("Error adding reply");
+      if (!res.ok) throw new Error(`Error ${res.status} adding reply`);
       const replyData = await res.json();
       dispatch(addReply(replyData));
     },
@@ -246,7 +246,7 @@ const Comments = ({
           },
         }
       );
-      if (!res.ok) throw new Error("Error in deleting");
+      if (!res.ok) throw new Error(`Error ${res.status} in deleting`);
       dispatch(
         commentIds.commentId
           ? deleteComment(commentIds.commentId)

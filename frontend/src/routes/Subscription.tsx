@@ -60,7 +60,8 @@ const Subscription = () => {
             },
           }
         );
-        if (!res.ok) throw new Error("Error in fetching subscribers");
+        if (!res.ok)
+          throw new Error(`Error ${res.status} in fetching subscribers`);
         const subscription = await res.json();
         dispatch(addSubscription(subscription));
         setFetchMore(false);

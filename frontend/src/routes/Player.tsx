@@ -328,7 +328,7 @@ const Player = () => {
           }),
         }
       );
-      if (!res.ok) throw new Error("Error adding comment");
+      if (!res.ok) throw new Error(`Error ${res.status} in adding comment`);
       const comment = await res.json();
       dispatch(addComment(comment));
     },

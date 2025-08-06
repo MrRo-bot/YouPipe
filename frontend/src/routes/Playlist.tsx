@@ -53,7 +53,8 @@ const Playlist = () => {
             },
           }
         );
-        if (!res.ok) throw new Error("Error in fetching user playlists");
+        if (!res.ok)
+          throw new Error(`Error ${res.status} in fetching user playlists`);
 
         const playlist = await res.json();
         dispatch(addPlaylists(playlist));

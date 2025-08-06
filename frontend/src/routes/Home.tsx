@@ -70,7 +70,8 @@ const Home = () => {
               },
             }
           );
-          if (!res.ok) throw new Error("Error fetching home page videos");
+          if (!res.ok)
+            throw new Error(`Error ${res.status} in fetching home page videos`);
           const channelVideos = await res.json();
           dispatch(addHomeVideos(channelVideos));
           setFetchMore(false);
