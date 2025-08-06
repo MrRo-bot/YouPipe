@@ -193,8 +193,10 @@ const Uploads = () => {
             ","
           )}&maxResults=12&playlistId=${
             channelDetails?.items[0]?.contentDetails?.relatedPlaylists?.uploads
-          }&key=${import.meta.env.VITE_API_KEY}&pageToken=${
-            fetchMore ? channelUploads?.nextPageToken : ""
+          }&key=${import.meta.env.VITE_API_KEY}${
+            fetchMore && channelUploads?.nextPageToken
+              ? `&pageToken=${channelUploads?.nextPageToken}`
+              : ""
           }
           `,
           {

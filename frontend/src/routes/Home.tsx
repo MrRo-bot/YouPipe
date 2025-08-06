@@ -52,8 +52,10 @@ const Home = () => {
               ","
             )}&chart=mostPopular&maxResults=50&key=${
               import.meta.env.VITE_API_KEY
-            }&regionCode=${location.address.country_code}&pageToken=${
-              fetchMore ? homeData?.nextPageToken : ""
+            }&regionCode=${location.address.country_code}${
+              fetchMore && homeData?.nextPageToken
+                ? `&pageToken=${homeData?.nextPageToken}`
+                : ""
             }
           `,
             {

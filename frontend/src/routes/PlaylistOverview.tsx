@@ -70,7 +70,11 @@ const PlaylistOverview = () => {
           ","
         )}&playlistId=${playlistId}&maxResults=50&key=${
           import.meta.env.VITE_API_KEY
-        }&pageToken=${fetchMore ? playlistOverview?.nextPageToken : ""}
+        }${
+          fetchMore && playlistOverview?.nextPageToken
+            ? `&pageToken=${playlistOverview?.nextPageToken}`
+            : ""
+        }
         `,
         {
           headers: {

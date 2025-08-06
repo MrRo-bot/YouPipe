@@ -143,7 +143,11 @@ const Player = () => {
       const res = await fetch(
         `https://youtube.googleapis.com/youtube/v3/commentThreads?part=id%2Creplies%2Csnippet&videoId=${videoId}&maxResults=100&textFormat=html&key=${
           import.meta.env.VITE_API_KEY
-        }&pageToken=${fetchMore ? comments?.nextPageToken : ""}`,
+        }${
+          fetchMore && comments?.nextPageToken
+            ? `&pageToken=${comments?.nextPageToken}`
+            : ""
+        }`,
         {
           headers: {
             "Content-Type": "application/json",

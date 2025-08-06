@@ -47,8 +47,10 @@ const Subscription = () => {
         const res = await fetch(
           `https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&part=${parts.join(
             ","
-          )}&order=${sortBy}&maxResults=50&pageToken=${
-            fetchMore ? subData.nextPageToken : ""
+          )}&order=${sortBy}&maxResults=50${
+            fetchMore && subData?.nextPageToken
+              ? `&pageToken=${subData?.nextPageToken}`
+              : ""
           }`,
           {
             headers: {
