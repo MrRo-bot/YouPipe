@@ -38,7 +38,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
             className="w-full"
           >
-            <PiHouseFill className="size-5 md:size-7 lg:size-9" />
+            <PiHouseFill className="size-5 sm:size-7 md:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -59,7 +59,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.3 }}
             className="w-full"
           >
-            <PiMonitorPlayFill className="size-5 md:size-7 lg:size-9" />
+            <PiMonitorPlayFill className="size-5 sm:size-7 md:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -80,7 +80,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.4 }}
             className="w-full"
           >
-            <PiListStarFill className="size-5 md:size-7 lg:size-9" />
+            <PiListStarFill className="size-5 sm:size-7 md:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -101,7 +101,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
             className="w-full"
           >
-            <PiThumbsUpFill className="size-5 md:size-7 lg:size-9" />
+            <PiThumbsUpFill className="size-5 sm:size-7 md:size-9" />
           </motion.div>
         </div>
       </NavLink>
@@ -122,7 +122,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
             className="w-full"
           >
-            <PiShieldWarningFill className="size-5 md:size-7 lg:size-9" />
+            <PiShieldWarningFill className="size-5 sm:size-7 md:size-9" />
           </motion.div>
         </div>
       </NavLink>
