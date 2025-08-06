@@ -87,7 +87,13 @@ const Playlist = () => {
       </motion.h1>
 
       <div className="grid grid-flow-row mt-2 md:mt-5 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6 xl:gap-x-6 xl:gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {playlistData?.items?.length <= 1 ? (
+        {playlistData?.items?.length === 1 && (
+          <div className="mx-auto text-lg italic font-bold w-max">
+            Not Found
+          </div>
+        )}
+
+        {playlistData?.items?.length > 1 ? (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"

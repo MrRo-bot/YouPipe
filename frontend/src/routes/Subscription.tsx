@@ -153,7 +153,13 @@ const Subscription = () => {
           </div>
         </div>
 
-        {subData.items.length <= 1 ? (
+        {subData?.items?.length === 1 && (
+          <div className="mx-auto text-lg italic font-bold w-max">
+            Not Found
+          </div>
+        )}
+
+        {subData.items.length > 1 ? (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"

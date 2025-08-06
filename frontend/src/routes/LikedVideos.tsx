@@ -171,7 +171,13 @@ const LikedVideos = () => {
           </div>
         </motion.div>
 
-        {likedVideos?.items?.length <= 1 ? (
+        {likedVideos?.items?.length === 1 && (
+          <div className="mx-auto text-lg italic font-bold w-max">
+            Not Found
+          </div>
+        )}
+
+        {likedVideos?.items?.length > 1 ? (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"
