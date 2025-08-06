@@ -39,9 +39,9 @@ const Search = () => {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&regionCode=${location.address[
-            "ISO3166-2-lvl4"
-          ].slice(0, 2)}&q=${searchStr}&key=${import.meta.env.VITE_API_KEY}${
+          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&regionCode=${
+            location.address.country_code
+          }&q=${searchStr}&key=${import.meta.env.VITE_API_KEY}${
             fetchMoreSearchItems && searchData?.nextPageToken
               ? `&pageToken=${searchData?.nextPageToken}`
               : ""

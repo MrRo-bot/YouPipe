@@ -79,7 +79,7 @@ const Sidebar = () => {
             transition={{ duration: 0.35, ease: "easeInOut", delay: 0.4 }}
             className="w-full"
           >
-            <PiListStarFill className="size-5 sm:size-7 md:size-9" />
+            <PiListStarFill className="size-5 md:size-7 lg:size-9" />
           </motion.div>
         </div>
       </NavLink>
