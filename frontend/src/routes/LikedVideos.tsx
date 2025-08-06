@@ -58,7 +58,7 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["likedVideos", fetchMore],
     queryFn: async () => {
       try {
@@ -171,19 +171,19 @@ const LikedVideos = () => {
           </div>
         </motion.div>
 
-        {likedVideos?.items?.length === 1 && (
-          <div className="mx-auto text-lg italic font-bold w-max">
-            Not Found
-          </div>
-        )}
-
-        {likedVideos?.items?.length > 1 ? (
+        {isLoading && (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
             wrapperClass="fidget-spinner-wrapper size-16 md:size-20 mx-auto"
           />
+        )}
+
+        {likedVideos?.items?.length === 1 ? (
+          <div className="mx-auto text-lg italic font-bold w-max">
+            Not Found
+          </div>
         ) : (
           <Virtuoso
             className="lg:!w-9/12 lg:!min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl lg:!mx-2 !my-1"

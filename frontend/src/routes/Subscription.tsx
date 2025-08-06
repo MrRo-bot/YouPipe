@@ -40,7 +40,7 @@ const Subscription = () => {
 
   const parts = ["contentDetails", "id", "snippet"];
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["subscription", sortBy, fetchMore],
     queryFn: async () => {
       try {
@@ -153,19 +153,19 @@ const Subscription = () => {
           </div>
         </div>
 
-        {subData?.items?.length === 1 && (
-          <div className="mx-auto text-lg italic font-bold w-max">
-            Not Found
-          </div>
-        )}
-
-        {subData.items.length > 1 ? (
+        {isLoading && (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
             wrapperClass="fidget-spinner-wrapper size-16 md:size-20 mx-auto translate-y-1/2 -top-1/2"
           />
+        )}
+
+        {subData.items.length === 1 ? (
+          <div className="mx-auto text-lg italic font-bold w-max">
+            Not Found
+          </div>
         ) : (
           <Virtuoso
             className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
