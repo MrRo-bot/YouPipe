@@ -57,17 +57,6 @@ const Search = () => {
           }
         );
         if (!res.ok) throw new Error("Error in fetching search results");
-        console.log(
-          `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${searchStr}&key=${
-            import.meta.env.VITE_API_KEY
-          }&regionCode=${
-            location.address.country_code ? location.address.country_code : "IN"
-          }${
-            fetchMoreSearchItems && searchData?.nextPageToken
-              ? `&pageToken=${searchData?.nextPageToken}`
-              : ""
-          }`
-        );
         const search = await res.json();
         dispatch(addSearch(search));
         dispatch(fetchMore(false));

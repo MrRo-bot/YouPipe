@@ -75,14 +75,14 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 
 - [x] Hosting in vercel using monorepo architecture
 - [x] Remember to remove developer related tools in final project
+- [ ] Search issue when re-edited search string
 - [ ] Issues with channel overview not clearing items when new channel overview comes (BIG ISSUE unable to solve)
 - [ ] Playing all playlists at once [using url array (create url array from playlist items first)] (need to sort how to get beyond 50 results in queue as well)
 - [ ] Undo action in react toastify
-- [ ] Sort option in commentSection, playlistOverview
+- [ ] Sort option in commentSection, playlistOverview and search
 - [ ] Category search (requires video(videoCategoryId))
 - [ ] Tooltips
 - [ ] Accessibility checks
-- [ ] Search issue when re-edited search string
 
 See the [open issues](https://github.com/MrRo-bot/YouPipe/issues) for a full list of proposed features (and known issues).
 
