@@ -84,12 +84,16 @@ const Header = () => {
             },
           }
         );
-        const channelId = await res.json();
 
-        if ((!res.ok && res.status >= 400) || channelId.items[0]?.id)
+        if (!res.ok && res.status >= 400)
           throw new Error(`Error ${res.status} in fetching channel ID`);
 
-        dispatch(addChannelId(channelId.items[0].id));
+        const channelId = await res.json();
+
+        if (channelId?.items[0]?.id)
+          dispatch(addChannelId(channelId.items[0].id));
+        else customToastFunction(`❌ you don't have a YouTube channel`);
+
         return channelId;
       } catch (error) {
         customToastFunction(
