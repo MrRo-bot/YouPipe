@@ -493,7 +493,7 @@ const Header = () => {
       <div className="relative flex items-center justify-between order-3 gap-1 md:gap-2">
         {window.innerWidth > 1024 && (
           <NavLink
-            style={{ position: "absolute", left: 115 + "px" }}
+            style={{ position: "absolute", left: -115 + "px" }}
             to="privacy"
             className={({ isActive, isPending }) =>
               isPending

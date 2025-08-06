@@ -19,7 +19,7 @@ const Sidebar = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="fixed z-50 flex gap-2 p-1 transition-colors -translate-x-1/2 bottom-4 glass active:bg-indigo-600/20 left-1/2"
+      className="fixed z-[999] flex gap-2 p-1 transition-colors -translate-x-1/2 bottom-4 glass active:bg-indigo-600/20 left-1/2"
     >
       <NavLink
         to="/"
