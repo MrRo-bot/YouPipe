@@ -97,7 +97,7 @@ const Playlist = () => {
         )}
 
         {playlistData?.items?.length === 1 ? (
-          <div className="mx-auto text-lg italic font-bold w-max">
+          <div className="col-start-1 text-lg italic font-bold -col-end-1 w-max">
             Not Found
           </div>
         ) : (
