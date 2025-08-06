@@ -84,9 +84,11 @@ const Header = () => {
             },
           }
         );
-        if (!res.ok) throw new Error("Error in fetching channel ID");
-
         const channelId = await res.json();
+
+        if (!res.ok || channelId.items[0]?.id)
+          throw new Error("Error in fetching channel ID or not found");
+
         dispatch(addChannelId(channelId.items[0].id));
         return channelId;
       } catch (error) {
@@ -97,6 +99,7 @@ const Header = () => {
       }
     },
     enabled: !!profileData?.email,
+    refetchOnWindowFocus: false,
   });
 
   //space separated list of scopes required for project itself
