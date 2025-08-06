@@ -175,7 +175,7 @@ const LikedVideos = () => {
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-16 md:h-16 xl:w-18 xl:h-18 mx-auto"
+            wrapperClass="fidget-spinner-wrapper w-14 h-14 md:w-20 md:h-20 xl:w-28 xl:h-28 mx-auto"
           />
         ) : (
           <Virtuoso
