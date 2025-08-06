@@ -491,18 +491,20 @@ const Header = () => {
       )}
 
       <div className="flex items-center justify-between order-3 gap-1 md:gap-2">
-        <NavLink
-          to="privacy"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? ""
-              : isActive
-              ? "text-zinc-200 text-xs font-bold"
-              : "text-zinc-500 text-xs"
-          }
-        >
-          read privacy policy
-        </NavLink>
+        {window.innerWidth > 1024 && (
+          <NavLink
+            to="privacy"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? ""
+                : isActive
+                ? "text-zinc-200 text-xs font-bold"
+                : "text-zinc-500 text-xs"
+            }
+          >
+            Read Privacy Policy
+          </NavLink>
+        )}
         {profileData?.picture && (
           <div
             onClick={logout}

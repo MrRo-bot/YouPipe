@@ -6,6 +6,7 @@ import {
   PiHouseFill,
   PiMonitorPlayFill,
   PiThumbsUpFill,
+  PiShieldWarningFill,
 } from "react-icons/pi";
 
 import { useAppSelector } from "../../app/store";
@@ -101,6 +102,27 @@ const Sidebar = () => {
             className="w-full"
           >
             <PiThumbsUpFill className="size-5 md:size-7 lg:size-9" />
+          </motion.div>
+        </div>
+      </NavLink>
+      <NavLink
+        to="privacy"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? ""
+            : isActive
+            ? "bg-white rounded-xl text-black font-bold"
+            : ""
+        }
+      >
+        <div className="px-2 py-1 transition-colors cursor-pointer rounded-xl active:text-zinc-900 active:bg-zinc-400">
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.35, ease: "easeInOut", delay: 0.5 }}
+            className="w-full"
+          >
+            <PiShieldWarningFill className="size-5 md:size-7 lg:size-9" />
           </motion.div>
         </div>
       </NavLink>
