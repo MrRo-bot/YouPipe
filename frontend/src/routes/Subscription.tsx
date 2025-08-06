@@ -163,7 +163,7 @@ const Subscription = () => {
         )}
 
         {subData.items.length === 1 ? (
-          <div className="mx-auto text-lg italic font-bold w-max">
+          <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>
         ) : (
