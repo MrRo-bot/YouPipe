@@ -75,7 +75,7 @@ const Channel = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok)
+          if (!res.ok && res.status >= 400)
             throw new Error(`Error ${res.status} in getting channel data`);
           const channel = await res.json();
           setChannelStats(channel);

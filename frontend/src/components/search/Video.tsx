@@ -50,7 +50,7 @@ const Video = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok)
+          if (!res.ok && res.status >= 400)
             throw new Error(`Error ${res.status} in getting video data`);
           const video = await res.json();
           setVideoStats(video);

@@ -42,7 +42,7 @@ const useAddSubscriberMutation = (variableObj: {
           }),
         }
       );
-      if (!res.ok)
+      if (!res.ok && res.status >= 400)
         throw new Error(`Error ${res.status} in subscribing to user`);
       return res.json();
     },

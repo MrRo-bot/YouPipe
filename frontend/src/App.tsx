@@ -38,7 +38,7 @@ function App() {
           const res = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${locationCoords.latitude}&lon=${locationCoords.longitude}&format=json`
           );
-          if (!res.ok)
+          if (!res.ok && res.status >= 400)
             throw new Error(`Error ${res.status} : location not found`);
           const coordsDetails = await res.json();
           dispatch(getLocationData(coordsDetails));

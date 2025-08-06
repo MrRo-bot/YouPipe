@@ -56,7 +56,7 @@ const Search = () => {
             },
           }
         );
-        if (!res.ok)
+        if (!res.ok && res.status >= 400)
           throw new Error(`Error ${res.status} in fetching search results`);
         const search = await res.json();
         dispatch(addSearch(search));

@@ -82,7 +82,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok)
+          if (!res.ok && res.status >= 400)
             throw new Error(`Error ${res.status} in getting playlist data`);
           const playlist = await res.json();
           setPlaylist((prev) => ({
@@ -124,7 +124,7 @@ const Playlist = ({ search, kind }: { search: SearchType; kind: string }) => {
               },
             }
           );
-          if (!res.ok)
+          if (!res.ok && res.status >= 400)
             throw new Error(
               `Error ${res.status} in getting playlist items data`
             );

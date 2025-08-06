@@ -60,7 +60,7 @@ const Subscription = () => {
             },
           }
         );
-        if (!res.ok)
+        if (!res.ok && res.status >= 400)
           throw new Error(`Error ${res.status} in fetching subscribers`);
         const subscription = await res.json();
         dispatch(addSubscription(subscription));

@@ -328,7 +328,8 @@ const Player = () => {
           }),
         }
       );
-      if (!res.ok) throw new Error(`Error ${res.status} in adding comment`);
+      if (!res.ok && res.status >= 400)
+        throw new Error(`Error ${res.status} in adding comment`);
       const comment = await res.json();
       dispatch(addComment(comment));
     },
