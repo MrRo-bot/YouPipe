@@ -37,7 +37,7 @@ const Playlist = () => {
   ];
 
   //(Don't know why I can't get any saved playlist in this as well)
-  const { error, data, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["playlists"],
     queryFn: async () => {
       try {
