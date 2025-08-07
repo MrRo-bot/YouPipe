@@ -96,7 +96,8 @@ const Playlist = () => {
               Login to fetch your playlists
             </i>
           </div>
-        ) : data?.pageInfo?.totalResults === 0 && !data ? (
+        ) : (data && data?.pageInfo?.totalResults === 0) ||
+          (playlistData && playlistData?.pageInfo?.totalResults === 0) ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>
