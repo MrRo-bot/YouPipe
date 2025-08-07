@@ -87,27 +87,23 @@ const Playlist = () => {
       </motion.h1>
 
       <div className="grid grid-flow-row mt-2 md:mt-5 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6 xl:gap-x-6 xl:gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {isLoading && (
+        {!token?.access_token ? (
+          <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+            <i className="block text-xs md:text-sm xl:text-base">
+              Login to fetch your playlists
+            </i>
+          </div>
+        ) : data?.pageInfo?.totalResults === 0 ? (
+          <div className="mx-auto text-2xl italic font-bold w-max">
+            Not Found
+          </div>
+        ) : isLoading ? (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper col-start-1 mx-auto size-16 md:size-20 -col-end-1"
+            wrapperClass="fidget-spinner-wrapper size-16 md:size-20 mx-auto translate-y-1/2 -top-1/2"
           />
-        )}
-
-        {!isLoading && error && (
-          <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-            <i className="block pt-4 text-xs md:text-sm xl:text-base">
-              Login to fetch your playlists
-            </i>
-          </div>
-        )}
-
-        {!isLoading && !error && data?.pageInfo?.totalResults === 0 ? (
-          <div className="w-full col-start-1 text-2xl italic font-bold text-center -col-end-1">
-            Not Found
-          </div>
         ) : (
           playlistData?.items?.map((playlist) => (
             <PlaylistCard key={playlist.id} playlist={playlist} />

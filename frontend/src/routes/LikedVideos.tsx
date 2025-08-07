@@ -58,7 +58,7 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
-  const { data, error, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["likedVideos", fetchMore],
     queryFn: async () => {
       try {
@@ -91,7 +91,8 @@ const LikedVideos = () => {
         );
       }
     },
-    enabled: !!fetchMore,
+
+    enabled: !!fetchMore || !!token?.access_token,
     refetchOnMount: true,
   });
 
@@ -171,27 +172,23 @@ const LikedVideos = () => {
           </div>
         </motion.div>
 
-        {isLoading && (
+        {!token?.access_token ? (
+          <div className="px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+            <i className="block text-xs md:text-sm xl:text-base">
+              Login to fetch your liked videos
+            </i>
+          </div>
+        ) : data?.pageInfo?.totalResults === 0 ? (
+          <div className="mx-auto text-2xl italic font-bold w-max">
+            Not Found
+          </div>
+        ) : isLoading ? (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
             wrapperClass="fidget-spinner-wrapper size-16 md:size-20 mx-auto"
           />
-        )}
-
-        {!isLoading && error && (
-          <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-            <i className="block pt-4 text-xs md:text-sm xl:text-base">
-              Login to fetch liked videos from your account
-            </i>
-          </div>
-        )}
-
-        {!isLoading && !error && data?.pageInfo?.totalResults === 0 ? (
-          <div className="mx-auto text-2xl italic font-bold w-max">
-            Not Found
-          </div>
         ) : (
           <Virtuoso
             className="lg:!w-9/12 lg:!min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl lg:!mx-2 !my-1"
