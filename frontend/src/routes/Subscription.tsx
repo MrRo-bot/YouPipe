@@ -105,52 +105,55 @@ const Subscription = () => {
             All Subscriptions
           </motion.h1>
 
-          <div className="block mt-4 rounded-lg cursor-pointer md:mx-4">
-            <div
-              onClick={() => setExpand(!expand)}
-              className="p-1 md:p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
-            >
-              {sortBy === "relevance"
-                ? "Most relevant"
-                : sortBy === "unread"
-                ? "New activity"
-                : sortBy === "alphabetical"
-                ? "A-Z"
-                : ""}
-              {expand ? (
-                <RiArrowUpWideFill className="transition-all size-2 md:size-4" />
-              ) : (
-                <RiArrowDownWideFill className="transition-all size-2 md:size-4" />
-              )}
-            </div>
-            <div
-              className={`${
-                expand ? "absolute" : "hidden"
-              } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
-            >
-              <div
-                data-sort="relevance"
-                onClick={(e) => handleSort(e)}
-                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
-              >
-                Most relevant
+          {data?.pageInfo?.totalResults > 1 &&
+            subData?.items[0]?.kind !== "" && (
+              <div className="block mt-4 rounded-lg cursor-pointer md:mx-4">
+                <div
+                  onClick={() => setExpand(!expand)}
+                  className="p-1 md:p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
+                >
+                  {sortBy === "relevance"
+                    ? "Most relevant"
+                    : sortBy === "unread"
+                    ? "New activity"
+                    : sortBy === "alphabetical"
+                    ? "A-Z"
+                    : ""}
+                  {expand ? (
+                    <RiArrowUpWideFill className="transition-all size-2 md:size-4" />
+                  ) : (
+                    <RiArrowDownWideFill className="transition-all size-2 md:size-4" />
+                  )}
+                </div>
+                <div
+                  className={`${
+                    expand ? "absolute" : "hidden"
+                  } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
+                >
+                  <div
+                    data-sort="relevance"
+                    onClick={(e) => handleSort(e)}
+                    className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                  >
+                    Most relevant
+                  </div>
+                  <div
+                    data-sort="unread"
+                    onClick={(e) => handleSort(e)}
+                    className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                  >
+                    New activity
+                  </div>
+                  <div
+                    data-sort="alphabetical"
+                    onClick={(e) => handleSort(e)}
+                    className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                  >
+                    A-Z
+                  </div>
+                </div>
               </div>
-              <div
-                data-sort="unread"
-                onClick={(e) => handleSort(e)}
-                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
-              >
-                New activity
-              </div>
-              <div
-                data-sort="alphabetical"
-                onClick={(e) => handleSort(e)}
-                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
-              >
-                A-Z
-              </div>
-            </div>
-          </div>
+            )}
         </div>
 
         {!token?.access_token && (
@@ -177,48 +180,47 @@ const Subscription = () => {
             </div>
           ))}
 
-        {data?.pageInfo?.totalResults > 1 ||
-          (subData?.items[0]?.kind !== "" && (
-            <Virtuoso
-              className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
-              increaseViewportBy={100}
-              data={subData.items}
-              totalCount={subData.pageInfo.totalResults}
-              itemContent={(_, data) => (
-                <SubscriptionList key={data.id} sub={data} />
-              )}
-              endReached={() =>
-                setTimeout(
-                  () =>
-                    subData.items.length < subData?.pageInfo?.totalResults &&
-                    setFetchMore(true),
-                  1000
-                )
-              }
-              context={subData}
-              components={{
-                Footer: ({ context: subData }) => {
-                  return subData &&
-                    subData.items.length < subData.pageInfo.totalResults ? (
-                    <ThreeDots
-                      visible={true}
-                      height="50"
-                      width="50"
-                      color="#3bf6fcbf"
-                      radius="9"
-                      ariaLabel="three-dots-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="justify-center"
-                    />
-                  ) : (
-                    <div className="mx-auto text-lg italic font-bold w-max">
-                      -----------------End of the list-----------------
-                    </div>
-                  );
-                },
-              }}
-            />
-          ))}
+        {data?.pageInfo?.totalResults > 1 && subData?.items[0]?.kind !== "" && (
+          <Virtuoso
+            className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
+            increaseViewportBy={100}
+            data={subData.items}
+            totalCount={subData.pageInfo.totalResults}
+            itemContent={(_, data) => (
+              <SubscriptionList key={data.id} sub={data} />
+            )}
+            endReached={() =>
+              setTimeout(
+                () =>
+                  subData.items.length < subData?.pageInfo?.totalResults &&
+                  setFetchMore(true),
+                1000
+              )
+            }
+            context={subData}
+            components={{
+              Footer: ({ context: subData }) => {
+                return subData &&
+                  subData.items.length < subData.pageInfo.totalResults ? (
+                  <ThreeDots
+                    visible={true}
+                    height="50"
+                    width="50"
+                    color="#3bf6fcbf"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="justify-center"
+                  />
+                ) : (
+                  <div className="mx-auto text-lg italic font-bold w-max">
+                    -----------------End of the list-----------------
+                  </div>
+                );
+              },
+            }}
+          />
+        )}
       </div>
     </motion.div>
   );

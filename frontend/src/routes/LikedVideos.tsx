@@ -130,51 +130,54 @@ const LikedVideos = () => {
             : "w-full"
         }  flex flex-col lg:flex-row`}
       >
-        <motion.div
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
-          style={{
-            background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
-          }}
-          className="flex flex-col md:flex-row lg:flex-col px-2 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1"
-        >
-          <div className="my-2 overflow-hidden rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
-            {likedVideos?.items[0]?.snippet?.thumbnails?.high?.url ? (
-              <img
-                referrerPolicy="no-referrer"
-                className="object-cover w-full h-full"
-                src={
-                  likedVideos?.items
-                    ? likedVideos?.items[0]?.snippet?.thumbnails?.high?.url
-                    : ""
-                }
-                alt=""
-              />
-            ) : (
-              <Skeleton
-                height={"100%"}
-                className="md:!w-[50vw] -top-1 rounded-2xl"
-              />
-            )}
-          </div>
-          <div className="md:mt-1 md:pl-2">
-            <h1 className="text-2xl font-bold md:text-3xl xl:text-4xl text-zinc-50">
-              Liked videos
-            </h1>
-            <h3 className="mt-2 text-sm font-semibold tracking-tighter lg:text-base text-zinc-200">
-              Chhavimani Choubey
-            </h3>
-            <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter lg:text-base text-zinc-400">
-              <span>
-                {likedVideos?.items?.length
-                  ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +
-                    " videos"
-                  : "0 videos"}
-              </span>
-            </div>
-          </div>
-        </motion.div>
+        {data?.pageInfo?.totalResults > 1 &&
+          likedVideos?.items[0]?.kind !== "" && (
+            <motion.div
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
+              style={{
+                background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
+              }}
+              className="flex flex-col md:flex-row lg:flex-col px-2 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1"
+            >
+              <div className="my-2 overflow-hidden rounded-2xl aspect-video sm:w-[70%] sm:mx-auto lg:w-full">
+                {likedVideos?.items[0]?.snippet?.thumbnails?.high?.url ? (
+                  <img
+                    referrerPolicy="no-referrer"
+                    className="object-cover w-full h-full"
+                    src={
+                      likedVideos?.items
+                        ? likedVideos?.items[0]?.snippet?.thumbnails?.high?.url
+                        : ""
+                    }
+                    alt=""
+                  />
+                ) : (
+                  <Skeleton
+                    height={"100%"}
+                    className="md:!w-[50vw] -top-1 rounded-2xl"
+                  />
+                )}
+              </div>
+              <div className="md:mt-1 md:pl-2">
+                <h1 className="text-2xl font-bold md:text-3xl xl:text-4xl text-zinc-50">
+                  Liked videos
+                </h1>
+                <h3 className="mt-2 text-sm font-semibold tracking-tighter lg:text-base text-zinc-200">
+                  Chhavimani Choubey
+                </h3>
+                <div className="flex gap-2 mt-2 text-sm font-medium tracking-tighter lg:text-base text-zinc-400">
+                  <span>
+                    {likedVideos?.items?.length
+                      ? likedVideos?.pageInfo?.totalResults?.toLocaleString() +
+                        " videos"
+                      : "0 videos"}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
         {!token?.access_token && (
           <div className="px-6 py-3 mx-auto text-center transition-colors h-max w-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
@@ -195,13 +198,20 @@ const LikedVideos = () => {
 
         {likedVideos?.pageInfo?.totalResults < 1 ||
           (likedVideos?.items[0]?.kind === "" && (
-            <div className="px-6 py-3 text-center transition-colors w-max h-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-              <i className="block text-xs md:text-sm xl:text-base">Not Found</i>
-            </div>
+            <>
+              <h1 className="text-2xl font-bold text-center md:text-3xl xl:text-4xl text-zinc-50">
+                Liked videos
+              </h1>
+              <div className="px-6 py-3 text-center transition-colors w-max h-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+                <i className="block text-xs md:text-sm xl:text-base">
+                  Not Found
+                </i>
+              </div>
+            </>
           ))}
 
-        {data?.pageInfo?.totalResults > 1 ||
-          (likedVideos?.items[0]?.kind !== "" && (
+        {data?.pageInfo?.totalResults > 1 &&
+          likedVideos?.items[0]?.kind !== "" && (
             <Virtuoso
               className="lg:!w-9/12 lg:!min-h-[90vh] !overflow-y-auto !hideScrollbar !flex !flex-col !gap-4 !rounded-2xl lg:!mx-2 !my-1"
               increaseViewportBy={100}
@@ -246,7 +256,7 @@ const LikedVideos = () => {
                 },
               }}
             />
-          ))}
+          )}
       </div>
     </SkeletonTheme>
   );
