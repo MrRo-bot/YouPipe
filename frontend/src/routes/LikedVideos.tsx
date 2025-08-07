@@ -173,7 +173,7 @@ const LikedVideos = () => {
         </motion.div>
 
         {!token?.access_token ? (
-          <div className="px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+          <div className="px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 size-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
             <i className="block text-xs md:text-sm xl:text-base">
               Login to fetch your liked videos
             </i>

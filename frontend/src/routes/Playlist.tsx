@@ -66,7 +66,12 @@ const Playlist = () => {
         );
       }
     },
+    enabled: !!token?.access_token,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
+
+  console.log(data);
 
   return (
     <motion.div
@@ -102,7 +107,7 @@ const Playlist = () => {
             visible={true}
             ariaLabel="fidget-spinner-loading"
             wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper size-16 md:size-20 mx-auto translate-y-1/2 -top-1/2"
+            wrapperClass="fidget-spinner-wrapper size-16 md:size-20 col-start-1 text-center mx-auto -col-end-1 translate-y-1/2 -top-1/2"
           />
         ) : (
           playlistData?.items?.map((playlist) => (
