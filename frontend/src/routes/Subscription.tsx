@@ -105,52 +105,54 @@ const Subscription = () => {
             All Subscriptions
           </motion.h1>
 
-          <div className="block mt-4 rounded-lg cursor-pointer md:mx-4">
-            <div
-              onClick={() => setExpand(!expand)}
-              className="p-1 md:p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
-            >
-              {sortBy === "relevance"
-                ? "Most relevant"
-                : sortBy === "unread"
-                ? "New activity"
-                : sortBy === "alphabetical"
-                ? "A-Z"
-                : ""}
-              {expand ? (
-                <RiArrowUpWideFill className="transition-all size-2 md:size-4" />
-              ) : (
-                <RiArrowDownWideFill className="transition-all size-2 md:size-4" />
-              )}
+          {token?.access_token && (
+            <div className="block mt-4 rounded-lg cursor-pointer md:mx-4">
+              <div
+                onClick={() => setExpand(!expand)}
+                className="p-1 md:p-2.5 rounded-lg select-none flex items-center gap-2 max-w-max transition-colors bg-zinc-800 hover:bg-zinc-600 focus:bg-zinc-600 active:bg-zinc-600/70"
+              >
+                {sortBy === "relevance"
+                  ? "Most relevant"
+                  : sortBy === "unread"
+                  ? "New activity"
+                  : sortBy === "alphabetical"
+                  ? "A-Z"
+                  : ""}
+                {expand ? (
+                  <RiArrowUpWideFill className="transition-all size-2 md:size-4" />
+                ) : (
+                  <RiArrowDownWideFill className="transition-all size-2 md:size-4" />
+                )}
+              </div>
+              <div
+                className={`${
+                  expand ? "absolute" : "hidden"
+                } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
+              >
+                <div
+                  data-sort="relevance"
+                  onClick={(e) => handleSort(e)}
+                  className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                >
+                  Most relevant
+                </div>
+                <div
+                  data-sort="unread"
+                  onClick={(e) => handleSort(e)}
+                  className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                >
+                  New activity
+                </div>
+                <div
+                  data-sort="alphabetical"
+                  onClick={(e) => handleSort(e)}
+                  className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
+                >
+                  A-Z
+                </div>
+              </div>
             </div>
-            <div
-              className={`${
-                expand ? "absolute" : "hidden"
-              } z-50 mt-2 overflow-hidden rounded-lg max-w-max transition-all`}
-            >
-              <div
-                data-sort="relevance"
-                onClick={(e) => handleSort(e)}
-                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
-              >
-                Most relevant
-              </div>
-              <div
-                data-sort="unread"
-                onClick={(e) => handleSort(e)}
-                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
-              >
-                New activity
-              </div>
-              <div
-                data-sort="alphabetical"
-                onClick={(e) => handleSort(e)}
-                className="p-1 md:p-2.5 transition-colors bg-zinc-800 hover:bg-black focus:bg-black active:bg-black"
-              >
-                A-Z
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
         {!token?.access_token ? (
