@@ -153,7 +153,7 @@ const Subscription = () => {
           </div>
         </div>
 
-        {!!token?.access_token && (
+        {!token?.access_token && (
           <div className="px-6 py-3 mx-auto text-center transition-colors h-max w-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
             <i className="block text-xs md:text-sm xl:text-base">
               Login to get your subscriptions
@@ -177,45 +177,48 @@ const Subscription = () => {
             </div>
           ))}
 
-        <Virtuoso
-          className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
-          increaseViewportBy={100}
-          data={subData.items}
-          totalCount={subData.pageInfo.totalResults}
-          itemContent={(_, data) => (
-            <SubscriptionList key={data.id} sub={data} />
-          )}
-          endReached={() =>
-            setTimeout(
-              () =>
-                subData.items.length < subData?.pageInfo?.totalResults &&
-                setFetchMore(true),
-              1000
-            )
-          }
-          context={subData}
-          components={{
-            Footer: ({ context: subData }) => {
-              return subData &&
-                subData.items.length < subData.pageInfo.totalResults ? (
-                <ThreeDots
-                  visible={true}
-                  height="50"
-                  width="50"
-                  color="#3bf6fcbf"
-                  radius="9"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="justify-center"
-                />
-              ) : (
-                <div className="mx-auto text-lg italic font-bold w-max">
-                  -----------------End of the list-----------------
-                </div>
-              );
-            },
-          }}
-        />
+        {subData?.pageInfo?.totalResults > 1 ||
+          (subData?.items[0]?.kind !== "" && (
+            <Virtuoso
+              className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
+              increaseViewportBy={100}
+              data={subData.items}
+              totalCount={subData.pageInfo.totalResults}
+              itemContent={(_, data) => (
+                <SubscriptionList key={data.id} sub={data} />
+              )}
+              endReached={() =>
+                setTimeout(
+                  () =>
+                    subData.items.length < subData?.pageInfo?.totalResults &&
+                    setFetchMore(true),
+                  1000
+                )
+              }
+              context={subData}
+              components={{
+                Footer: ({ context: subData }) => {
+                  return subData &&
+                    subData.items.length < subData.pageInfo.totalResults ? (
+                    <ThreeDots
+                      visible={true}
+                      height="50"
+                      width="50"
+                      color="#3bf6fcbf"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="justify-center"
+                    />
+                  ) : (
+                    <div className="mx-auto text-lg italic font-bold w-max">
+                      -----------------End of the list-----------------
+                    </div>
+                  );
+                },
+              }}
+            />
+          ))}
       </div>
     </motion.div>
   );

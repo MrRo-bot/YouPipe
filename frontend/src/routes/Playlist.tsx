@@ -88,7 +88,7 @@ const Playlist = () => {
         My Custom Playlists
       </motion.h1>
 
-      {!!token?.access_token && (
+      {!token?.access_token && (
         <div className="col-start-1 px-6 py-3 text-center transition-colors -col-end-1 h-max w-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
           <i className="block text-xs md:text-sm xl:text-base">
             Login to get your playlists
