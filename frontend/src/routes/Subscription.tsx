@@ -161,7 +161,7 @@ const Subscription = () => {
               Login to fetch your subscribers list
             </i>
           </div>
-        ) : subData && subData?.pageInfo?.totalResults === 0 ? (
+        ) : !isLoading && subData && subData?.pageInfo?.totalResults === 0 ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>
