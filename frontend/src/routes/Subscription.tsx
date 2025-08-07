@@ -85,7 +85,7 @@ const Subscription = () => {
     setExpand(false);
   };
 
-  console.log(subData?.items?.length, subData?.pageInfo, data?.pageInfo);
+  console.log(token?.access_token, subData?.pageInfo, data?.pageInfo);
 
   return (
     <motion.div
@@ -163,7 +163,7 @@ const Subscription = () => {
               Login to fetch your subscribers list
             </i>
           </div>
-        ) : data && data?.pageInfo?.totalResults === 0 && !data ? (
+        ) : data && data?.pageInfo?.totalResults === 0 ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>
@@ -178,15 +178,15 @@ const Subscription = () => {
           <Virtuoso
             className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
             increaseViewportBy={100}
-            data={subData?.items}
-            totalCount={subData?.pageInfo?.totalResults}
+            data={subData.items}
+            totalCount={subData.pageInfo.totalResults}
             itemContent={(_, data) => (
-              <SubscriptionList key={data?.id} sub={data} />
+              <SubscriptionList key={data.id} sub={data} />
             )}
             endReached={() =>
               setTimeout(
                 () =>
-                  subData?.items?.length < subData?.pageInfo?.totalResults &&
+                  subData.items.length < subData?.pageInfo?.totalResults &&
                   setFetchMore(true),
                 1000
               )
@@ -195,7 +195,7 @@ const Subscription = () => {
             components={{
               Footer: ({ context: subData }) => {
                 return subData &&
-                  subData?.items?.length < subData?.pageInfo?.totalResults ? (
+                  subData.items.length < subData.pageInfo.totalResults ? (
                   <ThreeDots
                     visible={true}
                     height="50"
