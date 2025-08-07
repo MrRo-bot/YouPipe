@@ -113,6 +113,11 @@ const LikedVideos = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [likedVideos?.items[0]?.snippet?.thumbnails?.default?.url]);
 
+  console.log(
+    data?.pageInfo?.totalResults > 1,
+    likedVideos?.items[0]?.kind !== ""
+  );
+
   return (
     <SkeletonTheme
       baseColor="rgba(255,255,255,0.1)"
