@@ -37,7 +37,7 @@ const Playlist = () => {
   ];
 
   //(Don't know why I can't get any saved playlist in this as well)
-  const { data, isLoading } = useQuery({
+  const { error, data, isLoading } = useQuery({
     queryKey: ["playlists"],
     queryFn: async () => {
       try {
@@ -96,7 +96,7 @@ const Playlist = () => {
           />
         )}
 
-        {data?.error && (
+        {error && (
           <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
             <i className="block pt-4 text-xs md:text-sm xl:text-base">
               Login to fetch your playlists
@@ -104,7 +104,7 @@ const Playlist = () => {
           </div>
         )}
 
-        {!data?.error && data?.pageInfo?.totalResults === 0 ? (
+        {!error && data?.pageInfo?.totalResults === 0 ? (
           <div className="w-full col-start-1 text-2xl italic font-bold text-center -col-end-1">
             Not Found
           </div>
