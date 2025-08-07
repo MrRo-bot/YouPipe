@@ -85,13 +85,7 @@ const Subscription = () => {
     setExpand(false);
   };
 
-  console.log(
-    subData?.items?.length,
-    subData?.pageInfo?.totalResults,
-    subData.items,
-    subData.pageInfo,
-    data.pageInfo
-  );
+  console.log(subData?.items?.length, subData?.pageInfo, data?.pageInfo);
 
   return (
     <motion.div
@@ -169,7 +163,7 @@ const Subscription = () => {
               Login to fetch your subscribers list
             </i>
           </div>
-        ) : data?.pageInfo?.totalResults === 0 && !data ? (
+        ) : data && data?.pageInfo?.totalResults === 0 && !data ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>
