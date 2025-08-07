@@ -85,6 +85,14 @@ const Subscription = () => {
     setExpand(false);
   };
 
+  console.log(
+    subData?.items?.length,
+    subData?.pageInfo?.totalResults,
+    subData.items,
+    subData.pageInfo,
+    data.pageInfo
+  );
+
   return (
     <motion.div
       initial={{ x: 100, opacity: 0 }}
