@@ -155,17 +155,19 @@ const Subscription = () => {
           )}
         </div>
 
+        {!isLoading && subData && subData?.pageInfo?.totalResults === 0 && (
+          <div className="mx-auto text-2xl italic font-bold w-max">
+            Not Found
+          </div>
+        )}
+
         {!token?.access_token ? (
           <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
             <i className="block text-xs md:text-sm xl:text-base">
               Login to fetch your subscribers list
             </i>
           </div>
-        ) : !isLoading && subData && subData?.pageInfo?.totalResults === 0 ? (
-          <div className="mx-auto text-2xl italic font-bold w-max">
-            Not Found
-          </div>
-        ) : isLoading ? (
+        ) : isLoading && subData?.pageInfo?.totalResults > 1 ? (
           <FidgetSpinner
             visible={true}
             ariaLabel="fidget-spinner-loading"
