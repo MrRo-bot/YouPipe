@@ -56,7 +56,7 @@ const Subscription = () => {
             headers: {
               "Content-Type": "application/json",
               Host: "www.googleapis.com",
-              Authorization: `Bearer ${token.access_token}`,
+              Authorization: `Bearer ${token?.access_token}`,
             },
           }
         );
@@ -176,15 +176,15 @@ const Subscription = () => {
           <Virtuoso
             className="!flex !flex-col !overflow-y-auto !min-h-[85vh] lg:!min-h-[75vh] !hideScrollbar"
             increaseViewportBy={100}
-            data={subData.items}
-            totalCount={subData.pageInfo.totalResults}
+            data={subData?.items}
+            totalCount={subData?.pageInfo?.totalResults}
             itemContent={(_, data) => (
-              <SubscriptionList key={data.id} sub={data} />
+              <SubscriptionList key={data?.id} sub={data} />
             )}
             endReached={() =>
               setTimeout(
                 () =>
-                  subData.items.length < subData?.pageInfo?.totalResults &&
+                  subData?.items?.length < subData?.pageInfo?.totalResults &&
                   setFetchMore(true),
                 1000
               )
@@ -193,7 +193,7 @@ const Subscription = () => {
             components={{
               Footer: ({ context: subData }) => {
                 return subData &&
-                  subData.items.length < subData.pageInfo.totalResults ? (
+                  subData?.items?.length < subData?.pageInfo?.totalResults ? (
                   <ThreeDots
                     visible={true}
                     height="50"
