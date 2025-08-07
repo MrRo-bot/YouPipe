@@ -180,11 +180,16 @@ const LikedVideos = () => {
           )}
 
         {!token?.access_token && (
-          <div className="px-6 py-3 mx-auto text-center transition-colors h-max w-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-            <i className="block text-xs md:text-sm xl:text-base">
-              Login to get liked videos
-            </i>
-          </div>
+          <>
+            <h1 className="text-2xl font-bold md:text-3xl xl:text-4xl text-zinc-50">
+              Liked videos
+            </h1>
+            <div className="px-6 py-3 mx-auto text-center transition-colors h-max w-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+              <i className="block text-xs md:text-sm xl:text-base">
+                Login to get liked videos
+              </i>
+            </div>
+          </>
         )}
 
         {isLoading && (
@@ -198,16 +203,9 @@ const LikedVideos = () => {
 
         {likedVideos?.pageInfo?.totalResults < 1 ||
           (likedVideos?.items[0]?.kind === "" && (
-            <>
-              <h1 className="text-2xl font-bold text-center md:text-3xl xl:text-4xl text-zinc-50">
-                Liked videos
-              </h1>
-              <div className="px-6 py-3 text-center transition-colors w-max h-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-                <i className="block text-xs md:text-sm xl:text-base">
-                  Not Found
-                </i>
-              </div>
-            </>
+            <div className="px-6 py-3 text-center transition-colors w-max h-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+              <i className="block text-xs md:text-sm xl:text-base">Not Found</i>
+            </div>
           ))}
 
         {data?.pageInfo?.totalResults > 1 &&
