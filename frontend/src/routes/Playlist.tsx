@@ -71,6 +71,12 @@ const Playlist = () => {
     refetchOnWindowFocus: false,
   });
 
+  console.log(
+    (data && data?.pageInfo?.totalResults === 0) ||
+      (playlistData && playlistData?.pageInfo?.totalResults === 0),
+    data?.pageInfo?.totalResults,
+    playlistData?.pageInfo?.totalResults
+  );
   return (
     <motion.div
       initial={{ x: 100, opacity: 0 }}
