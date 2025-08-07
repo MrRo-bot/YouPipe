@@ -47,6 +47,96 @@ There were limitations in the API which posed several issues but I've managed to
 
 _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 
+# Screenshots 📺
+
+<h2>Desktop View</h2>
+<details>
+  <summary>Expand</summary>
+
+| <h2>Home</h2>                      |
+| ---------------------------------- |
+| ![](/screenshots/home_desktop.png) |
+
+| <h2>Subscription</h2>              |
+| ---------------------------------- |
+| ![](/screenshots/subs_desktop.png) |
+
+| <h2>Playlist</h2>                       |
+| --------------------------------------- |
+| ![](/screenshots/playlists_desktop.png) |
+
+| <h2>Liked Videos</h2>                     |
+| ----------------------------------------- |
+| ![](/screenshots/likedVideos_desktop.png) |
+
+| <h2>Player</h2>                      |
+| ------------------------------------ |
+| ![](/screenshots/player_desktop.png) |
+
+| <h2>Playlist Info</h2>                     |
+| ------------------------------------------ |
+| ![](/screenshots/playlistInfo_desktop.png) |
+
+| <h2>Channel Info</h2>                     |
+| ----------------------------------------- |
+| ![](/screenshots/channelInfo_desktop.png) |
+
+| <h2>Channel Description popup</h2>        |
+| ----------------------------------------- |
+| ![](/screenshots/description_desktop.png) |
+
+| <h2>Search</h2>                      |
+| ------------------------------------ |
+| ![](/screenshots/search_desktop.png) |
+
+</details>
+
+<h2>Mobile View</h2>
+<details>
+  <summary>Expand</summary>
+
+| <h2>Home</h2>                     |
+| --------------------------------- |
+| ![](/screenshots/home_mobile.png) |
+
+| <h2>Subscription</h2>             |
+| --------------------------------- |
+| ![](/screenshots/subs_mobile.png) |
+
+| <h2>Playlist</h2>                      |
+| -------------------------------------- |
+| ![](/screenshots/playlists_mobile.png) |
+
+| <h2>Liked Videos</h2>                    |
+| ---------------------------------------- |
+| ![](/screenshots/likedVideos_mobile.png) |
+
+| <h2>Player</h2>                     |
+| ----------------------------------- |
+| ![](/screenshots/player_mobile.png) |
+
+| <h2>Playlist Info</h2>                    |
+| ----------------------------------------- |
+| ![](/screenshots/playlistInfo_mobile.png) |
+
+| <h2>Channel Info</h2>                    |
+| ---------------------------------------- |
+| ![](/screenshots/channelInfo_mobile.png) |
+
+| <h2>Channel Description popup</h2>       |
+| ---------------------------------------- |
+| ![](/screenshots/description_mobile.png) |
+
+| <h2>Search</h2>                     |
+| ----------------------------------- |
+| ![](/screenshots/search_mobile.png) |
+
+| <h2>Search Bar</h2>                    |
+| -------------------------------------- |
+| ![](/screenshots/searchBar_mobile.png) |
+
+</details>
+
 <!-- BUILT WITH -->
 
 # Built With 🛠️🤖
@@ -75,6 +165,7 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 
 - [x] Hosting in vercel using monorepo architecture
 - [x] Remember to remove developer related tools in final project
+- [x ] Accessibility checks
 - [ ] Search issue when re-edited search string
 - [ ] Issues with channel overview not clearing items when new channel overview comes (BIG ISSUE unable to solve)
 - [ ] Playing all playlists at once [using url array (create url array from playlist items first)] (need to sort how to get beyond 50 results in queue as well)
@@ -82,7 +173,6 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 - [ ] Sort option in commentSection, playlistOverview and search
 - [ ] Category search (requires video(videoCategoryId))
 - [ ] Tooltips
-- [ ] Accessibility checks
 
 See the [open issues](https://github.com/MrRo-bot/YouPipe/issues) for a full list of proposed features (and known issues).
 
