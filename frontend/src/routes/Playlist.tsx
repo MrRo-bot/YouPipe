@@ -71,12 +71,6 @@ const Playlist = () => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(
-    (data && data?.pageInfo?.totalResults === 0) ||
-      (playlistData && playlistData?.pageInfo?.totalResults === 0),
-    data?.pageInfo?.totalResults,
-    playlistData?.pageInfo?.totalResults
-  );
   return (
     <motion.div
       initial={{ x: 100, opacity: 0 }}
@@ -104,7 +98,7 @@ const Playlist = () => {
           </div>
         ) : (data && data?.pageInfo?.totalResults === 0) ||
           (playlistData && playlistData?.pageInfo?.totalResults === 0) ? (
-          <div className="mx-auto text-2xl italic font-bold w-max">
+          <div className="col-start-1 mx-auto text-2xl italic font-bold text-center -col-end-1 w-max">
             Not Found
           </div>
         ) : isLoading ? (
