@@ -37,7 +37,7 @@ const Playlist = () => {
   ];
 
   //(Don't know why I can't get any saved playlist in this as well)
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["playlists"],
     queryFn: async () => {
       try {
@@ -67,7 +67,6 @@ const Playlist = () => {
       }
     },
     enabled: !!token?.access_token,
-    refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
 
@@ -89,31 +88,38 @@ const Playlist = () => {
         My Custom Playlists
       </motion.h1>
 
-      <div className="grid grid-flow-row mt-2 md:mt-5 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6 xl:gap-x-6 xl:gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {!token?.access_token ? (
-          <div className="col-start-1 px-6 py-3 mx-auto text-center transition-colors lg:px-10 xl:px-14 2xl:px-20 -col-end-1 w-max glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
-            <i className="block text-xs md:text-sm xl:text-base">
-              Login to fetch your playlists
-            </i>
+      {!!token?.access_token && (
+        <div className="col-start-1 px-6 py-3 text-center transition-colors -col-end-1 h-max w-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+          <i className="block text-xs md:text-sm xl:text-base">
+            Login to get your playlists
+          </i>
+        </div>
+      )}
+
+      {isLoading && (
+        <FidgetSpinner
+          visible={true}
+          ariaLabel="fidget-spinner-loading"
+          wrapperStyle={{}}
+          wrapperClass="col-start-1 -col-end-1 mx-auto fidget-spinner-wrapper size-16 md:size-20"
+        />
+      )}
+
+      {playlistData?.pageInfo?.totalResults < 1 ||
+        (playlistData?.items[0]?.kind === "" && (
+          <div className="col-start-1 px-6 py-3 text-center transition-colors -col-end-1 w-max h-max lg:px-10 xl:px-14 2xl:px-20 glass hover:bg-indigo-600/20 focus:bg-indigo-600/20">
+            <i className="block text-xs md:text-sm xl:text-base">Not Found</i>
           </div>
-        ) : (data && data?.pageInfo?.totalResults === 0) ||
-          (playlistData && playlistData?.pageInfo?.totalResults === 0) ? (
-          <div className="col-start-1 mx-auto text-2xl italic font-bold text-center -col-end-1 w-max">
-            Not Found
+        ))}
+
+      {playlistData?.pageInfo?.totalResults > 1 ||
+        (playlistData?.items[0]?.kind !== "" && (
+          <div className="grid grid-flow-row mt-2 md:mt-5 gap-x-2 gap-y-4 md:gap-x-4 md:gap-y-6 xl:gap-x-6 xl:gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {playlistData?.items?.map((playlist) => (
+              <PlaylistCard key={playlist.id} playlist={playlist} />
+            ))}
           </div>
-        ) : isLoading ? (
-          <FidgetSpinner
-            visible={true}
-            ariaLabel="fidget-spinner-loading"
-            wrapperStyle={{}}
-            wrapperClass="fidget-spinner-wrapper size-16 md:size-20 col-start-1 text-center mx-auto -col-end-1 translate-y-1/2 -top-1/2"
-          />
-        ) : (
-          playlistData?.items?.map((playlist) => (
-            <PlaylistCard key={playlist.id} playlist={playlist} />
-          ))
-        )}
-      </div>
+        ))}
     </motion.div>
   );
 };
