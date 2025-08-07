@@ -40,7 +40,7 @@ const Subscription = () => {
 
   const parts = ["contentDetails", "id", "snippet"];
 
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["subscription", sortBy, fetchMore],
     queryFn: async () => {
       try {
@@ -162,7 +162,7 @@ const Subscription = () => {
           />
         )}
 
-        {data.items.length < 1 ? (
+        {subData?.pageInfo?.totalResults === 0 ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>

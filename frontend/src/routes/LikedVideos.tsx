@@ -58,7 +58,7 @@ const LikedVideos = () => {
     "topicDetails",
   ];
 
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["likedVideos", fetchMore],
     queryFn: async () => {
       try {
@@ -180,7 +180,7 @@ const LikedVideos = () => {
           />
         )}
 
-        {data.items.length >= 1 ? (
+        {likedVideos?.pageInfo?.totalResults === 0 ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>

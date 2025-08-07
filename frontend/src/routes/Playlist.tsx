@@ -37,7 +37,7 @@ const Playlist = () => {
   ];
 
   //(Don't know why I can't get any saved playlist in this as well)
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["playlists"],
     queryFn: async () => {
       try {
@@ -96,7 +96,7 @@ const Playlist = () => {
           />
         )}
 
-        {data.items.length >= 1 ? (
+        {playlistData?.pageInfo?.totalResults === 0 ? (
           <div className="w-full col-start-1 text-2xl italic font-bold text-center -col-end-1">
             Not Found
           </div>
