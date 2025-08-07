@@ -71,8 +71,6 @@ const Playlist = () => {
     refetchOnWindowFocus: false,
   });
 
-  console.log(data);
-
   return (
     <motion.div
       initial={{ x: 100, opacity: 0 }}
@@ -98,7 +96,7 @@ const Playlist = () => {
               Login to fetch your playlists
             </i>
           </div>
-        ) : data?.pageInfo?.totalResults === 0 ? (
+        ) : data?.pageInfo?.totalResults === 0 && !data ? (
           <div className="mx-auto text-2xl italic font-bold w-max">
             Not Found
           </div>
