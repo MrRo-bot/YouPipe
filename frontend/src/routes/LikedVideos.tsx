@@ -20,19 +20,7 @@ import { TokensType } from "../types/types";
 
 const LikedVideos = () => {
   const [fetchMore, setFetchMore] = useState(true);
-  const [extractedColors, setExtractedColors] = useState([
-    {
-      hex: "#000000",
-      red: 255,
-      green: 255,
-      blue: 255,
-      area: 1,
-      hue: 0,
-      saturation: 1,
-      lightness: 1,
-      intensity: 1,
-    },
-  ]);
+  const [extractedColor, setExtractedColor] = useState("#ffffff");
 
   const dispatch = useAppDispatch();
   const likedVideos = useAppSelector((state) => state.likedVideos);
@@ -96,22 +84,37 @@ const LikedVideos = () => {
   });
 
   useEffect(() => {
-    if (likedVideos?.items[0]?.snippet?.thumbnails?.default?.url) {
-      extractColors(likedVideos?.items[0]?.snippet?.thumbnails?.default?.url, {
-        crossOrigin: "anonymous",
-      })
-        .then((data) => {
-          setExtractedColors(data);
-        })
-        .catch((error) =>
-          customToastFunction(
-            `${error instanceof Error ? error.message : error}`,
-            "error"
-          )
-        );
+    if (likedVideos.items[0].snippet?.thumbnails.default.url) {
+      const img = new Image();
+      img.src = likedVideos.items[0].snippet.thumbnails.default.url;
+      img.crossOrigin = "Anonymous";
+      img.onload = () => {
+        extractColors(img)
+          .then((colors) => {
+            setExtractedColor(colors[0].hex);
+          })
+          .catch((err) => console.error("Color extraction failed:", err));
+      };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [likedVideos?.items[0]?.snippet?.thumbnails?.default?.url]);
+  }, [likedVideos.items]);
+
+  // useEffect(() => {
+  //   if (likedVideos?.items[0]?.snippet?.thumbnails?.default?.url) {
+  //     extractColors(likedVideos?.items[0]?.snippet?.thumbnails?.default?.url, {
+  //       crossOrigin: "anonymous",
+  //     })
+  //       .then((data) => {
+  //         setExtractedColors(data);
+  //       })
+  //       .catch((error) =>
+  //         customToastFunction(
+  //           `${error instanceof Error ? error.message : error}`,
+  //           "error"
+  //         )
+  //       );
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [likedVideos?.items[0]?.snippet?.thumbnails?.default?.url]);
 
   console.log(
     data?.pageInfo?.totalResults > 1,
@@ -137,7 +140,7 @@ const LikedVideos = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
               style={{
-                background: `linear-gradient(to bottom, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.3) 33%, rgba(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue},0.01) 100%)`,
+                background: `linear-gradient(to bottom, ${extractedColor},0.3) 33%, rgba(${extractedColor},0.01) 100%)`,
               }}
               className="flex flex-col md:flex-row lg:flex-col px-2 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1"
             >
