@@ -8,35 +8,34 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
 
 import { elapsedTime } from "../../utils/functions";
+import customToastFunction from "../../utils/Toastify";
 
 import { PlaylistType } from "../../types/types";
 
 const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
-  const [extractedColors, setExtractedColors] = useState([
-    {
-      hex: "",
-      red: 0,
-      green: 0,
-      blue: 0,
-      area: 1,
-      hue: 0,
-      saturation: 1,
-      lightness: 1,
-      intensity: 1,
-    },
-  ]);
+  const [extractedColor, setExtractedColor] = useState("#ffffff");
 
   const navigate = useNavigate();
 
   const date = new Date(playlist?.snippet?.publishedAt || "").getTime();
 
   useEffect(() => {
-    if (playlist?.snippet?.thumbnails?.high?.url) {
-      extractColors(playlist?.snippet?.thumbnails?.high?.url, {
-        crossOrigin: "anonymous",
-      }).then((data) => {
-        setExtractedColors(data);
-      });
+    if (playlist.snippet?.thumbnails.high.url) {
+      const img = new Image();
+      img.src = playlist.snippet.thumbnails.high.url;
+      img.crossOrigin = "Anonymous";
+      img.onload = () => {
+        extractColors(img)
+          .then((colors) => {
+            setExtractedColor(colors[0].hex);
+          })
+          .catch((error) =>
+            customToastFunction(
+              `${error instanceof Error ? error.message : error}`,
+              "error"
+            )
+          );
+      };
     }
   }, [playlist?.snippet?.thumbnails?.high?.url]);
 
@@ -58,7 +57,7 @@ const PlaylistCard = ({ playlist }: { playlist: PlaylistType }) => {
           <div
             style={
               {
-                "--bg": `rgb(${extractedColors[0].red},${extractedColors[0].green},${extractedColors[0].blue})`,
+                "--bg": `${extractedColor}`,
               } as React.CSSProperties
             }
             className={
