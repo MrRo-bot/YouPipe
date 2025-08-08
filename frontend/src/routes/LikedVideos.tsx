@@ -122,7 +122,9 @@ const LikedVideos = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [likedVideos?.items[0]?.snippet?.thumbnails?.default?.url]);
 
-  console.log(extractedColor);
+  console.log(
+    `linear-gradient(to bottom, ${extractedColor},0.3) 33%, ${extractedColor},0.01) 100%)`
+  );
 
   return (
     <SkeletonTheme
@@ -143,7 +145,7 @@ const LikedVideos = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.35, ease: "easeInOut", delay: 0.2 }}
               style={{
-                background: `linear-gradient(to bottom, ${extractedColor},0.3) 33%, ${extractedColor},0.01) 100%)`,
+                backgroundColor: `linear-gradient(to bottom, ${extractedColor},0.3) 33%, ${extractedColor},0.01) 100%)`,
               }}
               className="flex flex-col md:flex-row lg:flex-col px-2 lg:w-3/12 lg:h-[87vh] rounded-2xl lg:my-1"
             >
