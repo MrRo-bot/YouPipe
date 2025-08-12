@@ -21,6 +21,8 @@
   <p align="center">
     <a href="https://youpipe-frontend.vercel.app/">View Demo</a>
     &middot;
+    <a href="https://youtu.be/03LeVrKc4Z4">YouTube Demo Link</a>
+    &middot;
     <a href="https://github.com/MrRo-bot/YouPipe/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
     <a href="https://github.com/MrRo-bot/YouPipe/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -165,7 +167,7 @@ _Made with love ❤️ by [MrRo-bot](https://github.com/MrRo-bot)_
 
 - [x] Hosting in vercel using monorepo architecture
 - [x] Remember to remove developer related tools in final project
-- [x ] Accessibility checks
+- [x] Accessibility checks
 - [ ] Search issue when re-edited search string
 - [ ] Issues with channel overview not clearing items when new channel overview comes (BIG ISSUE unable to solve)
 - [ ] Playing all playlists at once [using url array (create url array from playlist items first)] (need to sort how to get beyond 50 results in queue as well)
